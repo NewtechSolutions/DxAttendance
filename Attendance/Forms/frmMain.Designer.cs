@@ -192,6 +192,7 @@
             this.mnuMastUnit.Name = "mnuMastUnit";
             this.mnuMastUnit.Size = new System.Drawing.Size(197, 22);
             this.mnuMastUnit.Text = "Unit Master";
+            this.mnuMastUnit.Click += new System.EventHandler(this.mnuMastUnit_Click);
             // 
             // mnuMessConfig
             // 
