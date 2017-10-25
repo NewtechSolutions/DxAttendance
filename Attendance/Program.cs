@@ -7,6 +7,8 @@ namespace Attendance
 {
     static class Program
     {
+        public static bool OpenMDIFormOnClose { get; set; }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -20,7 +22,14 @@ namespace Attendance
             DevExpress.UserSkins.BonusSkins.Register();
             UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
 
-            Application.Run(new Form1());
+            //Application.Run(new frmMain());
+            Application.Run(new frmLogin());
+
+            if (OpenMDIFormOnClose)
+            {
+                Application.Run(new frmMain());
+            }
+
         }
     }
 }
