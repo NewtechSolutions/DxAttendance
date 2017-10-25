@@ -74,6 +74,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClassGlobals.cs" />
     <Compile Include="Classes\Helper.cs" />
     <Compile Include="Forms\frmDomainConfig.cs">
       <SubType>Form</SubType>
