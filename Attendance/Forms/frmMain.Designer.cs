@@ -42,6 +42,7 @@
             this.mnuReaderMessAsign = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastShift = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastLeave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUser = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuChangePass = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLogOff = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,7 +108,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -185,6 +185,7 @@
             this.mnuMastWrkGrp.Name = "mnuMastWrkGrp";
             this.mnuMastWrkGrp.Size = new System.Drawing.Size(197, 22);
             this.mnuMastWrkGrp.Text = "WrkGrp Master";
+            this.mnuMastWrkGrp.Click += new System.EventHandler(this.mnuMastWrkGrp_Click);
             // 
             // mnuMastUnit
             // 
@@ -221,6 +222,13 @@
             this.mnuMastLeave.Name = "mnuMastLeave";
             this.mnuMastLeave.Size = new System.Drawing.Size(197, 22);
             this.mnuMastLeave.Text = "Leave Type Config";
+            // 
+            // mnuDomainConfig
+            // 
+            this.mnuDomainConfig.Name = "mnuDomainConfig";
+            this.mnuDomainConfig.Size = new System.Drawing.Size(193, 22);
+            this.mnuDomainConfig.Text = "Domain Configuration";
+            this.mnuDomainConfig.Click += new System.EventHandler(this.mnuDomainConfig_Click);
             // 
             // mnuUser
             // 
@@ -685,13 +693,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuDomainConfig
-            // 
-            this.mnuDomainConfig.Name = "mnuDomainConfig";
-            this.mnuDomainConfig.Size = new System.Drawing.Size(193, 22);
-            this.mnuDomainConfig.Text = "Domain Configuration";
-            this.mnuDomainConfig.Click += new System.EventHandler(this.mnuDomainConfig_Click);
             // 
             // frmMain
             // 

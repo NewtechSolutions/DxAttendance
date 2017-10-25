@@ -76,6 +76,12 @@
   <ItemGroup>
     <Compile Include="Classes\ClassGlobals.cs" />
     <Compile Include="Classes\Helper.cs" />
+    <Compile Include="Forms\frmMastWrkGrp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastWrkGrp.designer.cs">
+      <DependentUpon>frmMastWrkGrp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmDomainConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\frmMastWrkGrp.resx">
+      <DependentUpon>frmMastWrkGrp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDomainConfig.resx">
       <DependentUpon>frmDomainConfig.cs</DependentUpon>
     </EmbeddedResource>
