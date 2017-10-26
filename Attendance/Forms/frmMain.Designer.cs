@@ -334,12 +334,14 @@
             this.mnuMastDesg.Name = "mnuMastDesg";
             this.mnuMastDesg.Size = new System.Drawing.Size(193, 22);
             this.mnuMastDesg.Text = "Designation Mast";
+            this.mnuMastDesg.Click += new System.EventHandler(this.mnuMastDesg_Click);
             // 
             // mnuMastGrade
             // 
             this.mnuMastGrade.Name = "mnuMastGrade";
             this.mnuMastGrade.Size = new System.Drawing.Size(193, 22);
             this.mnuMastGrade.Text = "Grade Master";
+            this.mnuMastGrade.Click += new System.EventHandler(this.mnuMastGrade_Click);
             // 
             // mnuMastCont
             // 

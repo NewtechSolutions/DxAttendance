@@ -76,6 +76,18 @@
   <ItemGroup>
     <Compile Include="Classes\ClassGlobals.cs" />
     <Compile Include="Classes\Helper.cs" />
+    <Compile Include="Forms\frmMastGrade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastGrade.designer.cs">
+      <DependentUpon>frmMastGrade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastDesg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastDesg.designer.cs">
+      <DependentUpon>frmMastDesg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastDept.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +150,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\frmMastGrade.resx">
+      <DependentUpon>frmMastGrade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastDesg.resx">
+      <DependentUpon>frmMastDesg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastDept.resx">
       <DependentUpon>frmMastDept.cs</DependentUpon>
     </EmbeddedResource>
