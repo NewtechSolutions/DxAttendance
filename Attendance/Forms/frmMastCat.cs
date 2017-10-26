@@ -7,21 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace Attendance.Forms
 {
-    public partial class frmMastWrkGrp : Form
+    public partial class frmMastCat : Form
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
-        public string oldWrkGrp = "";
+        public string oldCat = "";
 
-        public frmMastWrkGrp()
+        public frmMastCat()
         {
             InitializeComponent();
         }
 
-        private void frmMastWrkGrp_Load(object sender, EventArgs e)
+        private void frmMastCat_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
@@ -49,10 +50,32 @@ namespace Attendance.Forms
                 err = err + "Please Enter WrkGrpCode " + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(txtDescription.Text))
+            if (string.IsNullOrEmpty(txtWrkGrpDesc.Text))
             {
                 err = err + "Please Enter WrkGrp Description" + Environment.NewLine;
             }
+
+            if (string.IsNullOrEmpty(txtCatCode.Text))
+            {
+                err = err + "Please Enter Cat Code" + Environment.NewLine;
+            }
+            else
+            {
+                string input = txtCatCode.Text.Trim().ToString();
+                bool t = Regex.IsMatch(input, @"^\d+$");
+                if (!t)
+                {
+                    err = err + "Please Enter Cat Code in Numeric Format..(001,123,012) " + Environment.NewLine;
+                }
+                
+
+            }
+
+            if (string.IsNullOrEmpty(txtCatDesc.Text))
+            {
+                err = err + "Please Enter Cat Name" + Environment.NewLine;
+            }
+
 
             return err;
         }
@@ -73,8 +96,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastWrkGrp (CompCode,WrkGrp,WrkGrpDesc,AddDt,AddID) Values ('{0}','{1}','{2}',GetDate(),'{3}')";
-                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),
+                        string sql = "Insert into MastCat (CompCode,WrkGrp,CatCode,CatDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}',GetDate(),'{4}')";
+                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), 
+                            txtWrkGrpCode.Text.Trim().ToString(),
+                            txtCatCode.Text.Trim().ToString(),
+                            txtCatDesc.Text.Trim().ToString(),
                             Utils.User.GUserID);
 
                         cmd.CommandText = sql;
@@ -104,19 +130,21 @@ namespace Attendance.Forms
             txtCompCode_Validated(s, e);
            
             txtWrkGrpCode.Text = "";
-            txtDescription.Text = "";
-            oldWrkGrp = "";
+            txtWrkGrpDesc.Text = "";
+            txtCatCode.Text = "";
+            txtCatDesc.Text = "";
+            oldCat = "";
         }
 
         private void SetRights()
         {
-            if ( txtWrkGrpCode.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
+            if ( txtCatCode.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
             {
                 btnAdd.Enabled = true;
                 btnUpdate.Enabled = false;
                 btnDelete.Enabled = false;
             }
-            else if ( txtWrkGrpCode.Text.Trim() != "" && mode == "OLD" )
+            else if (txtCatCode.Text.Trim() != "" && mode == "OLD")
             {
                 if(GRights.Contains("U"))
                     btnUpdate.Enabled = true;
@@ -171,18 +199,18 @@ namespace Attendance.Forms
                 {
 
                     txtWrkGrpCode.Text = obj.ElementAt(0).ToString();
-                    txtDescription.Text = obj.ElementAt(1).ToString();
+                    txtWrkGrpDesc.Text = obj.ElementAt(1).ToString();
                     
-                    mode = "OLD";
+                    
                 }
             }
         }
 
         private void txtWrkGrpCode_Validated(object sender, EventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" )
             {
-                mode = "NEW";
+                
                 return;
             }
 
@@ -199,19 +227,13 @@ namespace Attendance.Forms
                 {
                     txtCompCode.Text = dr["CompCode"].ToString();
                     txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
-                    txtDescription.Text = dr["WrkGrpDesc"].ToString();
-                    mode = "OLD";
+                    txtWrkGrpDesc.Text = dr["WrkGrpDesc"].ToString();
                     txtCompCode_Validated(sender,e);
-                    oldWrkGrp = dr["WrkGrp"].ToString();
+                    
                 }
             }
-            else
-            {
-                mode = "NEW";
-                oldWrkGrp = "";
-            }
 
-            SetRights();
+            
         }
 
         private void txtCompCode_Validated(object sender, EventArgs e)
@@ -302,10 +324,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastWrkGrp Set WrkGrpDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' Where CompCode = '{2}' and WrkGrp = '{3}' ";
+                        string sql = "Update MastCat Set CatDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' Where CompCode = '{2}' " + 
+                             " and WrkGrp = '{3}' and CatCode = '{4}' ";
 
-                        sql = string.Format(sql, txtDescription.Text.Trim(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim()
+                        sql = string.Format(sql,  txtCatDesc.Text.Trim(),
+                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(), txtCatCode.Text.Trim()
                            );
 
                         cmd.CommandText = sql;
@@ -345,6 +368,93 @@ namespace Attendance.Forms
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtCatCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (txtCompCode.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "")
+                return;
+
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+
+                sql = "Select CatCode,CatDesc From MastCat Where CompCode ='" + txtCompCode.Text.Trim() + "' and WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' ";
+                if (e.KeyCode == Keys.F1)
+                {
+
+                    obj = (List<string>)hlp.Show(sql, "CatCode", "CatCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+
+                    txtCatCode.Text = obj.ElementAt(0).ToString();
+                    txtCatDesc.Text = obj.ElementAt(1).ToString();
+                    mode = "OLD";
+
+                }
+            }
+        }
+
+        private void txtCatCode_Validated(object sender, EventArgs e)
+        {
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "" || txtWrkGrpDesc.Text.Trim() == "")
+            {
+
+                return;
+            }
+
+            txtCatCode.Text = txtCatCode.Text.Trim().ToString().PadLeft(3, '0');
+
+            DataSet ds = new DataSet();
+            string sql = "select * From MastCat where CompCode ='" + txtCompCode.Text.Trim() + "' " +
+                    " and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "' and CatCode ='" + txtCatCode.Text.Trim() + "'";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtCompCode.Text = dr["CompCode"].ToString();
+                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
+                    txtCatCode.Text = dr["CatCode"].ToString();
+                    txtCatDesc.Text = dr["CatDesc"].ToString();
+                    txtCompCode_Validated(sender, e);
+                    txtWrkGrpCode_Validated(sender, e);
+                    oldCat = dr["CatCode"].ToString();
+                    mode = "OLD";
+                }
+            }
+            else
+            {
+                mode = "NEW";
+                oldCat = "";
+            }
+
+            SetRights();
+
         }
 
 

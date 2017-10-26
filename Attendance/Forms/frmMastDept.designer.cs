@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmMastUnit
+    partial class frmMastDept
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtDeptDesc = new DevExpress.XtraEditors.TextEdit();
+            this.txtDeptCode = new DevExpress.XtraEditors.TextEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.txtUnitDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtUnitCode = new DevExpress.XtraEditors.TextEdit();
@@ -46,6 +49,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDeptDesc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnitDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnitCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).BeginInit();
@@ -57,6 +62,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtDeptDesc);
+            this.groupBox1.Controls.Add(this.txtDeptCode);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtUnitDesc);
             this.groupBox1.Controls.Add(this.txtUnitCode);
@@ -69,27 +77,58 @@
             this.groupBox1.Controls.Add(this.txtWrkGrpCode);
             this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(455, 137);
+            this.groupBox1.Size = new System.Drawing.Size(455, 156);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 15);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Dept. Name";
+            // 
+            // txtDeptDesc
+            // 
+            this.txtDeptDesc.Location = new System.Drawing.Point(102, 122);
+            this.txtDeptDesc.Name = "txtDeptDesc";
+            this.txtDeptDesc.Properties.Mask.EditMask = "[0-9A-Za-z ]+";
+            this.txtDeptDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDeptDesc.Properties.Mask.ShowPlaceHolders = false;
+            this.txtDeptDesc.Properties.MaxLength = 50;
+            this.txtDeptDesc.Size = new System.Drawing.Size(340, 20);
+            this.txtDeptDesc.TabIndex = 13;
+            // 
+            // txtDeptCode
+            // 
+            this.txtDeptCode.Location = new System.Drawing.Point(102, 96);
+            this.txtDeptCode.Name = "txtDeptCode";
+            this.txtDeptCode.Properties.Mask.EditMask = "[0-9]+";
+            this.txtDeptCode.Properties.Mask.ShowPlaceHolders = false;
+            this.txtDeptCode.Properties.MaxLength = 3;
+            this.txtDeptCode.Size = new System.Drawing.Size(96, 20);
+            this.txtDeptCode.TabIndex = 12;
+            this.txtDeptCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDeptCode_KeyDown);
+            this.txtDeptCode.Validated += new System.EventHandler(this.txtDeptCode_Validated);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 97);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 15);
+            this.label3.Size = new System.Drawing.Size(62, 15);
             this.label3.TabIndex = 11;
-            this.label3.Text = "UnitName";
+            this.label3.Text = "DeptCode";
             // 
             // txtUnitDesc
             // 
-            this.txtUnitDesc.Location = new System.Drawing.Point(102, 96);
+            this.txtUnitDesc.Location = new System.Drawing.Point(204, 70);
             this.txtUnitDesc.Name = "txtUnitDesc";
-            this.txtUnitDesc.Properties.Mask.EditMask = "[0-9A-Za-z ]+";
-            this.txtUnitDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtUnitDesc.Properties.Mask.ShowPlaceHolders = false;
-            this.txtUnitDesc.Size = new System.Drawing.Size(222, 20);
+            this.txtUnitDesc.Properties.ReadOnly = true;
+            this.txtUnitDesc.Size = new System.Drawing.Size(238, 20);
             this.txtUnitDesc.TabIndex = 5;
             // 
             // txtUnitCode
@@ -192,7 +231,7 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 146);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 165);
             this.grpUserRights.Name = "grpUserRights";
             this.grpUserRights.Size = new System.Drawing.Size(452, 52);
             this.grpUserRights.TabIndex = 2;
@@ -242,20 +281,22 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // frmMastUnit
+            // frmMastDept
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 206);
+            this.ClientSize = new System.Drawing.Size(476, 229);
             this.Controls.Add(this.grpUserRights);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmMastUnit";
-            this.Text = "Unit Master";
-            this.Load += new System.EventHandler(this.frmMastUnit_Load);
+            this.Name = "frmMastDept";
+            this.Text = "Department Master";
+            this.Load += new System.EventHandler(this.frmMastDept_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDeptDesc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnitDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUnitCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).EndInit();
@@ -286,5 +327,8 @@
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.TextEdit txtUnitDesc;
         private DevExpress.XtraEditors.TextEdit txtUnitCode;
+        private System.Windows.Forms.Label label5;
+        private DevExpress.XtraEditors.TextEdit txtDeptDesc;
+        private DevExpress.XtraEditors.TextEdit txtDeptCode;
     }
 }

@@ -22,7 +22,7 @@ namespace Attendance.Forms
             InitializeComponent();
         }
 
-        private void frmMastWrkGrp_Load(object sender, EventArgs e)
+        private void frmMastUnit_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
@@ -324,10 +324,10 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastUnit Set UnitCode = '{0}',UnitName = '{1}', UpdDt = GetDate(), UpdID = '{2}' Where CompCode = '{3}' and WrkGrp = '{4}' and UnitCode = '{5}' ";
+                        string sql = "Update MastUnit Set UnitName = '{0}', UpdDt = GetDate(), UpdID = '{1}' Where CompCode = '{2}' and WrkGrp = '{3}' and UnitCode = '{5}' ";
 
-                        sql = string.Format(sql, txtUnitCode.Text.Trim().ToString(), txtUnitDesc.Text.Trim(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(), oldUnit
+                        sql = string.Format(sql,  txtUnitDesc.Text.Trim(),
+                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(), txtUnitCode.Text.Trim()
                            );
 
                         cmd.CommandText = sql;

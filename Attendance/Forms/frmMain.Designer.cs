@@ -314,12 +314,14 @@
             this.mnuMastCat.Name = "mnuMastCat";
             this.mnuMastCat.Size = new System.Drawing.Size(193, 22);
             this.mnuMastCat.Text = "Catagory Master";
+            this.mnuMastCat.Click += new System.EventHandler(this.mnuMastCat_Click);
             // 
             // mnuMastDept
             // 
             this.mnuMastDept.Name = "mnuMastDept";
             this.mnuMastDept.Size = new System.Drawing.Size(193, 22);
             this.mnuMastDept.Text = "Department Master";
+            this.mnuMastDept.Click += new System.EventHandler(this.mnuMastDept_Click);
             // 
             // mnuMastStat
             // 

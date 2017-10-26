@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmMastUnit
+    partial class frmMastCat
     {
         /// <summary>
         /// Required designer variable.
@@ -30,8 +30,8 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtUnitDesc = new DevExpress.XtraEditors.TextEdit();
-            this.txtUnitCode = new DevExpress.XtraEditors.TextEdit();
+            this.txtCatDesc = new DevExpress.XtraEditors.TextEdit();
+            this.txtCatCode = new DevExpress.XtraEditors.TextEdit();
             this.txtCompName = new DevExpress.XtraEditors.TextEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.txtCompCode = new DevExpress.XtraEditors.TextEdit();
@@ -46,8 +46,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnitDesc.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnitCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCatDesc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCatCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
@@ -58,8 +58,8 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtUnitDesc);
-            this.groupBox1.Controls.Add(this.txtUnitCode);
+            this.groupBox1.Controls.Add(this.txtCatDesc);
+            this.groupBox1.Controls.Add(this.txtCatCode);
             this.groupBox1.Controls.Add(this.txtCompName);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtCompCode);
@@ -78,32 +78,32 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 97);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 15);
+            this.label3.Size = new System.Drawing.Size(59, 15);
             this.label3.TabIndex = 11;
-            this.label3.Text = "UnitName";
+            this.label3.Text = "CatName";
             // 
-            // txtUnitDesc
+            // txtCatDesc
             // 
-            this.txtUnitDesc.Location = new System.Drawing.Point(102, 96);
-            this.txtUnitDesc.Name = "txtUnitDesc";
-            this.txtUnitDesc.Properties.Mask.EditMask = "[0-9A-Za-z ]+";
-            this.txtUnitDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtUnitDesc.Properties.Mask.ShowPlaceHolders = false;
-            this.txtUnitDesc.Size = new System.Drawing.Size(222, 20);
-            this.txtUnitDesc.TabIndex = 5;
+            this.txtCatDesc.Location = new System.Drawing.Point(102, 96);
+            this.txtCatDesc.Name = "txtCatDesc";
+            this.txtCatDesc.Properties.Mask.EditMask = "[0-9A-Za-z ]+";
+            this.txtCatDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtCatDesc.Properties.Mask.ShowPlaceHolders = false;
+            this.txtCatDesc.Size = new System.Drawing.Size(340, 20);
+            this.txtCatDesc.TabIndex = 5;
             // 
-            // txtUnitCode
+            // txtCatCode
             // 
-            this.txtUnitCode.Location = new System.Drawing.Point(102, 70);
-            this.txtUnitCode.Name = "txtUnitCode";
-            this.txtUnitCode.Properties.Mask.EditMask = "[0-9]+";
-            this.txtUnitCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtUnitCode.Properties.Mask.ShowPlaceHolders = false;
-            this.txtUnitCode.Properties.MaxLength = 3;
-            this.txtUnitCode.Size = new System.Drawing.Size(96, 20);
-            this.txtUnitCode.TabIndex = 4;
-            this.txtUnitCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUnitCode_KeyDown);
-            this.txtUnitCode.Validated += new System.EventHandler(this.txtUnitCode_Validated);
+            this.txtCatCode.Location = new System.Drawing.Point(102, 70);
+            this.txtCatCode.Name = "txtCatCode";
+            this.txtCatCode.Properties.Mask.EditMask = "[0-9]+";
+            this.txtCatCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtCatCode.Properties.Mask.ShowPlaceHolders = false;
+            this.txtCatCode.Properties.MaxLength = 3;
+            this.txtCatCode.Size = new System.Drawing.Size(96, 20);
+            this.txtCatCode.TabIndex = 4;
+            this.txtCatCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCatCode_KeyDown);
+            this.txtCatCode.Validated += new System.EventHandler(this.txtCatCode_Validated);
             // 
             // txtCompName
             // 
@@ -137,9 +137,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 71);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 15);
+            this.label2.Size = new System.Drawing.Size(54, 15);
             this.label2.TabIndex = 5;
-            this.label2.Text = "UnitCode";
+            this.label2.Text = "CatCode";
             // 
             // label1
             // 
@@ -242,7 +242,7 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // frmMastUnit
+            // frmMastCat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -251,13 +251,13 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmMastUnit";
-            this.Text = "Unit Master";
-            this.Load += new System.EventHandler(this.frmMastUnit_Load);
+            this.Name = "frmMastCat";
+            this.Text = "Catagory Master";
+            this.Load += new System.EventHandler(this.frmMastCat_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnitDesc.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUnitCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCatDesc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCatCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
@@ -284,7 +284,7 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label label3;
-        private DevExpress.XtraEditors.TextEdit txtUnitDesc;
-        private DevExpress.XtraEditors.TextEdit txtUnitCode;
+        private DevExpress.XtraEditors.TextEdit txtCatDesc;
+        private DevExpress.XtraEditors.TextEdit txtCatCode;
     }
 }
