@@ -15,7 +15,7 @@ namespace Attendance.Forms
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
-        public string oldCont = "";
+        public string oldCode = "";
 
         public frmMastCont()
         {
@@ -99,7 +99,7 @@ namespace Attendance.Forms
             txtAdd1.Text = "";
             txtAdd2.Text = "";
             txtPhone.Text = "";
-            oldCont = "";
+            oldCode = "";
         }
 
         private void SetRights()
@@ -112,6 +112,7 @@ namespace Attendance.Forms
             }
             else if (txtContCode.Text.Trim() != "" && mode == "OLD")
             {
+                btnAdd.Enabled = false;
                 if(GRights.Contains("U"))
                     btnUpdate.Enabled = true;
                 if (GRights.Contains("D"))
@@ -547,7 +548,7 @@ namespace Attendance.Forms
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);
                     mode = "OLD";
-                    oldCont =  dr["ContCode"].ToString();
+                    oldCode =  dr["ContCode"].ToString();
 
                 }
             }

@@ -173,6 +173,7 @@
             this.mnuConfig.Name = "mnuConfig";
             this.mnuConfig.Size = new System.Drawing.Size(193, 22);
             this.mnuConfig.Text = "Configuration";
+            this.mnuConfig.Click += new System.EventHandler(this.mnuConfig_Click);
             // 
             // mnuMastComp
             // 
@@ -200,6 +201,7 @@
             this.mnuMessConfig.Name = "mnuMessConfig";
             this.mnuMessConfig.Size = new System.Drawing.Size(197, 22);
             this.mnuMessConfig.Text = "Mess Config";
+            this.mnuMessConfig.Click += new System.EventHandler(this.mnuMessConfig_Click);
             // 
             // MnuReaderConfig
             // 
@@ -439,26 +441,30 @@
             // mnuMastMessGrp
             // 
             this.mnuMastMessGrp.Name = "mnuMastMessGrp";
-            this.mnuMastMessGrp.Size = new System.Drawing.Size(151, 22);
+            this.mnuMastMessGrp.Size = new System.Drawing.Size(152, 22);
             this.mnuMastMessGrp.Text = "Group Master";
+            this.mnuMastMessGrp.Click += new System.EventHandler(this.mnuMastMessGrp_Click);
             // 
             // mnuMastFood
             // 
             this.mnuMastFood.Name = "mnuMastFood";
-            this.mnuMastFood.Size = new System.Drawing.Size(151, 22);
+            this.mnuMastFood.Size = new System.Drawing.Size(152, 22);
             this.mnuMastFood.Text = "Food Master";
+            this.mnuMastFood.Click += new System.EventHandler(this.mnuMastFood_Click);
             // 
             // mnuMastTime
             // 
             this.mnuMastTime.Name = "mnuMastTime";
-            this.mnuMastTime.Size = new System.Drawing.Size(151, 22);
+            this.mnuMastTime.Size = new System.Drawing.Size(152, 22);
             this.mnuMastTime.Text = "Timing Master";
+            this.mnuMastTime.Click += new System.EventHandler(this.mnuMastTime_Click);
             // 
             // mnuMastRate
             // 
             this.mnuMastRate.Name = "mnuMastRate";
-            this.mnuMastRate.Size = new System.Drawing.Size(151, 22);
+            this.mnuMastRate.Size = new System.Drawing.Size(152, 22);
             this.mnuMastRate.Text = "Rate Master";
+            this.mnuMastRate.Click += new System.EventHandler(this.mnuMastRate_Click);
             // 
             // mnuCostCent
             // 

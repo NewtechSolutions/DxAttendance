@@ -88,6 +88,36 @@
     <Compile Include="Forms\frmMastCont.designer.cs">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastMessTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastMessTime.designer.cs">
+      <DependentUpon>frmMastMessTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastMessRate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastMessRate.designer.cs">
+      <DependentUpon>frmMastMessRate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastMessFood.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastMessFood.designer.cs">
+      <DependentUpon>frmMastMessFood.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastMessGrp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastMessGrp.designer.cs">
+      <DependentUpon>frmMastMessGrp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastMess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastMess.designer.cs">
+      <DependentUpon>frmMastMess.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastEmpType.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +203,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastCont.resx">
       <DependentUpon>frmMastCont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastMessTime.resx">
+      <DependentUpon>frmMastMessTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastMessRate.resx">
+      <DependentUpon>frmMastMessRate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastMessFood.resx">
+      <DependentUpon>frmMastMessFood.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastMessGrp.resx">
+      <DependentUpon>frmMastMessGrp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastMess.resx">
+      <DependentUpon>frmMastMess.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpType.resx">
       <DependentUpon>frmMastEmpType.cs</DependentUpon>

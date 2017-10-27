@@ -11,18 +11,18 @@ using System.Text.RegularExpressions;
 
 namespace Attendance.Forms
 {
-    public partial class frmMastDept : Form
+    public partial class frmMastMessFood : Form
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
         public string oldCode = "";
 
-        public frmMastDept()
+        public frmMastMessFood()
         {
             InitializeComponent();
         }
 
-        private void frmMastDept_Load(object sender, EventArgs e)
+        private void frmMastMess_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
@@ -44,17 +44,6 @@ namespace Attendance.Forms
                 err = err + "Please Enter CompName..." + Environment.NewLine;
             }
 
-
-            if (string.IsNullOrEmpty(txtWrkGrpCode.Text))
-            {
-                err = err + "Please Enter WrkGrpCode " + Environment.NewLine;
-            }
-
-            if (string.IsNullOrEmpty(txtWrkGrpDesc.Text))
-            {
-                err = err + "Please Enter WrkGrp Description" + Environment.NewLine;
-            }
-
             if (string.IsNullOrEmpty(txtUnitCode.Text))
             {
                 err = err + "Please Enter Unit Code" + Environment.NewLine;
@@ -65,66 +54,38 @@ namespace Attendance.Forms
                 err = err + "Please Enter Unit Name" + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(txtDeptCode.Text))
+            if (string.IsNullOrEmpty(txtMessCode.Text))
             {
-                err = err + "Please Enter Dept Code" + Environment.NewLine;
+                err = err + "Please Enter MessCode" + Environment.NewLine;
             }
             else
             {
-                string input = txtDeptCode.Text.Trim().ToString();
+                string input = txtMessCode.Text.Trim().ToString();
                 bool t = Regex.IsMatch(input, @"^\d+$");
                 if (!t)
                 {
-                    err = err + "Please Enter Dept Code in Numeric Format..(001,123,012) " + Environment.NewLine;
+                    err = err + "Please Enter MessCode in Numeric Format..(001,123,012) " + Environment.NewLine;
                 }
                 
 
             }
-            if (string.IsNullOrEmpty(txtDeptDesc.Text))
+            if (string.IsNullOrEmpty(txtMessDesc.Text))
             {
-                err = err + "Please Enter Dept Name" + Environment.NewLine;
+                err = err + "Please Enter Mess Name" + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtFoodCode.Text))
+            {
+                err = err + "Please Enter FoodCode" + Environment.NewLine;
             }
             
+            if (string.IsNullOrEmpty(txtFoodDesc.Text))
+            {
+                err = err + "Please Enter Food Name" + Environment.NewLine;
+            }
 
 
             return err;
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            string err = DataValidate();
-            if (!string.IsNullOrEmpty(err))
-            {
-                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-            {
-                using (SqlCommand cmd = new SqlCommand())
-                {
-                    try
-                    {
-                        cn.Open();
-                        cmd.Connection = cn;
-                        string sql = "Insert into MastDept (CompCode,WrkGrp,UnitCode,DeptCode,DeptDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}')";
-                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), 
-                            txtWrkGrpCode.Text.Trim().ToString(),
-                            txtUnitCode.Text.Trim().ToString(),
-                            txtDeptCode.Text.Trim().ToString(),
-                            txtDeptDesc.Text.Trim().ToString(),
-                            Utils.User.GUserID);
-
-                        cmd.CommandText = sql;
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ResetCtrl();
-
-                    }catch(Exception ex){
-                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-
         }
 
         private void ResetCtrl()
@@ -140,25 +101,26 @@ namespace Attendance.Forms
             txtCompName.Text = "";
             txtCompCode_Validated(s, e);
            
-            txtWrkGrpCode.Text = "";
-            txtWrkGrpDesc.Text = "";
+            
             txtUnitCode.Text = "";
             txtUnitDesc.Text = "";
-            txtDeptCode.Text = "";
-            txtDeptDesc.Text = "";
-
+            txtMessCode.Text = "";
+            txtMessDesc.Text = "";
+            txtFoodCode.Text = "";
+            txtFoodDesc.Text = "";
             oldCode = "";
+            mode = "NEW";
         }
-
+        
         private void SetRights()
         {
-            if ( txtDeptCode.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
+            if ( txtFoodCode.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
             {
                 btnAdd.Enabled = true;
                 btnUpdate.Enabled = false;
                 btnDelete.Enabled = false;
             }
-            else if (txtDeptCode.Text.Trim() != "" && mode == "OLD")
+            else if (txtFoodCode.Text.Trim() != "" && mode == "OLD")
             {
                 btnAdd.Enabled = false;
                 if(GRights.Contains("U"))
@@ -173,82 +135,6 @@ namespace Attendance.Forms
                 btnUpdate.Enabled = false;
                 btnDelete.Enabled = false;
             }
-        }
-
-
-        private void txtWrkGrpCode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (txtCompCode.Text.Trim() == "")
-                return;
-            
-            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
-            {
-                List<string> obj = new List<string>();
-
-                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
-                string sql = "";
-
-
-                sql = "Select WrkGrp,WrkGrpDesc From MastWorkGrp Where CompCode ='" + txtCompCode.Text.Trim() + "'";
-                if (e.KeyCode == Keys.F1)
-                {
-
-                    obj = (List<string>)hlp.Show(sql, "WrkGrp", "WrkGrp", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
-                
-                if (obj.Count == 0)
-                {
-                   
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "0")
-                {
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "")
-                {
-                    return;
-                }
-                else
-                {
-
-                    txtWrkGrpCode.Text = obj.ElementAt(0).ToString();
-                    txtWrkGrpDesc.Text = obj.ElementAt(1).ToString();
-                    
-                    
-                }
-            }
-        }
-
-        private void txtWrkGrpCode_Validated(object sender, EventArgs e)
-        {
-            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" )
-            {
-                
-                return;
-            }
-
-            DataSet ds = new DataSet();
-            string sql = "select * From MastWorkGrp where CompCode ='" + txtCompCode.Text.Trim() + "' and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "'";
-            
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    txtCompCode.Text = dr["CompCode"].ToString();
-                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
-                    txtWrkGrpDesc.Text = dr["WrkGrpDesc"].ToString();
-                    txtCompCode_Validated(sender,e);
-                    
-                }
-            }
-
-            
         }
 
         private void txtCompCode_Validated(object sender, EventArgs e)
@@ -322,6 +208,45 @@ namespace Attendance.Forms
             }
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            string err = DataValidate();
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    try
+                    {
+                        cn.Open();
+                        cmd.Connection = cn;
+                        string sql = "Insert into MastMessFood (CompCode,UnitCode,MessCode,FoodCode,FoodDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}')";
+                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(),
+                            txtUnitCode.Text.Trim().ToString(),
+                            txtMessCode.Text.Trim().ToString(),
+                            txtFoodCode.Text.Trim().ToString().ToUpper(),
+                            txtFoodDesc.Text.Trim().ToString(),                            
+                            Utils.User.GUserID);
+
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ResetCtrl();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+        }
+
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             string err = DataValidate();
@@ -339,12 +264,13 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastDept Set DeptDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' " +
-                            " Where CompCode = '{2}' and WrkGrp = '{3}' and UnitCode = '{4}' and DeptCode = '{5}' ";
+                        string sql = "Update MastMessFood Set FoodDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' " +
+                            " Where CompCode = '{2}' and UnitCode = '{3}' and MessCode = '{4}' and FoodCode = '{5}' ";
 
-                        sql = string.Format(sql, txtDeptDesc.Text.ToString(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
-                             txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim()
+                        sql = string.Format(sql, txtFoodDesc.Text.ToString(),
+                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), 
+                             txtUnitCode.Text.Trim(), txtMessCode.Text.Trim(),
+                             txtFoodCode.Text.Trim()
                            );
 
                         cmd.CommandText = sql;
@@ -388,7 +314,7 @@ namespace Attendance.Forms
 
         private void txtUnitCode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "")
                 return;
 
             if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
@@ -399,7 +325,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select UnitCode,UnitName From MastUnit Where CompCode ='" + txtCompCode.Text.Trim() + "' and WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' ";
+                sql = "Select UnitCode,UnitName From MastUnit Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
                 if (e.KeyCode == Keys.F1)
                 {
 
@@ -432,7 +358,7 @@ namespace Attendance.Forms
 
         private void txtUnitCode_Validated(object sender, EventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "" || txtWrkGrpDesc.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" )
             {
 
                 return;
@@ -442,7 +368,7 @@ namespace Attendance.Forms
 
             DataSet ds = new DataSet();
             string sql = "select * From MastUnit where CompCode ='" + txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "'";
+                    " and  UnitCode ='" + txtUnitCode.Text.Trim() + "'";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -453,21 +379,17 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtCompCode.Text = dr["CompCode"].ToString();
-                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
                     txtUnitCode.Text = dr["UnitCode"].ToString();
                     txtUnitDesc.Text = dr["UnitName"].ToString();
                     txtCompCode_Validated(sender, e);
-                    txtWrkGrpCode_Validated(sender, e);
                     
                 }
             }
         }
 
-       
-
-        private void txtDeptCode_KeyDown(object sender, KeyEventArgs e)
+        private void txtMessCode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "" || txtUnitCode.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "" ||  txtUnitCode.Text.Trim() == "")
                 return;
 
             if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
@@ -478,19 +400,12 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                
+                sql = "Select MessCode,MessDesc From MastMess Where CompCode ='" + txtCompCode.Text.Trim() + "' " + 
+                    " and  UnitCode ='" + txtUnitCode.Text.Trim() + "'";
                 if (e.KeyCode == Keys.F1)
                 {
-                    sql = "Select DeptCode,DeptDesc From MastDept Where CompCode ='" + txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "'";
-                    obj = (List<string>)hlp.Show(sql, "DeptCode", "DeptCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
-                else
-                {
-                    sql = "Select DeptCode,DeptDesc From MastDept Where CompCode ='" + txtCompCode.Text.Trim() + "' " +
-                   " and WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "'";
-                    obj = (List<string>)hlp.Show(sql, "DeptDesc", "DeptDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+
+                    obj = (List<string>)hlp.Show(sql, "MessCode", "MessCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
 
@@ -510,30 +425,115 @@ namespace Attendance.Forms
                 else
                 {
 
-                    txtDeptCode.Text = obj.ElementAt(0).ToString();
-                    txtDeptDesc.Text = obj.ElementAt(1).ToString();
+                    txtMessCode.Text = obj.ElementAt(0).ToString();
+                    txtMessDesc.Text = obj.ElementAt(1).ToString();
 
                 }
             }
         }
 
-        
-
-        private void txtDeptCode_Validated(object sender, EventArgs e)
+        private void txtMessCode_Validated(object sender, EventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "" || txtWrkGrpDesc.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtUnitCode.Text.Trim() == "" || txtUnitDesc.Text.Trim() == "")
             {
 
                 return;
             }
 
-            txtDeptCode.Text = txtDeptCode.Text.Trim().ToString().PadLeft(3, '0');
+            txtMessCode.Text = txtMessCode.Text.Trim().ToString().PadLeft(3, '0');
 
             DataSet ds = new DataSet();
-            string sql = "select * From MastDept where CompCode ='" + txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "' " + 
-                    " and UnitCode ='" + txtUnitCode.Text.Trim() + "' " + 
-                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' ";
+            string sql = "select * From MastMess where CompCode ='" + txtCompCode.Text.Trim() + "' " +
+                    " and UnitCode ='" + txtUnitCode.Text.Trim() + "' and MessCode ='" + txtMessCode.Text.Trim() + "'";
+                    
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtCompCode.Text = dr["CompCode"].ToString();
+                    txtUnitCode.Text = dr["UnitCode"].ToString();
+                    txtMessCode.Text = dr["MessCode"].ToString();
+                    txtMessDesc.Text = dr["MessDesc"].ToString();
+                    txtCompCode_Validated(sender, e);
+                    txtUnitCode_Validated(sender, e);
+                    
+                }
+            }
+
+        }
+        
+        private void txtFoodCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (txtCompCode.Text.Trim() == "" || txtUnitCode.Text.Trim() == "" || txtMessCode.Text.Trim() == "" )
+                return;
+
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+                                
+                if (e.KeyCode == Keys.F1)
+                {
+                    sql = "Select FoodCode,FoodDesc From MastMessFood Where CompCode ='" + txtCompCode.Text.Trim() + "' " +
+                    " and  UnitCode ='" + txtUnitCode.Text.Trim() + "' and MessCode ='" + txtMessCode.Text.Trim() + "'" ;
+                    obj = (List<string>)hlp.Show(sql, "FoodCode", "FoodCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+                else
+                {
+                    sql = "Select FoodCode,FoodDesc From MastMessFood Where CompCode ='" + txtCompCode.Text.Trim() + "' " +
+                    " and  UnitCode ='" + txtUnitCode.Text.Trim() + "'";
+                    obj = (List<string>)hlp.Show(sql, "FoodDesc", "FoodDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+
+                    txtFoodCode.Text = obj.ElementAt(0).ToString();
+                    txtFoodDesc.Text = obj.ElementAt(1).ToString();
+
+                }
+            }
+        }
+
+        private void txtFoodCode_Validated(object sender, EventArgs e)
+        {
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || 
+                txtUnitCode.Text.Trim() == "" || txtUnitDesc.Text.Trim() == "" ||
+                txtFoodCode.Text.Trim() == "" )
+            {
+
+                return;
+            }
+
+            txtMessCode.Text = txtMessCode.Text.Trim().ToString().PadLeft(3, '0');
+
+            DataSet ds = new DataSet();
+            string sql = "select * From MastMessFood  where CompCode ='" + txtCompCode.Text.Trim() + "' " +
+                    " and UnitCode ='" + txtUnitCode.Text.Trim() + "'"
+                    + " and MessCode ='" + txtMessCode.Text.Trim() + "' "
+                    + " and FoodCode ='" + txtFoodCode.Text.Trim() + "' ";
+                    
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -544,16 +544,15 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtCompCode.Text = dr["CompCode"].ToString();
-                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
                     txtUnitCode.Text = dr["UnitCode"].ToString();
-                    txtDeptCode.Text = dr["DeptCode"].ToString();
-                    txtDeptDesc.Text = dr["DeptDesc"].ToString();
+                    txtMessCode.Text = dr["MessCode"].ToString();
+                    txtFoodCode.Text = dr["FoodCode"].ToString();
+                    txtFoodDesc.Text = dr["FoodDesc"].ToString();
                     txtCompCode_Validated(sender, e);
-                    txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);
+                    txtMessCode_Validated(sender, e);
                     mode = "OLD";
-                    oldCode =  dr["DeptCode"].ToString();
-
+                    oldCode = dr["FoodCode"].ToString();
                 }
             }
             else
@@ -563,8 +562,5 @@ namespace Attendance.Forms
 
             SetRights();
         }
-
-       
-
     }
 }

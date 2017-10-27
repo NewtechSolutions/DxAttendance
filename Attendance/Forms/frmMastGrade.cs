@@ -15,7 +15,7 @@ namespace Attendance.Forms
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
-        public string oldGrade = "";
+        public string oldCode = "";
 
         public frmMastGrade()
         {
@@ -133,7 +133,8 @@ namespace Attendance.Forms
             txtWrkGrpDesc.Text = "";
             txtGradeCode.Text = "";
             txtGradeDesc.Text = "";
-            oldGrade = "";
+            oldCode = "";
+            mode = "NEW";
         }
 
         private void SetRights()
@@ -146,6 +147,7 @@ namespace Attendance.Forms
             }
             else if (txtGradeCode.Text.Trim() != "" && mode == "OLD")
             {
+                btnAdd.Enabled = false;
                 if(GRights.Contains("U"))
                     btnUpdate.Enabled = true;
                 if (GRights.Contains("D"))
@@ -443,14 +445,14 @@ namespace Attendance.Forms
                     txtGradeDesc.Text = dr["GradeDesc"].ToString();
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);
-                    oldGrade = dr["GradeCode"].ToString();
+                    oldCode = dr["GradeCode"].ToString();
                     mode = "OLD";
                 }
             }
             else
             {
                 mode = "NEW";
-                oldGrade = "";
+                oldCode = "";
             }
 
             SetRights();

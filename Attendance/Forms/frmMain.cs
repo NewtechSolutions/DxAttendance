@@ -297,6 +297,71 @@ namespace Attendance
             }
         }
 
+        private void mnuMessConfig_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastMess"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastMess m = new Attendance.Forms.frmMastMess();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastFood_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastMessFood"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastMessFood m = new Attendance.Forms.frmMastMessFood();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastMessGrp_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastMessGrp"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastMessGrp m = new Attendance.Forms.frmMastMessGrp();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastRate_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastMessRate"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastMessRate m = new Attendance.Forms.frmMastMessRate();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuConfig_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuMastTime_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastMessTime"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastMessTime m = new Attendance.Forms.frmMastMessTime();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
