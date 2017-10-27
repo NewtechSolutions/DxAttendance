@@ -261,6 +261,42 @@ namespace Attendance
             }
         }
 
+        private void mnuMastEmpType_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpType"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpType m = new Attendance.Forms.frmMastEmpType();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastComp_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastComp"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastComp m = new Attendance.Forms.frmMastComp();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastCont_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastCont"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastCont m = new Attendance.Forms.frmMastCont();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

@@ -12,7 +12,7 @@ namespace Attendance.Forms
 {
     public partial class frmDomainConfig : Form
     {
-        
+        public string GRights = "XXXV";
         
         public frmDomainConfig()
         {
@@ -42,9 +42,26 @@ namespace Attendance.Forms
                     txtUserID.EditValue = string.Empty;
                     txtPassword.EditValue = string.Empty;
                 }
-            
+
+                GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
+                SetRights();
             
         }
+
+        private void SetRights()
+        {
+            if (GRights.Contains("A") || GRights.Contains("U"))
+            {
+                btnSubmit.Enabled = true;
+            }
+            
+
+            if (GRights.Contains("XXXV"))
+            {
+                btnSubmit.Enabled = false;            
+            }
+        }
+
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {

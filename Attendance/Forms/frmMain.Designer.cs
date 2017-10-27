@@ -179,6 +179,7 @@
             this.mnuMastComp.Name = "mnuMastComp";
             this.mnuMastComp.Size = new System.Drawing.Size(197, 22);
             this.mnuMastComp.Text = "Company Master";
+            this.mnuMastComp.Click += new System.EventHandler(this.mnuMastComp_Click);
             // 
             // mnuMastWrkGrp
             // 
@@ -308,6 +309,7 @@
             this.mnuMastEmpType.Name = "mnuMastEmpType";
             this.mnuMastEmpType.Size = new System.Drawing.Size(193, 22);
             this.mnuMastEmpType.Text = "EmpType Master";
+            this.mnuMastEmpType.Click += new System.EventHandler(this.mnuMastEmpType_Click);
             // 
             // mnuMastCat
             // 
@@ -348,6 +350,7 @@
             this.mnuMastCont.Name = "mnuMastCont";
             this.mnuMastCont.Size = new System.Drawing.Size(193, 22);
             this.mnuMastCont.Text = "Contractor Master";
+            this.mnuMastCont.Click += new System.EventHandler(this.mnuMastCont_Click);
             // 
             // mnuMastHoliday
             // 
