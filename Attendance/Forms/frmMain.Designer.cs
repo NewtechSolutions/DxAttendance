@@ -208,12 +208,14 @@
             this.MnuReaderConfig.Name = "MnuReaderConfig";
             this.MnuReaderConfig.Size = new System.Drawing.Size(197, 22);
             this.MnuReaderConfig.Text = "Reader Config";
+            this.MnuReaderConfig.Click += new System.EventHandler(this.MnuReaderConfig_Click);
             // 
             // mnuReaderMessAsign
             // 
             this.mnuReaderMessAsign.Name = "mnuReaderMessAsign";
             this.mnuReaderMessAsign.Size = new System.Drawing.Size(197, 22);
             this.mnuReaderMessAsign.Text = "Assign Readers to Mess";
+            this.mnuReaderMessAsign.Click += new System.EventHandler(this.mnuReaderMessAsign_Click);
             // 
             // mnuMastShift
             // 
@@ -226,6 +228,7 @@
             this.mnuMastLeave.Name = "mnuMastLeave";
             this.mnuMastLeave.Size = new System.Drawing.Size(197, 22);
             this.mnuMastLeave.Text = "Leave Type Config";
+            this.mnuMastLeave.Click += new System.EventHandler(this.mnuMastLeave_Click);
             // 
             // mnuDomainConfig
             // 
@@ -441,28 +444,28 @@
             // mnuMastMessGrp
             // 
             this.mnuMastMessGrp.Name = "mnuMastMessGrp";
-            this.mnuMastMessGrp.Size = new System.Drawing.Size(152, 22);
+            this.mnuMastMessGrp.Size = new System.Drawing.Size(151, 22);
             this.mnuMastMessGrp.Text = "Group Master";
             this.mnuMastMessGrp.Click += new System.EventHandler(this.mnuMastMessGrp_Click);
             // 
             // mnuMastFood
             // 
             this.mnuMastFood.Name = "mnuMastFood";
-            this.mnuMastFood.Size = new System.Drawing.Size(152, 22);
+            this.mnuMastFood.Size = new System.Drawing.Size(151, 22);
             this.mnuMastFood.Text = "Food Master";
             this.mnuMastFood.Click += new System.EventHandler(this.mnuMastFood_Click);
             // 
             // mnuMastTime
             // 
             this.mnuMastTime.Name = "mnuMastTime";
-            this.mnuMastTime.Size = new System.Drawing.Size(152, 22);
+            this.mnuMastTime.Size = new System.Drawing.Size(151, 22);
             this.mnuMastTime.Text = "Timing Master";
             this.mnuMastTime.Click += new System.EventHandler(this.mnuMastTime_Click);
             // 
             // mnuMastRate
             // 
             this.mnuMastRate.Name = "mnuMastRate";
-            this.mnuMastRate.Size = new System.Drawing.Size(152, 22);
+            this.mnuMastRate.Size = new System.Drawing.Size(151, 22);
             this.mnuMastRate.Text = "Rate Master";
             this.mnuMastRate.Click += new System.EventHandler(this.mnuMastRate_Click);
             // 

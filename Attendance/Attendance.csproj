@@ -88,6 +88,18 @@
     <Compile Include="Forms\frmMastCont.designer.cs">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastLeave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastLeave.designer.cs">
+      <DependentUpon>frmMastLeave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReaderConfigMess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReaderConfigMess.designer.cs">
+      <DependentUpon>frmReaderConfigMess.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastMessTime.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +166,12 @@
     <Compile Include="Forms\frmMastUnit.designer.cs">
       <DependentUpon>frmMastUnit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmReaderConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReaderConfig.designer.cs">
+      <DependentUpon>frmReaderConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastWrkGrp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +222,12 @@
     <EmbeddedResource Include="Forms\frmMastCont.resx">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastLeave.resx">
+      <DependentUpon>frmMastLeave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReaderConfigMess.resx">
+      <DependentUpon>frmReaderConfigMess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastMessTime.resx">
       <DependentUpon>frmMastMessTime.cs</DependentUpon>
     </EmbeddedResource>
@@ -236,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastUnit.resx">
       <DependentUpon>frmMastUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReaderConfig.resx">
+      <DependentUpon>frmReaderConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastWrkGrp.resx">
       <DependentUpon>frmMastWrkGrp.cs</DependentUpon>
