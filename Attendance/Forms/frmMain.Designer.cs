@@ -381,6 +381,7 @@
             this.mnuMastRules.Name = "mnuMastRules";
             this.mnuMastRules.Size = new System.Drawing.Size(193, 22);
             this.mnuMastRules.Text = "Rules Master";
+            this.mnuMastRules.Click += new System.EventHandler(this.mnuMastRules_Click);
             // 
             // mnuEmployee
             // 

@@ -88,6 +88,12 @@
     <Compile Include="Forms\frmMastCont.designer.cs">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastRules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastRules.designer.cs">
+      <DependentUpon>frmMastRules.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastLeave.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastCont.resx">
       <DependentUpon>frmMastCont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastRules.resx">
+      <DependentUpon>frmMastRules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastLeave.resx">
       <DependentUpon>frmMastLeave.cs</DependentUpon>

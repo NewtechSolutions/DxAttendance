@@ -181,6 +181,68 @@ namespace Utils
             return Result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql">Select Single Column with single row result</param>
+        /// <param name="ConnectionString">sql connection</param>
+        /// <returns>string</returns>
+        public static string GetDescription(string sql, string ConnectionString)
+        {
+            object result;
+
+            string returndesc = string.Empty;
+            if (string.IsNullOrEmpty(sql))
+            {
+                return returndesc;
+            }
+
+            if (string.IsNullOrEmpty(ConnectionString))
+            {
+                return returndesc;
+            }
+
+            if (sql.Contains("insert"))
+            {
+                return returndesc;
+            }
+            if (sql.Contains("update"))
+            {
+                return returndesc;
+            }
+            if (sql.Contains("delete"))
+            {
+                return returndesc;
+            }
+
+            if (!sql.Contains("TOP 1"))
+            {
+                sql = sql.ToUpper().Replace("SELECT", "SELECT TOP 1 ");
+            }
+
+            SqlConnection conn = new SqlConnection(ConnectionString);
+            SqlCommand command = new SqlCommand(sql, conn) { CommandType = CommandType.Text };
+            
+
+            try
+            {
+                conn.Open();
+                result = command.ExecuteScalar();    
+                if(result != null)           
+                    returndesc = Convert.ToString(result);
+
+                conn.Close();
+            }
+            catch (SqlException ex) { MessageBox.Show(ex.Message.ToString()); }
+            catch (Exception ex) { MessageBox.Show(ex.Message.ToString()); }
+            finally
+            {
+                conn.Close();
+            }
+
+            return returndesc;
+        }
+
         public static bool IsFrmAlreadyOpen(Type formType)
         {
             bool isOpen = false;

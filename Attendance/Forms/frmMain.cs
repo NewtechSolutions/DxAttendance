@@ -410,6 +410,18 @@ namespace Attendance
             }
         }
 
+        private void mnuMastRules_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastRules"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastRules m = new Attendance.Forms.frmMastRules();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
