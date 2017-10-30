@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmMastLeave
+    partial class frmMastHoliday
     {
         /// <summary>
         /// Required designer variable.
@@ -29,50 +29,42 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtDescription = new DevExpress.XtraEditors.TextEdit();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtDate = new DevExpress.XtraEditors.DateEdit();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtYear = new DevExpress.XtraEditors.TextEdit();
             this.label8 = new System.Windows.Forms.Label();
             this.txtWrkGrpDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
-            this.chkPaid = new DevExpress.XtraEditors.CheckEdit();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtCompName = new DevExpress.XtraEditors.TextEdit();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtCompCode = new DevExpress.XtraEditors.TextEdit();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtLeaveDesc = new DevExpress.XtraEditors.TextEdit();
+            this.txtLeaveTyp = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.chkHalf = new DevExpress.XtraEditors.CheckEdit();
-            this.chkPublicHL = new DevExpress.XtraEditors.CheckEdit();
-            this.chkShowEntry = new DevExpress.XtraEditors.CheckEdit();
-            this.chkEncash = new DevExpress.XtraEditors.CheckEdit();
-            this.chkKeepAdv = new DevExpress.XtraEditors.CheckEdit();
-            this.chkKeepBal = new DevExpress.XtraEditors.CheckEdit();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtSeqNo = new DevExpress.XtraEditors.TextEdit();
-            this.txtCompName = new DevExpress.XtraEditors.TextEdit();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtCompCode = new DevExpress.XtraEditors.TextEdit();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtDescription = new DevExpress.XtraEditors.TextEdit();
-            this.txtLeaveTyp = new DevExpress.XtraEditors.TextEdit();
             this.Group2 = new System.Windows.Forms.GroupBox();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkPaid.Properties)).BeginInit();
-            this.grpUserRights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chkHalf.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkPublicHL.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkShowEntry.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkEncash.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkKeepAdv.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkKeepBal.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSeqNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLeaveDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeaveTyp.Properties)).BeginInit();
+            this.grpUserRights.SuspendLayout();
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -80,30 +72,81 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtDescription);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtDate);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtYear);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtWrkGrpDesc);
             this.groupBox1.Controls.Add(this.txtWrkGrpCode);
-            this.groupBox1.Controls.Add(this.chkPaid);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.chkHalf);
-            this.groupBox1.Controls.Add(this.chkPublicHL);
-            this.groupBox1.Controls.Add(this.chkShowEntry);
-            this.groupBox1.Controls.Add(this.chkEncash);
-            this.groupBox1.Controls.Add(this.chkKeepAdv);
-            this.groupBox1.Controls.Add(this.chkKeepBal);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtSeqNo);
             this.groupBox1.Controls.Add(this.txtCompName);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtCompCode);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtDescription);
+            this.groupBox1.Controls.Add(this.txtLeaveDesc);
             this.groupBox1.Controls.Add(this.txtLeaveTyp);
             this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(865, 124);
+            this.groupBox1.Size = new System.Drawing.Size(859, 104);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(486, 68);
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Properties.Mask.BeepOnError = true;
+            this.txtDescription.Properties.Mask.EditMask = "[A-Za-z0-9()-.[\\] ]+";
+            this.txtDescription.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDescription.Properties.MaxLength = 30;
+            this.txtDescription.Size = new System.Drawing.Size(285, 20);
+            this.txtDescription.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(396, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 15);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "Holiday Desc. :";
+            // 
+            // txtDate
+            // 
+            this.txtDate.EditValue = null;
+            this.txtDate.Location = new System.Drawing.Point(245, 68);
+            this.txtDate.Name = "txtDate";
+            this.txtDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtDate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtDate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtDate.Size = new System.Drawing.Size(138, 20);
+            this.txtDate.TabIndex = 3;
+            this.txtDate.EditValueChanged += new System.EventHandler(this.txtDate_EditValueChanged);
+            this.txtDate.Validated += new System.EventHandler(this.txtDate_Validated);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 15);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Year :";
+            // 
+            // txtYear
+            // 
+            this.txtYear.Location = new System.Drawing.Point(98, 68);
+            this.txtYear.Name = "txtYear";
+            this.txtYear.Properties.Mask.EditMask = "[0-9]+";
+            this.txtYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtYear.Size = new System.Drawing.Size(96, 20);
+            this.txtYear.TabIndex = 2;
+            this.txtYear.Validated += new System.EventHandler(this.txtYear_Validated);
             // 
             // label8
             // 
@@ -138,14 +181,78 @@
             this.txtWrkGrpCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtWrkGrpCode_KeyDown);
             this.txtWrkGrpCode.Validated += new System.EventHandler(this.txtWrkGrpCode_Validated);
             // 
-            // chkPaid
+            // label5
             // 
-            this.chkPaid.Location = new System.Drawing.Point(744, 44);
-            this.chkPaid.Name = "chkPaid";
-            this.chkPaid.Properties.Caption = "Is Paid :";
-            this.chkPaid.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkPaid.Size = new System.Drawing.Size(110, 19);
-            this.chkPaid.TabIndex = 11;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(200, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(39, 15);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Date :";
+            // 
+            // txtCompName
+            // 
+            this.txtCompName.Location = new System.Drawing.Point(146, 16);
+            this.txtCompName.Name = "txtCompName";
+            this.txtCompName.Properties.ReadOnly = true;
+            this.txtCompName.Size = new System.Drawing.Size(237, 20);
+            this.txtCompName.TabIndex = 1;
+            this.txtCompName.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 15);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "CompCode";
+            // 
+            // txtCompCode
+            // 
+            this.txtCompCode.Location = new System.Drawing.Point(98, 16);
+            this.txtCompCode.Name = "txtCompCode";
+            this.txtCompCode.Properties.Mask.EditMask = "[0-9]+";
+            this.txtCompCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtCompCode.Size = new System.Drawing.Size(42, 20);
+            this.txtCompCode.TabIndex = 0;
+            this.txtCompCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCompCode_KeyDown);
+            this.txtCompCode.Validated += new System.EventHandler(this.txtCompCode_Validated);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(396, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Leave Type :";
+            // 
+            // txtLeaveDesc
+            // 
+            this.txtLeaveDesc.Location = new System.Drawing.Point(534, 42);
+            this.txtLeaveDesc.Name = "txtLeaveDesc";
+            this.txtLeaveDesc.Properties.Mask.BeepOnError = true;
+            this.txtLeaveDesc.Properties.Mask.EditMask = "[A-Za-z0-9()-.[\\] ]+";
+            this.txtLeaveDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtLeaveDesc.Properties.MaxLength = 30;
+            this.txtLeaveDesc.Properties.ReadOnly = true;
+            this.txtLeaveDesc.Size = new System.Drawing.Size(237, 20);
+            this.txtLeaveDesc.TabIndex = 3;
+            this.txtLeaveDesc.TabStop = false;
+            // 
+            // txtLeaveTyp
+            // 
+            this.txtLeaveTyp.Location = new System.Drawing.Point(486, 41);
+            this.txtLeaveTyp.Name = "txtLeaveTyp";
+            this.txtLeaveTyp.Properties.Mask.EditMask = "[A-Z]+";
+            this.txtLeaveTyp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtLeaveTyp.Properties.Mask.ShowPlaceHolders = false;
+            this.txtLeaveTyp.Properties.MaxLength = 2;
+            this.txtLeaveTyp.Size = new System.Drawing.Size(42, 20);
+            this.txtLeaveTyp.TabIndex = 4;
+            this.txtLeaveTyp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLeaveTyp_KeyDown);
+            this.txtLeaveTyp.Validated += new System.EventHandler(this.txtLeaveTyp_Validated);
             // 
             // grpUserRights
             // 
@@ -154,9 +261,9 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 133);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 113);
             this.grpUserRights.Name = "grpUserRights";
-            this.grpUserRights.Size = new System.Drawing.Size(865, 52);
+            this.grpUserRights.Size = new System.Drawing.Size(859, 52);
             this.grpUserRights.TabIndex = 22;
             this.grpUserRights.TabStop = false;
             // 
@@ -215,155 +322,12 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkRed;
-            this.label6.Location = new System.Drawing.Point(479, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(91, 15);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "Leave Features";
-            // 
-            // chkHalf
-            // 
-            this.chkHalf.Location = new System.Drawing.Point(591, 71);
-            this.chkHalf.Name = "chkHalf";
-            this.chkHalf.Properties.Caption = "Allow Half Posting :";
-            this.chkHalf.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkHalf.Size = new System.Drawing.Size(133, 19);
-            this.chkHalf.TabIndex = 9;
-            // 
-            // chkPublicHL
-            // 
-            this.chkPublicHL.Location = new System.Drawing.Point(482, 97);
-            this.chkPublicHL.Name = "chkPublicHL";
-            this.chkPublicHL.Properties.Caption = "Public Holiday :";
-            this.chkPublicHL.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkPublicHL.Size = new System.Drawing.Size(103, 19);
-            this.chkPublicHL.TabIndex = 7;
-            // 
-            // chkShowEntry
-            // 
-            this.chkShowEntry.Location = new System.Drawing.Point(591, 45);
-            this.chkShowEntry.Name = "chkShowEntry";
-            this.chkShowEntry.Properties.Caption = "Show In Leave Entry :";
-            this.chkShowEntry.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkShowEntry.Size = new System.Drawing.Size(133, 19);
-            this.chkShowEntry.TabIndex = 8;
-            // 
-            // chkEncash
-            // 
-            this.chkEncash.Location = new System.Drawing.Point(591, 98);
-            this.chkEncash.Name = "chkEncash";
-            this.chkEncash.Properties.Caption = "Allow Encash :";
-            this.chkEncash.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkEncash.Size = new System.Drawing.Size(133, 19);
-            this.chkEncash.TabIndex = 10;
-            // 
-            // chkKeepAdv
-            // 
-            this.chkKeepAdv.Location = new System.Drawing.Point(482, 70);
-            this.chkKeepAdv.Name = "chkKeepAdv";
-            this.chkKeepAdv.Properties.Caption = "Advance Leave :";
-            this.chkKeepAdv.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkKeepAdv.Size = new System.Drawing.Size(103, 19);
-            this.chkKeepAdv.TabIndex = 6;
-            // 
-            // chkKeepBal
-            // 
-            this.chkKeepBal.Location = new System.Drawing.Point(482, 44);
-            this.chkKeepBal.Name = "chkKeepBal";
-            this.chkKeepBal.Properties.Caption = "Keep Balance :";
-            this.chkKeepBal.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkKeepBal.Size = new System.Drawing.Size(103, 19);
-            this.chkKeepBal.TabIndex = 5;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 97);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(135, 15);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Leave Entry Show Seq :";
-            // 
-            // txtSeqNo
-            // 
-            this.txtSeqNo.Location = new System.Drawing.Point(146, 95);
-            this.txtSeqNo.Name = "txtSeqNo";
-            this.txtSeqNo.Properties.Mask.EditMask = "n0";
-            this.txtSeqNo.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            this.txtSeqNo.Size = new System.Drawing.Size(48, 20);
-            this.txtSeqNo.TabIndex = 4;
-            // 
-            // txtCompName
-            // 
-            this.txtCompName.Location = new System.Drawing.Point(146, 16);
-            this.txtCompName.Name = "txtCompName";
-            this.txtCompName.Properties.ReadOnly = true;
-            this.txtCompName.Size = new System.Drawing.Size(237, 20);
-            this.txtCompName.TabIndex = 1;
-            this.txtCompName.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 17);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 15);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "CompCode";
-            // 
-            // txtCompCode
-            // 
-            this.txtCompCode.Location = new System.Drawing.Point(98, 16);
-            this.txtCompCode.Name = "txtCompCode";
-            this.txtCompCode.Size = new System.Drawing.Size(42, 20);
-            this.txtCompCode.TabIndex = 0;
-            this.txtCompCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCompCode_KeyDown);
-            this.txtCompCode.Validated += new System.EventHandler(this.txtCompCode_Validated);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 70);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Leave Type :";
-            // 
-            // txtDescription
-            // 
-            this.txtDescription.Location = new System.Drawing.Point(146, 69);
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Properties.Mask.BeepOnError = true;
-            this.txtDescription.Properties.Mask.EditMask = "[A-Za-z0-9()-.[\\] ]+";
-            this.txtDescription.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtDescription.Properties.MaxLength = 30;
-            this.txtDescription.Size = new System.Drawing.Size(237, 20);
-            this.txtDescription.TabIndex = 3;
-            // 
-            // txtLeaveTyp
-            // 
-            this.txtLeaveTyp.Location = new System.Drawing.Point(98, 68);
-            this.txtLeaveTyp.Name = "txtLeaveTyp";
-            this.txtLeaveTyp.Properties.Mask.EditMask = "[A-Z]+";
-            this.txtLeaveTyp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtLeaveTyp.Properties.Mask.ShowPlaceHolders = false;
-            this.txtLeaveTyp.Properties.MaxLength = 2;
-            this.txtLeaveTyp.Size = new System.Drawing.Size(42, 20);
-            this.txtLeaveTyp.TabIndex = 2;
-            this.txtLeaveTyp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLeaveTyp_KeyDown);
-            this.txtLeaveTyp.Validated += new System.EventHandler(this.txtLeaveTyp_Validated);
-            // 
             // Group2
             // 
             this.Group2.Controls.Add(this.grid);
-            this.Group2.Location = new System.Drawing.Point(12, 191);
+            this.Group2.Location = new System.Drawing.Point(12, 171);
             this.Group2.Name = "Group2";
-            this.Group2.Size = new System.Drawing.Size(865, 305);
+            this.Group2.Size = new System.Drawing.Size(859, 322);
             this.Group2.TabIndex = 3;
             this.Group2.TabStop = false;
             // 
@@ -373,7 +337,7 @@
             this.grid.Location = new System.Drawing.Point(3, 17);
             this.grid.MainView = this.gridView1;
             this.grid.Name = "grid";
-            this.grid.Size = new System.Drawing.Size(859, 285);
+            this.grid.Size = new System.Drawing.Size(853, 302);
             this.grid.TabIndex = 0;
             this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -409,36 +373,32 @@
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.DoubleClick += new System.EventHandler(this.gridView1_DoubleClick);
             // 
-            // frmMastLeave
+            // frmMastHoliday
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 508);
+            this.ClientSize = new System.Drawing.Size(881, 508);
             this.Controls.Add(this.Group2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpUserRights);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmMastLeave";
-            this.Text = "Leave Type Configuration Master";
-            this.Load += new System.EventHandler(this.frmMastLeave_Load);
+            this.Name = "frmMastHoliday";
+            this.Text = "Public Holiday Configuration";
+            this.Load += new System.EventHandler(this.frmMastHoliday_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkPaid.Properties)).EndInit();
-            this.grpUserRights.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chkHalf.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkPublicHL.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkShowEntry.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkEncash.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkKeepAdv.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkKeepBal.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSeqNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLeaveDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeaveTyp.Properties)).EndInit();
+            this.grpUserRights.ResumeLayout(false);
             this.Group2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
@@ -450,20 +410,12 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private DevExpress.XtraEditors.TextEdit txtDescription;
+        private DevExpress.XtraEditors.TextEdit txtLeaveDesc;
         private DevExpress.XtraEditors.TextEdit txtLeaveTyp;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.TextEdit txtCompCode;
         private DevExpress.XtraEditors.TextEdit txtCompName;
-        private System.Windows.Forms.Label label6;
-        private DevExpress.XtraEditors.CheckEdit chkHalf;
-        private DevExpress.XtraEditors.CheckEdit chkPublicHL;
-        private DevExpress.XtraEditors.CheckEdit chkShowEntry;
-        private DevExpress.XtraEditors.CheckEdit chkEncash;
-        private DevExpress.XtraEditors.CheckEdit chkKeepAdv;
-        private DevExpress.XtraEditors.CheckEdit chkKeepBal;
         private System.Windows.Forms.Label label5;
-        private DevExpress.XtraEditors.TextEdit txtSeqNo;
         private System.Windows.Forms.GroupBox Group2;
         private System.Windows.Forms.GroupBox grpUserRights;
         private System.Windows.Forms.Button btnClose;
@@ -473,9 +425,13 @@
         private System.Windows.Forms.Button btnAdd;
         private DevExpress.XtraGrid.GridControl grid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraEditors.CheckEdit chkPaid;
         private System.Windows.Forms.Label label8;
         private DevExpress.XtraEditors.TextEdit txtWrkGrpDesc;
         private DevExpress.XtraEditors.TextEdit txtWrkGrpCode;
+        private DevExpress.XtraEditors.DateEdit txtDate;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraEditors.TextEdit txtYear;
+        private DevExpress.XtraEditors.TextEdit txtDescription;
+        private System.Windows.Forms.Label label3;
     }
 }

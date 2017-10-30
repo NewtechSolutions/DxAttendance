@@ -363,6 +363,7 @@
             this.mnuMastHoliday.Name = "mnuMastHoliday";
             this.mnuMastHoliday.Size = new System.Drawing.Size(193, 22);
             this.mnuMastHoliday.Text = "Holiday Calander";
+            this.mnuMastHoliday.Click += new System.EventHandler(this.mnuMastHoliday_Click);
             // 
             // mnuAutoMail
             // 
@@ -489,6 +490,7 @@
             this.mnuCostCodeMast.Name = "mnuCostCodeMast";
             this.mnuCostCodeMast.Size = new System.Drawing.Size(289, 22);
             this.mnuCostCodeMast.Text = "Cost Center Master";
+            this.mnuCostCodeMast.Click += new System.EventHandler(this.mnuCostCodeMast_Click);
             // 
             // mnuEmpCostCode
             // 

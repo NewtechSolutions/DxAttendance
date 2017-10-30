@@ -88,6 +88,12 @@
     <Compile Include="Forms\frmMastCont.designer.cs">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastHoliday.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastHoliday.designer.cs">
+      <DependentUpon>frmMastHoliday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastRules.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,12 @@
     </Compile>
     <Compile Include="Forms\frmMastShift.designer.cs">
       <DependentUpon>frmMastShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastCostCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastCostCode.designer.cs">
+      <DependentUpon>frmMastCostCode.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmReaderConfigMess.cs">
       <SubType>Form</SubType>
@@ -234,6 +246,9 @@
     <EmbeddedResource Include="Forms\frmMastCont.resx">
       <DependentUpon>frmMastCont.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastHoliday.resx">
+      <DependentUpon>frmMastHoliday.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastRules.resx">
       <DependentUpon>frmMastRules.cs</DependentUpon>
     </EmbeddedResource>
@@ -242,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastShift.resx">
       <DependentUpon>frmMastShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastCostCode.resx">
+      <DependentUpon>frmMastCostCode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmReaderConfigMess.resx">
       <DependentUpon>frmReaderConfigMess.cs</DependentUpon>
