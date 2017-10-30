@@ -12,18 +12,18 @@ using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace Attendance.Forms
 {
-    public partial class frmReaderConfig : Form
+    public partial class frmMastShift : Form
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
         public string oldCode = "";
 
-        public frmReaderConfig()
+        public frmMastShift()
         {
             InitializeComponent();
         }
 
-        private void frmReaderConfig_Load(object sender, EventArgs e)
+        private void frmMastShift_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
@@ -46,91 +46,105 @@ namespace Attendance.Forms
             }
 
 
-            if (string.IsNullOrEmpty(txtIPAdd.Text))
+            if (string.IsNullOrEmpty(txtShiftCode.Text))
             {
-                err = err + "Please Enter Machine IP Address.." + Environment.NewLine;
+                err = err + "Please Enter Shift Code .." + Environment.NewLine;
             }
 
             if (string.IsNullOrEmpty(txtDescription.Text))
             {
-                err = err + "Please Enter Machine Description" + Environment.NewLine;
+                err = err + "Please Enter Shift Description.." + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(txtINOut.Text))
+            if (string.IsNullOrEmpty(txtShiftSeq.Text))
             {
-                err = err + "Please Enter Machine In/Out Type" + Environment.NewLine;
+                err = err + "Please Enter Seq. Number.." + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(txtMachineNo.Text))
+
+            if (string.IsNullOrEmpty(txtShiftHrs.Text))
             {
-                err = err + "Please Enter Machine Number.." + Environment.NewLine;
+                err = err + "Please Enter Shift Hrs." + Environment.NewLine;
             }
 
-            if(chkRFID.CheckState == CheckState.Unchecked && chkFace.CheckState == CheckState.Unchecked 
-                && chkFinger.CheckState == CheckState.Unchecked ) {
-
-                err = err + "Please Select Atleast One Features From (RFID/Face/Finger)" + Environment.NewLine;
-
-            }
-               
-            //check for single master machine..
-            if (chkMaster.CheckState == CheckState.Checked)
+            if (string.IsNullOrEmpty(txtBreakHrs.Text))
             {
-                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        try
-                        {
-                            cn.Open();
-                            cmd.Connection = cn;
-                            string sql = "Select Count(*) from ReaderConfig where CompCode = '" + txtCompCode.Text.Trim() + "' " 
-                                + " And Master = 1 and MachineIP not in ('" + txtIPAdd.Text.Trim().ToString() + "')";
-
-                            cmd.CommandText = sql;
-                            int cnt = (int)cmd.ExecuteScalar();
-                            if (cnt > 0)
-                            {
-                                err = err + "You can not add multiple master machine...." + Environment.NewLine;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            err = err + ex.ToString();
-                        }
-                    }
-                }
-            }
-
-            if (chkMaster.CheckState == CheckState.Checked)
-            {
-                chkLunchInOut.CheckState = CheckState.Unchecked;
-                chkGateInOut.CheckState = CheckState.Unchecked;
-                chkMessUse.CheckState = CheckState.Unchecked;
-                chkActive.CheckState = CheckState.Checked;
-                chkAuto.CheckState = CheckState.Unchecked;
+                err = err + "Please Enter Break Hrs." + Environment.NewLine;
             }
 
             int t = 0;
-            if (chkLunchInOut.CheckState == CheckState.Checked ) 
+            if (int.TryParse(txtShiftHrs.Text.ToString(), out t))
             {
-                t = t + 1;
+                if (t <= 0)
+                    err = err + "Please Enter Shift Hrs." + Environment.NewLine;
+            }
+            t = 0;
+            if (int.TryParse(txtShiftSeq.Text.ToString(), out t))
+            {
+                if (t <= 0)
+                    err = err + "Please Enter Shift Seq. No" + Environment.NewLine;
             }
 
-            if (chkGateInOut.CheckState == CheckState.Checked)
+            if (txtShiftStart.EditValue == null)
             {
-                t = t + 1;
+                err = err + "Please Enter Shift Start Time" + Environment.NewLine;
+            }
+            if (txtShiftEnd.EditValue == null)
+            {
+                err = err + "Please Enter Shift End Time" + Environment.NewLine;
+            }
+            if (txtIN_From.EditValue == null)
+            {
+                err = err + "Please Enter Allowed In Time Range.." + Environment.NewLine;
+            }
+            if (txtIN_To.EditValue == null)
+            {
+                err = err + "Please Enter Allowed In Time Range.." + Environment.NewLine;
+            }
+            if (txtOUT_From.EditValue == null)
+            {
+                err = err + "Please Enter Allowed Out Time Range.." + Environment.NewLine;
+            }
+            if (txtOUT_To.EditValue == null)
+            {
+                err = err + "Please Enter Allowed Out Time Range.." + Environment.NewLine;
+            }
+            TimeSpan ShiftStart, ShiftEnd, ShiftInFrom, ShiftInTo, ShiftOutFrom, ShiftOutTo;
+
+            ShiftStart = new TimeSpan(txtShiftStart.Time.Hour, txtShiftStart.Time.Minute,txtShiftStart.Time.Second);
+            ShiftEnd = new TimeSpan(txtShiftEnd.Time.Hour, txtShiftEnd.Time.Minute, txtShiftEnd.Time.Second);
+            ShiftInFrom = new TimeSpan(txtIN_From.Time.Hour, txtIN_From.Time.Minute, txtIN_From.Time.Second);
+            ShiftInTo = new TimeSpan(txtIN_To.Time.Hour, txtIN_To.Time.Minute, txtIN_To.Time.Second);
+            ShiftOutFrom = new TimeSpan(txtOUT_From.Time.Hour, txtOUT_From.Time.Minute, txtOUT_From.Time.Second);
+            ShiftOutTo = new TimeSpan(txtOUT_To.Time.Hour, txtOUT_To.Time.Minute, txtOUT_To.Time.Second);
+
+
+            if (ShiftStart > ShiftEnd)
+            {
+                err = err + "Shift Start must be less than shift end.." + Environment.NewLine;
             }
 
-            if (chkMessUse.CheckState == CheckState.Checked)
+            if (ShiftInFrom > ShiftInTo)
             {
-                t = t + 1;
+                err = err + "Invalid Allowed Range for Shift In From -to .." + Environment.NewLine;
             }
 
-            if (t > 1)
+            if (ShiftOutFrom > ShiftOutTo)
             {
-                err = err + "Please Select Only One Purpose.." + Environment.NewLine;
+                err = err + "Invalid Allowed Range for Shift Out From - to ." + Environment.NewLine;
             }
+
+            if (ShiftInFrom > ShiftStart)
+            {
+                err = err + "Shift In from must be less than  Shift Start.." + Environment.NewLine;
+            }
+
+            if (ShiftInTo < ShiftStart || ShiftInTo >= ShiftEnd)
+            {
+                err = err + "Shift In To must be under Shift Start-End.." + Environment.NewLine;
+            }
+
+
 
             return err;
         }
@@ -141,32 +155,26 @@ namespace Attendance.Forms
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
 
-            
             object s = new object();
             EventArgs e = new EventArgs();
             txtCompCode.Text = "01";
             txtCompName.Text = "";
             txtCompCode_Validated(s, e);
            
-            txtIPAdd.Text = "";
+            txtShiftCode.Text = "";
             txtDescription.Text = "";
-            txtLocation.Text = "";
-            txtMachineNo.Text = "";
-            txtINOut.Text = "IN";
+            txtShiftStart.EditValue = null;
+            txtShiftEnd.EditValue = null;
+            txtIN_From.EditValue = null;
+            txtIN_To.EditValue = null;
+            txtOUT_From.EditValue = null;
+            txtOUT_To.EditValue = null;
 
-            chkActive.CheckState = CheckState.Unchecked;
-            chkMaster.CheckState = CheckState.Unchecked;
-            chkAuto.CheckState = CheckState.Unchecked;
+            txtShiftHrs.EditValue = null;
+            txtBreakHrs.EditValue = null;
+            txtShiftSeq.EditValue = null;
 
-            chkFace.CheckState = CheckState.Unchecked;
-            chkRFID.CheckState = CheckState.Unchecked;
-            chkFinger.CheckState = CheckState.Unchecked;
-
-            chkGateInOut.CheckState = CheckState.Unchecked;
-            chkLunchInOut.CheckState = CheckState.Unchecked;
-            chkMessUse.CheckState = CheckState.Unchecked;
-
-
+            chkNight.CheckState = CheckState.Unchecked;
 
             oldCode = "";
             mode = "NEW";
@@ -174,13 +182,13 @@ namespace Attendance.Forms
 
         private void SetRights()
         {
-            if ( txtIPAdd.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
+            if ( txtShiftCode.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
             {
                 btnAdd.Enabled = true;
                 btnUpdate.Enabled = false;
                 btnDelete.Enabled = false;
             }
-            else if ( txtIPAdd.Text.Trim() != "" && mode == "OLD" )
+            else if ( txtShiftCode.Text.Trim() != "" && mode == "OLD" )
             {
                 btnAdd.Enabled = false;
 
@@ -199,7 +207,7 @@ namespace Attendance.Forms
         }
 
 
-        private void txtIPAdd_KeyDown(object sender, KeyEventArgs e)
+        private void txtShiftCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (txtCompCode.Text.Trim() == "")
                 return;
@@ -212,11 +220,11 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select MachineIP,MachineDesc from ReaderConfig Where CompCode ='" + txtCompCode.Text.Trim() + "' and Delflg = 0";
+                sql = "Select ShiftCode,ShiftDesc from MastShift Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
                 if (e.KeyCode == Keys.F1)
                 {
 
-                    obj = (List<string>)hlp.Show(sql, "MachineIP", "MachineIP", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                    obj = (List<string>)hlp.Show(sql, "ShiftCode", "ShiftCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
                 
@@ -236,7 +244,7 @@ namespace Attendance.Forms
                 else
                 {
 
-                    txtIPAdd.Text = obj.ElementAt(0).ToString();
+                    txtShiftCode.Text = obj.ElementAt(0).ToString();
                     txtDescription.Text = obj.ElementAt(1).ToString();
                     
                     mode = "OLD";
@@ -244,16 +252,16 @@ namespace Attendance.Forms
             }
         }
 
-        private void txtIPAdd_Validated(object sender, EventArgs e)
+        private void txtShiftCode_Validated(object sender, EventArgs e)
         {
-            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtIPAdd.Text.Trim() == "")
+            if (txtCompCode.Text.Trim() == "" || txtCompName.Text.Trim() == "" || txtShiftCode.Text.Trim() == "")
             {
                 mode = "NEW";
                 return;
             }
 
             DataSet ds = new DataSet();
-            string sql = "select * From  ReaderConfig where CompCode ='" + txtCompCode.Text.Trim() + "' and MachineIP='" + txtIPAdd.Text.Trim() + "'";
+            string sql = "select * From  MastShift where CompCode ='" + txtCompCode.Text.Trim() + "' and ShiftCode ='" + txtShiftCode.Text.Trim() + "'";
             
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -264,40 +272,26 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtCompCode.Text = dr["CompCode"].ToString();
-                    txtIPAdd.Text = dr["MachineIP"].ToString();
-                    txtDescription.Text = dr["MachineDesc"].ToString();
-                    txtMachineNo.Text = dr["MachineNo"].ToString();
-                    txtLocation.Text = dr["Location"].ToString().Trim();
+                    txtShiftCode.Text = dr["ShiftCode"].ToString();
+                    txtDescription.Text = dr["ShiftDesc"].ToString();
+                    
+                    txtShiftStart.EditValue = (TimeSpan)dr["ShiftStart"];
+                    txtShiftEnd.EditValue = (TimeSpan)dr["ShiftEnd"];
+                    txtIN_From.EditValue = (TimeSpan)dr["ShiftInFrom"];
+                    txtIN_To.EditValue = (TimeSpan)dr["ShiftInTo"];
+                    txtOUT_From.EditValue = (TimeSpan)dr["ShiftOutFrom"];
+                    txtOUT_To.EditValue = (TimeSpan)dr["ShiftOutTo"];
 
-                    switch (dr["IOFLG"].ToString().ToUpper().Trim())
-                    {
-                        case  "I" :
-                            txtINOut.Text = "IN";
-                            break;
-                        case "O" :
-                            txtINOut.Text = "OUT";
-                            break;
-                        case "B" :
-                            txtINOut.Text = "BOTH";
-                            break;
-                        default :
-                            txtINOut.Text = "IN";
-                            break;
-                    }
-                    chkActive.CheckState = (Convert.ToBoolean(dr["Active"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkMaster.CheckState = (Convert.ToBoolean(dr["Master"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkRFID.CheckState = (Convert.ToBoolean(dr["RFID"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkFace.CheckState = (Convert.ToBoolean(dr["FACE"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkFinger.CheckState = (Convert.ToBoolean(dr["Finger"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkMessUse.CheckState = (Convert.ToBoolean(dr["CanteenFlg"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkAuto.CheckState = (Convert.ToBoolean(dr["AutoClear"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkGateInOut.CheckState = (Convert.ToBoolean(dr["GateInOut"])) ? CheckState.Checked : CheckState.Unchecked;
-                    chkLunchInOut.CheckState = (Convert.ToBoolean(dr["LunchInOut"])) ? CheckState.Checked : CheckState.Unchecked;
+                    txtShiftHrs.EditValue = dr["ShiftHrs"].ToString();
+                    txtBreakHrs.EditValue = dr["BreakHrs"].ToString();
+                    txtShiftSeq.Text = dr["ShiftSeq"].ToString();
+
+                    chkNight.CheckState = (Convert.ToBoolean(dr["NightFlg"])) ? CheckState.Checked : CheckState.Unchecked;
                     
                     
                     mode = "OLD";
                     txtCompCode_Validated(sender,e);
-                    oldCode = dr["MachineIP"].ToString();
+                    oldCode = dr["ShiftCode"].ToString();
                 }
             }
             else
@@ -305,8 +299,8 @@ namespace Attendance.Forms
                 mode = "NEW";
                 oldCode = "";
             }
-
-            SetRights();
+            
+             SetRights();
         }
 
         private void txtCompCode_Validated(object sender, EventArgs e)
@@ -388,27 +382,40 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     try
                     {
+                        TimeSpan ShiftStart, ShiftEnd, ShiftInFrom, ShiftInTo, ShiftOutFrom, ShiftOutTo;
+
+                        ShiftStart = new TimeSpan(txtShiftStart.Time.Hour, txtShiftStart.Time.Minute, txtShiftStart.Time.Second);
+                        ShiftEnd = new TimeSpan(txtShiftEnd.Time.Hour, txtShiftEnd.Time.Minute, txtShiftEnd.Time.Second);
+                        ShiftInFrom = new TimeSpan(txtIN_From.Time.Hour, txtIN_From.Time.Minute, txtIN_From.Time.Second);
+                        ShiftInTo = new TimeSpan(txtIN_To.Time.Hour, txtIN_To.Time.Minute, txtIN_To.Time.Second);
+                        ShiftOutFrom = new TimeSpan(txtOUT_From.Time.Hour, txtOUT_From.Time.Minute, txtOUT_From.Time.Second);
+                        ShiftOutTo = new TimeSpan(txtOUT_To.Time.Hour, txtOUT_To.Time.Minute, txtOUT_To.Time.Second);
+
+                        
+                        
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into ReaderConfig " +
-                            "(CompCode,MachineIP,MachineDesc,Location,MachineNo,IOFLG," +
-                            " AutoClear,Active,Master,RFID,Finger,FACE," +
-                            " CanteenFlg,LunchInOut,GateInOut," +
+                        string sql = "Insert into MastShift " +
+                            "(CompCode,ShiftCode,ShiftDesc,ShiftSeq,ShiftHrs,BreakHrs," +
+                            " ShiftStart,ShiftEnd,ShiftInFrom,ShiftInTo, " +
+                            " ShiftOutFrom,ShiftOutTo, NightFLG, " +
                             " AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}','{5}'," +
-                            " '{6}','{7}','{8}','{9}','{10}','{11}'," +
-                            " '{12}','{13}','{14}',GetDate(),'{15}')";
-
-                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtIPAdd.Text.Trim().ToString(),
-                            txtDescription.Text.Trim().ToString(),txtLocation.Text.Trim().ToString(),txtMachineNo.Text.Trim().ToString(),txtINOut.Text.ToString().Substring(0,1),
-                            ((chkAuto.Checked)?"1":"0"),((chkActive.Checked)?"1":"0"),((chkMaster.Checked)?"1":"0"),((chkRFID.Checked)?"1":"0"),((chkFinger.Checked)?"1":"0"),((chkFace.Checked)?"1":"0"),
-                            ((chkMessUse.Checked)?"1":"0"),((chkLunchInOut.Checked)?"1":"0"),((chkGateInOut.Checked)?"1":"0"),
-                            Utils.User.GUserID);
+                            " '{6}','{7}','{8}','{9}'," +
+                            " '{10}','{11}','{12}',GetDate(),'{13}')";
+                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtShiftCode.Text.Trim().ToString(),
+                            txtDescription.Text.Trim().ToString(),txtShiftSeq.Text.Trim().ToString(),txtShiftHrs.Text.Trim().ToString(),txtBreakHrs.Text.ToString(),
+                            ShiftStart.ToString(@"hh\:mm\:ss"), ShiftEnd.ToString(@"hh\:mm\:ss"), ShiftInFrom.ToString(@"hh\:mm\:ss"), ShiftInTo.ToString(@"hh\:mm\:ss"),
+                            ShiftOutFrom.ToString(@"hh\:mm\:ss"), ShiftOutTo.ToString(@"hh\:mm\:ss"),
+                            ((chkNight.Checked)?"1":"0"),Utils.User.GUserID
+                            
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -440,21 +447,30 @@ namespace Attendance.Forms
                 {
                     try
                     {
+                        TimeSpan ShiftStart, ShiftEnd, ShiftInFrom, ShiftInTo, ShiftOutFrom, ShiftOutTo;
+
+                        ShiftStart = new TimeSpan(txtShiftStart.Time.Hour, txtShiftStart.Time.Minute, txtShiftStart.Time.Second);
+                        ShiftEnd = new TimeSpan(txtShiftEnd.Time.Hour, txtShiftEnd.Time.Minute, txtShiftEnd.Time.Second);
+                        ShiftInFrom = new TimeSpan(txtIN_From.Time.Hour, txtIN_From.Time.Minute, txtIN_From.Time.Second);
+                        ShiftInTo = new TimeSpan(txtIN_To.Time.Hour, txtIN_To.Time.Minute, txtIN_To.Time.Second);
+                        ShiftOutFrom = new TimeSpan(txtOUT_From.Time.Hour, txtOUT_From.Time.Minute, txtOUT_From.Time.Second);
+                        ShiftOutTo = new TimeSpan(txtOUT_To.Time.Hour, txtOUT_To.Time.Minute, txtOUT_To.Time.Second);
+
+                        
+
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update ReaderConfig Set MachineDesc = '{0}', "
-                            + " Location='{1}',IOFLG ='{2}',MachineNo = '{3}',"
-                            + " RFID ='{4}',FACE='{5}',Finger='{6}',"
-                            + " GateInOut = '{7}',LunchInOut = '{8}', CanteenFlg = '{9}'," 
-                            + " Active = '{10}', Master = '{11}', AutoClear = '{12}',"
-                            + " UpdDt = GetDate(), UpdID = '{13}' Where CompCode = '{14}' and MachineIP = '{15}' ";
+                        string sql = "Update MastShift Set ShiftDesc = '{0}', " +
+                            " ShiftSeq = '{1}',ShiftHrs='{2}',BreakHrs='{3}'," +
+                            " ShiftStart = '{4}',ShiftEnd='{5}',ShiftInFrom='{6}',ShiftInTo='{7}', " +
+                            " ShiftOutFrom ='{8}',ShiftOutTo='{9}', NightFLG ='{10}'," +
+                            " UpdDt = GetDate(), UpdID = '{11}' Where CompCode = '{12}' and ShiftCode = '{13}' ";
 
                         sql = string.Format(sql, txtDescription.Text.Trim(),
-                             txtLocation.Text.Trim().ToString(),txtINOut.Text.ToString().Substring(0,1),txtMachineNo.Text.Trim(),
-                             ((chkRFID.Checked)?"1":"0"), ((chkFace.Checked)?"1":"0"),((chkFinger.Checked)?"1":"0"),
-                             ((chkGateInOut.Checked)?"1":"0"),((chkLunchInOut.Checked)?"1":"0"),((chkMessUse.Checked)?"1":"0"),
-                             ((chkActive.Checked)?"1":"0"),((chkMaster.Checked)?"1":"0"),((chkAuto.Checked)?"1":"0"),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtIPAdd.Text.Trim().ToString()
+                             txtShiftSeq.Text.Trim().ToString(), txtShiftHrs.Text.Trim().ToString(), txtBreakHrs.Text.ToString(),
+                            ShiftStart.ToString(@"hh\:mm\:ss"), ShiftEnd.ToString(@"hh\:mm\:ss"), ShiftInFrom.ToString(@"hh\:mm\:ss"), ShiftInTo.ToString(@"hh\:mm\:ss"),
+                            ShiftOutFrom.ToString(@"hh\:mm\:ss"), ShiftOutTo.ToString(@"hh\:mm\:ss"), ((chkNight.Checked) ? "1" : "0"),
+                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtShiftCode.Text.Trim().ToString()
                            );
 
                         cmd.CommandText = sql;
@@ -485,7 +501,7 @@ namespace Attendance.Forms
             if (string.IsNullOrEmpty(err))
             {
                
-                DialogResult qs = MessageBox.Show("Are You Sure to Delete this machine...?","Question",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                DialogResult qs = MessageBox.Show("Are You Sure to Delete this Shift...?","Question",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
                 if(qs == DialogResult.No){
                     return;
                 }
@@ -497,7 +513,7 @@ namespace Attendance.Forms
                         try
                         {
                             cn.Open();
-                            string sql = "Delete From ReaderConfig where CompCode = '" + txtCompCode.Text.Trim() + "' and MachineIP = '" + txtIPAdd.Text.Trim().ToString() + "'";
+                            string sql = "Delete From MastShift where CompCode = '" + txtCompCode.Text.Trim() + "' and ShiftCode = '" + txtShiftCode.Text.Trim().ToString() + "'";
                             cmd.CommandText = sql;
                             cmd.Connection = cn;
                             cmd.ExecuteNonQuery();
@@ -535,8 +551,8 @@ namespace Attendance.Forms
         private void LoadGrid()
         {
             DataSet ds = new DataSet();
-            string sql = "select CompCode,MachineIP,MachineDesc,MachineNo,IOFLG,AutoClear,RFID,FACE, " +
-                    " Finger,CanteenFLG,LunchInOut,GateInOut,Active,Master from ReaderConfig where DelFlg = 0 Order By MachineNo";
+            string sql = "select CompCode,ShiftCode,ShiftDesc,ShiftSeq,ShiftHrs,BreakHrs,ShiftStart,ShiftEnd, " +
+                    " ShiftInFrom,ShiftInTo,ShiftOutFrom,ShiftOutTo,NightFlg from MastShift where CompCode = '" + txtCompCode.Text.Trim() + "' Order By ShiftSeq ";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
@@ -567,12 +583,14 @@ namespace Attendance.Forms
             GridHitInfo info = view.CalcHitInfo(pt);
             if (info.InRow || info.InRowCell)
             {
-               txtIPAdd.Text = gridView1.GetRowCellValue(info.RowHandle, "MachineIP").ToString();
+               txtShiftCode.Text = gridView1.GetRowCellValue(info.RowHandle, "ShiftCode").ToString();
+               txtCompCode.Text = gridView1.GetRowCellValue(info.RowHandle, "CompCode").ToString();
                 object o = new object();
                 EventArgs e = new EventArgs();                
                 mode = "OLD";
-                oldCode = txtIPAdd.Text.ToString();
-                txtIPAdd_Validated(o, e);
+                oldCode = txtShiftCode.Text.ToString();
+                txtCompCode_Validated(o, e);
+                txtShiftCode_Validated(o, e);
             }
 
             

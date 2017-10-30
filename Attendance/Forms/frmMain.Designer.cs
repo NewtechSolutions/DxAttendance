@@ -222,6 +222,7 @@
             this.mnuMastShift.Name = "mnuMastShift";
             this.mnuMastShift.Size = new System.Drawing.Size(197, 22);
             this.mnuMastShift.Text = "Shift/WrkHrs Config";
+            this.mnuMastShift.Click += new System.EventHandler(this.mnuMastShift_Click);
             // 
             // mnuMastLeave
             // 

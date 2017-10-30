@@ -303,7 +303,7 @@ namespace Attendance.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             ResetCtrl();
-            GRights = "XXXV";
+            GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             SetRights();
         }
 

@@ -398,6 +398,18 @@ namespace Attendance
             }
         }
 
+        private void mnuMastShift_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastShift"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastShift m = new Attendance.Forms.frmMastShift();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
