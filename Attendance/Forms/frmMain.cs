@@ -446,6 +446,30 @@ namespace Attendance
             }
         }
 
+        private void mnuCostCodeManPowerProcess_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastCostCodeProcess"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastCostCodeProcess m = new Attendance.Forms.frmMastCostCodeProcess();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuEmpCostCode_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastCostCodeEmp"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastCostCodeEmp m = new Attendance.Forms.frmMastCostCodeEmp();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

@@ -497,6 +497,7 @@
             this.mnuEmpCostCode.Name = "mnuEmpCostCode";
             this.mnuEmpCostCode.Size = new System.Drawing.Size(289, 22);
             this.mnuEmpCostCode.Text = "Update Employee CostCode";
+            this.mnuEmpCostCode.Click += new System.EventHandler(this.mnuEmpCostCode_Click);
             // 
             // mnuEmpCostCodeBulk
             // 
@@ -515,6 +516,7 @@
             this.mnuCostCodeManPowerProcess.Name = "mnuCostCodeManPowerProcess";
             this.mnuCostCodeManPowerProcess.Size = new System.Drawing.Size(289, 22);
             this.mnuCostCodeManPowerProcess.Text = "CostCenter Manpower Report Process";
+            this.mnuCostCodeManPowerProcess.Click += new System.EventHandler(this.mnuCostCodeManPowerProcess_Click);
             // 
             // mnuCostCodeManPowerUpdate
             // 
