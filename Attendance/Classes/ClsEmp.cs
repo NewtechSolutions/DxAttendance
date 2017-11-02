@@ -598,7 +598,7 @@ namespace Attendance.Classes
         
         }
         
-        private void GetCostDesc(string tCostCode)
+        public void GetCostDesc(string tCostCode)
         {
 
             DataSet ds = new DataSet();

@@ -504,6 +504,7 @@
             this.mnuEmpCostCodeBulk.Name = "mnuEmpCostCodeBulk";
             this.mnuEmpCostCodeBulk.Size = new System.Drawing.Size(289, 22);
             this.mnuEmpCostCodeBulk.Text = "Bulk Update Employee CostCode";
+            this.mnuEmpCostCodeBulk.Click += new System.EventHandler(this.mnuEmpCostCodeBulk_Click);
             // 
             // mnuCostCodeSanManPower
             // 

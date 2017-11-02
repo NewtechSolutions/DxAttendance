@@ -482,6 +482,18 @@ namespace Attendance
             }
         }
 
+        private void mnuEmpCostCodeBulk_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkCostCodeUpdate"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkCostCodeUpdate m = new Attendance.Forms.frmBulkCostCodeUpdate();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

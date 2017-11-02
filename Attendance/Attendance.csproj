@@ -83,6 +83,12 @@
     <Compile Include="CustomControls\ctrlEmp.Designer.cs">
       <DependentUpon>ctrlEmp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmBulkCostCodeUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBulkCostCodeUpdate.designer.cs">
+      <DependentUpon>frmBulkCostCodeUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastCostCodeSanManPower.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -267,6 +273,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControls\ctrlEmp.resx">
       <DependentUpon>ctrlEmp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBulkCostCodeUpdate.resx">
+      <DependentUpon>frmBulkCostCodeUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastCostCodeSanManPower.resx">
       <DependentUpon>frmMastCostCodeSanManPower.cs</DependentUpon>
