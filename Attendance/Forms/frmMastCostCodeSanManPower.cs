@@ -10,75 +10,32 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-    public partial class frmMastCostCodeEmp : Form
+    public partial class frmMastCostCodeSanManPower : Form
     {
         public string mode = "NEW";
         public string GRights = "XXXV";
         public string oldCode = "";
 
-        public frmMastCostCodeEmp()
+        public frmMastCostCodeSanManPower()
         {
             InitializeComponent();
-            this.ctrlEmp1.EmpUnqIDValidated += new EventHandler(this.ctrlEmpValidateEvent_Handler);
-            //this.ctrlEmp1.CompCodeValidated += new EventHandler(this.ctrlCompValidateEvent_Handler);
         }
 
-        private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
-        {
-            if (!ctrlEmp1.cEmp.Active)
-            {
-                grid.DataSource = null;
-            }
-            else
-            {
-                LoadGrid();
-            } 
-        }
-
-        //private void ctrlCompValidateEvent_Handler(object sender, EventArgs e)
-        //{
-        //    if (string.IsNullOrEmpty(ctrlEmp1.txtCompCode.Text.Trim()))
-        //        return;
-            
-
-        //}
-
-        private void frmMastCostCode_Load(object sender, EventArgs e)
+        private void frmMastCostCodeSanManPower_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             SetRights();
-                       
+            
+            
         }
 
         private string DataValidate()
         {
             string err = string.Empty;
-
-            if (string.IsNullOrEmpty(ctrlEmp1.txtCompCode.Text.Trim().ToString()))
-            {
-                err = err + "Please Enter CompCode..." + Environment.NewLine;
-            }
-            
-            if (string.IsNullOrEmpty(ctrlEmp1.txtEmpUnqID.Text.Trim().ToString()))
-            {
-                err = err + "Please Enter EmpUnqID..." + Environment.NewLine;
-            }
-
-            if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid )
-            {
-                err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
-            }
-
-
-            if (string.IsNullOrEmpty(ctrlEmp1.cEmp.CompDesc.Trim().ToString()))
-            {
-                err = err + "Invalid CompCode..." + Environment.NewLine;
-            }
 
             if (string.IsNullOrEmpty(txtCostCode.Text))
             {
@@ -89,24 +46,50 @@ namespace Attendance.Forms
             {
                 err = err + "Please Enter Description..." + Environment.NewLine;
             }
-            
+
             if (txtValidFrom.EditValue == null)
             {
-                err = err + "Please Enter Valid From Date..." + Environment.NewLine;
+                err = err + "Please Enter Valid From..." + Environment.NewLine;
             }
-            
 
-            string sql = "Select max(ValidFrom) From MastCostCodeEmp where EmpUnqId = '" + ctrlEmp1.cEmp.EmpUnqID + "' " +
+            if (string.IsNullOrEmpty(txtCompEmp.Text))
+            {
+                err = err + "Please Enter Nos of Comp On Roll Employee..." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtContEmp.Text))
+            {
+                err = err + "Please Enter Nos of Cont On Roll Employee..." + Environment.NewLine;
+            }
+
+
+            int t = 0;
+
+            if(int.TryParse(txtCompEmp.Text.Trim(),out t))
+            {
+                if(t <0 ){
+                    err = err + "Please Enter Nos of Comp On Roll Employee..." + Environment.NewLine;
+                }
+            }
+
+
+            if(int.TryParse(txtContEmp.Text.Trim(),out t))
+            {
+                if(t <0 ){
+                    err = err + "Please Enter Nos of Contractual Employee..." + Environment.NewLine;
+                }
+            }
+
+            string sql = "Select max(ValidFrom) From MastCostCodeSanctionManPower where CostCode = '" + txtCostCode.Text.Trim().ToString() + "' " +
                 " and ValidFrom > '" + txtValidFrom.DateTime.ToString("yyyy-MM-dd") + "'";
 
-            string tMaxDt = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
-    
-            if(!string.IsNullOrEmpty(tMaxDt))
+            string tMaxDt = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+
+            if (!string.IsNullOrEmpty(tMaxDt))
             {
                 err = err + "System Does not Allow to insert/update/delete between...." + Environment.NewLine;
             }
-
-
+            
             return err;
         }
 
@@ -116,11 +99,18 @@ namespace Attendance.Forms
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
 
-            ctrlEmp1.ResetCtrl();
-            txtCostCode.Text = "";
-            txtDescription.Text = "";
-            grid.DataSource = null;
+            
+            object s = new object();
+            EventArgs e = new EventArgs();
+            //txtCostCode.Text = "";
+            //txtDescription.Text = "";
+            txtValidFrom.EditValue = null;
+            txtContEmp.EditValue = 0;
+            txtCompEmp.EditValue = 0;
             txtCostCode.Enabled = true;
+            txtValidFrom.Enabled = true;
+
+            grid.DataSource = null;
             oldCode = "";
             mode = "NEW";
         }
@@ -169,11 +159,10 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtCostCode.Text = dr["CostCode"].ToString();
-                    txtDescription.Text = dr["CostDesc"].ToString();
-                   
+                    txtDescription.Text = dr["CostDesc"].ToString();                    
+                    LoadGrid();
                 }
             }
-            
         }
 
         private void txtCostCode_KeyDown(object sender, KeyEventArgs e)
@@ -217,7 +206,7 @@ namespace Attendance.Forms
 
                     txtCostCode.Text = obj.ElementAt(0).ToString();
                     txtDescription.Text = obj.ElementAt(1).ToString();
-                    mode = "OLD";
+                   
                 }
             }
         }
@@ -238,9 +227,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
-                        sql = string.Format(sql, ctrlEmp1.txtEmpUnqID.Text.Trim(), txtCostCode.Text.Trim().ToString().ToUpper(),
+                        string sql = "Insert into MastCostCodeSanctionManPower (CostCode,ValidFrom,CompEmp,ContEmp,AddDt,AddID) "
+                        + " Values ('{0}','{1}','{2}','{3}',GetDate(),'{4}')";
+                        sql = string.Format(sql, txtCostCode.Text.Trim().ToString().ToUpper(),
                             txtValidFrom.DateTime.ToString("yyyy-MM-dd"),
+                            txtCompEmp.EditValue,txtContEmp.EditValue,
                             Utils.User.GUserID);
 
                         cmd.CommandText = sql;
@@ -269,36 +260,39 @@ namespace Attendance.Forms
                 return;
             }
 
-            MessageBox.Show("Not Allowed....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);           
+            //MessageBox.Show("Not Implemented....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);           
 
-            //using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-            //{
-            //    using (SqlCommand cmd = new SqlCommand())
-            //    {
-            //        try
-            //        {
-            //            cn.Open();
-            //            cmd.Connection = cn;
-            //            string sql = "Update MastCostCode set CostDesc = '{0}',UpdDt = GetDate(),UpdID ='{1}' where CostCode = '{2}'";
-            //            sql = string.Format(sql, txtDescription.Text.Trim().ToString(),
-            //                Utils.User.GUserID,
-            //                txtCostCode.Text.Trim().ToString().ToUpper()
-            //                );
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    try
+                    {
+                        cn.Open();
+                        cmd.Connection = cn;
+                        string sql = "Update MastCostCodeSanctionManPower set "
+                        + " CompEmp = '{0}', ContEmp = '{1}',   UpdDt = GetDate(),UpdID ='{2}' where CostCode = '{3}' " 
+                        + " and ValidFrom ='{4}'" ;
+                        sql = string.Format(sql, txtCompEmp.EditValue, txtContEmp.EditValue,
+                            Utils.User.GUserID,
+                            txtCostCode.Text.Trim().ToString().ToUpper(),
+                            txtValidFrom.DateTime.ToString("yyyy-MM-dd")
+                            );
 
-            //            cmd.CommandText = sql;
-            //            cmd.ExecuteNonQuery();
-            //            MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            ResetCtrl();
-            //            LoadGrid();
-            //            return;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ResetCtrl();
+                        LoadGrid();
+                        return;
 
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //    }
-            //}
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
 
         }
 
@@ -328,40 +322,14 @@ namespace Attendance.Forms
                         try
                         {
                             cn.Open();
-                            string sql = "Delete From MastCostCodeEmp where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "' and  CostCode = '" + txtCostCode.Text.Trim() + "' ";
+                            string sql = "Delete From MastCostCodeSanctionManPower " 
+                            + " where CostCode = '" + txtCostCode.Text.Trim() + "' "
+                            + " and ValidFrom ='" + Convert.ToDateTime(txtValidFrom.EditValue).ToString("yyyy-MM-dd") + "'";
                                 
-                            cmd.CommandType = CommandType.Text;
                             cmd.CommandText = sql;
                             cmd.Connection = cn;
                             cmd.ExecuteNonQuery();
-                                                       
-                            
-                            string tMaxDt = Utils.Helper.GetDescription("Select isnull(Convert(varchar(10),max(ValidFrom),121),'') From MastCostCodeEmp where EmpUnqId = '" + ctrlEmp1.cEmp.EmpUnqID + "'",Utils.Helper.constr);
-                            
-                            if(tMaxDt == ""){
 
-                                sql = "Update EmpMast Set CostCode = '' where EmpUnqID ='"  + ctrlEmp1.cEmp.EmpUnqID + "'";
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
-
-                                sql = "Update AttdData Set CostCode='' where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "'";
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
-                            } 
-                            else
-                            {
-                                string tCostCode = Utils.Helper.GetDescription("Select CostCode from MastCostCodeEmp where EmpUnqId = '" +  ctrlEmp1.cEmp.EmpUnqID + "' and ValidFrom ='" + tMaxDt + "'", Utils.Helper.constr);
-                                sql = "Update EmpMast Set CostCode = '' where EmpUnqID ='"  + ctrlEmp1.cEmp.EmpUnqID + "'";
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
-
-                                sql = "Update AttdData Set CostCode='' where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "' and CompCode ='" + ctrlEmp1.cEmp.CompCode + "' " 
-                                    + " and tDate >='" + tMaxDt + "'";
-                                cmd.CommandText = sql; 
-                                cmd.ExecuteNonQuery();
-
-                            }
-                            
 
                             MessageBox.Show("Record Deleted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             ResetCtrl();
@@ -394,10 +362,8 @@ namespace Attendance.Forms
         private void LoadGrid()
         {
             DataSet ds = new DataSet();
-            string sql = "select a.EmpUnqID,a.CostCode,a.ValidFrom,b.CostDesc " 
-            + " From  MastCostCodeEmp a, MastCostCode b " 
-            + " where a.EmpUnqID = '" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "' "
-            + " and a.CostCode = b.CostCode ";
+            string sql = "Select CostCode,ValidFrom,CompEmp,ContEmp From MastCostCodeSanctionManPower where " 
+            + " CostCode ='" + txtCostCode.Text.Trim().ToString() + "'";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
@@ -428,13 +394,14 @@ namespace Attendance.Forms
             if (info.InRow || info.InRowCell)
             {
                 txtCostCode.Text = gridView1.GetRowCellValue(info.RowHandle, "CostCode").ToString();
-                txtValidFrom.EditValue = gridView1.GetRowCellValue(info.RowHandle, "ValidFrom");
+                txtValidFrom.EditValue = gridView1.GetRowCellValue(info.RowHandle, "ValidFrom").ToString();
+
                 object o = new object();
                 EventArgs e = new EventArgs();                
                 mode = "OLD";
-                oldCode = txtCostCode.Text.ToString();
-                txtCostCode_Validated(o, e);
+                oldCode = Convert.ToDateTime(txtValidFrom.EditValue).ToString("yyyy-MM-dd");
                 txtValidFrom_EditValueChanged(o, e);
+                
             }
 
 
@@ -442,17 +409,15 @@ namespace Attendance.Forms
 
         private void txtValidFrom_EditValueChanged(object sender, EventArgs e)
         {
-            if (ctrlEmp1.cEmp.CompCode == "" || ctrlEmp1.cEmp.CompDesc == "" || ctrlEmp1.cEmp.EmpUnqID == "" 
-                || ctrlEmp1.cEmp.EmpName == "" || txtValidFrom.EditValue == null)
+            if (txtValidFrom.EditValue == null || txtCostCode.Text.Trim().ToString() == "")
             {
                 return;
             }
 
-            
+
             DataSet ds = new DataSet();
-            string sql = "select * From MastCostCodeEmp where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "' " +
+            string sql = "select * From MastCostCodeSanctionManPower where CostCode ='" + txtCostCode.Text.Trim().ToString() + "' " +
                     " and ValidFrom ='" + txtValidFrom.DateTime.ToString("yyyy-MM-dd") + "' ";
-                    
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -463,16 +428,20 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtCostCode.Text = dr["CostCode"].ToString();
+                    txtCompEmp.Text = dr["CompEmp"].ToString();
+                    txtContEmp.Text = dr["ContEmp"].ToString();
                     txtCostCode_Validated(sender, e);
                     mode = "OLD";
-                    oldCode = dr["CostCode"].ToString();
+                    oldCode = Convert.ToDateTime(dr["ValidFrom"]).ToString("yyyy-MM-dd");
                     txtCostCode.Enabled = false;
+                    txtValidFrom.Enabled = false;
                 }
             }
             else
             {
                 mode = "NEW";
                 txtCostCode.Enabled = true;
+                txtValidFrom.Enabled = true;
             }
 
             SetRights();

@@ -470,6 +470,18 @@ namespace Attendance
             }
         }
 
+        private void mnuCostCodeSanManPower_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastCostCodeSanManPower"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastCostCodeSanManPower m = new Attendance.Forms.frmMastCostCodeSanManPower();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

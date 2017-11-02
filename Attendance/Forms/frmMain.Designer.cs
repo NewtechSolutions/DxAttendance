@@ -510,6 +510,7 @@
             this.mnuCostCodeSanManPower.Name = "mnuCostCodeSanManPower";
             this.mnuCostCodeSanManPower.Size = new System.Drawing.Size(289, 22);
             this.mnuCostCodeSanManPower.Text = "CostCenter wise Sanc. Manpower Master";
+            this.mnuCostCodeSanManPower.Click += new System.EventHandler(this.mnuCostCodeSanManPower_Click);
             // 
             // mnuCostCodeManPowerProcess
             // 
