@@ -336,6 +336,7 @@
             this.mnuMastStat.Name = "mnuMastStat";
             this.mnuMastStat.Size = new System.Drawing.Size(193, 22);
             this.mnuMastStat.Text = "Station Master";
+            this.mnuMastStat.Click += new System.EventHandler(this.mnuMastStat_Click);
             // 
             // mnuMastDesg
             // 
@@ -376,6 +377,7 @@
             this.mnuCreateMuster.Name = "mnuCreateMuster";
             this.mnuCreateMuster.Size = new System.Drawing.Size(193, 22);
             this.mnuCreateMuster.Text = "Create Muster Table";
+            this.mnuCreateMuster.Click += new System.EventHandler(this.mnuCreateMuster_Click);
             // 
             // mnuMastRules
             // 
