@@ -494,6 +494,18 @@ namespace Attendance
             }
         }
 
+        private void mnuValidityMass_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmValidityExtend"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmValidityExtend m = new Attendance.Forms.frmValidityExtend();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

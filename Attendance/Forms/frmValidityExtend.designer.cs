@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmBulkCostCodeUpdate
+    partial class frmValidityExtend
     {
         /// <summary>
         /// Required designer variable.
@@ -33,8 +33,8 @@
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.CostCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ValidFrom = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ValidTo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnExport = new System.Windows.Forms.Button();
@@ -94,8 +94,8 @@
             // 
             this.grd_view1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.EmpUnqID,
-            this.CostCode,
             this.ValidFrom,
+            this.ValidTo,
             this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
@@ -132,31 +132,36 @@
             this.EmpUnqID.Caption = "EmpUnqID";
             this.EmpUnqID.FieldName = "EmpUnqID";
             this.EmpUnqID.Name = "EmpUnqID";
+            this.EmpUnqID.OptionsColumn.ReadOnly = true;
             this.EmpUnqID.Visible = true;
             this.EmpUnqID.VisibleIndex = 0;
-            // 
-            // CostCode
-            // 
-            this.CostCode.Caption = "CostCode";
-            this.CostCode.FieldName = "CostCode";
-            this.CostCode.Name = "CostCode";
-            this.CostCode.Visible = true;
-            this.CostCode.VisibleIndex = 1;
             // 
             // ValidFrom
             // 
             this.ValidFrom.Caption = "ValidFrom";
             this.ValidFrom.FieldName = "ValidFrom";
             this.ValidFrom.Name = "ValidFrom";
+            this.ValidFrom.OptionsColumn.ReadOnly = true;
             this.ValidFrom.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
             this.ValidFrom.Visible = true;
-            this.ValidFrom.VisibleIndex = 2;
+            this.ValidFrom.VisibleIndex = 1;
+            // 
+            // ValidTo
+            // 
+            this.ValidTo.Caption = "ValidTo";
+            this.ValidTo.FieldName = "ValidTo";
+            this.ValidTo.Name = "ValidTo";
+            this.ValidTo.OptionsColumn.ReadOnly = true;
+            this.ValidTo.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
+            this.ValidTo.Visible = true;
+            this.ValidTo.VisibleIndex = 2;
             // 
             // Remarks
             // 
             this.Remarks.Caption = "Remarks";
             this.Remarks.FieldName = "Remarks";
             this.Remarks.Name = "Remarks";
+            this.Remarks.OptionsColumn.ReadOnly = true;
             this.Remarks.Visible = true;
             this.Remarks.VisibleIndex = 3;
             // 
@@ -223,7 +228,7 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
-            // frmBulkCostCodeUpdate
+            // frmValidityExtend
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Appearance.Options.UseFont = true;
@@ -232,9 +237,9 @@
             this.ClientSize = new System.Drawing.Size(945, 602);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "frmBulkCostCodeUpdate";
-            this.Text = "Bulk Upload : Employee Cost Code";
-            this.Load += new System.EventHandler(this.frmBulkCostCodeUpdate_Load);
+            this.Name = "frmValidityExtend";
+            this.Text = "Bulk Upload : Employee Validity";
+            this.Load += new System.EventHandler(this.frmValidityExtend_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -258,10 +263,10 @@
         private System.Windows.Forms.TextBox txtBrowse;
         private DevExpress.XtraGrid.GridControl grd_view;
         private DevExpress.XtraGrid.Views.Grid.GridView grd_view1;
-        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
-        private DevExpress.XtraGrid.Columns.GridColumn CostCode;
-        private DevExpress.XtraGrid.Columns.GridColumn ValidFrom;
-        private DevExpress.XtraGrid.Columns.GridColumn Remarks;
         private System.Windows.Forms.Button btnExport;
+        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
+        private DevExpress.XtraGrid.Columns.GridColumn ValidFrom;
+        private DevExpress.XtraGrid.Columns.GridColumn ValidTo;
+        private DevExpress.XtraGrid.Columns.GridColumn Remarks;
     }
 }

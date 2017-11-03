@@ -83,6 +83,12 @@
     <Compile Include="CustomControls\ctrlEmp.Designer.cs">
       <DependentUpon>ctrlEmp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmValidityExtend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmValidityExtend.designer.cs">
+      <DependentUpon>frmValidityExtend.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBulkCostCodeUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +279,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControls\ctrlEmp.resx">
       <DependentUpon>ctrlEmp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmValidityExtend.resx">
+      <DependentUpon>frmValidityExtend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkCostCodeUpdate.resx">
       <DependentUpon>frmBulkCostCodeUpdate.cs</DependentUpon>

@@ -426,6 +426,7 @@
             this.mnuValidityMass.Name = "mnuValidityMass";
             this.mnuValidityMass.Size = new System.Drawing.Size(184, 22);
             this.mnuValidityMass.Text = "Mass Validity Update";
+            this.mnuValidityMass.Click += new System.EventHandler(this.mnuValidityMass_Click);
             // 
             // mnuMisConduct
             // 

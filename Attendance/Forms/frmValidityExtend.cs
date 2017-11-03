@@ -16,19 +16,17 @@ using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-    public partial class frmBulkCostCodeUpdate : DevExpress.XtraEditors.XtraForm
-    {
+    public partial class frmValidityExtend : DevExpress.XtraEditors.XtraForm
+    {       
         public string GRights = "XXXV";
 
         DataTable dt = new DataTable();
 
-        public frmBulkCostCodeUpdate()
+        public frmValidityExtend()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
-        
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog openKeywordsFileDialog = new OpenFileDialog();
@@ -74,7 +72,7 @@ namespace Attendance.Forms
             return;
         }
 
-        private string DataValidate(string tEmpUnqID,string tCostCode,DateTime tValidFrom)
+        private string DataValidate(string tEmpUnqID, DateTime tValidFrom, DateTime tValidTo)
         {
             string err = string.Empty;
             clsEmp t = new clsEmp();
@@ -84,37 +82,53 @@ namespace Attendance.Forms
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
             }
-
-            t.CostCode = tCostCode;
-            t.GetCostDesc(tCostCode);
-            if (string.IsNullOrEmpty(t.CostDesc))
+            else
             {
-                err = err + "Invalid CostCode..." + Environment.NewLine;
+                if (!t.Active)
+                {
+                    err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+                }
             }
-
-            
+            if (t.WrkGrp == "COMP")
+            {
+                err = err + "System Does Not Allowed for Company Onroll Employee..." + Environment.NewLine;
+                return err;
+            }
 
             if (tValidFrom == DateTime.MinValue)
             {
                 err = err + "Please Enter Valid From Date..." + Environment.NewLine;
                 return err;
             }
+            
 
-
-            string sql = "Select max(ValidFrom) From MastCostCodeEmp where EmpUnqId = '" + t.EmpUnqID + "' " +
-                " and ValidFrom > '" + tValidFrom.ToString("yyyy-MM-dd") + "'";
-
-            string tMaxDt = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
-            if (!string.IsNullOrEmpty(tMaxDt))
+            if (tValidTo == DateTime.MinValue)
             {
-                err = err + "System Does not Allow to insert/update/delete between...." + Environment.NewLine;
+                err = err + "Please Enter Valid To Date..." + Environment.NewLine;
+                return err;
+            }
+
+            if (tValidFrom > tValidTo)
+            {
+                err = err + "Valid From Date must be less than Valid To Date..." + Environment.NewLine;
+                return err;
             }
 
 
+            if (tValidFrom < t.JoinDt)
+            {
+                err = err + "Valid From Date must be grator than Join Date..." + Environment.NewLine;
+                return err;
+            }
+
+            if (tValidTo < t.JoinDt)
+            {
+                err = err + "Valid To Date must be grator than Join Date..." + Environment.NewLine;
+                return err;
+            }
+
             return err;
         }
-
 
         private void btnImport_Click(object sender, EventArgs e)
         {
@@ -125,14 +139,11 @@ namespace Attendance.Forms
             DataTable sortedDT = new DataTable();
             try
             {
-                
-
                 foreach (GridColumn column in grd_view1.VisibleColumns)
                 {
                     if (column.FieldName != string.Empty)
                         dtMaterial.Columns.Add(column.FieldName, column.ColumnType);
                 }
-
 
                 for (int i = 0; i < grd_view1.DataRowCount; i++)
                 {
@@ -151,25 +162,23 @@ namespace Attendance.Forms
 
                 using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
                 {
-                    DateTime tdt;
-
                     con.Open();
                     foreach (DataRow dr in sortedDT.Rows)
                     {
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
-                        string tCostCode = dr["CostCode"].ToString();
-
+                        DateTime fromdt, toDt;
                         try
                         {
-                            tdt = Convert.ToDateTime(dr["ValidFrom"]);
+                            fromdt = Convert.ToDateTime(dr["ValidFrom"]);
+                            toDt = Convert.ToDateTime(dr["ValidTo"]);
                         }
                         catch (Exception ex)
                         {
-                            dr["Remarks"] = "Date Conversion Faild...";
-                            continue; 
+                            dr["Remarks"] = "Date Conversion Faild..";
+                            continue;
                         }
                         
-                        string err = DataValidate(tEmpUnqID, tCostCode, tdt);
+                        string err = DataValidate(tEmpUnqID, fromdt,toDt);
 
                         if (!string.IsNullOrEmpty(err))
                         {
@@ -177,19 +186,19 @@ namespace Attendance.Forms
                             continue; 
                         }
 
-
                         using (SqlCommand cmd = new SqlCommand())
                         {
-
-
                             try
                             {
                                 
                                 cmd.Connection = con;
-                                string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
-                                sql = string.Format(sql, tEmpUnqID, tCostCode.ToUpper(),
-                                    tdt.ToString("yyyy-MM-dd"),
-                                    Utils.User.GUserID);
+                                string sql = "UpDate MastEmp set ValidFrom = '{0}',ValidTo = '{1}',UpdDt = GetDate(),UpdID = '{2}' where EmpUnqID = '{3}'";
+                                sql = string.Format(sql, 
+                                    fromdt.ToString("yyyy-MM-dd"),
+                                    toDt.ToString("yyyy-MM-dd"),
+                                    Utils.User.GUserID,
+                                    tEmpUnqID
+                                    );
 
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
@@ -198,11 +207,9 @@ namespace Attendance.Forms
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                dr["remarks"] = ex.ToString();
                                 continue;
                             }
-                            
-                            
                         }
                     }
 
@@ -210,7 +217,7 @@ namespace Attendance.Forms
                 }
 
                 Cursor.Current = Cursors.Default;
-                MessageBox.Show("file uploaded Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("file processed Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex) { MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             DataSet ds = new DataSet();
@@ -241,8 +248,6 @@ namespace Attendance.Forms
                 btnImport.Enabled = false;
             }
 
-            
-
             Cursor.Current = Cursors.WaitCursor;
             grd_view.DataSource = null;
             string filePath = txtBrowse.Text.ToString();
@@ -257,7 +262,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,CostCode,ValidFrom,'' as Remarks from " + sheetname;
+                string myexceldataquery = "select EmpUnqID,ValidFrom,ValidTo,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
@@ -275,8 +280,6 @@ namespace Attendance.Forms
             DataView dv = dt.DefaultView;
             dv.Sort = "EmpUnqID asc";
             DataTable sortedDT = dv.ToTable();
-
-
 
 
             grd_view.DataSource = sortedDT;
@@ -349,7 +352,7 @@ namespace Attendance.Forms
             }
         }
 
-        private void frmBulkCostCodeUpdate_Load(object sender, EventArgs e)
+        private void frmValidityExtend_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             grd_view.DataSource = null;
