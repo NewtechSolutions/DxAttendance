@@ -279,18 +279,21 @@
             this.mnuUserSpRights.Name = "mnuUserSpRights";
             this.mnuUserSpRights.Size = new System.Drawing.Size(205, 22);
             this.mnuUserSpRights.Text = "User WorkGrp Rights";
+            this.mnuUserSpRights.Click += new System.EventHandler(this.mnuUserSpRights_Click);
             // 
             // mnuUserDSRights
             // 
             this.mnuUserDSRights.Name = "mnuUserDSRights";
             this.mnuUserDSRights.Size = new System.Drawing.Size(205, 22);
             this.mnuUserDSRights.Text = "User Dept/Section Rights";
+            this.mnuUserDSRights.Click += new System.EventHandler(this.mnuUserDSRights_Click);
             // 
             // mnuUserEmpRights
             // 
             this.mnuUserEmpRights.Name = "mnuUserEmpRights";
             this.mnuUserEmpRights.Size = new System.Drawing.Size(205, 22);
             this.mnuUserEmpRights.Text = "User Emp Rights";
+            this.mnuUserEmpRights.Click += new System.EventHandler(this.mnuUserEmpRights_Click);
             // 
             // mnuProfile
             // 

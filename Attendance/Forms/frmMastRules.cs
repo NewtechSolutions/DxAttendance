@@ -224,7 +224,7 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Insert into AttdRules " +
                             "(RuleID,WrkGrp,Rules,RuleRepl,AddDt,AddID) " +
-                            " Values ('{0}','{1}','{2}','{3}',GateDate(),'{4}')";
+                            " Values ('{0}','{1}','{2}','{3}',GetDate(),'{4}')";
 
                         sql = string.Format(sql,txtRuleID.Text.Trim().ToString(),txtWrkGrpCode.Text.Trim(),
                             txtRules.Text.Trim().ToString(),txtRuleRepl.Text.Trim().ToString(),

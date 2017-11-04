@@ -530,6 +530,27 @@ namespace Attendance
             }
         }
 
+        private void mnuUserSpRights_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmUserSpRights"];
+            if (t == null)
+            {
+                Attendance.Forms.frmUserSpRights m = new Attendance.Forms.frmUserSpRights();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuUserDSRights_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void mnuUserEmpRights_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         
 
     }
