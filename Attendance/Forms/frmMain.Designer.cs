@@ -374,6 +374,7 @@
             this.mnuAutoMail.Name = "mnuAutoMail";
             this.mnuAutoMail.Size = new System.Drawing.Size(193, 22);
             this.mnuAutoMail.Text = "AutoMail SubScription";
+            this.mnuAutoMail.Click += new System.EventHandler(this.mnuAutoMail_Click);
             // 
             // mnuCreateMuster
             // 

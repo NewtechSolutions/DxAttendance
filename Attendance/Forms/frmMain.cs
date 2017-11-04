@@ -551,6 +551,17 @@ namespace Attendance
             MessageBox.Show("Not Implemented....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void mnuAutoMail_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmAutoMailSubScription"];
+            if (t == null)
+            {
+                Attendance.Forms.frmAutoMailSubScription m = new Attendance.Forms.frmAutoMailSubScription();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
