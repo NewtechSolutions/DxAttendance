@@ -31,6 +31,8 @@
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtContCode1 = new DevExpress.XtraEditors.TextEdit();
             this.label15 = new System.Windows.Forms.Label();
             this.txtEmpTypeDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtEmpType = new DevExpress.XtraEditors.TextEdit();
@@ -100,12 +102,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtMessGrpDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtMessGrpCode = new DevExpress.XtraEditors.TextEdit();
-            this.label25 = new System.Windows.Forms.Label();
-            this.txtContCode1 = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtContCode1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEmpTypeDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEmpType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).BeginInit();
@@ -156,7 +157,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtBirthDT.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMessGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMessGrpCode.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtContCode1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // txtWrkGrpCode
@@ -228,6 +228,27 @@
             this.xtraTabPage1.Name = "xtraTabPage1";
             this.xtraTabPage1.Size = new System.Drawing.Size(921, 137);
             this.xtraTabPage1.Text = "Basic Info";
+            // 
+            // label25
+            // 
+            this.label25.Location = new System.Drawing.Point(743, 35);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(71, 18);
+            this.label25.TabIndex = 99;
+            this.label25.Text = "ContCode :";
+            // 
+            // txtContCode1
+            // 
+            this.txtContCode1.Location = new System.Drawing.Point(820, 33);
+            this.txtContCode1.Name = "txtContCode1";
+            this.txtContCode1.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtContCode1.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtContCode1.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtContCode1.Properties.Mask.EditMask = "[0-9]+";
+            this.txtContCode1.Properties.ReadOnly = true;
+            this.txtContCode1.Size = new System.Drawing.Size(90, 20);
+            this.txtContCode1.TabIndex = 98;
+            this.txtContCode1.TabStop = false;
             // 
             // label15
             // 
@@ -1047,27 +1068,6 @@
             this.txtMessGrpCode.Size = new System.Drawing.Size(57, 20);
             this.txtMessGrpCode.TabIndex = 2;
             // 
-            // label25
-            // 
-            this.label25.Location = new System.Drawing.Point(743, 35);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(71, 18);
-            this.label25.TabIndex = 99;
-            this.label25.Text = "ContCode :";
-            // 
-            // txtContCode1
-            // 
-            this.txtContCode1.Location = new System.Drawing.Point(820, 33);
-            this.txtContCode1.Name = "txtContCode1";
-            this.txtContCode1.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtContCode1.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtContCode1.Properties.AppearanceReadOnly.Options.UseBackColor = true;
-            this.txtContCode1.Properties.Mask.EditMask = "[0-9]+";
-            this.txtContCode1.Properties.ReadOnly = true;
-            this.txtContCode1.Size = new System.Drawing.Size(90, 20);
-            this.txtContCode1.TabIndex = 98;
-            this.txtContCode1.TabStop = false;
-            // 
             // ctrlEmp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1082,6 +1082,7 @@
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
             this.xtraTabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtContCode1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEmpTypeDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEmpType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).EndInit();
@@ -1133,14 +1134,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtBirthDT.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMessGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMessGrpCode.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtContCode1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private DevExpress.XtraEditors.TextEdit txtWrkGrpCode;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
@@ -1159,30 +1158,22 @@
         private System.Windows.Forms.Label label14;
         private DevExpress.XtraEditors.TextEdit txtCatDesc;
         private DevExpress.XtraEditors.CheckEdit chkComp;
-        private DevExpress.XtraEditors.TextEdit txtCatCode;
         private System.Windows.Forms.Label label12;
-        private DevExpress.XtraEditors.TextEdit txtEmpCode;
         private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.TextEdit txtGradeDesc;
-        private DevExpress.XtraEditors.TextEdit txtGradeCode;
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.TextEdit txtDesgDesc;
-        private DevExpress.XtraEditors.TextEdit txtDesgCode;
         private System.Windows.Forms.Label label11;
         private DevExpress.XtraEditors.TextEdit txtStatDesc;
-        private DevExpress.XtraEditors.TextEdit txtStatCode;
         private System.Windows.Forms.Label label10;
         private DevExpress.XtraEditors.TextEdit txtUnitDesc;
-        private DevExpress.XtraEditors.TextEdit txtUnitCode;
         private System.Windows.Forms.Label label9;
         private DevExpress.XtraEditors.TextEdit txtDeptDesc;
-        private DevExpress.XtraEditors.TextEdit txtDeptCode;
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraEditors.TextEdit txtMessGrpDesc;
         private DevExpress.XtraEditors.TextEdit txtMessGrpCode;
         private System.Windows.Forms.Label label15;
         private DevExpress.XtraEditors.TextEdit txtEmpTypeDesc;
-        private DevExpress.XtraEditors.TextEdit txtEmpType;
         private DevExpress.XtraEditors.TextEdit txtCostDesc;
         private System.Windows.Forms.Label label16;
         private DevExpress.XtraEditors.TextEdit txtCostCode;
@@ -1213,6 +1204,15 @@
         public DevExpress.XtraEditors.TextEdit txtCompCode;
         public DevExpress.XtraEditors.TextEdit txtEmpUnqID;
         private System.Windows.Forms.Label label25;
-        private DevExpress.XtraEditors.TextEdit txtContCode1;
+        public DevExpress.XtraEditors.TextEdit txtWrkGrpCode;
+        public DevExpress.XtraEditors.TextEdit txtCatCode;
+        public DevExpress.XtraEditors.TextEdit txtEmpCode;
+        public DevExpress.XtraEditors.TextEdit txtGradeCode;
+        public DevExpress.XtraEditors.TextEdit txtDesgCode;
+        public DevExpress.XtraEditors.TextEdit txtStatCode;
+        public DevExpress.XtraEditors.TextEdit txtUnitCode;
+        public DevExpress.XtraEditors.TextEdit txtDeptCode;
+        public DevExpress.XtraEditors.TextEdit txtEmpType;
+        public DevExpress.XtraEditors.TextEdit txtContCode1;
     }
 }

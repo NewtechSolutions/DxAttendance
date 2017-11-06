@@ -115,7 +115,7 @@
             // 
             this.txtCostCode.Location = new System.Drawing.Point(87, 18);
             this.txtCostCode.Name = "txtCostCode";
-            this.txtCostCode.Properties.Mask.EditMask = "[0-9]+";
+            this.txtCostCode.Properties.Mask.EditMask = "[A-Z0-9]+";
             this.txtCostCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtCostCode.Size = new System.Drawing.Size(122, 20);
             this.txtCostCode.TabIndex = 0;

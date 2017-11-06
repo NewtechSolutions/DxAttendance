@@ -573,6 +573,17 @@ namespace Attendance
             }
         }
 
+        private void mnuLeaveBalEntry_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmLeaveBalEntry"];
+            if (t == null)
+            {
+                Attendance.Forms.frmLeaveBalEntry m = new Attendance.Forms.frmLeaveBalEntry();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

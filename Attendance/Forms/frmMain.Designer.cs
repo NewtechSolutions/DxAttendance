@@ -566,6 +566,7 @@
             this.mnuLeaveBalEntry.Name = "mnuLeaveBalEntry";
             this.mnuLeaveBalEntry.Size = new System.Drawing.Size(210, 22);
             this.mnuLeaveBalEntry.Text = "Leave Balance Entry";
+            this.mnuLeaveBalEntry.Click += new System.EventHandler(this.mnuLeaveBalEntry_Click);
             // 
             // mnuLeaveEntryLunch
             // 
