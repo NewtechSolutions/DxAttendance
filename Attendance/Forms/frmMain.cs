@@ -562,6 +562,17 @@ namespace Attendance
             }
         }
 
+        private void mnuLeaveBalUpload_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmUploadLeaveBal"];
+            if (t == null)
+            {
+                Attendance.Forms.frmUploadLeaveBal m = new Attendance.Forms.frmUploadLeaveBal();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

@@ -551,7 +551,7 @@
             this.mnuLeaveEntryLunch,
             this.mnuLeaveEntry});
             this.mnuLeave.Name = "mnuLeave";
-            this.mnuLeave.Size = new System.Drawing.Size(120, 22);
+            this.mnuLeave.Size = new System.Drawing.Size(152, 22);
             this.mnuLeave.Text = "Leave";
             // 
             // mnuLeaveBalUpload
@@ -559,6 +559,7 @@
             this.mnuLeaveBalUpload.Name = "mnuLeaveBalUpload";
             this.mnuLeaveBalUpload.Size = new System.Drawing.Size(210, 22);
             this.mnuLeaveBalUpload.Text = "Leave Balance Upload";
+            this.mnuLeaveBalUpload.Click += new System.EventHandler(this.mnuLeaveBalUpload_Click);
             // 
             // mnuLeaveBalEntry
             // 
@@ -583,7 +584,7 @@
             this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShiftSchUpload});
             this.mnuShift.Name = "mnuShift";
-            this.mnuShift.Size = new System.Drawing.Size(120, 22);
+            this.mnuShift.Size = new System.Drawing.Size(152, 22);
             this.mnuShift.Text = "Shift";
             // 
             // mnuShiftSchUpload
@@ -600,7 +601,7 @@
             this.mnuShiftChange,
             this.mnuBulkSan});
             this.mnuSanction.Name = "mnuSanction";
-            this.mnuSanction.Size = new System.Drawing.Size(120, 22);
+            this.mnuSanction.Size = new System.Drawing.Size(152, 22);
             this.mnuSanction.Text = "Sanction";
             // 
             // mnuManualSan

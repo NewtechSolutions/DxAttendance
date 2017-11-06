@@ -326,9 +326,19 @@ namespace Attendance.Forms
                             " '{6}','{7}','{8}','{9}','{10}','{11}'," +
                             " GetDate(),'{12}')";
 
-                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtLeaveTyp.Text.Trim().ToString(),txtDescription.Text.Trim().ToString(),txtSeqNo.Text.Trim().ToString(),
-                            ((chkPaid.Checked)?"1":"0"),((chkKeepBal.Checked)?"1":"0"),((chkPublicHL.Checked)?"1":"0"),((chkKeepAdv.Checked)?"1":"0"),
-                            ((chkEncash.Checked)?"1":"0"),((chkShowEntry.Checked)?"1":"0"),((chkHalf.Checked)?"1":"0"),
+                        sql = string.Format(sql, 
+                            txtCompCode.Text.Trim().ToString(), 
+                            txtWrkGrpCode.Text.Trim().ToString(),
+                            txtLeaveTyp.Text.Trim().ToString(),
+                            txtDescription.Text.Trim().ToString(),
+                            txtSeqNo.Text.Trim().ToString(),
+                            ((chkPaid.Checked)?"1":"0"),
+                            ((chkKeepBal.Checked)?"1":"0"),
+                            ((chkPublicHL.Checked)?"1":"0"),
+                            ((chkKeepAdv.Checked)?"1":"0"),
+                            ((chkEncash.Checked)?"1":"0"),
+                            ((chkShowEntry.Checked)?"1":"0"),
+                            ((chkHalf.Checked)?"1":"0"),
                             Utils.User.GUserID);
 
                         cmd.CommandText = sql;
