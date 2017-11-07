@@ -11,18 +11,21 @@ using DevExpress.XtraBars.Helpers;
 using DevExpress.Skins;
 using DevExpress.LookAndFeel;
 using DevExpress.UserSkins;
-
+using Attendance.Classes;
 
 namespace Attendance
 {
     public partial class frmMain : XtraForm
     {
         public static string cnstr = Utils.Helper.constr;
+        public static Utils.DbCon tdb = Utils.Helper.ReadConDb("DBCON");
         public frmMain()
         {
             InitializeComponent();
             stsUserID.Text = Utils.User.GUserID;
             stsUserDesc.Text = Utils.User.GUserName;
+
+            this.Text = "Attendance System : (Server->" + tdb.DataSource + ")";
         }
 
         private void mnuUserRights_Click(object sender, EventArgs e)
@@ -579,6 +582,28 @@ namespace Attendance
             if (t == null)
             {
                 Attendance.Forms.frmLeaveBalEntry m = new Attendance.Forms.frmLeaveBalEntry();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuLeaveEntryLunch_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmLunchHalfDaypost"];
+            if (t == null)
+            {
+                Attendance.Forms.frmLunchHalfDaypost m = new Attendance.Forms.frmLunchHalfDaypost();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastEmp_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpBasicData"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpBasicData m = new Attendance.Forms.frmMastEmpBasicData();
                 m.MdiParent = this;
                 m.Show();
             }

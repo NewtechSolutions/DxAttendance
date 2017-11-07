@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Classes\ClassGlobals.cs" />
     <Compile Include="Classes\ClsEmp.cs" />
+    <Compile Include="Classes\clsProcess.cs" />
     <Compile Include="Classes\Helper.cs" />
     <Compile Include="CustomControls\ctrlEmp.cs">
       <SubType>UserControl</SubType>
@@ -89,11 +90,23 @@
     <Compile Include="Forms\frmAutoMailSubScription.designer.cs">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmLunchHalfDaypost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmLunchHalfDaypost.designer.cs">
+      <DependentUpon>frmLunchHalfDaypost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmLeaveBalEntry.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmLeaveBalEntry.designer.cs">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpBasicData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpBasicData.designer.cs">
+      <DependentUpon>frmMastEmpBasicData.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmUploadLeaveBal.cs">
       <SubType>Form</SubType>
@@ -319,8 +332,14 @@
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmLunchHalfDaypost.resx">
+      <DependentUpon>frmLunchHalfDaypost.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLeaveBalEntry.resx">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastEmpBasicData.resx">
+      <DependentUpon>frmMastEmpBasicData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUploadLeaveBal.resx">
       <DependentUpon>frmUploadLeaveBal.cs</DependentUpon>

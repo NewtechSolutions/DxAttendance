@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using Attendance.Classes;
 
 namespace Attendance.Forms
 {
@@ -389,7 +390,7 @@ namespace Attendance.Forms
                     + "Processed Data will be deleted between '" + txtFromDt.DateTime.ToString("yyyy-MM-dd") + "' And '" + txtToDate.DateTime.ToString("yyyy-MM-dd") + "' ";
 
 
-                 sql = "Select EmpUnqID,WeekOff From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' and  WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' And Active = '1' Order By EmpUnqID";
+                 sql = "Select CompCode,EmpUnqID,WeekOff From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' and  WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' And Active = '1' Order By EmpUnqID";
             
             }else{
 
@@ -397,7 +398,7 @@ namespace Attendance.Forms
                 question = "Are You Sure to create Muster Table For : " + txtEmpUnqID.Text.Trim().ToString() + Environment.NewLine
                     + "Processed Data will be deleted between '" + txtFromDt.DateTime.ToString("yyyy-MM-dd") + "' And '" + txtToDate.DateTime.ToString("yyyy-MM-dd") + "' ";
 
-                sql = "Select EmpUnqID,WeekOff From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' "
+                sql = "Select CompCode,EmpUnqID,WeekOff From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' "
                     + " and WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' "
                     + " and EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' "
                     + " And Active = '1' Order By EmpUnqID";
@@ -412,9 +413,6 @@ namespace Attendance.Forms
             }
 
             btnCreate.Enabled = false;
-          
-
-
             Cursor.Current = Cursors.WaitCursor;
 
             DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
@@ -432,83 +430,21 @@ namespace Attendance.Forms
                     pBar.Update();
                     string EmpUnqID = dr["EmpUnqID"].ToString();
                     string WeekOff = dr["WeekOff"].ToString();
-                    //save in db for accountibility
-                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    string CompCode = dr["CompCode"].ToString();
+                    DateTime fromdt = txtFromDt.DateTime;
+                    DateTime todt = txtToDate.DateTime;
+
+                    clsEmp t = new clsEmp();
+                    if (t.GetEmpDetails(CompCode, EmpUnqID))
                     {
-                        try
-                        {
-                            cn.Open();
-                            SqlCommand cmd = new SqlCommand();
-                            cmd.Connection = cn;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "CreateMuster";
+                       string err1 = string.Empty;
+                        bool t1 = t.CreateMuster(fromdt, todt, out err1);
+                       if (!t1)
+                       {
+                           MessageBox.Show(err1, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                       }
+                    }
 
-                            int result = 0;
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPfdate = new SqlParameter();
-                            sPfdate.ParameterName = "@pFromDt";// Defining Name
-                            sPfdate.SqlDbType = SqlDbType.DateTime; // Defining DataType
-                            sPfdate.Direction = ParameterDirection.Input;// Setting the direction
-                            sPfdate.Value = txtFromDt.DateTime;
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPtdate = new SqlParameter();
-                            sPtdate.ParameterName = "@pToDt";// Defining Name
-                            sPtdate.SqlDbType = SqlDbType.DateTime; // Defining DataType
-                            sPtdate.Direction = ParameterDirection.Input;// Setting the direction
-                            sPtdate.Value = txtToDate.DateTime;
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPEmpUnqID = new SqlParameter();
-                            sPEmpUnqID.ParameterName = "@pEmpUnqID";// Defining Name
-                            sPEmpUnqID.SqlDbType = SqlDbType.VarChar; // Defining DataType
-                            sPEmpUnqID.Size = 10;
-                            sPEmpUnqID.Direction = ParameterDirection.Input;// Setting the direction
-                            sPEmpUnqID.Value = EmpUnqID;
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPWoDay = new SqlParameter();
-                            sPWoDay.ParameterName = "@pWoDay";// Defining Name
-                            sPWoDay.SqlDbType = SqlDbType.VarChar; // Defining DataType
-                            sPWoDay.Size = 3;
-                            sPWoDay.Direction = ParameterDirection.Input;// Setting the direction
-                            sPWoDay.Value = WeekOff;
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPWrkGrp = new SqlParameter();
-                            sPWrkGrp.ParameterName = "@pWrkGrp";// Defining Name
-                            sPWrkGrp.SqlDbType = SqlDbType.VarChar; // Defining DataType
-                            sPWrkGrp.Size = 10;
-                            sPWrkGrp.Direction = ParameterDirection.Input;// Setting the direction
-                            sPWrkGrp.Value = "";
-
-                            ////Creating instance of SqlParameter
-                            SqlParameter sPresult = new SqlParameter();
-                            sPresult.ParameterName = "@result"; // Defining Name
-                            sPresult.SqlDbType = SqlDbType.Int; // Defining DataType
-                            sPresult.Direction = ParameterDirection.Output;// Setting the direction 
-                            sPresult.Value = result;
-
-                            cmd.Parameters.Add(sPWrkGrp);
-                            cmd.Parameters.Add(sPEmpUnqID);
-                            cmd.Parameters.Add(sPfdate);
-                            cmd.Parameters.Add(sPtdate);
-                            cmd.Parameters.Add(sPWoDay);
-                            cmd.Parameters.Add(sPresult);
-
-                            cmd.CommandTimeout = 0;
-                            cmd.ExecuteNonQuery();
-                            //get the output
-                            int t = (int)cmd.Parameters["@result"].Value;
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-
-                    }//using connection
 
                 } //foreach loop
             }

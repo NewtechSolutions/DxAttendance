@@ -641,5 +641,94 @@ namespace Attendance.Classes
                 }
             }
         }
+
+
+        public bool CreateMuster(DateTime tFromDt, DateTime tToDt, out string err)
+        {
+            bool returnval = false;
+            //save in db for accountibility
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "CreateMuster";
+
+                    int result = 0;
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPfdate = new SqlParameter();
+                    sPfdate.ParameterName = "@pFromDt";// Defining Name
+                    sPfdate.SqlDbType = SqlDbType.DateTime; // Defining DataType
+                    sPfdate.Direction = ParameterDirection.Input;// Setting the direction
+                    sPfdate.Value = tFromDt;
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPtdate = new SqlParameter();
+                    sPtdate.ParameterName = "@pToDt";// Defining Name
+                    sPtdate.SqlDbType = SqlDbType.DateTime; // Defining DataType
+                    sPtdate.Direction = ParameterDirection.Input;// Setting the direction
+                    sPtdate.Value = tToDt;
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPEmpUnqID = new SqlParameter();
+                    sPEmpUnqID.ParameterName = "@pEmpUnqID";// Defining Name
+                    sPEmpUnqID.SqlDbType = SqlDbType.VarChar; // Defining DataType
+                    sPEmpUnqID.Size = 10;
+                    sPEmpUnqID.Direction = ParameterDirection.Input;// Setting the direction
+                    sPEmpUnqID.Value = this.EmpUnqID;
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPWoDay = new SqlParameter();
+                    sPWoDay.ParameterName = "@pWoDay";// Defining Name
+                    sPWoDay.SqlDbType = SqlDbType.VarChar; // Defining DataType
+                    sPWoDay.Size = 3;
+                    sPWoDay.Direction = ParameterDirection.Input;// Setting the direction
+                    sPWoDay.Value = this.WeekOffDay;
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPWrkGrp = new SqlParameter();
+                    sPWrkGrp.ParameterName = "@pWrkGrp";// Defining Name
+                    sPWrkGrp.SqlDbType = SqlDbType.VarChar; // Defining DataType
+                    sPWrkGrp.Size = 10;
+                    sPWrkGrp.Direction = ParameterDirection.Input;// Setting the direction
+                    sPWrkGrp.Value = "";
+
+                    ////Creating instance of SqlParameter
+                    SqlParameter sPresult = new SqlParameter();
+                    sPresult.ParameterName = "@result"; // Defining Name
+                    sPresult.SqlDbType = SqlDbType.Int; // Defining DataType
+                    sPresult.Direction = ParameterDirection.Output;// Setting the direction 
+                    sPresult.Value = result;
+
+                    cmd.Parameters.Add(sPWrkGrp);
+                    cmd.Parameters.Add(sPEmpUnqID);
+                    cmd.Parameters.Add(sPfdate);
+                    cmd.Parameters.Add(sPtdate);
+                    cmd.Parameters.Add(sPWoDay);
+                    cmd.Parameters.Add(sPresult);
+
+                    cmd.CommandTimeout = 0;
+                    cmd.ExecuteNonQuery();
+                    //get the output
+                    int t = (int)cmd.Parameters["@result"].Value;
+
+                    err = string.Empty;
+                    returnval= true;
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    returnval = false;
+                }
+
+            }//using connection
+
+            return returnval;
+        }
+
     }
 }
