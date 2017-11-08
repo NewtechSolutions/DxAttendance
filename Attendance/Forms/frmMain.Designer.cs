@@ -421,6 +421,7 @@
             this.mnuMastJob.Name = "mnuMastJob";
             this.mnuMastJob.Size = new System.Drawing.Size(184, 22);
             this.mnuMastJob.Text = "Job Profile";
+            this.mnuMastJob.Click += new System.EventHandler(this.mnuMastJob_Click);
             // 
             // mnuImportEmp
             // 

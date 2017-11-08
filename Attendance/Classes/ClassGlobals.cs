@@ -200,6 +200,42 @@ namespace Attendance.Classes
             return frmrights;
         }
 
+        public static bool GetWrkGrpRights(int Formid, string WrkGrp, string EmpUnqID)
+        {
+            bool returnval = false;
+
+            DataSet ds = new DataSet();
+
+            if ( EmpUnqID != "")
+            {
+                WrkGrp = Utils.Helper.GetDescription("Select WrkGrp From MastEmp Where EmpUnqID ='" + EmpUnqID + "'", Utils.Helper.constr);
+            }
+            
+            if (WrkGrp == "" && EmpUnqID == "")
+            {
+                return false;
+            }
+            
+
+            string wkgsql = "Select * from UserSpRight where UserID = '" + Utils.User.GUserID + "' and FormID = '" + Formid.ToString() + "' and WrkGrp = '" + WrkGrp + "' and Active = 1";
+
+
+            ds = Utils.Helper.GetData(wkgsql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                returnval = true;
+            }
+            else
+            {
+                returnval = false;
+            }
+
+            return returnval;
+        }
+
 
     }
 

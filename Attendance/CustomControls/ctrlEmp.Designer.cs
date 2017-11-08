@@ -1150,7 +1150,6 @@
         private DevExpress.XtraEditors.TextEdit txtEmpName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label8;
-        private DevExpress.XtraEditors.TextEdit txtCompDesc;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.DateEdit txtLeftDt;
         private DevExpress.XtraEditors.CheckEdit chkActive;
@@ -1214,5 +1213,6 @@
         public DevExpress.XtraEditors.TextEdit txtDeptCode;
         public DevExpress.XtraEditors.TextEdit txtEmpType;
         public DevExpress.XtraEditors.TextEdit txtContCode1;
+        public DevExpress.XtraEditors.TextEdit txtCompDesc;
     }
 }

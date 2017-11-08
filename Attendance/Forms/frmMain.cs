@@ -609,6 +609,17 @@ namespace Attendance
             }
         }
 
+        private void mnuMastJob_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpJobProfile"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpJobProfile m = new Attendance.Forms.frmMastEmpJobProfile();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
