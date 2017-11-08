@@ -35,7 +35,7 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
-            this.grpMain = new System.Windows.Forms.GroupBox();
+            this.GrpMain = new System.Windows.Forms.GroupBox();
             this.txtShiftDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtShiftCode = new DevExpress.XtraEditors.TextEdit();
             this.txtWeekOff = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -72,7 +72,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtLeftDt = new DevExpress.XtraEditors.DateEdit();
             this.grpUserRights.SuspendLayout();
-            this.grpMain.SuspendLayout();
+            this.GrpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).BeginInit();
@@ -175,48 +175,48 @@
             this.ctrlEmp1.Size = new System.Drawing.Size(933, 171);
             this.ctrlEmp1.TabIndex = 0;
             // 
-            // grpMain
+            // GrpMain
             // 
-            this.grpMain.Controls.Add(this.txtShiftDesc);
-            this.grpMain.Controls.Add(this.txtShiftCode);
-            this.grpMain.Controls.Add(this.txtWeekOff);
-            this.grpMain.Controls.Add(this.label1);
-            this.grpMain.Controls.Add(this.txtContDesc);
-            this.grpMain.Controls.Add(this.label13);
-            this.grpMain.Controls.Add(this.txtContCode);
-            this.grpMain.Controls.Add(this.label24);
-            this.grpMain.Controls.Add(this.txtSAPID);
-            this.grpMain.Controls.Add(this.chkAutoShift);
-            this.grpMain.Controls.Add(this.chkOTFlg);
-            this.grpMain.Controls.Add(this.label18);
-            this.grpMain.Controls.Add(this.txtOldEmpCode);
-            this.grpMain.Controls.Add(this.label15);
-            this.grpMain.Controls.Add(this.txtEmpTypeDesc);
-            this.grpMain.Controls.Add(this.txtEmpTypeCode);
-            this.grpMain.Controls.Add(this.label14);
-            this.grpMain.Controls.Add(this.txtCatDesc);
-            this.grpMain.Controls.Add(this.txtCatCode);
-            this.grpMain.Controls.Add(this.label12);
-            this.grpMain.Controls.Add(this.txtEmpCode);
-            this.grpMain.Controls.Add(this.label7);
-            this.grpMain.Controls.Add(this.txtGradeDesc);
-            this.grpMain.Controls.Add(this.txtGradeCode);
-            this.grpMain.Controls.Add(this.label5);
-            this.grpMain.Controls.Add(this.txtDesgDesc);
-            this.grpMain.Controls.Add(this.txtDesgCode);
-            this.grpMain.Controls.Add(this.label11);
-            this.grpMain.Controls.Add(this.txtStatDesc);
-            this.grpMain.Controls.Add(this.txtStatCode);
-            this.grpMain.Controls.Add(this.label9);
-            this.grpMain.Controls.Add(this.txtDeptDesc);
-            this.grpMain.Controls.Add(this.txtDeptCode);
-            this.grpMain.Controls.Add(this.label4);
-            this.grpMain.Controls.Add(this.txtLeftDt);
-            this.grpMain.Location = new System.Drawing.Point(13, 191);
-            this.grpMain.Name = "grpMain";
-            this.grpMain.Size = new System.Drawing.Size(922, 227);
-            this.grpMain.TabIndex = 1;
-            this.grpMain.TabStop = false;
+            this.GrpMain.Controls.Add(this.txtShiftDesc);
+            this.GrpMain.Controls.Add(this.txtShiftCode);
+            this.GrpMain.Controls.Add(this.txtWeekOff);
+            this.GrpMain.Controls.Add(this.label1);
+            this.GrpMain.Controls.Add(this.txtContDesc);
+            this.GrpMain.Controls.Add(this.label13);
+            this.GrpMain.Controls.Add(this.txtContCode);
+            this.GrpMain.Controls.Add(this.label24);
+            this.GrpMain.Controls.Add(this.txtSAPID);
+            this.GrpMain.Controls.Add(this.chkAutoShift);
+            this.GrpMain.Controls.Add(this.chkOTFlg);
+            this.GrpMain.Controls.Add(this.label18);
+            this.GrpMain.Controls.Add(this.txtOldEmpCode);
+            this.GrpMain.Controls.Add(this.label15);
+            this.GrpMain.Controls.Add(this.txtEmpTypeDesc);
+            this.GrpMain.Controls.Add(this.txtEmpTypeCode);
+            this.GrpMain.Controls.Add(this.label14);
+            this.GrpMain.Controls.Add(this.txtCatDesc);
+            this.GrpMain.Controls.Add(this.txtCatCode);
+            this.GrpMain.Controls.Add(this.label12);
+            this.GrpMain.Controls.Add(this.txtEmpCode);
+            this.GrpMain.Controls.Add(this.label7);
+            this.GrpMain.Controls.Add(this.txtGradeDesc);
+            this.GrpMain.Controls.Add(this.txtGradeCode);
+            this.GrpMain.Controls.Add(this.label5);
+            this.GrpMain.Controls.Add(this.txtDesgDesc);
+            this.GrpMain.Controls.Add(this.txtDesgCode);
+            this.GrpMain.Controls.Add(this.label11);
+            this.GrpMain.Controls.Add(this.txtStatDesc);
+            this.GrpMain.Controls.Add(this.txtStatCode);
+            this.GrpMain.Controls.Add(this.label9);
+            this.GrpMain.Controls.Add(this.txtDeptDesc);
+            this.GrpMain.Controls.Add(this.txtDeptCode);
+            this.GrpMain.Controls.Add(this.label4);
+            this.GrpMain.Controls.Add(this.txtLeftDt);
+            this.GrpMain.Location = new System.Drawing.Point(13, 191);
+            this.GrpMain.Name = "GrpMain";
+            this.GrpMain.Size = new System.Drawing.Size(922, 227);
+            this.GrpMain.TabIndex = 1;
+            this.GrpMain.TabStop = false;
             // 
             // txtShiftDesc
             // 
@@ -632,7 +632,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 488);
-            this.Controls.Add(this.grpMain);
+            this.Controls.Add(this.GrpMain);
             this.Controls.Add(this.ctrlEmp1);
             this.Controls.Add(this.grpUserRights);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -641,8 +641,8 @@
             this.Text = "Employee Job Profile Master";
             this.Load += new System.EventHandler(this.frmMastEmpJobProfile_Load);
             this.grpUserRights.ResumeLayout(false);
-            this.grpMain.ResumeLayout(false);
-            this.grpMain.PerformLayout();
+            this.GrpMain.ResumeLayout(false);
+            this.GrpMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).EndInit();
@@ -680,7 +680,7 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnAdd;
         private ctrlEmp ctrlEmp1;
-        private System.Windows.Forms.GroupBox grpMain;
+        private System.Windows.Forms.GroupBox GrpMain;
         private System.Windows.Forms.Label label15;
         private DevExpress.XtraEditors.TextEdit txtEmpTypeDesc;
         public DevExpress.XtraEditors.TextEdit txtEmpTypeCode;
