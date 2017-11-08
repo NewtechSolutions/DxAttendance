@@ -262,7 +262,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmMastCostCodeEmp";
             this.Text = "Employee Cost Center Master";
-            this.Load += new System.EventHandler(this.frmMastCostCode_Load);
+            this.Load += new System.EventHandler(this.frmMastCostCodeEmp_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtValidFrom.Properties.CalendarTimeProperties)).EndInit();

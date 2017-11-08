@@ -661,7 +661,86 @@ namespace Attendance.Forms
                 return;
             }
 
-            MessageBox.Show("Not Implemented...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            GrpMain.Enabled = false;
+            Cursor.Current = Cursors.WaitCursor;
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                SqlTransaction tr = cn.BeginTransaction("DeleteEmp");
+                try
+                {
+                    cn.Open();
+
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.Transaction = tr;
+
+                        string sql = "insert into MastEmpHistory " +
+                           " select 'Before Delete Master Data, Action By " + Utils.User.GUserID + "',GetDate(),* from MastEmp where CompCode = '" + txtCompCode.Text.Trim() + "' " +
+                           " and EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' ";
+
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from AttdData where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmpBio where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from LeaveEntry where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmpFamily  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmpExp  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmpEDU  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmpPPE  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastLeaveSchedule  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+
+                        cmd.CommandText = "Delete from MastShiftSchedule  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from ATTDLOG  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from LeaveBal  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "Delete from MastEmp  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.ExecuteNonQuery();
+
+                        tr.Commit();
+
+                        MessageBox.Show("Record Deleted Sucessfull...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tr.Rollback();
+
+                    MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
+            }
+
+
+            GrpMain.Enabled = true;
+            Cursor.Current = Cursors.Default;
+            ResetCtrl();
+            SetRights();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

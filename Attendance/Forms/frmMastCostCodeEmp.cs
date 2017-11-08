@@ -47,7 +47,7 @@ namespace Attendance.Forms
 
         //}
 
-        private void frmMastCostCode_Load(object sender, EventArgs e)
+        private void frmMastCostCodeEmp_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
