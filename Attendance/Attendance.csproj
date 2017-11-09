@@ -102,6 +102,12 @@
     <Compile Include="Forms\frmLeaveBalEntry.designer.cs">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastEmpPerInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpPerInfo.designer.cs">
+      <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastEmpJobProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLeaveBalEntry.resx">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastEmpPerInfo.resx">
+      <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpJobProfile.resx">
       <DependentUpon>frmMastEmpJobProfile.cs</DependentUpon>
