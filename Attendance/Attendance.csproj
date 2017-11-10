@@ -114,6 +114,12 @@
     <Compile Include="Forms\frmMastEmpBasicData.designer.cs">
       <DependentUpon>frmMastEmpBasicData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastEmpPerInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpPerInfo.Designer.cs">
+      <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmUploadLeaveBal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -349,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpBasicData.resx">
       <DependentUpon>frmMastEmpBasicData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastEmpPerInfo.resx">
+      <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUploadLeaveBal.resx">
       <DependentUpon>frmUploadLeaveBal.cs</DependentUpon>

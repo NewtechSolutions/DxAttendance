@@ -173,10 +173,11 @@
             // 
             // xtraTabControl1
             // 
-            this.xtraTabControl1.Location = new System.Drawing.Point(3, 3);
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(0, 0);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(927, 165);
+            this.xtraTabControl1.Size = new System.Drawing.Size(933, 171);
             this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -226,7 +227,7 @@
             this.xtraTabPage1.Controls.Add(this.txtEmpUnqID);
             this.xtraTabPage1.Controls.Add(this.txtWrkGrpCode);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(921, 137);
+            this.xtraTabPage1.Size = new System.Drawing.Size(927, 143);
             this.xtraTabPage1.Text = "Basic Info";
             // 
             // label25

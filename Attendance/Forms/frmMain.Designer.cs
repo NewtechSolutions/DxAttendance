@@ -415,6 +415,7 @@
             this.mnuMastEmpPer.Name = "mnuMastEmpPer";
             this.mnuMastEmpPer.Size = new System.Drawing.Size(184, 22);
             this.mnuMastEmpPer.Text = "Personal Info";
+            this.mnuMastEmpPer.Click += new System.EventHandler(this.mnuMastEmpPer_Click);
             // 
             // mnuMastJob
             // 

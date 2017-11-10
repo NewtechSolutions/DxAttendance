@@ -620,6 +620,17 @@ namespace Attendance
             }
         }
 
+        private void mnuMastEmpPer_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpPerInfo"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpPerInfo m = new Attendance.Forms.frmMastEmpPerInfo();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

@@ -712,8 +712,8 @@ namespace Attendance.Forms
                         cmd.CommandText = "Delete from MastShiftSchedule  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = "Delete from ATTDLOG  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
-                        cmd.ExecuteNonQuery();
+                        //cmd.CommandText = "Delete from ATTDLOG  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        //cmd.ExecuteNonQuery();
 
                         cmd.CommandText = "Delete from LeaveBal  where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
