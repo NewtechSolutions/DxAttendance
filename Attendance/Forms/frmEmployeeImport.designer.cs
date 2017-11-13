@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmUploadLeaveBal
+    partial class frmEmployeeImport
     {
         /// <summary>
         /// Required designer variable.
@@ -32,13 +32,6 @@
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.CompCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.WrkGrp = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Year = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.LeaveType = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.OpnBal = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
@@ -95,14 +88,6 @@
             // 
             // grd_view1
             // 
-            this.grd_view1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.CompCode,
-            this.WrkGrp,
-            this.Year,
-            this.EmpUnqID,
-            this.LeaveType,
-            this.OpnBal,
-            this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
             this.grd_view1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -132,97 +117,6 @@
             this.grd_view1.OptionsView.ShowDetailButtons = false;
             this.grd_view1.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.grd_view1.OptionsView.ShowGroupPanel = false;
-            // 
-            // CompCode
-            // 
-            this.CompCode.Caption = "CompCode";
-            this.CompCode.FieldName = "CompCode";
-            this.CompCode.Name = "CompCode";
-            this.CompCode.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.CompCode.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.CompCode.OptionsColumn.AllowMove = false;
-            this.CompCode.OptionsColumn.AllowShowHide = false;
-            this.CompCode.OptionsColumn.ReadOnly = true;
-            this.CompCode.Visible = true;
-            this.CompCode.VisibleIndex = 0;
-            // 
-            // WrkGrp
-            // 
-            this.WrkGrp.Caption = "WrkGrp";
-            this.WrkGrp.FieldName = "WrkGrp";
-            this.WrkGrp.Name = "WrkGrp";
-            this.WrkGrp.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.WrkGrp.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.WrkGrp.OptionsColumn.AllowMove = false;
-            this.WrkGrp.OptionsColumn.AllowShowHide = false;
-            this.WrkGrp.OptionsColumn.ReadOnly = true;
-            this.WrkGrp.Visible = true;
-            this.WrkGrp.VisibleIndex = 1;
-            // 
-            // Year
-            // 
-            this.Year.Caption = "Year";
-            this.Year.FieldName = "Year";
-            this.Year.Name = "Year";
-            this.Year.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.Year.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.Year.OptionsColumn.AllowMove = false;
-            this.Year.OptionsColumn.AllowShowHide = false;
-            this.Year.OptionsColumn.ReadOnly = true;
-            this.Year.Visible = true;
-            this.Year.VisibleIndex = 2;
-            // 
-            // EmpUnqID
-            // 
-            this.EmpUnqID.Caption = "EmpUnqID";
-            this.EmpUnqID.FieldName = "EmpUnqID";
-            this.EmpUnqID.Name = "EmpUnqID";
-            this.EmpUnqID.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.EmpUnqID.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.EmpUnqID.OptionsColumn.AllowMove = false;
-            this.EmpUnqID.OptionsColumn.AllowShowHide = false;
-            this.EmpUnqID.OptionsColumn.ReadOnly = true;
-            this.EmpUnqID.Visible = true;
-            this.EmpUnqID.VisibleIndex = 3;
-            // 
-            // LeaveType
-            // 
-            this.LeaveType.Caption = "LeaveType";
-            this.LeaveType.FieldName = "LeaveType";
-            this.LeaveType.Name = "LeaveType";
-            this.LeaveType.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.LeaveType.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.LeaveType.OptionsColumn.AllowMove = false;
-            this.LeaveType.OptionsColumn.AllowShowHide = false;
-            this.LeaveType.OptionsColumn.ReadOnly = true;
-            this.LeaveType.Visible = true;
-            this.LeaveType.VisibleIndex = 4;
-            // 
-            // OpnBal
-            // 
-            this.OpnBal.Caption = "OpnBal";
-            this.OpnBal.FieldName = "OpnBal";
-            this.OpnBal.Name = "OpnBal";
-            this.OpnBal.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.OpnBal.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.OpnBal.OptionsColumn.AllowMove = false;
-            this.OpnBal.OptionsColumn.AllowShowHide = false;
-            this.OpnBal.OptionsColumn.ReadOnly = true;
-            this.OpnBal.Visible = true;
-            this.OpnBal.VisibleIndex = 5;
-            // 
-            // Remarks
-            // 
-            this.Remarks.Caption = "Remarks";
-            this.Remarks.FieldName = "Remarks";
-            this.Remarks.Name = "Remarks";
-            this.Remarks.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.Remarks.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.Remarks.OptionsColumn.AllowMove = false;
-            this.Remarks.OptionsColumn.AllowShowHide = false;
-            this.Remarks.OptionsColumn.ReadOnly = true;
-            this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 6;
             // 
             // groupControl1
             // 
@@ -287,7 +181,7 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
-            // frmUploadLeaveBal
+            // frmEmployeeImport
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Appearance.Options.UseFont = true;
@@ -296,9 +190,9 @@
             this.ClientSize = new System.Drawing.Size(945, 602);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "frmUploadLeaveBal";
-            this.Text = "Bulk Upload : Employee Leave Balance";
-            this.Load += new System.EventHandler(this.frmUploadLeaveBal_Load);
+            this.Name = "frmEmployeeImport";
+            this.Text = "Bulk Upload : Employee";
+            this.Load += new System.EventHandler(this.frmEmployeeImport_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -323,12 +217,5 @@
         private DevExpress.XtraGrid.GridControl grd_view;
         private DevExpress.XtraGrid.Views.Grid.GridView grd_view1;
         private System.Windows.Forms.Button btnExport;
-        private DevExpress.XtraGrid.Columns.GridColumn CompCode;
-        private DevExpress.XtraGrid.Columns.GridColumn WrkGrp;
-        private DevExpress.XtraGrid.Columns.GridColumn Year;
-        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
-        private DevExpress.XtraGrid.Columns.GridColumn LeaveType;
-        private DevExpress.XtraGrid.Columns.GridColumn OpnBal;
-        private DevExpress.XtraGrid.Columns.GridColumn Remarks;
     }
 }

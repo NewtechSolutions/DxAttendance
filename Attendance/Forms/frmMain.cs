@@ -631,6 +631,17 @@ namespace Attendance
             }
         }
 
+        private void mnuImportEmp_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmEmployeeImport"];
+            if (t == null)
+            {
+                Attendance.Forms.frmEmployeeImport m = new Attendance.Forms.frmEmployeeImport();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

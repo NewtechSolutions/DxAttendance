@@ -33,7 +33,7 @@ namespace Attendance.Classes
 
         private DateTime? _JoinDt, _BirthDt;
         private DateTime? _ValidFrom, _ValidTo,_LeftDt;
-        private bool _Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg,_AutoShift,_IsNew ;
+        private bool _Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg, _AutoShift, _IsNew, _MedChkFlg, _PoliceVeriFlg;
 
 
         public string EmpUnqID { get { return _EmpUnqID; } set { _EmpUnqID = value; } }
@@ -101,6 +101,9 @@ namespace Attendance.Classes
         public bool ContFlg { get { return _ContFlg; } set { _ContFlg = value; } }
         public bool PayrollFlg { get { return _PayrollFlg; } set { _PayrollFlg = value; } }
         public bool AutoShift { get { return _AutoShift; } set { _AutoShift = value; } }
+        public bool MedChkFlg { get { return _MedChkFlg; } set { _MedChkFlg = value; } }
+        public bool PoliceVeriFlg { get { return _PoliceVeriFlg; } set { _PoliceVeriFlg = value; } }
+
 
         public bool IsValid { 
             get 
@@ -150,7 +153,7 @@ namespace Attendance.Classes
             _JoinDt = dt; _BirthDt = dt;
             _ValidFrom = dt; _ValidTo = dt;_LeftDt = dt;
             _Active = false; _OTFLG = false; _Gender = false; _ContFlg = false; _PayrollFlg = false; _AutoShift = false;
-
+            _PoliceVeriFlg = false; _MedChkFlg = false;
         }
 
         public bool GetEmpDetails(string tCompCode,string tEmpUnqID)
@@ -311,28 +314,38 @@ namespace Attendance.Classes
                 err += "Birth Date is Required...." + Environment.NewLine;
             }
 
-            if (_ValidFrom.HasValue == false)
+            if (_WrkGrp != "COMP")
             {
-                err += "Valid From is Required...." + Environment.NewLine;
-            }
-
-            if (_ValidTo.HasValue == false)
-            {
-                err += "Valid To is Required...." + Environment.NewLine;
-            }
-
-            if (_ValidFrom.HasValue && _ValidTo.HasValue)
-            {
-                DateTime tFrom, tTo;
-                
-                tFrom = _ValidFrom.Value;
-                tTo = _ValidTo.Value;
-
-                if (tFrom > tTo)
+                if (_ValidFrom.HasValue == false)
                 {
-                    err += "ValidFrom Must be Less than Valid To ...." + Environment.NewLine;
+                    err += "Valid From is Required...." + Environment.NewLine;
+                }
+
+                if (_ValidTo.HasValue == false)
+                {
+                    err += "Valid To is Required...." + Environment.NewLine;
+                }
+
+                if (_ValidFrom.HasValue && _ValidTo.HasValue)
+                {
+                    DateTime tFrom, tTo;
+
+                    tFrom = _ValidFrom.Value;
+                    tTo = _ValidTo.Value;
+
+                    if (tFrom > tTo)
+                    {
+                        err += "ValidFrom Must be Less than Valid To ...." + Environment.NewLine;
+                    }
                 }
             }
+            else
+            {
+                _ValidFrom = new DateTime?();
+                _ValidTo = new DateTime?();
+            }
+
+            
             
             if (_BirthDt.HasValue && _JoinDt.HasValue)
             {
@@ -352,6 +365,31 @@ namespace Attendance.Classes
             {
                 err += "Adhar No is Required...." + Environment.NewLine;
             }
+
+
+            if (_AdharNo.Trim().Length < 12)
+            {
+                err += "Please Enter 12 digit Adhar No" + Environment.NewLine;
+            }
+
+
+            //check for duplicate adharno..
+            DataSet ds = new DataSet();
+            string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
+                " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
+                }
+            }
+
 
             return err;
         }
@@ -728,6 +766,313 @@ namespace Attendance.Classes
             }//using connection
 
             return returnval;
+        }
+
+        public bool CreateEmployee(string tEmpUnqID, string tWrkGrp,
+            string tUnitCode, string tEmpName, string tFatherName , 
+                bool tSex , bool tActive,DateTime tBirthDt, DateTime tJoinDt,
+                    string tWeekoff , bool tPayrollFLG, bool tContractFlg, 
+                        bool tShiftType, bool tOTFLG ,bool tMedChkFlg , 
+                             bool  tPoliceVeriFlg, string tEmpCode, string tContCode, 
+                                string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
+                                    string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
+                                        string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo, 
+                                            DateTime? tValidFrom , DateTime? tValidTo, out string err)
+        {
+            bool retval = false;
+            err = "";
+
+            //check if already exist
+            this.CompCode = "01";
+            this.EmpUnqID = tEmpUnqID;
+            if (this.GetEmpDetails(this.CompCode, this.EmpUnqID))
+            {
+                err = "Employee Already Exist...";
+                retval = false;
+                return retval;
+
+            }
+            err = string.Empty;
+
+            this.EmpName = tEmpName;
+            this.FatherName = tFatherName;
+            this.BirthDt = tBirthDt;
+            this.JoinDt = tJoinDt;
+            this.WrkGrp = tWrkGrp;
+            this.UnitCode = tUnitCode;
+            this.AdharNo = tAdharNo;
+            this.ValidFrom = tValidFrom;
+            this.ValidTo = tValidTo;
+
+            err = this.BasicValidation();
+            if (!string.IsNullOrEmpty(err))
+            {
+                retval = false;
+                return retval;
+            }
+            
+            this.Gender = tSex;
+            this.Active = tActive;
+            this.WeekOffDay = tWeekoff;
+            this.PayrollFlg = tPayrollFLG;
+            this.ContFlg = tContractFlg;
+            this.AutoShift = tShiftType;
+            this.OTFLG = tOTFLG;
+            this.OLDEmpCode = tOldEmpCode;
+            this.ContCode = tContCode;
+            this.SAPID = tSAPID;
+            this.EmpTypeCode = tEmpTypeCode;
+            this.CatCode = tCATCODE;
+            this.DeptCode = tDeptcode;
+            this.StatCode = tStatCode;
+            this.GradeCode = tGradeCode;
+            this.DesgCode = tDesgCode;
+            this.MessCode = tMessCode;
+            this.MessGrpCode = tMessGrpCode;
+            this.CostCode = tCostCode;
+            
+
+            //check for CostCode ..
+            if(this.CostCode.Trim() != "")
+            {
+                string tsql1 = "select CostCode from MastCostCode where CostCode ='" + this.CostCode + "' " ;
+                string t3 = Utils.Helper.GetDescription(tsql1,Utils.Helper.constr);
+                if(string.IsNullOrEmpty(t3)){
+                    err += "Invalid CostCode.." + Environment.NewLine;
+                    retval = false;
+                    return retval;
+                }            
+            }
+            
+            if (this.ContFlg && this.PayrollFlg)
+            {
+                err += "Please Enter Either Onroll Employee OR Contractual Employee.." + Environment.NewLine;
+                retval = false;
+                return retval;
+            }
+
+            if (this.PayrollFlg && this.CostCode.Trim() == "")
+            {
+                err += "Please Enter CostCode.." + Environment.NewLine;
+                retval = false;
+                return retval;
+            }
+
+
+            string weekoff = "SUN,MON,TUE,WED,THU,FRI,SAT";
+            if (!weekoff.Contains(this.WeekOffDay))
+            {
+                err += "Invalid Weekoff Days.." + Environment.NewLine;
+                retval = false;
+                return retval;
+            }
+
+            if (this.ContFlg && this.CostCode.Trim() == "")
+            {
+                err += "Please Enter CostCode.." + Environment.NewLine;
+                retval = false;
+                return retval;
+            }
+
+            if (!this.Active)
+            {
+                err += "System Only Allow Active Employee to upload.." + Environment.NewLine;
+                retval = false;
+                return retval;
+            }
+            
+            //nullify wrong values.
+
+            this.GetDeptDesc(this.CompCode, this.WrkGrp, this.UnitCode,this.DeptCode);
+            if (this.DeptDesc.Trim() == "")
+            {
+                err += "Invalid DeptCode.." + Environment.NewLine;
+                this.DeptCode = "";
+            }
+
+            this.GetStatDesc(this.CompCode, this.WrkGrp, this.UnitCode, this.DeptCode,this.StatCode);
+            if (this.StatDesc.Trim() == "")
+            {
+                err += "Invalid Station/Section Code.." + Environment.NewLine;
+                this.StatCode = "";
+            }
+
+            this.GetDesgDesc(this.CompCode, this.WrkGrp, this.DesgCode);
+            if (this.DesgDesc.Trim() == "")
+            {
+                err += "Invalid DesgCode.." + Environment.NewLine;
+                this.DesgCode = "";
+            }
+
+            this.GetGradeDesc(this.CompCode, this.WrkGrp, this.GradeCode);
+            if (this.GradeDesc.Trim() == "")
+            {
+                err += "Invalid Grade Code.." + Environment.NewLine;
+                this.GradeCode = "";
+            }
+
+            this.GetEmpTypeDesc(this.CompCode, this.WrkGrp, this.EmpTypeCode);
+            if (this.EmpTypeDesc.Trim() == "")
+            {
+                err += "Invalid Emp Type Code.." + Environment.NewLine;
+                this.EmpTypeCode = "";
+            }
+
+            this.GetCatDesc(this.CompCode, this.WrkGrp, this.CatCode);
+            if (this.CatDesc.Trim() == "")
+            {
+                err += "Invalid Emp Cat Code.." + Environment.NewLine;
+                this.CatCode = "";
+            }
+
+            this.GetMessDesc(this.CompCode, this.UnitCode, this.MessCode);
+            if (this.MessDesc.Trim() == "")
+            {
+                err += "Invalid Mess Code..."  + Environment.NewLine;
+                this.MessCode = "";
+            }
+
+
+            this.GetMessGrpDesc(this.CompCode, this.UnitCode, this.MessGrpCode);
+            if (this.MessGrpDesc.Trim() == "")
+            {
+                err += "Invalid MessGrp Code..." + Environment.NewLine;
+                this.MessGrpCode = "";
+            }
+
+            if (this.PayrollFlg && this.ContCode != "")
+            {
+                this.ContCode = "";
+            }
+
+            if (this.WrkGrp == "COMP")
+            {
+                this.ValidFrom = new DateTime?();
+                this.ValidTo = new DateTime?();
+            }
+
+            this.MedChkFlg = tMedChkFlg;
+            this.PoliceVeriFlg = tPoliceVeriFlg;
+            this.AutoShift = tShiftType;
+            this.CostCode = tCostCode;
+            //
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                    SqlTransaction tr = cn.BeginTransaction();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.Transaction = tr;
+                        cmd.CommandType = CommandType.Text;
+
+
+                        string sql = "Insert into MastEmp (CompCode,WrkGrp,EmpUnqID,EmpName,FatherName," +
+                            " UnitCode,MessCode,MessGrpCode,BirthDt,JoinDt,ValidFrom,ValidTo," +
+                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active," +
+                            " ContCode,EmpCode,OldEmpCode,SAPID," +
+                            " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " + 
+                            " ShiftType,MedChkFlg,PoliceVeriFlg,ShiftCode, " +                            
+                            " AddDt,AddID) Values (" +
+                            "'{0}','{1}','{2}','{3}','{4}' ," +
+                            " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
+                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
+                            " {19},'{20}','{21}','{22}'," +
+                            " {23},{24},{25},{26},{27},{28},{29}," +
+                            " '{30}','{31}',{32}, " +
+                            " GetDate(),'{33}' )";
+
+                        sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
+                            this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
+                            ((this.MessGrpCode.Trim() == "") ? "null" : "'" + this.MessGrpCode + "'"),
+                            Convert.ToDateTime(this.BirthDt).ToString("yyyy-MM-dd"), Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd"),
+                           ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidFrom).ToString("yyyy-MM-dd") + "'"),
+                            ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidTo).ToString("yyyy-MM-dd") + "'"),
+                             this.AdharNo, this.AdharNo, this.Gender,
+                             (this.ContFlg?1:0), (this.PayrollFlg?1:0), (this.OTFLG?1:0), this.WeekOffDay,
+                            (this.ContCode == "" ? "null": this.ContCode ),this.EmpCode,this.OLDEmpCode,this.SAPID,
+                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"), (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
+                            (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.PoliceVeriFlg?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
+                            Utils.User.GUserID);
+
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                        retval = true;
+                        tr.Commit();
+
+                        try
+                        {
+                            //createmuster
+                            clsEmp t = new clsEmp();
+                            string err2 = string.Empty;
+                            if (t.GetEmpDetails(this.CompCode.Trim(), this.EmpUnqID.Trim()))
+                            {
+                                DateTime sFromDt, sToDt, sCurDt;
+                                sCurDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select GetDate()", Utils.Helper.constr));
+                                if (Convert.ToDateTime(this.JoinDt).Year < sCurDt.Year)
+                                {
+                                    sFromDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select CalendarStartOfYearDate from dbo.F_TABLE_DATE(GetDate(),GetDate())", Utils.Helper.constr));
+                                    sToDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select CalendarEndOfYearDate from dbo.F_TABLE_DATE(GetDate(),GetDate())", Utils.Helper.constr));
+                                }
+                                else
+                                {
+                                    sFromDt = Convert.ToDateTime(this.JoinDt);
+                                    sToDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select CalendarEndOfYearDate from dbo.F_TABLE_DATE('" + sFromDt.ToString("yyyy-MM-dd") + "','" + sFromDt.ToString("yyyy-MM-dd") + "')", Utils.Helper.constr));
+                                }
+
+
+                                if (!t.CreateMuster(sFromDt, sToDt, out err2))
+                                {
+                                    err += "Error While Creating Muster Table : " + err2;
+                                }
+
+                            }
+
+                            //-added on 04-10-2017 for costcenter wise manpower calculation
+                            if(!string.IsNullOrEmpty(this.CostCode)) 
+                            {
+
+
+                                cmd.CommandText = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('" + this.EmpUnqID + "','" + Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd") + "','" + this.CostCode + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                
+
+                                cmd.CommandText = "Update AttdData Set CostCode ='" + this.CostCode + "' Where EmpUnqID = '" + this.EmpUnqID + "' and CompCode = '" + this.CompCode + "' and tDate >= '" + Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd") + "' ";
+                                cmd.ExecuteNonQuery();
+                                
+
+
+                            }
+                            
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            err += "Error While Creating Muster Table :" + ex.ToString();
+                        }
+                        
+
+
+                    }
+
+                }catch(Exception ex)
+                {
+                    err += ex.ToString();
+                }
+                
+            }
+
+            if (retval && !string.IsNullOrEmpty(err))
+            {
+                string err2 = "Employee Created.. With Errors : Please check->" + err;
+                err = err2;
+            }
+
+
+            return retval;
         }
 
     }

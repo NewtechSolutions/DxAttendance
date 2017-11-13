@@ -429,6 +429,7 @@
             this.mnuImportEmp.Name = "mnuImportEmp";
             this.mnuImportEmp.Size = new System.Drawing.Size(184, 22);
             this.mnuImportEmp.Text = "Import Employee";
+            this.mnuImportEmp.Click += new System.EventHandler(this.mnuImportEmp_Click);
             // 
             // mnuValidityMass
             // 
