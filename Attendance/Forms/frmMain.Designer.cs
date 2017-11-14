@@ -443,6 +443,7 @@
             this.mnuMisConduct.Name = "mnuMisConduct";
             this.mnuMisConduct.Size = new System.Drawing.Size(184, 22);
             this.mnuMisConduct.Text = "MisConduct Register";
+            this.mnuMisConduct.Click += new System.EventHandler(this.mnuMisConduct_Click);
             // 
             // mnuMess
             // 

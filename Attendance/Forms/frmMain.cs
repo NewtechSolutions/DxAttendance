@@ -642,6 +642,17 @@ namespace Attendance
             }
         }
 
+        private void mnuMisConduct_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMisConduct"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMisConduct m = new Attendance.Forms.frmMisConduct();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
