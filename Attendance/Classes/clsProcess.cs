@@ -522,10 +522,87 @@ namespace Attendance
             }
         }
 
-        public void LunchProcess(string EmpUnqID, DateTime FromDt, DateTime ToDate, out int result)
+        public void LunchProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
             result = 0;
 
+            if(string.IsNullOrEmpty(tEmpUnqID))
+            {
+                return;
+            }
+
+            if(tToDate < tFromDt)
+            {
+                return;
+            }
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    clsEmp Emp = new clsEmp();
+                    Emp.CompCode = "01";
+                    Emp.EmpUnqID = tEmpUnqID;
+
+                    //check employee status
+                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    {
+                        return;
+
+                    }
+                    else
+                    {
+                        //if not active 
+                        if (!Emp.Active)
+                            return;
+                    }
+
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.Text;
+                        string sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                            " GetDate(),'" + Utils.User.GUserID + "','MessProcess','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
+                            " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Mess_Process";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.Int32;
+                        spout.ParameterName = "@result";
+                        int tout = 0;
+                        spout.Value = tout;
+
+                        tFromDt = tFromDt.AddHours(0).AddMinutes(1);
+                        tToDate = tToDate.AddHours(23).AddMinutes(59);
+
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                        cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
+                        cmd.Parameters.AddWithValue("@pToDt", tToDate);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (int)cmd.Parameters["@result"].Value;
+
+
+                        
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }//using connection
         }
 
         public void SetShift(clsEmp Emp, SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, string tSchShift)
