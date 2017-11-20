@@ -654,12 +654,14 @@
             this.mnuDataProcess.Name = "mnuDataProcess";
             this.mnuDataProcess.Size = new System.Drawing.Size(188, 22);
             this.mnuDataProcess.Text = "Atn. Data Process";
+            this.mnuDataProcess.Click += new System.EventHandler(this.mnuDataProcess_Click);
             // 
             // mnuLunchInOutProcess
             // 
             this.mnuLunchInOutProcess.Name = "mnuLunchInOutProcess";
             this.mnuLunchInOutProcess.Size = new System.Drawing.Size(188, 22);
             this.mnuLunchInOutProcess.Text = "Lunch In/Out Process";
+            this.mnuLunchInOutProcess.Click += new System.EventHandler(this.mnuLunchInOutProcess_Click);
             // 
             // mnuRulesCheck
             // 
@@ -678,6 +680,7 @@
             this.mnuMessDataProcess.Name = "mnuMessDataProcess";
             this.mnuMessDataProcess.Size = new System.Drawing.Size(188, 22);
             this.mnuMessDataProcess.Text = "Mess Data Process";
+            this.mnuMessDataProcess.Click += new System.EventHandler(this.mnuMessDataProcess_Click);
             // 
             // mnuDataDownload
             // 

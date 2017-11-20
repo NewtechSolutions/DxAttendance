@@ -12,6 +12,100 @@ namespace Attendance
     
     public class clsProcess
     {
+
+        private DataSet dsAttdData;
+        public SqlDataAdapter daAttdData ;
+        public SqlCommandBuilder AttdCmdBuilder;
+
+        public clsProcess()
+        {
+            dsAttdData = new DataSet();
+        }
+
+        public void LunchInOutProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
+        {
+            result = 0;
+
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                return;
+            }
+
+            if (tToDate < tFromDt)
+            {
+                return;
+            }
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    clsEmp Emp = new clsEmp();
+                    Emp.CompCode = "01";
+                    Emp.EmpUnqID = tEmpUnqID;
+
+                    //check employee status
+                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    {
+                        return;
+
+                    }
+                    else
+                    {
+                        //if not active 
+                        if (!Emp.Active)
+                            return;
+                    }
+
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.Text;
+                        string sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                            " GetDate(),'" + Utils.User.GUserID + "','LunchInOutProcess','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
+                            " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Lunch_InOut_Process";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.Int32;
+                        spout.ParameterName = "@result";
+                        int tout = 0;
+                        spout.Value = tout;
+
+                        tFromDt = tFromDt.AddHours(0).AddMinutes(1);
+                        tToDate = tToDate.AddHours(23).AddMinutes(59);
+
+                        cmd.Parameters.AddWithValue("@pWrkGrp", "");
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                        cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
+                        cmd.Parameters.AddWithValue("@pToDt", tToDate);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (int)cmd.Parameters["@result"].Value;
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }//using connection
+        }
+        
         public void AttdProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
             result = 0;
@@ -82,15 +176,16 @@ namespace Attendance
                     if (result == 0)
                     {
                         return;
+                        
                     }
 
                     #endregion Call_Attd_Process
 
                     #region AppProcess
 
-                    string ConsShift= "" ,ConsInTime = "",ConsOutTime = "",nxtdt = "";
-                    decimal[] WrkHrs;
-                    decimal ConsOverTime = 0,BreakHours=0;
+                    string nxtdt = "";
+
+                    decimal ConsOverTime = 0;
                     sql = "Select [Date],NextDayDate,CalendarYear as CalYear from f_table_date('" + tFromDt.ToString("yyyy-MM-dd") + "','" + tToDate.ToString("yyyy-MM-dd") + "') Order by Date";
                     DataSet dsDate = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
@@ -101,21 +196,30 @@ namespace Attendance
                         foreach (DataRow drDate in dsDate.Tables[0].Rows)
                         {
                             //Open EmpAttdRecord
-                            sql = "Select * from AttdData where CompCode = '01' and tYear ='" + drDate["CalYear"].ToString() +
-                                "' and EmpUnqID = '" + Emp.EmpUnqID + "' and tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "'";
+                            sql = "Select tYear,tDate,CompCode,WrkGrp,EmpUnqID,ScheDuleShift,ConsShift,ConsIN,ConsOut,ConsWrkHrs,ConsOverTime," +
+                                "Status,HalfDay,LeaveTyp,LeaveHalf,ActualStatus,Earlycome,EarlyGoing," +
+                                "INPunch1,OutPunch1,WrkHrs1,INPunch2,OutPunch2,WrkHrs2,INPunch3,OutPunch3," +
+                                "WrkHrs3,INPunch4,OutPunch4,WrkHrs4,TotalWorkhrs,TotalINPunchCount," +
+                                "TotalOutPunchCount,LateCome,Rules,CalcOverTime,HalfDRule,partdate,CostCode " +
+                                " from AttdData where CompCode = '01' and tYear ='" + drDate["CalYear"].ToString() +
+                                "' and EmpUnqID = '" + Emp.EmpUnqID + "' and tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "'" +
+                                " And WrkGrp = '" + Emp.WrkGrp + "'  ";
 
                             //create data adapter
-                            DataSet dsAttdData = new DataSet();
-                            SqlDataAdapter daAttdData = new SqlDataAdapter(new SqlCommand(sql, cn));                       
-                            SqlCommandBuilder AttdCmdBuilder = new SqlCommandBuilder(daAttdData);
-                            daAttdData.FillSchema(dsAttdData, SchemaType.Source);
+                            dsAttdData = new DataSet();
+                            daAttdData = new SqlDataAdapter(new SqlCommand(sql, cn));                       
+                            AttdCmdBuilder = new SqlCommandBuilder(daAttdData);
+                            
                             daAttdData.Fill(dsAttdData, "AttdData");
 
                             hasRows = dsAttdData.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                             if (hasRows)
                             {
+                                
                                 foreach (DataRow drAttd in dsAttdData.Tables[0].Rows)
                                 {
+                                
+                                    
                                     #region SanctionINTime
                                     //Check for Sanction In Time
                                     string sDate,sInFrom,sInTo,sEmpCode ;
@@ -124,7 +228,7 @@ namespace Attendance
                                     sEmpCode = Emp.EmpUnqID;
                                     sDate = Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd");
 
-                                    string insql = "Select top 1  Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + sInFrom + "','" + sInTo + "')" +
+                                    string insql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + sInFrom + "','" + sInTo + "')" +
                                           " where tDate = '" + sDate + "' and IOFLG = 'I'  And SanFlg = 1 Order By SanID Desc ";
 
                                     string insantime = Utils.Helper.GetDescription(insql, Utils.Helper.constr);
@@ -145,29 +249,34 @@ namespace Attendance
 
                                     //Get Previous Day Out Ref
 
-                                    DateTime preday = Convert.ToDateTime(drAttd["Date"]).AddDays(-1);
-                                    sql = "Select Convert(varchar(19),ConsOut,121) from AttdData Where EmpUnqID = '" + sEmpCode + "' and tdate ='" + preday.ToString("yyyy-mm-dd") + "' and ConsIn is not Null";
+                                    DateTime preday = Convert.ToDateTime(drAttd["tDate"]).AddDays(-1);
+                                    sql = "Select Convert(varchar(19),ConsOut,121) from AttdData Where EmpUnqID = '" + sEmpCode + "' " +
+                                        " and CompCode ='" + Emp.CompCode + "' And WrkGrp ='" + Emp.WrkGrp + "' and tYear ='" + drDate["CalYear"].ToString() + "' " +
+                                        " and tdate ='" + preday.ToString("yyyy-MM-dd") + "' and ConsIn is not Null";
+
                                     string OutRef = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-                                    sql = "Select Convert(varchar(19),ConsIn,121) from AttdData Where EmpUnqID = '" + sEmpCode + "' and tdate ='" + preday.ToString("yyyy-mm-dd") + "'";
+                                    sql = "Select Convert(varchar(19),ConsIn,121) from AttdData Where EmpUnqID = '" + sEmpCode + "' " +
+                                          " and CompCode ='" + Emp.CompCode + "' And WrkGrp ='" + Emp.WrkGrp + "' and tYear ='" + drDate["CalYear"].ToString() + "' " +
+                                        " and tdate ='" + preday.ToString("yyyy-MM-dd") + "'";
                                     string prein = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
 
 
                                     string outsql = string.Empty;
                                     
-                                    if (drAttd["ConsIN"] != DBNull.Value)
+                                    if (drAttd["ConsIN"].ToString() != "")
                                     {
                                         nxtdt = Convert.ToDateTime(drAttd["ConsIN"]).AddHours(25).ToString("yyyy-MM-dd HH:mm:ss");
                                         if(OutRef != "") 
                                         {
 
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drAttd["ConsIn"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + nxtdt + "')" +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drAttd["ConsIn"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + nxtdt + "')" +
                                                " where  PunchDate > '" + OutRef + "'" +
                                                " and IOFLG = 'O' And SanFlg = 1 And SanDt ='" + Convert.ToDateTime(drAttd["Date"]).ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                                                " Order By SanID  Desc ";
                                         }
                                         else
                                         {
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drAttd["ConsIn"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + nxtdt + "')" +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drAttd["ConsIn"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + nxtdt + "')" +
                                                " where  " +
                                                " IOFLG = 'O' And SanFlg = 1 And SanDt ='" + Convert.ToDateTime(drAttd["Date"]).ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                                                " Order By SanID   ";
@@ -179,23 +288,23 @@ namespace Attendance
 
                                         if(drAttd["InPunch1"] == DBNull.Value && OutRef == "" )
                                         {
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "') " +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "') " +
                                               " where IOFLG = 'O' And SanFlg = 1 Order By SanID  Desc ";
                                         }
-                                        else if(drAttd["InPunch1"] != DBNull.Value && OutRef != "")
+                                        else if(drAttd["InPunch1"] == DBNull.Value && OutRef != "")
                                         {
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
                                                 " where IOFLG = 'O' And SanFlg = 1 And PunchDate > '" + OutRef + "' and PunchDate < '" + nxtdt + "'  Order By SanID  Desc ";
                                         }
                                         else if (drAttd["InPunch1"] != DBNull.Value && OutRef == "")                    
                                         {
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
                                                " where IOFLG = 'O' And SanFlg = 1 and PunchDate > '" + Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                                                " And PunchDate < '" + nxtdt + "' Order By SanID  Desc ";
                                         }
                                         else if (drAttd["InPunch1"] != DBNull.Value && OutRef != "")
                                         {
-                                            outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
+                                            outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
                                                " where IOFLG = 'O' And SanFlg = 1 and PunchDate > '" + Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                                                " And PunchDate > '" + OutRef + "' and PunchDate < '" + nxtdt + "' Order By SanID  Desc ";
                     
@@ -310,7 +419,7 @@ namespace Attendance
                                             }
                                             else //'Get OutPunch from f_Get_Punches
                                             {
-                                                outsql = "Select top 1 Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-mm-dd") + "','" + nxtdt + "')" +
+                                                outsql = "Select Convert(varchar(19),punchdate,121) from F_Get_Punches('" + sEmpCode + "','" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "','" + nxtdt + "')" +
                                                    " where IOFLG = 'O' " +
                                                    " And PunchDate > '" + OutRef + "' and PunchDate < '" + nxtdt + "' Order By SanID  Desc " ;
                     
@@ -337,13 +446,12 @@ namespace Attendance
                                     #endregion Double_Check_ConsOut
 
                                     #region Set_Primary_AttdStatus
-                                    if(drAttd["ConsIN"] is DateTime && drAttd["ConsOut"] is DateTime)
+                                    if(drAttd["ConsIN"] != DBNull.Value && drAttd["ConsOut"] != DBNull.Value)
                                     {
-                                        TimeSpan t = Convert.ToDateTime(drAttd["ConsIN"]) - Convert.ToDateTime(drAttd["ConsOut"]); 
-                                        //string wrksql = "Select round( convert(float,DATEDIFF(MINUTE,'" + Convert.ToDateTime(drAttd["ConsIN"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + Convert.ToDateTime(drAttd["ConsOut"]).ToString("yyyy-MM-dd HH:mm:ss") + "'))/60 * 2,0)/2" ;
-                                        //ars!ConsWrkHrs = GetDescription(wrksql)
-                                        //ars!Status = "P"
-                                        drAttd["ConsWrkHrs"] = t.TotalHours;
+                                        //TimeSpan t = Convert.ToDateTime(drAttd["ConsOut"]) - Convert.ToDateTime(drAttd["ConsIN"]);
+                                        string wrksql = "Select round( convert(float,DATEDIFF(MINUTE,'" + Convert.ToDateTime(drAttd["ConsIN"]).ToString("yyyy-MM-dd HH:mm:ss") + "','" + Convert.ToDateTime(drAttd["ConsOut"]).ToString("yyyy-MM-dd HH:mm:ss") + "'))/60 * 2,0)/2" ;
+
+                                        drAttd["ConsWrkHrs"] = Utils.Helper.GetDescription(wrksql, Utils.Helper.constr);
                                         drAttd["Status"] = "P";
 
                                     }else
@@ -358,7 +466,7 @@ namespace Attendance
 
                                         string sansql = "Select top 1 sanid,SchLeave,SchLeaveHalf From MastLeaveSchedule " +
                                            " where EmpUnqID = '" + sEmpCode + "' " +
-                                           " And tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-mm-dd") + "' " +
+                                           " And tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "' " +
                                            " And SchLeave is not null Order By SanID Desc" ;
                                         DataSet ds = Utils.Helper.GetData(sansql,Utils.Helper.constr);
                                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
@@ -367,8 +475,10 @@ namespace Attendance
                                             DataRow dr = ds.Tables[0].Rows[0];
                                             drAttd["LeaveTyp"] = dr["schLeave"];
                                             drAttd["LeaveHalf"] = dr["SchLeaveHalf"];
+
+                                            daAttdData.Update(dsAttdData, "AttdData");
                                         }
-                                        daAttdData.Update(dsAttdData, "AttdData");
+                                        
                                     #endregion PostLeave
 
                                     #region Check_Sanction_Shift_OtherInfo
@@ -383,37 +493,48 @@ namespace Attendance
                                         if (hasRows)
                                         {
                                             DataRow dr = ds.Tables[0].Rows[0];
-                                            SetShift(Emp, daAttdData, dsAttdData, drAttd, dr["ConsShift"].ToString());
+                                            DataRow drAttdCopy = drAttd;
+
+                                            SetShift(daAttdData, dsAttdData, drAttdCopy, Emp, dr["ConsShift"].ToString());
                                         }
                                         else
                                         {
-                                            SetShift(Emp, daAttdData, dsAttdData, drAttd, drAttd["ConsShift"].ToString());
+                                            DataRow drAttdCopy = drAttd;    
+                                            SetShift(daAttdData, dsAttdData, drAttdCopy, Emp, drAttd["ScheduleShift"].ToString());
                                         }
+
+                                        
                                     
                                     #endregion Check_Sanction_Shift_OtherInfo
 
                                     #region Post_Sanction_OT
-                                        sansql = "Select top 1 ConsOverTime From MastLeaveSchedule " +
-                                           " where EmpUnqID = '" + sEmpCode + "' " +
-                                           " And tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "' " +
-                                           " And ConsOverTime is not null Order By SanID Desc";
-
-                                        ds = Utils.Helper.GetData(sansql, Utils.Helper.constr);
-                                        hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                                        if (hasRows)
+                                        if (Emp.OTFLG)
                                         {
-                                            DataRow dr = ds.Tables[0].Rows[0];
-                                            drAttd["ConsOverTime"] = dr["ConsOverTime"];
-                                            daAttdData.Update(dsAttdData, "AttdData");
+                                            sansql = "Select top 1 ConsOverTime From MastLeaveSchedule " +
+                                               " where EmpUnqID = '" + sEmpCode + "' " +
+                                               " And tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "' " +
+                                               " And ConsOverTime is not null Order By SanID Desc";
+
+                                            ds = Utils.Helper.GetData(sansql, Utils.Helper.constr);
+                                            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                            if (hasRows)
+                                            {
+                                                DataRow dr = ds.Tables[0].Rows[0];
+                                                drAttd["ConsOverTime"] = dr["ConsOverTime"];
+                                                daAttdData.Update(dsAttdData, "AttdData");
+                                                
+                                            }
                                         }
                                     #endregion Post_Sanction_OT
 
                                     #region Post_HalfDay
-                                        if( drAttd["LeaveTyp"] != DBNull.Value && !string.IsNullOrEmpty(drAttd["LeaveTyp"].ToString()) && drAttd["LeaveType"].ToString() != "")
+                                        if( drAttd["LeaveTyp"] != DBNull.Value && !string.IsNullOrEmpty(drAttd["LeaveTyp"].ToString()) )
                                         {
                                             drAttd["LateCome"] = "";
                                             drAttd["EarlyGoing"] = "";
-                                            drAttd["EarlyCome"] = "";                                            
+                                            drAttd["EarlyCome"] = "";
+                                            daAttdData.Update(dsAttdData, "AttdData");
+                                            
                                         }
 
                                         int tconswrkhrs =0 ;
@@ -439,7 +560,7 @@ namespace Attendance
                                                     }
                                                     break;
                                             }
-                                            
+                                            daAttdData.Update(dsAttdData, "AttdData");
                                         }
                                         else if (tconswrkhrs >= 0 && tconswrkhrs < 4 && drAttd["Status"].ToString() == "P")
                                         {
@@ -463,27 +584,42 @@ namespace Attendance
                                                     }
                                                     break;
                                             }
-                                            
+                                            daAttdData.Update(dsAttdData, "AttdData");
                                         }
-                                        daAttdData.Update(dsAttdData, "AttdData");
+                                        
                                     #endregion Post_HalfDay
 
                                     #region Final_Status_Marking
-                                        if(drAttd["LeaveType"].ToString() != ""){
-                                            drAttd["Staus"] = "P";
+                                        if (drAttd["LeaveTyp"].ToString() != "")
+                                        {   
+                                            drAttd["Status"] = "P";
+                                            
+                                            if (drAttd["LeaveTyp"].ToString() == "AB")
+                                            {
+                                                drAttd["Status"] = "A";
+                                                drAttd["ConsOverTime"] = 0;
+                                            }
+                                            if (drAttd["LeaveTyp"].ToString() == "SP")
+                                            {
+                                                drAttd["Status"] = "A";
+                                                drAttd["ConsOverTime"] = 0;
+                                            }
+                                            
+                                            daAttdData.Update(dsAttdData, "AttdData");
+            
                                         }
-                                        if(drAttd["LeaveType"].ToString() == "AB"){
-                                            drAttd["Staus"] = "A";
-                                            drAttd["ConsOverTime"] = 0;
+
+                                        if (drAttd["ConsIn"] == DBNull.Value)
+                                        {
+                                            drAttd["ActualStatus"] = "A";
                                         }
-                                        if(drAttd["LeaveType"].ToString() == "SP"){
-                                            drAttd["Staus"] = "A";
-                                            drAttd["ConsOverTime"] = 0;
+                                        else
+                                        {
+                                            drAttd["ActualStatus"] = "P";
                                         }
 
                                         daAttdData.Update(dsAttdData, "AttdData");
-            
-                                    
+
                                     #endregion Final_Status_Marking
 
                                     #region GateInOutProcess_CONT
@@ -521,6 +657,20 @@ namespace Attendance
                 }
             }
         }
+
+        //public void UpdateData()
+        //{
+        //    try
+        //    {
+        //        daAttdData.Update(dsAttdData, "AttdData");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
+
+
 
         public void LunchProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
@@ -605,12 +755,10 @@ namespace Attendance
             }//using connection
         }
 
-        public void SetShift(clsEmp Emp, SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, string tSchShift)
+        public void SetShift(SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, clsEmp Emp,  string tSchShift )
         {
             // this Function will set EarlyCome,Latecome,EarlyGoing,HalfDay,Shift,OverTime
-
             #region Setting_Vars
-
 
             string tShift = string.Empty;
             string sEmpCode = Emp.EmpUnqID;
@@ -627,6 +775,11 @@ namespace Attendance
 
             if (drAttd["ConsIN"] == DBNull.Value)
             {
+                
+                drAttd["ConsOverTime"] = 0;
+                drAttd["CalcOvertime"] = 0;
+                
+                daAttdData.Update(dsAttdData, "AttdData");
                 return;
             }
 
@@ -674,32 +827,54 @@ namespace Attendance
             if (drAttd["ConsIN"] is DateTime && tShift == "")
             {
                 #region AutoSiftCalc
-
-                DataView dvShift = Globals.dtShift.DefaultView;
+                // Create DataView
+                DataView dvShift = new DataView(Globals.dtShift);
                 dvShift.Sort = "ShiftSeq ASC";
 
-                foreach (DataRow drShift in dvShift)
+                foreach (DataRowView drShift in dvShift)
                 {
 
                     #region Set_shiftvars
-                    ShiftHrs = (int)drShift["ShiftHrs"];
-                    ShiftBreak = (int)drShift["BreakHrs"];
+                    ShiftHrs = Convert.ToInt32(drShift["ShiftHrs"].ToString());
+                    ShiftBreak = Convert.ToInt32(drShift["BreakHrs"].ToString());
                     
-                    ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftStart"]).Minute);
-                    ShiftEnd =  ShiftStart.AddHours(Convert.ToDateTime(drShift["ShiftEnd"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftEnd"]).Minute);
+                    ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Minute);
+                    
+                    ShiftEnd =  Convert.ToDateTime(ShiftStart.AddHours(ShiftHrs));
 
-                    ShiftInFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftInFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftInFrom"]).Second);
-                    ShiftInTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInTo"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftInTo"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftInTo"]).Second);
+                    ShiftInFrom = Convert.ToDateTime(tDate
+                        .AddHours(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Second));
+
+                    ShiftInTo = Convert.ToDateTime(tDate
+                        .AddHours(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Second));
                     
                     if(Convert.ToBoolean(drShift["NightFlg"]))
                     {
-                        ShiftOutFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
-                        ShiftOutTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
+                        ShiftOutFrom = Convert.ToDateTime(tDate
+                            .AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second));
+
+                        ShiftOutTo = Convert.ToDateTime(tDate
+                            .AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second));
                     }
                     else
                     {
-                        ShiftOutFrom = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
-                        ShiftOutTo = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
+                        ShiftOutFrom = Convert.ToDateTime(tDate
+                            .AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second));
+                        ShiftOutTo = Convert.ToDateTime(tDate.AddDays(1)
+                            .AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second));
                     }
 
                     #endregion Set_shiftvars
@@ -713,7 +888,7 @@ namespace Attendance
 
                         #region Set_LateComming
                         //'Calc LateCome,EarlyGone
-                        TimeSpan tDiff = (ShiftStart - tInTime);
+                        TimeSpan tDiff = (tInTime-ShiftStart);
                         
                         if (tDiff.TotalSeconds > 660)
                         {
@@ -772,6 +947,7 @@ namespace Attendance
                                 if (Convert.ToDateTime(drAttd["ConsShift"]) >= ShiftOutFrom && Convert.ToDateTime(drAttd["ConsShift"]) <= ShiftOutTo)
                                 {
                                     drAttd["ConsShift"] = "DD";
+                                    daAttdData.Update(dsAttdData, "AttdData");
                                 }
                                 else
                                 {
@@ -784,7 +960,7 @@ namespace Attendance
                                         ShiftEnd = ShiftStart.AddHours(ShiftHrs);
                                         ShiftBreak = Convert.ToInt32(tdr["BreakHrs"]);
                                     }
-                                    
+                                    daAttdData.Update(dsAttdData, "AttdData");
                                 }
                                 
                             }
@@ -792,7 +968,7 @@ namespace Attendance
 
                             #region Set_EarlyGoing
                             
-                            TimeSpan ts = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
+                            TimeSpan ts = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd );
                             if(ts.TotalSeconds < -660 && ts.TotalSeconds < 0)
                             {
                                 TimeSpan t1 = Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd;
@@ -831,12 +1007,12 @@ namespace Attendance
                             }
                             #endregion Set_EarlyGoing
                             
-                            daAttdData.Update(dsAttdData, "AttdData");
+                            
                         }
 
                         #region Set_EarlyCome
                         
-                        TimeSpan t2 = (tInTime - ShiftStart);
+                        TimeSpan t2 = (ShiftStart-tInTime);
                         secearly = t2.TotalSeconds;
                         
                         if(secearly > 660)
@@ -877,7 +1053,7 @@ namespace Attendance
 
                         
                         #endregion Set_EarlyCome
-
+                       
                         goto OTCalc; 
 
                     }
@@ -908,7 +1084,6 @@ namespace Attendance
             else
             {
                 #region SchShiftCalc
-                
 
                 DataRow[] drShiftC = Globals.dtShift.Select("ShiftCode = '" + tShift + "'");
 
@@ -920,7 +1095,7 @@ namespace Attendance
                         //auto shift calc
                         if(tInTime != DateTime.MinValue && tOutTime.HasValue )
                         {
-                            SetShift(Emp,daAttdData,dsAttdData,drAttd,"");
+                            SetShift(daAttdData,dsAttdData, drAttd, Emp,"");
                         }
                         
                     }
@@ -931,24 +1106,40 @@ namespace Attendance
                 #region Set_shiftvars
                 foreach (DataRow drShift in drShiftC)
                 {
-                    ShiftHrs = (int)drShift["ShiftHrs"];
-                    ShiftBreak = (int)drShift["BreakHrs"];
+                    ShiftHrs = Convert.ToInt32(drShift["ShiftHrs"].ToString());
+                    ShiftBreak = Convert.ToInt32(drShift["BreakHrs"].ToString());
 
-                    ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftStart"]).Minute);
-                    ShiftEnd = ShiftStart.AddHours(Convert.ToDateTime(drShift["ShiftEnd"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftEnd"]).Minute);
+                    ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Minute);
 
-                    ShiftInFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftInFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftInFrom"]).Second);
-                    ShiftInTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInTo"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftInTo"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftInTo"]).Second);
+                    ShiftEnd = Convert.ToDateTime(ShiftStart.AddHours(ShiftHrs));
+
+                    ShiftInFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Second);
+
+                    ShiftInTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Second);
 
                     if (Convert.ToBoolean(drShift["NightFlg"]))
                     {
-                        ShiftOutFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
-                        ShiftOutTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
+                        ShiftOutFrom = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second);
+                        ShiftOutTo = tDate.AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second);
                     }
                     else
                     {
-                        ShiftOutFrom = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
-                        ShiftOutTo = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"]).Hour).AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"]).Minute).AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"]).Second);
+                        ShiftOutFrom = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second);
+
+                        ShiftOutTo = tDate.AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                            .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                            .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second);
                     }
                 }
 
@@ -1232,11 +1423,22 @@ namespace Attendance
         
             #region OTCalc
         OTCalc:
+            
+            if (!tOTFLG)
+            {
+                drAttd["ConsOverTime"] = 0;
+                drAttd["CalcOverTime"] = 0;
+                daAttdData.Update(dsAttdData, "AttdData");
+               
+                return;
+            }
+
+
             OverTime = 0;
             if (tOTFLG && (Convert.ToDouble(drAttd["ConsWrkHrs"])) > ShiftHrs && drAttd["LeaveTyp"].ToString()  == "") 
             {
-                TimeSpan t3 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
-                OverTime = t3.TotalSeconds;
+                TimeSpan t3 = (Convert.ToDateTime(drAttd["ConsOut"])-ShiftEnd );
+                OverTime = t3.TotalMinutes;
                 int  othrs = 0, otmin = 0;
                 double ot = 0;
 
@@ -1323,10 +1525,22 @@ namespace Attendance
             daAttdData.Update(dsAttdData, "AttdData");
 
             #endregion OTCalc
+          
+
             return;
 
         } //end SetShift
 
-       
+        
+    }
+
+    public static class TimeSpanExtensions
+    {
+        public static TimeSpan RoundToNearestMinutes(this TimeSpan input, int minutes)
+        {
+            var totalMinutes = (int)(input + new TimeSpan(0, minutes / 2, 0)).TotalMinutes;
+
+            return new TimeSpan(0, totalMinutes - totalMinutes % minutes, 0);
+        }
     }
 }

@@ -653,6 +653,42 @@ namespace Attendance
             }
         }
 
+        private void mnuDataProcess_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmProcess"];
+            if (t == null)
+            {
+                Attendance.Forms.frmProcess m = new Attendance.Forms.frmProcess();
+                m.MdiParent = this;
+                m.ProcessName = "ATTD";
+                m.Show();
+            }
+        }
+
+        private void mnuMessDataProcess_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmProcess"];
+            if (t == null)
+            {
+                Attendance.Forms.frmProcess m = new Attendance.Forms.frmProcess();
+                m.MdiParent = this;
+                m.ProcessName = "MESS";
+                m.Show();
+            }
+        }
+
+        private void mnuLunchInOutProcess_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmProcess"];
+            if (t == null)
+            {
+                Attendance.Forms.frmProcess m = new Attendance.Forms.frmProcess();
+                m.MdiParent = this;
+                m.ProcessName = "LUNCHINOUT";
+                m.Show();
+            }
+        }
+
         
 
     }

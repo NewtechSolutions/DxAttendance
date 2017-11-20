@@ -261,6 +261,7 @@ namespace Attendance.Forms
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
+                oledbconn.Close();
             }
             catch (Exception ex)
             {
@@ -268,6 +269,7 @@ namespace Attendance.Forms
                 MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
                 btnImport.Enabled = false;
+                oledbconn.Close();
                 return;
             }
             

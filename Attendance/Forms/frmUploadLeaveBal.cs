@@ -266,6 +266,7 @@ namespace Attendance.Forms
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
+                oledbconn.Close();
             }
             catch (Exception ex)
             {

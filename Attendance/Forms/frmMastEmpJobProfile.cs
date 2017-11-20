@@ -679,6 +679,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtDeptCode.Text = "";
                 txtDeptDesc.Text = "";
             }
         }
@@ -769,6 +770,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtStatCode.Text = "";
                 txtStatDesc.Text = "";
             }
             
@@ -858,6 +860,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtCatCode.Text = "";
                 txtCatDesc.Text = "";
             }
 
@@ -941,6 +944,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtEmpTypeCode.Text = "";
                 txtEmpTypeDesc.Text = "";
             }
             
@@ -1036,6 +1040,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtContCode.Text = "";
                 txtContDesc.Text = "";
             }
             
@@ -1123,6 +1128,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtGradeCode.Text = "";
                 txtGradeDesc.Text = "";
             }
             
@@ -1212,6 +1218,7 @@ namespace Attendance.Forms
             }
             else
             {
+                txtDesgCode.Text = "";
                 txtDesgDesc.Text = "";
             }
 
