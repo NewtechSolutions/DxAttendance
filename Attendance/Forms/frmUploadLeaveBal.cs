@@ -153,7 +153,7 @@ namespace Attendance.Forms
 
                 using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
                 {
-                    DateTime tdt;
+                    
 
                     con.Open();
                     foreach (DataRow dr in sortedDT.Rows)

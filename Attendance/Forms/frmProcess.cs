@@ -329,7 +329,7 @@ namespace Attendance.Forms
             tdr["Status"] = "Pending";
             tdr["IsDone"] = false;
             ProcessList.Rows.Add(tdr);
-            ctrlEmp1.txtEmpUnqID.Text = "";
+            ctrlEmp1.ResetCtrl();
             gridApp.Refresh();
             CalcProcessed();
 
@@ -782,7 +782,8 @@ namespace Attendance.Forms
                         string sql1 = string.Empty;
 
                         sql1 = "Insert into AttdWorker  ( EmpUnqId,FromDt,ToDt,WorkerId,DoneFlg,PushFlg,addid ) " +
-                        " select EmpUnqId ,'" + txtWrkFromDt.DateTime.ToString("yyyy-MM-dd") + "','" + txtWrkToDate.DateTime.ToString("yyyy-MM-dd") + "','" + Utils.User.GUserID + "',0,0,'" + Utils.User.GUserID + 
+                        " select EmpUnqId ,'" + txtWrkFromDt.DateTime.ToString("yyyy-MM-dd") + "','" + txtWrkToDate.DateTime.ToString("yyyy-MM-dd") + "'," +
+                        " '" + Utils.User.GUserID + "',0,0,'" + Utils.User.GUserID + "' " +
                         " From MastEmp Where WrkGrp='" + txtWrkGrpCode.Text.Trim().ToString().ToUpper() + "' " +
                         " and CompCode ='" + txtCompCode.Text.Trim().ToString() + "' and active = 1 Order By EmpUnqID";
 
@@ -939,7 +940,8 @@ namespace Attendance.Forms
                         DateTime tFromDt = Convert.ToDateTime(dr["FromDate"]);
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
-                        pr.AttdProcess(tEmpUnqID, tFromDt,tToDt,out res);
+                        string proerr = string.Empty;
+                        pr.AttdProcess(tEmpUnqID, tFromDt,tToDt,out res,out proerr);
 
                         //update processed status
                         if (res > 0)
@@ -950,6 +952,11 @@ namespace Attendance.Forms
                             dr.EndEdit();
                             dr.AcceptChanges();
                             RefreshAppGrid(sender,e);
+                        }
+                        
+                        if(!string.IsNullOrEmpty(proerr))
+                        {
+                            dr["Status"] = "Processed but with error : " + proerr;
                         }
 
                     }

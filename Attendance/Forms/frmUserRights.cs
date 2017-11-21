@@ -149,6 +149,7 @@ namespace Attendance.Forms
                     {
                         sql = "Update MastUser Set UserName = '" + txtPersonName.Text.Trim() + "', " +
                             " Pass = '" + txtPassword.Text.Trim() + "', Active = '" + ((this.chkActive.Checked) ? "Y" : "N") + "', " +
+                            " IsAdmin ='" + ((this.chkSuperUser.Checked) ? "1" :"0") + "'," +
                             " UpdDt = GetDate(), UpdID = '" + Utils.User.GUserID + "' " +
                             " Where UserID = '" + txtUserID.Text.Trim() + "'";
                         cmd = new SqlCommand(sql, cn);
@@ -158,9 +159,10 @@ namespace Attendance.Forms
                     }
                     else
                     {
-                        sql = "Insert into MastUser (UserID,UserName,Pass,Active,AddDt,AddId) values (" +
+                        sql = "Insert into MastUser (UserID,UserName,Pass,Active,IsAdmin,AddDt,AddId) values (" +
                             " '" + txtUserID.Text.Trim() + "','" + txtPersonName.Text.Trim() + "','" + txtPassword.Text.Trim() + "'," +
-                            " '" + ((this.chkActive.Checked) ? "Y" : "N") + "', GetDate() ,'" + Utils.User.GUserID + "') ";
+                            " '" + ((this.chkActive.Checked) ? "Y" : "N") + "', '" + " IsAdmin ='" + ((this.chkSuperUser.Checked) ? "1" :"0") + "',GetDate() ,'" + Utils.User.GUserID + "') ";
+                        
                         cmd = new SqlCommand(sql, cn);
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("New User Created...");
@@ -333,8 +335,25 @@ namespace Attendance.Forms
                     }
                     else
                         chkActive.CheckState = CheckState.Unchecked;
+
+                    if(Convert.ToBoolean(dr["IsAdmin"]))
+                    {
+                        chkSuperUser.Checked = true;
+                    }
+                    else
+                    {
+                        chkSuperUser.Checked = false;
+                    }
                 }
-                
+                else
+                {
+                    chkSuperUser.Checked = false;
+                }
+
+            }
+            else
+            {
+                chkSuperUser.Checked = false;
             }
 
             LoadGrid();

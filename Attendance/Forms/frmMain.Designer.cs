@@ -108,6 +108,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -134,7 +135,8 @@
             this.mnuCreateUser,
             this.mnuUserRights,
             this.mnuConfig,
-            this.mnuDomainConfig});
+            this.mnuDomainConfig,
+            this.mnuOtherConfig});
             this.mnuAdmin.Name = "mnuAdmin";
             this.mnuAdmin.Size = new System.Drawing.Size(55, 20);
             this.mnuAdmin.Text = "&Admin";
@@ -151,6 +153,7 @@
             this.mnuCreateUser.Name = "mnuCreateUser";
             this.mnuCreateUser.Size = new System.Drawing.Size(193, 22);
             this.mnuCreateUser.Text = "Create User";
+            this.mnuCreateUser.Click += new System.EventHandler(this.mnuCreateUser_Click);
             // 
             // mnuUserRights
             // 
@@ -634,6 +637,7 @@
             this.mnuBulkSan.Name = "mnuBulkSan";
             this.mnuBulkSan.Size = new System.Drawing.Size(163, 22);
             this.mnuBulkSan.Text = "Bulk Sanction";
+            this.mnuBulkSan.Click += new System.EventHandler(this.mnuBulkSan_Click);
             // 
             // mnuData
             // 
@@ -736,6 +740,13 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
+            // 
+            // mnuOtherConfig
+            // 
+            this.mnuOtherConfig.Name = "mnuOtherConfig";
+            this.mnuOtherConfig.Size = new System.Drawing.Size(193, 22);
+            this.mnuOtherConfig.Text = "Other Config";
+            this.mnuOtherConfig.Click += new System.EventHandler(this.mnuOtherConfig_Click);
             // 
             // frmMain
             // 
@@ -841,6 +852,7 @@
         private System.Windows.Forms.ToolStripStatusLabel stsExtra;
         private System.Windows.Forms.ToolStripMenuItem mnuDBConn;
         private System.Windows.Forms.ToolStripMenuItem mnuDomainConfig;
+        private System.Windows.Forms.ToolStripMenuItem mnuOtherConfig;
 
 
     }

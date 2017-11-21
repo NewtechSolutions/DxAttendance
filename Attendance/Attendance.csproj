@@ -90,6 +90,12 @@
     <Compile Include="Forms\frmAutoMailSubScription.designer.cs">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmBulkSanction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBulkSanction.designer.cs">
+      <DependentUpon>frmBulkSanction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmEmployeeImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,12 @@
     </Compile>
     <Compile Include="Forms\frmMastEmpPerInfo.Designer.cs">
       <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmOtherConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmOtherConfig.Designer.cs">
+      <DependentUpon>frmOtherConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmProcess.cs">
       <SubType>Form</SubType>
@@ -362,6 +374,9 @@
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBulkSanction.resx">
+      <DependentUpon>frmBulkSanction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEmployeeImport.resx">
       <DependentUpon>frmEmployeeImport.cs</DependentUpon>
     </EmbeddedResource>
@@ -382,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpPerInfo.resx">
       <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmOtherConfig.resx">
+      <DependentUpon>frmOtherConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProcess.resx">
       <DependentUpon>frmProcess.cs</DependentUpon>

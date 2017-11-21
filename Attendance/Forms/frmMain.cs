@@ -689,6 +689,42 @@ namespace Attendance
             }
         }
 
+        private void mnuCreateUser_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmUserRights"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmUserRights m = new Attendance.Forms.frmUserRights();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkSan_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkSanction"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkSanction m = new Attendance.Forms.frmBulkSanction();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuOtherConfig_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmOtherConfig"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmOtherConfig m = new Attendance.Forms.frmOtherConfig();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
