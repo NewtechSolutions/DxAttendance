@@ -561,10 +561,10 @@
             // mnuLeave
             // 
             this.mnuLeave.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLeaveEntry,
             this.mnuLeaveBalUpload,
             this.mnuLeaveBalEntry,
-            this.mnuLeaveEntryLunch,
-            this.mnuLeaveEntry});
+            this.mnuLeaveEntryLunch});
             this.mnuLeave.Name = "mnuLeave";
             this.mnuLeave.Size = new System.Drawing.Size(152, 22);
             this.mnuLeave.Text = "Leave";
@@ -595,6 +595,7 @@
             this.mnuLeaveEntry.Name = "mnuLeaveEntry";
             this.mnuLeaveEntry.Size = new System.Drawing.Size(210, 22);
             this.mnuLeaveEntry.Text = "Leave Entry";
+            this.mnuLeaveEntry.Click += new System.EventHandler(this.mnuLeaveEntry_Click);
             // 
             // mnuShift
             // 

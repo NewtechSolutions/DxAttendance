@@ -44,8 +44,8 @@
             this.txtWrkGrpDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights = new System.Windows.Forms.GroupBox();
-            this.btnProcess = new System.Windows.Forms.Button();
             this.txtError = new DevExpress.XtraEditors.MemoEdit();
+            this.btnProcess = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToDate.Properties.CalendarTimeProperties)).BeginInit();
@@ -240,6 +240,13 @@
             this.grpUserRights.TabIndex = 2;
             this.grpUserRights.TabStop = false;
             // 
+            // txtError
+            // 
+            this.txtError.Location = new System.Drawing.Point(11, 71);
+            this.txtError.Name = "txtError";
+            this.txtError.Size = new System.Drawing.Size(431, 241);
+            this.txtError.TabIndex = 4;
+            // 
             // btnProcess
             // 
             this.btnProcess.BackColor = System.Drawing.Color.Cornsilk;
@@ -251,13 +258,6 @@
             this.btnProcess.UseVisualStyleBackColor = false;
             this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
             // 
-            // txtError
-            // 
-            this.txtError.Location = new System.Drawing.Point(11, 71);
-            this.txtError.Name = "txtError";
-            this.txtError.Size = new System.Drawing.Size(431, 241);
-            this.txtError.TabIndex = 4;
-            // 
             // frmLunchHalfDaypost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -268,7 +268,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmLunchHalfDaypost";
-            this.Text = "Create Muster Table";
+            this.Text = "Lunch Half Day Post";
             this.Load += new System.EventHandler(this.frmMastUnit_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

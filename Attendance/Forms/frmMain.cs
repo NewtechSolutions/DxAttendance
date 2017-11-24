@@ -732,6 +732,18 @@ namespace Attendance
             m.Show();
         }
 
+        private void mnuLeaveEntry_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmLeaveEntry"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmLeaveEntry m = new Attendance.Forms.frmLeaveEntry();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
