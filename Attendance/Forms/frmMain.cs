@@ -725,6 +725,13 @@ namespace Attendance
             }
         }
 
+        private void mnuManualSan_Click(object sender, EventArgs e)
+        {
+            Attendance.Forms.frmSanction m = new Attendance.Forms.frmSanction();
+            m.MdiParent = this;
+            m.Show();
+        }
+
         
 
     }

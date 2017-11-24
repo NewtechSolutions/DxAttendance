@@ -22,6 +22,78 @@ namespace Attendance
             dsAttdData = new DataSet();
         }
 
+        public void Lunch_HalfDayPost_Process(string tEmpUnqID, DateTime tDate,  out int result)
+        {
+            result = 0;
+
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                return;
+            }
+
+            
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    clsEmp Emp = new clsEmp();
+                    Emp.CompCode = "01";
+                    Emp.EmpUnqID = tEmpUnqID;
+
+                    //check employee status
+                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        //if not active 
+                        if (!Emp.Active)
+                            return;
+                    }
+
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.Text;
+                        string sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                            " GetDate(),'" + Utils.User.GUserID + "','LunchHalfDayPost','" + tDate.ToString("yyyy-MM-dd") + "'," +
+                            " '" + tDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Attd_Lunch_HalfDayPost";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.Int32;
+                        spout.ParameterName = "@presult";
+                        int tout = 0;
+                        spout.Value = tout;
+                                                
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                        cmd.Parameters.AddWithValue("@pFromDt", tDate);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (int)cmd.Parameters["@presult"].Value;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }//using connection
+        }
+        
         public void LunchInOutProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
             result = 0;
@@ -354,7 +426,7 @@ namespace Attendance
 
                                     string outsantime = Utils.Helper.GetDescription(outsql, Utils.Helper.constr);
 
-                                    if (!string.IsNullOrEmpty(insantime))
+                                    if (!string.IsNullOrEmpty(outsantime))
                                     {
                                         drAttd["ConsOut"] = Convert.ToDateTime(outsantime);
                                     }
@@ -1209,62 +1281,165 @@ namespace Attendance
 
                         #region Set_LateComming
                         //'Calc LateCome,EarlyGone
-                        TimeSpan tDiff = (tInTime - ShiftStart);
-
-
-                        if (tDiff.TotalSeconds > 660)
+                        if (tInTime > ShiftStart)
                         {
+                            TimeSpan tDiff = (tInTime - ShiftStart);
+                            if (tDiff.TotalSeconds > 660)
+                            {
 
-                            seclate = tDiff.TotalSeconds;
-                            hurlate = Math.Truncate(seclate / 3600);
-                            minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
-                            sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate); 
-                            drAttd["LateCome"] = sminlate;
+                                seclate = tDiff.TotalSeconds;
+                                hurlate = Math.Truncate(seclate / 3600);
+                                minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
+                                sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate); 
+                                drAttd["LateCome"] = sminlate;
 
-                            //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
-                            if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                            {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Latecome"] = "";
-                                drAttd["EarlyCome"] = "";
-                            }
-                            else if (seclate > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                            {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Latecome"] = "";
-                                drAttd["EarlyCome"] = "";
-                            }
-                            else if (seclate > 1800 && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
-                                drAttd["Halfday"] = 1;
+                                //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Latecome"] = "";
+                                    drAttd["EarlyCome"] = "";
+                                }
+                                else if (seclate > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Latecome"] = "";
+                                    drAttd["EarlyCome"] = "";
+                                }
+                                else if (seclate > 1800 && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                    drAttd["Halfday"] = 1;
 
-                            else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
-                            {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Status"] = "A";
-                                drAttd["Latecome"] = "";
+                                else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Status"] = "A";
+                                    drAttd["Latecome"] = "";
+                                }
+                                else if (seclate > 5400 && eWrkGrp == "COMP")
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Status"] = "A";
+                                    drAttd["Latecome"] = "";
+                                }
+                                
+                                daAttdData.Update(dsAttdData, "AttdData");
                             }
-                            else if (seclate > 5400 && eWrkGrp == "COMP")
-                            {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Status"] = "A";
-                                drAttd["Latecome"] = "";
-                            }
-                            //
-                            daAttdData.Update(dsAttdData, "AttdData");
-                        }//
+                        }
+                        
                         #endregion Set_LateComming
+
                         #region Set_EarlyCome
-                        else if (tDiff.TotalSeconds <= -660)
+
+                        if (tInTime < ShiftStart)
                         {
-                            TimeSpan t4 = (ShiftStart - tInTime);
+                            TimeSpan tDiff = (tInTime - ShiftStart);
 
-                            secearly = t4.TotalSeconds;
+                            if (tDiff.TotalSeconds <= -660)
+                            {
+                                TimeSpan t4 = (ShiftStart - tInTime);
 
+                                secearly = t4.TotalSeconds;
+
+                                hurearly = Math.Truncate(secearly / 3600);
+                                minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
+
+                                sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly);
+
+                                drAttd["EarlyCome"] = sminearly;
+
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Latecome"] = "";
+                                    drAttd["EarlyCome"] = "";
+                                }
+                                else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                {
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Latecome"] = "";
+                                    drAttd["EarlyCome"] = "";
+
+                                }
+                                else if (tInTime <= ShiftStart)
+                                {
+                                    if (drAttd["ConsOut"] != DBNull.Value)
+                                    {
+                                        if (Convert.ToDateTime(drAttd["ConsOut"]) >= ShiftEnd)
+                                        {
+                                            drAttd["Halfday"] = 0;
+                                            drAttd["Status"] = "P";
+                                            drAttd["EarlyCome"] = sminearly;
+
+                                        }
+                                    }
+                                }
+                                daAttdData.Update(dsAttdData, "AttdData");
+                            }
+                        }
+
+                        
+                        #endregion Set_EarlyCome
+
+                        #region Set_EarlyGoing
+                        if (drAttd["ConsOut"] != DBNull.Value)
+                        {
+
+                            if(ShiftEnd > Convert.ToDateTime(drAttd["ConsOut"]))
+                            {
+                                TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
+                                if (t5.TotalSeconds < -660 && t5.TotalSeconds < 0)
+                                {
+                                    secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
+                                    hurgone = Math.Truncate(secgone / 3600);
+                                    mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
+                                    smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    drAttd["EarlyGoing"] = smingone;
+
+                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+
+                                    }
+                                    else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                    }
+                                    else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                    {
+                                        drAttd["Halfday"] = 1;
+                                    }
+                                    else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                    }
+                                    else if (secgone > 3600 && eWrkGrp == "COMP")
+                                    {
+                                        drAttd["Halfday"] = 1;
+                                    }
+
+                                }
+                            }
+                            
+
+                            daAttdData.Update(dsAttdData, "AttdData");
+                        }
+
+                        #endregion Set_EarlyGoing
+
+                    }
+                    else //if emp comes before schedule shift set early times
+                    {
+
+                        #region Set_EarlyCome1
+                        if (tInTime < ShiftStart)
+                        {
+                            secearly = (tInTime - ShiftStart).TotalSeconds;
                             hurearly = Math.Truncate(secearly / 3600);
                             minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
-
-                            sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly); 
-
+                            sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly);
                             drAttd["EarlyCome"] = sminearly;
 
                             if (eWrkGrp == "COMP" && eGradeCode <= 15)
@@ -1278,7 +1453,6 @@ namespace Attendance
                                 drAttd["Halfday"] = 0;
                                 drAttd["Latecome"] = "";
                                 drAttd["EarlyCome"] = "";
-
                             }
                             else if (tInTime <= ShiftStart)
                             {
@@ -1291,93 +1465,8 @@ namespace Attendance
                                         drAttd["EarlyCome"] = sminearly;
 
                                     }
-                                }
-                            }
-                            daAttdData.Update(dsAttdData, "AttdData");
-                        }
-                        #endregion Set_EarlyCome
-
-                        #region Set_EarlyGoing
-                        if (drAttd["ConsOut"] != DBNull.Value)
-                        {
-
-
-                            TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
-                            if (t5.TotalSeconds < -660 && t5.TotalSeconds < 0)
-                            {
-                                secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
-                                hurgone = Math.Truncate(secgone / 3600);
-                                mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
-                                smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
-                                drAttd["EarlyGoing"] = smingone;
-
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
 
                                 }
-                                else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                }
-                                else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
-                                {
-                                    drAttd["Halfday"] = 1;
-                                }
-                                else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                }
-                                else if (secgone > 3600 && eWrkGrp == "COMP")
-                                {
-                                    drAttd["Halfday"] = 1;
-                                }
-
-                            }
-
-                            daAttdData.Update(dsAttdData, "AttdData");
-                        }
-
-                        #endregion Set_EarlyGoing
-
-                    }
-                    else //if emp comes before schedule shift set early times
-                    {
-
-                        #region Set_EarlyCome1
-                        secearly = (tInTime - ShiftStart).TotalSeconds;
-                        hurearly = Math.Truncate(secearly / 3600);
-                        minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
-                        sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly); 
-                        drAttd["EarlyCome"] = sminearly;
-
-                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                        {
-                            drAttd["Halfday"] = 0;
-                            drAttd["Latecome"] = "";
-                            drAttd["EarlyCome"] = "";
-                        }
-                        else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                        {
-                            drAttd["Halfday"] = 0;
-                            drAttd["Latecome"] = "";
-                            drAttd["EarlyCome"] = "";
-                        }
-                        else if (tInTime <= ShiftStart)
-                        {
-                            if (drAttd["ConsOut"] != DBNull.Value)
-                            {
-                                if (Convert.ToDateTime(drAttd["ConsOut"]) >= ShiftEnd)
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["Status"] = "P";
-                                    drAttd["EarlyCome"] = sminearly;
-
-                                }
-
                             }
                         }
                         #endregion Set_EarlyCome1
@@ -1386,48 +1475,51 @@ namespace Attendance
 
                         if (drAttd["ConsOut"] != DBNull.Value)
                         {
-                            TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
-                            if (t5.TotalSeconds < -660 && t5.TotalSeconds < 0)
+                            if (ShiftEnd > Convert.ToDateTime(drAttd["ConsOut"]))
                             {
-                                secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
-                                hurgone = Math.Truncate(secgone / 3600);
-                                mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
-                                smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
-                                drAttd["EarlyGoing"] = smingone;
+                                TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
+                                if (t5.TotalSeconds < -660 && t5.TotalSeconds < 0)
+                                {
+                                    secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
+                                    hurgone = Math.Truncate(secgone / 3600);
+                                    mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
+                                    smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    drAttd["EarlyGoing"] = smingone;
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                }
-                                else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                }
-                                else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
-                                {
-                                    drAttd["Halfday"] = 1;
-                                }
-                                else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                }
-                                else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP")
-                                {
-                                    drAttd["Halfday"] = 1;
-                                }
-                                //'check if early come BUT GOES BETWEEN 1HOUR OF SHIFTEND- ALLOW 20/07/2015.
-                                else if (Convert.ToDateTime(drAttd["ConsIn"]) < ShiftStart && secgone <= 3600 && eWrkGrp == "COMP")
-                                {
+                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                    }
+                                    else if (secgone > 3600 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                    }
+                                    else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                    {
+                                        drAttd["Halfday"] = 1;
+                                    }
+                                    else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                    }
+                                    else if (secgone > 3600 && secgone <= 7200 && eWrkGrp == "COMP")
+                                    {
+                                        drAttd["Halfday"] = 1;
+                                    }
+                                    //'check if early come BUT GOES BETWEEN 1HOUR OF SHIFTEND- ALLOW 20/07/2015.
+                                    else if (Convert.ToDateTime(drAttd["ConsIn"]) < ShiftStart && secgone <= 3600 && eWrkGrp == "COMP")
+                                    {
 
-                                }
-                                else if (Convert.ToDateTime(drAttd["ConsOut"]) < ShiftOutFrom && Convert.ToDouble(drAttd["ConsWrkHrs"]) >= 6)
-                                {
-                                    drAttd["Halfday"] = 0;
-                                    drAttd["EarlyGoing"] = "";
-                                    drAttd["Status"] = "A";
+                                    }
+                                    else if (Convert.ToDateTime(drAttd["ConsOut"]) < ShiftOutFrom && Convert.ToDouble(drAttd["ConsWrkHrs"]) >= 6)
+                                    {
+                                        drAttd["Halfday"] = 0;
+                                        drAttd["EarlyGoing"] = "";
+                                        drAttd["Status"] = "A";
+                                    }
                                 }
                             }
                         }
@@ -1494,12 +1586,13 @@ namespace Attendance
                 if (tOTFLG && (Convert.ToDouble(drAttd["ConsWrkHrs"])) > ShiftHrs && drAttd["LeaveTyp"].ToString() == "")
                 {
                     TimeSpan t3 = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd);
-                    OverTime = t3.TotalMinutes;
-                    int othrs = 0, otmin = 0;
+                    OverTime = t3.TotalSeconds;
+                    double othrs = 0, otmin = 0;
                     double ot = 0;
 
-                    othrs = Convert.ToInt32(Math.Truncate(OverTime / 60));
-                    otmin = ((int)OverTime - (othrs * 60));
+                    othrs = Math.Truncate(OverTime / 3600);
+                    otmin = Math.Truncate((OverTime - (othrs * 3600)) / 60);
+                    //otmin = ((int)OverTime - (othrs * 60));
                     ot = othrs;
 
                     if (otmin >= 21 && otmin <= 50)

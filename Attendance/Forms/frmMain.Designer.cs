@@ -43,6 +43,7 @@
             this.mnuMastShift = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastLeave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUser = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuChangePass = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLogOff = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,7 +109,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -240,6 +240,13 @@
             this.mnuDomainConfig.Size = new System.Drawing.Size(193, 22);
             this.mnuDomainConfig.Text = "Domain Configuration";
             this.mnuDomainConfig.Click += new System.EventHandler(this.mnuDomainConfig_Click);
+            // 
+            // mnuOtherConfig
+            // 
+            this.mnuOtherConfig.Name = "mnuOtherConfig";
+            this.mnuOtherConfig.Size = new System.Drawing.Size(193, 22);
+            this.mnuOtherConfig.Text = "Other Config";
+            this.mnuOtherConfig.Click += new System.EventHandler(this.mnuOtherConfig_Click);
             // 
             // mnuUser
             // 
@@ -559,7 +566,7 @@
             this.mnuLeaveEntryLunch,
             this.mnuLeaveEntry});
             this.mnuLeave.Name = "mnuLeave";
-            this.mnuLeave.Size = new System.Drawing.Size(120, 22);
+            this.mnuLeave.Size = new System.Drawing.Size(152, 22);
             this.mnuLeave.Text = "Leave";
             // 
             // mnuLeaveBalUpload
@@ -594,7 +601,7 @@
             this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShiftSchUpload});
             this.mnuShift.Name = "mnuShift";
-            this.mnuShift.Size = new System.Drawing.Size(120, 22);
+            this.mnuShift.Size = new System.Drawing.Size(152, 22);
             this.mnuShift.Text = "Shift";
             // 
             // mnuShiftSchUpload
@@ -611,7 +618,7 @@
             this.mnuShiftChange,
             this.mnuBulkSan});
             this.mnuSanction.Name = "mnuSanction";
-            this.mnuSanction.Size = new System.Drawing.Size(120, 22);
+            this.mnuSanction.Size = new System.Drawing.Size(152, 22);
             this.mnuSanction.Text = "Sanction";
             // 
             // mnuManualSan
@@ -619,6 +626,7 @@
             this.mnuManualSan.Name = "mnuManualSan";
             this.mnuManualSan.Size = new System.Drawing.Size(163, 22);
             this.mnuManualSan.Text = "Manual Sanction";
+            this.mnuManualSan.Click += new System.EventHandler(this.mnuManualSan_Click);
             // 
             // mnuWeekoffSan
             // 
@@ -740,13 +748,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuOtherConfig
-            // 
-            this.mnuOtherConfig.Name = "mnuOtherConfig";
-            this.mnuOtherConfig.Size = new System.Drawing.Size(193, 22);
-            this.mnuOtherConfig.Text = "Other Config";
-            this.mnuOtherConfig.Click += new System.EventHandler(this.mnuOtherConfig_Click);
             // 
             // frmMain
             // 

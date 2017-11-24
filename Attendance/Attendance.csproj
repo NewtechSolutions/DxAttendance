@@ -114,6 +114,12 @@
     <Compile Include="Forms\frmLeaveBalEntry.designer.cs">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmSanction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSanction.designer.cs">
+      <DependentUpon>frmSanction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMisConduct.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -385,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLeaveBalEntry.resx">
       <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSanction.resx">
+      <DependentUpon>frmSanction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMisConduct.resx">
       <DependentUpon>frmMisConduct.cs</DependentUpon>
