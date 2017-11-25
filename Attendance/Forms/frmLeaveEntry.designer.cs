@@ -567,6 +567,7 @@
             this.btnDel_Leave.Size = new System.Drawing.Size(66, 26);
             this.btnDel_Leave.TabIndex = 1;
             this.btnDel_Leave.Text = "Delete";
+            this.btnDel_Leave.Click += new System.EventHandler(this.btnDel_Leave_Click);
             // 
             // label10
             // 
@@ -745,6 +746,7 @@
             this.btnDel_SanLeave.Size = new System.Drawing.Size(66, 26);
             this.btnDel_SanLeave.TabIndex = 1;
             this.btnDel_SanLeave.Text = "Delete";
+            this.btnDel_SanLeave.Click += new System.EventHandler(this.btnDel_SanLeave_Click);
             // 
             // label2
             // 
