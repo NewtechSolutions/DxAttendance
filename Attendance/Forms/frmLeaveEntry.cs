@@ -123,9 +123,22 @@ namespace Attendance.Forms
                 err = err + "Invalid CompCode..." + Environment.NewLine;
             }
 
-           
-           
-   
+            if (txtFromDt.DateTime == null || txtFromDt.DateTime == DateTime.MinValue)
+            {
+                err = err + "Please Select From Date..." + Environment.NewLine;
+            }
+
+            if (txtToDt.DateTime == null || txtToDt.DateTime == DateTime.MinValue)
+            {
+                err = err + "Please Select To Date..." + Environment.NewLine;
+            }
+
+            if (txtToDt.DateTime < txtFromDt.DateTime)
+            {
+                err = err + "Invalid Date Range..." + Environment.NewLine;
+            }
+
+
             return err;
         }
 
@@ -616,7 +629,7 @@ namespace Attendance.Forms
             string LeaveTyp = "";
             string sql = "";
 
-            decimal LeaveBal = 0;
+            
             decimal LeaveADV = 0;
             decimal LeaveDays = 0;
             decimal WoDaysNo = 0;
