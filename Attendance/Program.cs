@@ -27,7 +27,7 @@ namespace Attendance
 
             if (OpenMDIFormOnClose)
             {
-                Application.Run(new frmMain());
+               Application.Run(new frmMain());
             }
 
         }

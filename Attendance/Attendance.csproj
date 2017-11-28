@@ -90,6 +90,12 @@
     <Compile Include="Forms\frmAutoMailSubScription.designer.cs">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmUploadShiftSchedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmUploadShiftSchedule.designer.cs">
+      <DependentUpon>frmUploadShiftSchedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBulkSanction.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -385,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmUploadShiftSchedule.resx">
+      <DependentUpon>frmUploadShiftSchedule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkSanction.resx">
       <DependentUpon>frmBulkSanction.cs</DependentUpon>

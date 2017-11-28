@@ -84,10 +84,10 @@
             this.mnuCostCodeManPowerUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTranS = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLeave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLeaveEntry = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLeaveBalUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLeaveBalEntry = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLeaveEntryLunch = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeaveEntry = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShift = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShiftSchUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSanction = new System.Windows.Forms.ToolStripMenuItem();
@@ -569,6 +569,13 @@
             this.mnuLeave.Size = new System.Drawing.Size(152, 22);
             this.mnuLeave.Text = "Leave";
             // 
+            // mnuLeaveEntry
+            // 
+            this.mnuLeaveEntry.Name = "mnuLeaveEntry";
+            this.mnuLeaveEntry.Size = new System.Drawing.Size(210, 22);
+            this.mnuLeaveEntry.Text = "Leave Entry";
+            this.mnuLeaveEntry.Click += new System.EventHandler(this.mnuLeaveEntry_Click);
+            // 
             // mnuLeaveBalUpload
             // 
             this.mnuLeaveBalUpload.Name = "mnuLeaveBalUpload";
@@ -590,13 +597,6 @@
             this.mnuLeaveEntryLunch.Text = "Leave Lunch Halfday Post";
             this.mnuLeaveEntryLunch.Click += new System.EventHandler(this.mnuLeaveEntryLunch_Click);
             // 
-            // mnuLeaveEntry
-            // 
-            this.mnuLeaveEntry.Name = "mnuLeaveEntry";
-            this.mnuLeaveEntry.Size = new System.Drawing.Size(210, 22);
-            this.mnuLeaveEntry.Text = "Leave Entry";
-            this.mnuLeaveEntry.Click += new System.EventHandler(this.mnuLeaveEntry_Click);
-            // 
             // mnuShift
             // 
             this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -610,6 +610,7 @@
             this.mnuShiftSchUpload.Name = "mnuShiftSchUpload";
             this.mnuShiftSchUpload.Size = new System.Drawing.Size(190, 22);
             this.mnuShiftSchUpload.Text = "Shift Schedule Upload";
+            this.mnuShiftSchUpload.Click += new System.EventHandler(this.mnuShiftSchUpload_Click);
             // 
             // mnuSanction
             // 

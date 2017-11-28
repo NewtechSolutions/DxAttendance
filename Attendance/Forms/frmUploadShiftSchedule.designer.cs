@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmBulkSanction
+    partial class frmUploadShiftSchedule
     {
         /// <summary>
         /// Required designer variable.
@@ -32,19 +32,16 @@
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtYearMT = new DevExpress.XtraEditors.DateEdit();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
-            this.SanDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.InTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.OutTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ShiftCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.TPAHours = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnReset = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -52,6 +49,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.grd_view1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYearMT.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYearMT.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -65,8 +64,8 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.1196F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.8804F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44518F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.55482F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(945, 602);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -76,9 +75,9 @@
             this.groupControl2.Appearance.Options.UseFont = true;
             this.groupControl2.Controls.Add(this.grd_view);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(3, 87);
+            this.groupControl2.Location = new System.Drawing.Point(3, 101);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(939, 512);
+            this.groupControl2.Size = new System.Drawing.Size(939, 498);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "Data";
             // 
@@ -88,21 +87,13 @@
             this.grd_view.Location = new System.Drawing.Point(2, 21);
             this.grd_view.MainView = this.grd_view1;
             this.grd_view.Name = "grd_view";
-            this.grd_view.Size = new System.Drawing.Size(935, 489);
+            this.grd_view.Size = new System.Drawing.Size(935, 475);
             this.grd_view.TabIndex = 2;
             this.grd_view.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.grd_view1});
             // 
             // grd_view1
             // 
-            this.grd_view1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.EmpUnqID,
-            this.SanDate,
-            this.InTime,
-            this.OutTime,
-            this.ShiftCode,
-            this.TPAHours,
-            this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
             this.grd_view1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -133,22 +124,14 @@
             this.grd_view1.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.grd_view1.OptionsView.ShowGroupPanel = false;
             // 
-            // EmpUnqID
-            // 
-            this.EmpUnqID.Caption = "EmpUnqID";
-            this.EmpUnqID.FieldName = "EmpUnqID";
-            this.EmpUnqID.Name = "EmpUnqID";
-            this.EmpUnqID.OptionsColumn.AllowEdit = false;
-            this.EmpUnqID.OptionsColumn.AllowMove = false;
-            this.EmpUnqID.OptionsColumn.ReadOnly = true;
-            this.EmpUnqID.Visible = true;
-            this.EmpUnqID.VisibleIndex = 0;
-            this.EmpUnqID.Width = 97;
-            // 
             // groupControl1
             // 
             this.groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupControl1.Appearance.Options.UseFont = true;
+            this.groupControl1.Controls.Add(this.btnReset);
+            this.groupControl1.Controls.Add(this.label2);
+            this.groupControl1.Controls.Add(this.label1);
+            this.groupControl1.Controls.Add(this.txtYearMT);
             this.groupControl1.Controls.Add(this.btnExport);
             this.groupControl1.Controls.Add(this.btnPreview);
             this.groupControl1.Controls.Add(this.btnImport);
@@ -157,9 +140,50 @@
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupControl1.Location = new System.Drawing.Point(3, 3);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(939, 78);
+            this.groupControl1.Size = new System.Drawing.Size(939, 92);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "Import File";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(113, 60);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 16);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "(yyyyMM)";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 16);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "YearMonth :";
+            // 
+            // txtYearMT
+            // 
+            this.txtYearMT.EditValue = null;
+            this.txtYearMT.Location = new System.Drawing.Point(97, 37);
+            this.txtYearMT.Name = "txtYearMT";
+            this.txtYearMT.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtYearMT.Properties.Appearance.Options.UseFont = true;
+            this.txtYearMT.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtYearMT.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtYearMT.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtYearMT.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtYearMT.Properties.DisplayFormat.FormatString = "yyyyMM";
+            this.txtYearMT.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.txtYearMT.Properties.EditFormat.FormatString = "yyyyMM";
+            this.txtYearMT.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.txtYearMT.Properties.Mask.EditMask = "yyyyMM";
+            this.txtYearMT.Properties.MaxLength = 6;
+            this.txtYearMT.Size = new System.Drawing.Size(100, 20);
+            this.txtYearMT.TabIndex = 0;
+            this.txtYearMT.EditValueChanged += new System.EventHandler(this.txtYearMT_EditValueChanged);
             // 
             // btnExport
             // 
@@ -186,7 +210,7 @@
             this.btnImport.Location = new System.Drawing.Point(721, 35);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(103, 23);
-            this.btnImport.TabIndex = 2;
+            this.btnImport.TabIndex = 4;
             this.btnImport.Text = "Import";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
@@ -196,94 +220,30 @@
             this.btnBrowse.Location = new System.Drawing.Point(559, 35);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 1;
+            this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtBrowse
             // 
-            this.txtBrowse.Location = new System.Drawing.Point(9, 35);
+            this.txtBrowse.Location = new System.Drawing.Point(203, 35);
             this.txtBrowse.Name = "txtBrowse";
-            this.txtBrowse.Size = new System.Drawing.Size(543, 23);
-            this.txtBrowse.TabIndex = 0;
+            this.txtBrowse.ReadOnly = true;
+            this.txtBrowse.Size = new System.Drawing.Size(349, 23);
+            this.txtBrowse.TabIndex = 1;
             // 
-            // SanDate
+            // btnReset
             // 
-            this.SanDate.Caption = "SanDate";
-            this.SanDate.FieldName = "SanDate";
-            this.SanDate.Name = "SanDate";
-            this.SanDate.OptionsColumn.AllowEdit = false;
-            this.SanDate.OptionsColumn.AllowMove = false;
-            this.SanDate.OptionsColumn.ReadOnly = true;
-            this.SanDate.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.SanDate.Visible = true;
-            this.SanDate.VisibleIndex = 1;
-            this.SanDate.Width = 136;
+            this.btnReset.Location = new System.Drawing.Point(827, 60);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(103, 23);
+            this.btnReset.TabIndex = 8;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // InTime
-            // 
-            this.InTime.Caption = "InTime";
-            this.InTime.FieldName = "InTime";
-            this.InTime.Name = "InTime";
-            this.InTime.OptionsColumn.AllowEdit = false;
-            this.InTime.OptionsColumn.AllowMove = false;
-            this.InTime.OptionsColumn.ReadOnly = true;
-            this.InTime.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.InTime.Visible = true;
-            this.InTime.VisibleIndex = 2;
-            this.InTime.Width = 136;
-            // 
-            // OutTime
-            // 
-            this.OutTime.Caption = "OutTime";
-            this.OutTime.FieldName = "OutTime";
-            this.OutTime.Name = "OutTime";
-            this.OutTime.OptionsColumn.AllowEdit = false;
-            this.OutTime.OptionsColumn.AllowMove = false;
-            this.OutTime.OptionsColumn.ReadOnly = true;
-            this.OutTime.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.OutTime.Visible = true;
-            this.OutTime.VisibleIndex = 3;
-            this.OutTime.Width = 136;
-            // 
-            // ShiftCode
-            // 
-            this.ShiftCode.Caption = "ShiftCode";
-            this.ShiftCode.FieldName = "ShiftCode";
-            this.ShiftCode.Name = "ShiftCode";
-            this.ShiftCode.OptionsColumn.AllowEdit = false;
-            this.ShiftCode.OptionsColumn.AllowMove = false;
-            this.ShiftCode.OptionsColumn.ReadOnly = true;
-            this.ShiftCode.Visible = true;
-            this.ShiftCode.VisibleIndex = 4;
-            this.ShiftCode.Width = 64;
-            // 
-            // TPAHours
-            // 
-            this.TPAHours.Caption = "TPAHours";
-            this.TPAHours.FieldName = "TPAHours";
-            this.TPAHours.Name = "TPAHours";
-            this.TPAHours.OptionsColumn.AllowEdit = false;
-            this.TPAHours.OptionsColumn.AllowMove = false;
-            this.TPAHours.OptionsColumn.ReadOnly = true;
-            this.TPAHours.Visible = true;
-            this.TPAHours.VisibleIndex = 5;
-            this.TPAHours.Width = 80;
-            // 
-            // Remarks
-            // 
-            this.Remarks.Caption = "Remarks";
-            this.Remarks.FieldName = "Remarks";
-            this.Remarks.Name = "Remarks";
-            this.Remarks.OptionsColumn.AllowEdit = false;
-            this.Remarks.OptionsColumn.AllowMove = false;
-            this.Remarks.OptionsColumn.ReadOnly = true;
-            this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 6;
-            this.Remarks.Width = 270;
-            // 
-            // frmBulkSanction
+            // frmUploadShiftSchedule
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Appearance.Options.UseFont = true;
@@ -292,9 +252,9 @@
             this.ClientSize = new System.Drawing.Size(945, 602);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "frmBulkSanction";
-            this.Text = "Bulk Sanction";
-            this.Load += new System.EventHandler(this.frmBulkSanction_Load);
+            this.Name = "frmUploadShiftSchedule";
+            this.Text = "Upload Shift Schedule";
+            this.Load += new System.EventHandler(this.frmUploadShiftSchedule_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -303,6 +263,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYearMT.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYearMT.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -318,13 +280,10 @@
         private System.Windows.Forms.TextBox txtBrowse;
         private DevExpress.XtraGrid.GridControl grd_view;
         private DevExpress.XtraGrid.Views.Grid.GridView grd_view1;
-        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
         private System.Windows.Forms.Button btnExport;
-        private DevExpress.XtraGrid.Columns.GridColumn SanDate;
-        private DevExpress.XtraGrid.Columns.GridColumn InTime;
-        private DevExpress.XtraGrid.Columns.GridColumn OutTime;
-        private DevExpress.XtraGrid.Columns.GridColumn ShiftCode;
-        private DevExpress.XtraGrid.Columns.GridColumn TPAHours;
-        private DevExpress.XtraGrid.Columns.GridColumn Remarks;
+        private System.Windows.Forms.Label label1;
+        private DevExpress.XtraEditors.DateEdit txtYearMT;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnReset;
     }
 }

@@ -744,6 +744,18 @@ namespace Attendance
             }
         }
 
+        private void mnuShiftSchUpload_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmUploadShiftSchedule"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmUploadShiftSchedule m = new Attendance.Forms.frmUploadShiftSchedule();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

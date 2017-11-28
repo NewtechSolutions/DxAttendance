@@ -172,18 +172,24 @@ namespace Attendance.Forms
 
             if (GRights.Contains("A"))
             {
-                btnSanction.Enabled = true;
+                //check workgrp rights
+                if (Globals.GetWrkGrpRights(280, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+                    btnSanction.Enabled = true;
+                } 
             }
            
             if(GRights.Contains("U") || GRights.Contains("D"))
             {
-                btnDel_Leave.Enabled = true;
-                btnDel_SanLeave.Enabled = true;
+                //check workgrp rights
+                if (Globals.GetWrkGrpRights(280, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+
+                    btnDel_Leave.Enabled = true;
+                    btnDel_SanLeave.Enabled = true;
+                }
             }
-
-            
-
-            
+                        
         }
 
         private void LoadGrid()
@@ -1223,6 +1229,16 @@ namespace Attendance.Forms
                            " And ToDt ='" + ToDt.ToString("yyyy-MM-dd") + "'";
 
                         SqlCommand cmd1 = new SqlCommand(sql, cn, tr);
+                        cmd1.ExecuteNonQuery();
+
+                        //need to remove all weekoff if there is no sanction of other type.
+
+                        sql = "Delete from MastLeaveSchedule where EmpUnqID ='" + Emp.EmpUnqID + "' " +
+                            " and WrkGrp ='" + Emp.WrkGrp + "' and tDate between '" + FromDt.ToString("yyyy-MM-dd") + "' And " +
+                            " '" + ToDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO' " +
+                            " and ConsInTime is null and ConsOutTime is null And ConsOverTime is null And ConsShift is null And SchShift is null ";
+
+                        cmd1 = new SqlCommand(sql, cn, tr);
                         cmd1.ExecuteNonQuery();
 
                     }

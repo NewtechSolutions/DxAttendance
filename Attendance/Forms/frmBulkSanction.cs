@@ -521,7 +521,7 @@ namespace Attendance.Forms
             }
         }
 
-        private void frmBulkCostCodeUpdate_Load(object sender, EventArgs e)
+        private void frmBulkSanction_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             
