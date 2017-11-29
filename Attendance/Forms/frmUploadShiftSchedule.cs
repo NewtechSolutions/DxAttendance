@@ -16,23 +16,27 @@ using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-
-    public class Leave
-    {
-        public DateTime FromDt;
-        public DateTime ToDt;
-        public string LeaveTyp;
-
-    }
     
     public partial class frmUploadShiftSchedule : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
-        private int rSanDayLimit = 0;
-        private bool GIsAdmin = false;
+        
         private int GFormID = 0;
 
+        private class LeaveData
+        {
+            public DateTime FromDt;
+            public DateTime ToDt;
+            public string LeaveTyp;
 
+            public LeaveData()
+            {
+                FromDt = new DateTime();
+                ToDt = new DateTime();
+                LeaveTyp = "";
+            }
+
+        }
 
         DataTable dt = new DataTable();
 
@@ -197,6 +201,7 @@ namespace Attendance.Forms
                             continue;
                         }
 
+                        List<int> woidx = new List<int>();
 
                         #region Chk_ValidShift
                         for (int i = 1; i <= EndDt.Day; i++)
@@ -214,41 +219,75 @@ namespace Attendance.Forms
                                     
                                 }
                             }
+                            else
+                            {
+                                woidx.Add(i);
+                            }
+
+                            if (fldval.Trim() == string.Empty)
+                            {
+                                dr["Remarks"] = dr["Remarks"].ToString() + " Invalid Shift..";
+                                brkflg = true;
+                                break;
+                            }
+                        }
+
+                        if(woidx.Count == 0){
+                            dr["Remarks"] = dr["Remarks"].ToString() + " No Week of has been defined..";
+                            brkflg = true;                            
                         }
 
                         if (brkflg)
                         {
                             continue;
                         }
-                        
+
+                        int firstWOon = woidx.First();
+
+                        int tchk = 0;
+                        for (int i = 1; i <= woidx.Count - 1; i++)
+                        {
+                            tchk = (7 * i) + firstWOon;
+                            if(woidx.ElementAt(i) != tchk)
+                            {
+                                dr["Remarks"] = dr["Remarks"].ToString() + string.Format("{0} WeekOff is not in correct order..",i);
+                                brkflg = true;
+                                break;
+                            }
+                        }
+
+                        if (brkflg)
+                        {
+                            continue;
+                        }
 
                         #endregion
 
                         #region Chk_ShiftSchedule_Rec
-                        try
-                        {
-
-
-                            int cnt = Convert.ToInt32(Utils.Helper.GetDescription("Select Count(*) from MastShiftSchedule where EmpUnqID = '" + tEmpUnqID + "' And YearMt ='" + tYearMt + "'", Utils.Helper.constr));
-                            if (cnt == 0)
+                            try
                             {
-                                sql = "Insert into MastShiftSchedule (YearMt,EmpUnqID,AddDt,AddId) Values ('" + tYearMt + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
 
+
+                                int cnt = Convert.ToInt32(Utils.Helper.GetDescription("Select Count(*) from MastShiftSchedule where EmpUnqID = '" + tEmpUnqID + "' And YearMt ='" + tYearMt + "'", Utils.Helper.constr));
+                                if (cnt == 0)
+                                {
+                                    sql = "Insert into MastShiftSchedule (YearMt,EmpUnqID,AddDt,AddId) Values ('" + tYearMt + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+
+                                }
+                                else
+                                {
+                                    sql = "Update MastShiftSchedule Set UpdDt = GetDate() , UpdID = '" + Utils.User.GUserID + "' Where YearMt = '" + tYearMt + "' And EmpUnqID ='" + tEmpUnqID + "'";
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                sql = "Update MastShiftSchedule Set UpdDt = GetDate() , UpdID = '" + Utils.User.GUserID + "' Where YearMt = '" + tYearMt + "' And EmpUnqID ='" + tEmpUnqID + "'";
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
+                                brkflg = true;
+                                dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            brkflg = true;
-                            dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
-                        }
                         if (brkflg)
                         {
                             continue;
@@ -269,13 +308,13 @@ namespace Attendance.Forms
                            "     ) Order by FromDt ";
 
                         DataSet dsLeave = Utils.Helper.GetData(sql, Utils.Helper.constr);
-                        List<Leave> leave = new List<Leave>();
+                        List<LeaveData> leave = new List<LeaveData>();
                         bool hasRows = dsLeave.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if(hasRows)
                         {
                             foreach(DataRow drl in dsLeave.Tables[0].Rows)
                             {
-                                Leave t = new Leave();
+                                LeaveData t = new LeaveData();
                                 t.FromDt = Convert.ToDateTime(drl["FromDt"]);
                                 t.ToDt = ((Convert.ToDateTime(drl["ToDt"]) > EndDt) ? EndDt : Convert.ToDateTime(drl["ToDt"]));
                                 t.LeaveTyp = drl["LeaveTyp"].ToString();
@@ -412,7 +451,7 @@ namespace Attendance.Forms
                                 if (fldval == "WO")
                                 {
                                 
-                                    foreach (Leave t in leave)
+                                    foreach (LeaveData t in leave)
                                     {
                                         //check if date is fall between leave posted
                                         if (date >= t.FromDt && date <= t.ToDt)

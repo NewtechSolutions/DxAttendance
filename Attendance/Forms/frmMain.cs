@@ -756,6 +756,32 @@ namespace Attendance
             }
         }
 
+        private void mnuWeekoffSan_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkWOChange"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkWOChange m = new Attendance.Forms.frmBulkWOChange();
+                m.GType = "WO";
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuShiftChange_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkWOChange"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkWOChange m = new Attendance.Forms.frmBulkWOChange();
+                m.GType = "SHIFT";
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

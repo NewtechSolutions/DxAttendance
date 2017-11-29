@@ -635,12 +635,14 @@
             this.mnuWeekoffSan.Name = "mnuWeekoffSan";
             this.mnuWeekoffSan.Size = new System.Drawing.Size(163, 22);
             this.mnuWeekoffSan.Text = "Weekoff Change";
+            this.mnuWeekoffSan.Click += new System.EventHandler(this.mnuWeekoffSan_Click);
             // 
             // mnuShiftChange
             // 
             this.mnuShiftChange.Name = "mnuShiftChange";
             this.mnuShiftChange.Size = new System.Drawing.Size(163, 22);
             this.mnuShiftChange.Text = "Shift Change";
+            this.mnuShiftChange.Click += new System.EventHandler(this.mnuShiftChange_Click);
             // 
             // mnuBulkSan
             // 

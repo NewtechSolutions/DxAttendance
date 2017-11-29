@@ -609,12 +609,12 @@ namespace Attendance
                                         DataRow dr = ds.Tables[0].Rows[0];
                                         DataRow drAttdCopy = drAttd;
 
-                                        SetShift(daAttdData, dsAttdData, drAttdCopy, Emp, dr["ConsShift"].ToString(),out shifterr);
+                                        CalcShiftOT(daAttdData, dsAttdData, drAttdCopy, Emp, dr["ConsShift"].ToString(),out shifterr);
                                     }
                                     else
                                     {
                                         DataRow drAttdCopy = drAttd;
-                                        SetShift(daAttdData, dsAttdData, drAttdCopy, Emp, drAttd["ScheduleShift"].ToString(), out shifterr);
+                                        CalcShiftOT(daAttdData, dsAttdData, drAttdCopy, Emp, drAttd["ScheduleShift"].ToString(), out shifterr);
                                     }
 
 
@@ -869,7 +869,7 @@ namespace Attendance
             }//using connection
         }
 
-        public void SetShift(SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, clsEmp Emp, string tSchShift, out string err)
+        public void CalcShiftOT(SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, clsEmp Emp, string tSchShift, out string err)
         {
             err = string.Empty;
             try
@@ -1218,7 +1218,7 @@ namespace Attendance
                             if (tInTime != DateTime.MinValue && tOutTime.HasValue)
                             {
                                 string selferr = string.Empty;
-                                SetShift(daAttdData, dsAttdData, drAttd, Emp, "", out selferr);
+                                CalcShiftOT(daAttdData, dsAttdData, drAttd, Emp, "", out selferr);
                             }
 
                         }
@@ -1684,6 +1684,484 @@ namespace Attendance
                 err = "Error in SetShift-> :" + ex.ToString();
                 return;
             }
+
+        }
+
+        public void WoChange(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, string WoDay, out string err)
+        {
+            err = string.Empty;
+            string proerr;
+            bool isScheduled = false;
+
+            #region Primary_Chk
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                proerr = "EmpUnqID required...";
+                err = proerr;
+                return;
+            }
+
+            if (tFromDt == DateTime.MinValue)
+            {
+                proerr = "Invalid From Date...";
+                err = proerr;
+                return;
+            }
+
+            if (tToDate == DateTime.MinValue)
+            {
+                proerr = "Invalid To Date...";
+                err = proerr;
+                return;
+            }
+
+            if (tToDate < tFromDt)
+            {
+                proerr = "Invalid Date Range...";
+                err = proerr;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(WoDay))
+            {
+                proerr = "Invalid WO Days...";
+                err = proerr;
+                return;
+            }
+
+            string WOD = "SUN,MON,TUE,WED,THU,FRI,SAT";
+            if(!WOD.Contains(WoDay))
+            {
+                 proerr = "Invalid WO Days...";
+                err = proerr;
+                return;
+            }
+
+            //make sure to to check months between dates
+            if(tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM")){
+                proerr = "Cross Month Changes are not allowed";
+                err = proerr;
+                return;
+            }
+
+
+            //block previous month changes
+            int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
+            int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
+            if (mth < curmth)
+            {
+                err += "Previous Month Changes are not allowed";
+                return;
+            }
+
+            //prevent nearest wo from previous wo 
+            string sql = "Select tDate From MastLeaveSchedule Where EmpUnqId = '" + tEmpUnqID + "' " +
+                " And tDate < '" + tFromDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO' Order By SanID Desc ";
+
+            string pdate = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
+            if (!string.IsNullOrEmpty(pdate))
+            {
+                DateTime prvWo = Convert.ToDateTime(pdate);
+                DateTime nxtWo = new DateTime();
+                for (DateTime date = tFromDt; date.Date <= tToDate.Date; date = date.AddDays(1))
+                {
+                    if(date.ToString("dddd").ToUpper().Substring(0,3) == WoDay)
+                    {
+                        nxtWo = date;
+                        break;
+                    }
+                }
+
+                if ((nxtWo - prvWo).Days + 1 <= 5)
+                {
+                    err +=  string.Format("Next WO on {0} is too near from previous WO : {1}",nxtWo.ToString("dd/MM/yyyy"),prvWo.ToString("dd/MM/yyyy"));
+                    return;
+                }
+
+            }
+
+
+            #region Chk_ValidEmp
+                clsEmp Emp = new clsEmp();
+                Emp.EmpUnqID = tEmpUnqID;
+                Emp.CompCode = "01";
+                if(!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                {
+                    err = "Employee does not exist..";
+                    return;
+                }
+                if (!Emp.Active)
+                {
+                    err = "Invalid/InActive Employee..";
+                    return;
+                }
+
+            #endregion
+
+            #endregion
+                        
+            #region Chk_IfLeavePosted
+
+               sql = "Select count(*) from LeaveEntry Where " +
+               " compcode = '" + Emp.CompCode + "'" +
+               " and WrkGrp ='" + Emp.WrkGrp + "'" +
+               " And tYear ='" + tFromDt.Year + "'" +
+               " And EmpUnqID='" + Emp.EmpUnqID + "'" +
+               " And (     FromDt between '" + tFromDt.ToString("yyyy-MM-dd") + "' And '" + tToDate.ToString("yyyy-MM-dd") + "' " +
+               "  OR       ToDt Between '" + tFromDt.ToString("yyyy-MM-dd") + "'   And '" + tToDate.ToString("yyyy-MM-dd") + "' " +
+               "  OR '" + tFromDt.ToString("yyyy-MM-dd") + "' Between FromDt And ToDt " +
+               "  OR '" + tToDate.ToString("yyyy-MM-dd") + "' Between FromDt And ToDt " +
+               "     ) ";
+
+            int chkleave = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
+            if(chkleave > 0)
+            {
+                err += "Error : There are some leave posted...";
+                return;
+            }
+            #endregion
+            
+            #region Get_IfScheduled
+
+            sql = "Select Count(*) from MastShiftSchedule where " +
+              " Yearmt='" + tFromDt.ToString("yyyyMM") + "'" +
+              " And EmpUnqID ='" + Emp.EmpUnqID + "'";
+        
+                int schcnt = Convert.ToInt32(Utils.Helper.GetDescription(sql,Utils.Helper.constr));
+
+                if(schcnt <= 0) 
+                    isScheduled = false;
+                else
+                    isScheduled = true;
+            #endregion
+
+            /*
+            '1) Delete From MastLeaveSchedule where sEmpcode and SchLeave = 'WO' and tDate Falls between sFromDt,sTodt
+            '2) update AttdData ScheduleShift = '' where sEmpCode and ScheduleShift = 'WO' and tDate Falls between sFromDt,sTodt
+            '3) insert MastLeaveSchedule where WeekDay = WoDay addid 'ShiftSch'
+            '4) update AttdData ScheduleShift = 'WO' where sEmpCode  and tDate Falls between sFromDt,sTodt and WeekDay = sWoDay
+            '5) Correct MastShiftSchedule.....if Scheduled
+            */
+            
+            using(SqlConnection cn  = new SqlConnection(Utils.Helper.constr))
+            {
+                try{
+                    cn.Open();
+                }catch(Exception ex){
+                    err= ex.ToString();
+                    return;
+                }
+
+                SqlTransaction tr = cn.BeginTransaction();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.Transaction = tr;
+
+                #region common
+                sql = " Delete From MastLeaveSchedule Where EmpUnqID ='" + Emp.EmpUnqID + "' And SchLeave ='WO' and tDate between '" + tFromDt.ToString("yyyy-MM-dd") + "' and '" + tToDate.ToString("yyyy-MM-dd") + "'";
+                try
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }catch(Exception ex){
+                    err= ex.ToString();
+                    return;
+                }
+
+                sql = " Update AttdData Set ScheduleShift = '' Where EmpUnqID ='" + Emp.EmpUnqID + "' And ScheduleShift ='WO' and tDate between '" + tFromDt.ToString("yyyy-MM-dd") + "' and '" + tToDate.ToString("yyyy-MM-dd") + "'";
+                try
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }catch(Exception ex){
+                    err= ex.ToString();
+                    return;
+                }
+
+                sql = " Insert into MastLeaveSchedule (EmpUnqId,WrkGrp,tDate,SchLeave,AddId,AddDt) " +
+               " Select '" + Emp.EmpUnqID + "','" + Emp.WrkGrp + "', [Date] ,'WO','ShiftSch',GetDate() From " +
+               " F_TABLE_DATE('"  + tFromDt.ToString("yyyy-MM-dd") + "','"  + tToDate.ToString("yyyy-MM-dd") + "') Where WeekDayName ='" + WoDay + "'";
+                try
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }catch(Exception ex){
+                    err= ex.ToString();
+                    return;
+                }
+
+                sql = " Update a " +
+               "   Set a.ScheduleShift = b.SchLeave " +
+               " From AttdData a,MastLeaveSchedule b " +
+               " Where a.EmpUnqId = b.EmpUnqID and a.WrkGrp = b.WrkGrp And a.TDate = b.Tdate " +
+               " And a.EmpUnqID ='" + Emp.EmpUnqID + "' and b.SchLeave ='WO' " +
+               " And a.tDate between '" + tFromDt.ToString("yyyy-MM-dd") + "' And '" + tToDate.ToString("yyyy-MM-dd") + "'" ;
+
+                try
+                {
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }catch(Exception ex){
+                    err= ex.ToString();
+                    return;
+                }
+
+                #endregion
+                
+                #region ifScheduled
+                if(isScheduled)
+                {
+
+                    sql = "Select * from MastShiftSchedule Where EmpUnqId ='" + Emp.EmpUnqID +  "' and yearmt='" + tFromDt.ToString("yyyyMM") + "'";
+                    DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
+                    bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                    if (hasRows)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        
+                        string fldnm = string.Empty;
+                        string pfldnm = string.Empty;
+                        string nfldnm = string.Empty;
+
+                        #region Reset_OLDWO
+                        
+                        //-replace previous shiftcode if WO Allready there
+                        for(DateTime date = tFromDt; date.Date <= tToDate.Date; date = date.AddDays(1))
+                        {
+                            fldnm = "D" + date.ToString("dd");
+                            pfldnm = "D" + date.AddDays(-1).ToString("dd");
+                            nfldnm = "D" + date.AddDays(1).ToString("dd");
+
+                            if(dr[fldnm].ToString() == "WO")
+                            {
+                                //check if first Day WO
+                                if(date.Day == 1) 
+                                {
+                                    sql = "Update MastShiftSchedule Set " + fldnm + " = " + nfldnm + " Where EmpUnqId ='" + Emp.EmpUnqID + "' and yearmt = '" + tFromDt.ToString("yyyyMM") + "'";
+                                
+                                }else{
+
+                                    sql = "Update MastShiftSchedule " +
+                                         " Set " + fldnm + " = " + pfldnm + " Where " +
+                                         " EmpUnqId ='" + Emp.EmpUnqID + "' and yearmt='" + tFromDt.ToString("yyyyMM") + "'";
+                                }
+                                    
+                                try
+                                {
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+                                }catch(Exception ex){
+                                    err= ex.ToString();
+                                    return;
+                                }  
+                  
+                            }//if old val is wo
+
+                        }//loop for eachday
+
+                        #endregion
+
+                        #region Set_NEWWO
+                        //-set WO on woday MastShiftSchedule
+                        sql = "Select [Date],[CalendarYearMonth],[WeekdayName] from F_TABLE_DATE('" + tFromDt.ToString("yyyy-MM-dd") +  "','" + tToDate.ToString("yyyy-MM-dd") +  "') where CalendarYearMonth = '" + tFromDt.ToString("yyyyMM") + "' and [WeekdayName] = '" + WoDay + "'";
+                        ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
+                        hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasRows)
+                        {
+                            foreach(DataRow tdr in ds.Tables[0].Rows)
+                            {
+                                fldnm = "D" + Convert.ToDateTime(tdr["Date"]).ToString("dd");
+
+                                if(tdr["WeekDayName"].ToString().ToUpper() == WoDay.ToUpper())
+                                {
+                                    sql = "Update MastShiftSchedule " +
+                                    " Set " + fldnm + " = 'WO' Where " +
+                                    " EmpUnqId ='" + Emp.EmpUnqID + "' and yearmt='" + tFromDt.ToString("yyyyMM") + "'";
+
+                                    try
+                                    {
+                                        cmd.CommandText = sql;
+                                        cmd.ExecuteNonQuery();
+                                    }catch(Exception ex){
+                                        err= ex.ToString();
+                                        return;
+                                    }  
+                                    
+                                }
+                            }
+                        }
+                       
+
+                        #endregion
+                        
+                    }
+                }//end isscheduled
+                #endregion
+
+                try
+                {
+                    tr.Commit();
+                }catch(Exception ex){
+                    err = ex.ToString();
+                    return;
+                }
+
+                
+            }//end using cn
+
+            //process data
+            int res = 0;
+            string outerr = string.Empty;
+            this.AttdProcess(Emp.EmpUnqID, tFromDt, tToDate, out res, out outerr);
+
+            //process lunchinout
+            this.LunchInOutProcess(Emp.EmpUnqID, tFromDt, tToDate, out res);
+
+        }
+
+        public void ShiftChange(string tEmpUnqID, DateTime tFromDt, DateTime tToDate,string ShiftCode, out string err)
+        {
+
+            err = string.Empty;
+            string proerr;
+
+            #region Primary_Chk
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                proerr = "EmpUnqID required...";
+                err = proerr;
+                return;
+            }
+
+            if (tFromDt == DateTime.MinValue)
+            {
+                proerr = "Invalid From Date...";
+                err = proerr;
+                return;
+            }
+
+            if (tToDate == DateTime.MinValue)
+            {
+                proerr = "Invalid To Date...";
+                err = proerr;
+                return;
+            }
+
+            if (tToDate < tFromDt)
+            {
+                proerr = "Invalid Date Range...";
+                err = proerr;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ShiftCode))
+            {
+                proerr = "Invalid ShiftCode...";
+                err = proerr;
+                return;
+            }
+
+            if (!Globals.G_ShiftList.Contains(ShiftCode))
+            {
+                proerr = "Invalid ShiftCode...";
+                err = proerr;
+                return;
+            }
+
+            //make sure to to check months between dates
+            if (tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM"))
+            {
+                proerr = "Cross Month Changes are not allowed";
+                err = proerr;
+                return;
+            }
+
+
+            //block previous month changes
+            int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
+            int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
+            if (mth < curmth)
+            {
+                err += "Previous Month Changes are not allowed";
+                return;
+            }
+
+            clsEmp Emp = new clsEmp();
+            Emp.EmpUnqID = tEmpUnqID;
+            Emp.CompCode = "01";
+            if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+            {
+                err = "Employee does not exist..";
+                return;
+            }
+            if (!Emp.Active)
+            {
+                err = "Invalid/InActive Employee..";
+                return;
+            }
+
+
+            #endregion
+
+            string sql = string.Empty;
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+
+                try
+                {
+                    cn.Open();
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    return;
+                }
+
+                SqlTransaction tr = cn.BeginTransaction();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.Transaction = tr;
+                                
+                for (DateTime date = tFromDt; date.Date <= tToDate.Date; date = date.AddDays(1))
+                {
+                    sql = "Insert into MastLeaveSchedule (EmpUnqId,WrkGrp,AddDt,AddId,tDate,ConsShift) " +
+                    " Values ('" + Emp.EmpUnqID + "','" + Emp.WrkGrp + "',GetDate(),'" + Utils.User.GUserID + "','" + date.ToString("yyyy-MM-dd") + "','" + ShiftCode + "')";
+
+                    try
+                    {
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        err = ex.ToString();
+                        return;
+                    }  
+
+                }//for each dateloop
+
+                try
+                {
+                    tr.Commit();
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    return;
+                }
+                
+            }//end of using connection
+
+
+            //process data
+            int res = 0;
+            string outerr = string.Empty;
+            this.AttdProcess(Emp.EmpUnqID, tFromDt, tToDate, out res, out outerr);
+
+            //process lunchinout
+            this.LunchInOutProcess(Emp.EmpUnqID, tFromDt, tToDate, out res);
+
 
         }
 
