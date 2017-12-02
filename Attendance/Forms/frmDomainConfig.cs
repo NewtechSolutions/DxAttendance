@@ -13,7 +13,9 @@ namespace Attendance.Forms
     public partial class frmDomainConfig : Form
     {
         public string GRights = "XXXV";
-        
+        private string oldDomain = string.Empty;
+        private string oldUser = string.Empty;
+
         public frmDomainConfig()
         {
             InitializeComponent();
@@ -30,14 +32,17 @@ namespace Attendance.Forms
 
                 if (hasrows)
                 {
-                    
+                    oldDomain = ds.Tables[0].Rows[0]["NetWorkDomain"].ToString();
+                    oldUser = ds.Tables[0].Rows[0]["NetWorkUser"].ToString();
+
                     txtDomainName.EditValue = ds.Tables[0].Rows[0]["NetWorkDomain"].ToString();
                     txtUserID.EditValue = ds.Tables[0].Rows[0]["NetWorkUser"].ToString();
                     txtPassword.EditValue = ds.Tables[0].Rows[0]["NetWorkPass"].ToString();
                 }
                 else
                 {
-                   
+                    oldDomain = string.Empty;
+                    oldUser = string.Empty;
                     txtDomainName.EditValue = string.Empty;
                     txtUserID.EditValue = string.Empty;
                     txtPassword.EditValue = string.Empty;
@@ -73,13 +78,28 @@ namespace Attendance.Forms
                     try
                     {
                         cn.Open();
-                        cmd.Connection = cn;
-                        cmd.CommandText = "Delete From MastNetwork Where 1=1";
-                        cmd.ExecuteNonQuery();
+
+                        string sql = "Select top 1 * from MastNetwork Where 1 = 1";
+                        DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         
-                        cmd.CommandText = "Insert into MastNetwork (NetworkDomain,NetWorkUser,NetWorkPass,AddDt,AddId) values (" +
+                        if (hasrows)
+                        {
+                            cmd.CommandText = "Update MastNetwork set NetworkDomain = '" + txtDomainName.Text.Trim() + "', " +
+                                " NetWorkUser = '" + txtUserID.Text.Trim() + "', NetWorkPass ='" + txtPassword.Text.Trim().ToString() + "', " +
+                                " UpdDt = GetDate() , UpdID ='" + Utils.User.GUserID + "' Where NetWorkDomain = '" + oldDomain + "' and " +
+                                " NetWorkUser ='" + oldUser + "'" ;
+                            
+                        }
+                        else
+                        {
+                            cmd.CommandText = "Insert into MastNetwork (NetworkDomain,NetWorkUser,NetWorkPass,AddDt,AddId) values (" +
                             " '" + txtDomainName.Text.Trim() + "','" + txtUserID.Text.Trim() + "','" + txtPassword.Text.Trim().ToString() + "',GetDate()," +
                             " '" + Utils.User.GUserID + "')";
+                        }
+                        
+                        
+                        
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Network configuration saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
