@@ -122,8 +122,28 @@ namespace Attendance.Forms
                 }
             }
 
-            dsAutoTime = Utils.Helper.GetData("select * from AutoTimeSet", Utils.Helper.constr);
+            LoadGrid();
+            
         }
+
+        private void LoadGrid()
+        {
+            dsAutoTime = Utils.Helper.GetData("select * from AutoTimeSet", Utils.Helper.constr);
+            bool hasRows = dsAutoTime.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                grd_avbl.DataSource = dsAutoTime;
+                grd_avbl.DataMember = dsAutoTime.Tables[0].TableName;
+                grd_avbl.Refresh();
+            }
+            else
+            {
+                grd_avbl.DataSource = null;
+                grd_avbl.Refresh();
+            }
+        }
+
 
         private void btnUpdateNetwork_Click(object sender, EventArgs e)
         {
@@ -243,6 +263,7 @@ namespace Attendance.Forms
                         cmd.ExecuteNonQuery();
 
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadGrid();
                     }
                 }
                 catch (Exception ex)
@@ -250,6 +271,11 @@ namespace Attendance.Forms
                     MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void btnTimeDel_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

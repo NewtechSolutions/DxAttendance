@@ -378,6 +378,7 @@
             this.btnTimeDel.TabIndex = 7;
             this.btnTimeDel.Text = "Delete";
             this.btnTimeDel.UseVisualStyleBackColor = true;
+            this.btnTimeDel.Click += new System.EventHandler(this.btnTimeDel_Click);
             // 
             // btnTimeAdd
             // 
@@ -426,6 +427,8 @@
             this.gv_avbl.Name = "gv_avbl";
             this.gv_avbl.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gv_avbl.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_avbl.OptionsBehavior.Editable = false;
+            this.gv_avbl.OptionsBehavior.ReadOnly = true;
             this.gv_avbl.OptionsCustomization.AllowColumnMoving = false;
             this.gv_avbl.OptionsCustomization.AllowFilter = false;
             this.gv_avbl.OptionsCustomization.AllowGroup = false;

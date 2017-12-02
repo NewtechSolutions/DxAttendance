@@ -22,5 +22,25 @@ namespace Attendance.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://172.16.12.47:80/ReportServer/ReportService2010.asmx")]
+        public string Attendance_RS2005_ReportingService2010 {
+            get {
+                return ((string)(this["Attendance_RS2005_ReportingService2010"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://172.16.12.47:80/ReportServer/ReportExecution2005.asmx")]
+        public string Attendance_RE2005_ReportExecutionService {
+            get {
+                return ((string)(this["Attendance_RE2005_ReportExecutionService"]));
+            }
+        }
     }
 }

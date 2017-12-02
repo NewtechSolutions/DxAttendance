@@ -92,10 +92,10 @@ namespace Attendance.Classes
             hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             if (hasRows)
             {
-                G_SchAutoTimeSet.Clear();
+                G_SchAutoTimeSet = new List<string>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    G_SchAutoTimeSet.Add(Convert.ToDateTime(dr["SchTime"]).ToString("HH:mm"));
+                    G_SchAutoTimeSet.Add(dr["SchTime"].ToString());
 
                 }
             }

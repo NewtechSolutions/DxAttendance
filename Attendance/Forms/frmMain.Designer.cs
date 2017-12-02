@@ -42,6 +42,7 @@
             this.mnuReaderMessAsign = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastShift = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastLeave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMessInOutMachine = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUser = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,6 +110,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuAutoMailSender = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -172,7 +174,8 @@
             this.MnuReaderConfig,
             this.mnuReaderMessAsign,
             this.mnuMastShift,
-            this.mnuMastLeave});
+            this.mnuMastLeave,
+            this.mnuMessInOutMachine});
             this.mnuConfig.Name = "mnuConfig";
             this.mnuConfig.Size = new System.Drawing.Size(193, 22);
             this.mnuConfig.Text = "Configuration";
@@ -181,58 +184,65 @@
             // mnuMastComp
             // 
             this.mnuMastComp.Name = "mnuMastComp";
-            this.mnuMastComp.Size = new System.Drawing.Size(197, 22);
+            this.mnuMastComp.Size = new System.Drawing.Size(269, 22);
             this.mnuMastComp.Text = "Company Master";
             this.mnuMastComp.Click += new System.EventHandler(this.mnuMastComp_Click);
             // 
             // mnuMastWrkGrp
             // 
             this.mnuMastWrkGrp.Name = "mnuMastWrkGrp";
-            this.mnuMastWrkGrp.Size = new System.Drawing.Size(197, 22);
+            this.mnuMastWrkGrp.Size = new System.Drawing.Size(269, 22);
             this.mnuMastWrkGrp.Text = "WrkGrp Master";
             this.mnuMastWrkGrp.Click += new System.EventHandler(this.mnuMastWrkGrp_Click);
             // 
             // mnuMastUnit
             // 
             this.mnuMastUnit.Name = "mnuMastUnit";
-            this.mnuMastUnit.Size = new System.Drawing.Size(197, 22);
+            this.mnuMastUnit.Size = new System.Drawing.Size(269, 22);
             this.mnuMastUnit.Text = "Unit Master";
             this.mnuMastUnit.Click += new System.EventHandler(this.mnuMastUnit_Click);
             // 
             // mnuMessConfig
             // 
             this.mnuMessConfig.Name = "mnuMessConfig";
-            this.mnuMessConfig.Size = new System.Drawing.Size(197, 22);
+            this.mnuMessConfig.Size = new System.Drawing.Size(269, 22);
             this.mnuMessConfig.Text = "Mess Config";
             this.mnuMessConfig.Click += new System.EventHandler(this.mnuMessConfig_Click);
             // 
             // MnuReaderConfig
             // 
             this.MnuReaderConfig.Name = "MnuReaderConfig";
-            this.MnuReaderConfig.Size = new System.Drawing.Size(197, 22);
+            this.MnuReaderConfig.Size = new System.Drawing.Size(269, 22);
             this.MnuReaderConfig.Text = "Reader Config";
             this.MnuReaderConfig.Click += new System.EventHandler(this.MnuReaderConfig_Click);
             // 
             // mnuReaderMessAsign
             // 
             this.mnuReaderMessAsign.Name = "mnuReaderMessAsign";
-            this.mnuReaderMessAsign.Size = new System.Drawing.Size(197, 22);
+            this.mnuReaderMessAsign.Size = new System.Drawing.Size(269, 22);
             this.mnuReaderMessAsign.Text = "Assign Readers to Mess";
             this.mnuReaderMessAsign.Click += new System.EventHandler(this.mnuReaderMessAsign_Click);
             // 
             // mnuMastShift
             // 
             this.mnuMastShift.Name = "mnuMastShift";
-            this.mnuMastShift.Size = new System.Drawing.Size(197, 22);
+            this.mnuMastShift.Size = new System.Drawing.Size(269, 22);
             this.mnuMastShift.Text = "Shift/WrkHrs Config";
             this.mnuMastShift.Click += new System.EventHandler(this.mnuMastShift_Click);
             // 
             // mnuMastLeave
             // 
             this.mnuMastLeave.Name = "mnuMastLeave";
-            this.mnuMastLeave.Size = new System.Drawing.Size(197, 22);
+            this.mnuMastLeave.Size = new System.Drawing.Size(269, 22);
             this.mnuMastLeave.Text = "Leave Type Config";
             this.mnuMastLeave.Click += new System.EventHandler(this.mnuMastLeave_Click);
+            // 
+            // mnuMessInOutMachine
+            // 
+            this.mnuMessInOutMachine.Name = "mnuMessInOutMachine";
+            this.mnuMessInOutMachine.Size = new System.Drawing.Size(269, 22);
+            this.mnuMessInOutMachine.Text = "Mess In-Out and Time Configuration";
+            this.mnuMessInOutMachine.Click += new System.EventHandler(this.mnuMessInOutMachine_Click);
             // 
             // mnuDomainConfig
             // 
@@ -553,7 +563,8 @@
             this.mnuTranS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLeave,
             this.mnuShift,
-            this.mnuSanction});
+            this.mnuSanction,
+            this.mnuAutoMailSender});
             this.mnuTranS.Name = "mnuTranS";
             this.mnuTranS.Size = new System.Drawing.Size(80, 20);
             this.mnuTranS.Text = "&Transaction";
@@ -755,6 +766,13 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
+            // mnuAutoMailSender
+            // 
+            this.mnuAutoMailSender.Name = "mnuAutoMailSender";
+            this.mnuAutoMailSender.Size = new System.Drawing.Size(152, 22);
+            this.mnuAutoMailSender.Text = "Mail Sender";
+            this.mnuAutoMailSender.Click += new System.EventHandler(this.mnuAutoMailSender_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -860,6 +878,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuDBConn;
         private System.Windows.Forms.ToolStripMenuItem mnuDomainConfig;
         private System.Windows.Forms.ToolStripMenuItem mnuOtherConfig;
+        private System.Windows.Forms.ToolStripMenuItem mnuMessInOutMachine;
+        private System.Windows.Forms.ToolStripMenuItem mnuAutoMailSender;
 
 
     }

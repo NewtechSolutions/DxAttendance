@@ -178,7 +178,7 @@ namespace Attendance.Forms
 
         private void txtCostCode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F1 )
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
             {
                 List<string> obj = new List<string>();
 

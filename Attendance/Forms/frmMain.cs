@@ -819,6 +819,32 @@ namespace Attendance
             }
         }
 
+        private void mnuMessInOutMachine_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMessInOutMachine"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMessInOutMachine m = new Attendance.Forms.frmMessInOutMachine();
+
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuAutoMailSender_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmAutoMailSender"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmAutoMailSender m = new Attendance.Forms.frmAutoMailSender();
+
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }
