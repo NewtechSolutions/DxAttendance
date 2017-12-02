@@ -96,6 +96,7 @@
             this.mnuWeekoffSan = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShiftChange = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBulkSan = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAutoMailSender = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuData = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDataProcess = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLunchInOutProcess = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +111,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuAutoMailSender = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -577,7 +577,7 @@
             this.mnuLeaveBalEntry,
             this.mnuLeaveEntryLunch});
             this.mnuLeave.Name = "mnuLeave";
-            this.mnuLeave.Size = new System.Drawing.Size(152, 22);
+            this.mnuLeave.Size = new System.Drawing.Size(136, 22);
             this.mnuLeave.Text = "Leave";
             // 
             // mnuLeaveEntry
@@ -613,7 +613,7 @@
             this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShiftSchUpload});
             this.mnuShift.Name = "mnuShift";
-            this.mnuShift.Size = new System.Drawing.Size(152, 22);
+            this.mnuShift.Size = new System.Drawing.Size(136, 22);
             this.mnuShift.Text = "Shift";
             // 
             // mnuShiftSchUpload
@@ -631,7 +631,7 @@
             this.mnuShiftChange,
             this.mnuBulkSan});
             this.mnuSanction.Name = "mnuSanction";
-            this.mnuSanction.Size = new System.Drawing.Size(152, 22);
+            this.mnuSanction.Size = new System.Drawing.Size(136, 22);
             this.mnuSanction.Text = "Sanction";
             // 
             // mnuManualSan
@@ -661,6 +661,13 @@
             this.mnuBulkSan.Size = new System.Drawing.Size(163, 22);
             this.mnuBulkSan.Text = "Bulk Sanction";
             this.mnuBulkSan.Click += new System.EventHandler(this.mnuBulkSan_Click);
+            // 
+            // mnuAutoMailSender
+            // 
+            this.mnuAutoMailSender.Name = "mnuAutoMailSender";
+            this.mnuAutoMailSender.Size = new System.Drawing.Size(136, 22);
+            this.mnuAutoMailSender.Text = "Mail Sender";
+            this.mnuAutoMailSender.Click += new System.EventHandler(this.mnuAutoMailSender_Click);
             // 
             // mnuData
             // 
@@ -716,6 +723,7 @@
             this.mnuDataDownload.Name = "mnuDataDownload";
             this.mnuDataDownload.Size = new System.Drawing.Size(222, 22);
             this.mnuDataDownload.Text = "Data Download";
+            this.mnuDataDownload.Click += new System.EventHandler(this.mnuDataDownload_Click);
             // 
             // mnuRFIDUser
             // 
@@ -765,13 +773,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuAutoMailSender
-            // 
-            this.mnuAutoMailSender.Name = "mnuAutoMailSender";
-            this.mnuAutoMailSender.Size = new System.Drawing.Size(152, 22);
-            this.mnuAutoMailSender.Text = "Mail Sender";
-            this.mnuAutoMailSender.Click += new System.EventHandler(this.mnuAutoMailSender_Click);
             // 
             // frmMain
             // 

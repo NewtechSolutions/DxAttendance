@@ -452,6 +452,7 @@
             this.gv_avbl.OptionsView.ShowDetailButtons = false;
             this.gv_avbl.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_avbl.OptionsView.ShowGroupPanel = false;
+            this.gv_avbl.DoubleClick += new System.EventHandler(this.gv_avbl_DoubleClick);
             // 
             // SchTime
             // 

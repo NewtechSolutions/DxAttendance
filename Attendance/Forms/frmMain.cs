@@ -845,6 +845,19 @@ namespace Attendance
             }
         }
 
+        private void mnuDataDownload_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmDataDownload"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmDataDownload m = new Attendance.Forms.frmDataDownload();
+
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

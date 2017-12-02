@@ -106,6 +106,12 @@
     <Compile Include="Forms\frmBulkWOChange.Designer.cs">
       <DependentUpon>frmBulkWOChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmDataDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDataDownload.Designer.cs">
+      <DependentUpon>frmDataDownload.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmHalfDayCheck.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -442,6 +448,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkWOChange.resx">
       <DependentUpon>frmBulkWOChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDataDownload.resx">
+      <DependentUpon>frmDataDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHalfDayCheck.resx">
       <DependentUpon>frmHalfDayCheck.cs</DependentUpon>

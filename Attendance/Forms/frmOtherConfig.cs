@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Attendance.Classes;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace Attendance.Forms
 {
@@ -144,6 +146,18 @@ namespace Attendance.Forms
             }
         }
 
+        private void DoRowDoubleClick(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                txtTime.EditValue = gv_avbl.GetRowCellValue(info.RowHandle, "SchTime").ToString();                
+
+            }
+
+
+        }
+
 
         private void btnUpdateNetwork_Click(object sender, EventArgs e)
         {
@@ -275,7 +289,49 @@ namespace Attendance.Forms
 
         private void btnTimeDel_Click(object sender, EventArgs e)
         {
+            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
+            {
+                string msg = "Please Specify Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                        string sql = "";
+                        sql = "Delete  From AutoTimeSet Where SchTime = '" + txtTime.Time.ToString("HH:mm") + "'";
+
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        int t = (int)cmd.ExecuteNonQuery();
+
+                        if (t > 0)
+                        {
+                            MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadGrid();
+                        }
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void gv_avbl_DoubleClick(object sender, EventArgs e)
+        {
+            GridView view = (GridView)sender;
+            Point pt = view.GridControl.PointToClient(Control.MousePosition);
+            DoRowDoubleClick(view, pt);
         }
 
     }

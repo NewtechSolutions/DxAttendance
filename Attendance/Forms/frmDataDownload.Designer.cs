@@ -1,0 +1,392 @@
+﻿namespace Attendance.Forms
+{
+    partial class frmDataDownload
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.tblp = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grd_avbl = new DevExpress.XtraGrid.GridControl();
+            this.gv_avbl = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.SEL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.Location = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.MachineIP = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.MachineNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Records = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AutoClear = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Type = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
+            this.tblp.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tblp
+            // 
+            this.tblp.ColumnCount = 1;
+            this.tblp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblp.Controls.Add(this.groupBox2, 0, 1);
+            this.tblp.Controls.Add(this.groupBox1, 0, 0);
+            this.tblp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblp.Location = new System.Drawing.Point(0, 0);
+            this.tblp.Name = "tblp";
+            this.tblp.RowCount = 2;
+            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
+            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tblp.Size = new System.Drawing.Size(951, 576);
+            this.tblp.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.grd_avbl);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 72);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(945, 501);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Available Machine";
+            // 
+            // grd_avbl
+            // 
+            this.grd_avbl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grd_avbl.Location = new System.Drawing.Point(3, 17);
+            this.grd_avbl.MainView = this.gv_avbl;
+            this.grd_avbl.Name = "grd_avbl";
+            this.grd_avbl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemCheckEdit1});
+            this.grd_avbl.Size = new System.Drawing.Size(939, 481);
+            this.grd_avbl.TabIndex = 3;
+            this.grd_avbl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gv_avbl});
+            // 
+            // gv_avbl
+            // 
+            this.gv_avbl.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.SEL,
+            this.Location,
+            this.MachineIP,
+            this.MachineNo,
+            this.Records,
+            this.AutoClear,
+            this.Type,
+            this.Remarks,
+            this.Mess});
+            this.gv_avbl.GridControl = this.grd_avbl;
+            this.gv_avbl.Name = "gv_avbl";
+            this.gv_avbl.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_avbl.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_avbl.OptionsCustomization.AllowColumnMoving = false;
+            this.gv_avbl.OptionsCustomization.AllowFilter = false;
+            this.gv_avbl.OptionsCustomization.AllowGroup = false;
+            this.gv_avbl.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gv_avbl.OptionsCustomization.AllowRowSizing = true;
+            this.gv_avbl.OptionsCustomization.AllowSort = false;
+            this.gv_avbl.OptionsDetail.AllowZoomDetail = false;
+            this.gv_avbl.OptionsDetail.EnableMasterViewMode = false;
+            this.gv_avbl.OptionsDetail.ShowDetailTabs = false;
+            this.gv_avbl.OptionsDetail.SmartDetailExpand = false;
+            this.gv_avbl.OptionsMenu.EnableColumnMenu = false;
+            this.gv_avbl.OptionsMenu.EnableFooterMenu = false;
+            this.gv_avbl.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gv_avbl.OptionsMenu.ShowAddNewSummaryItem = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_avbl.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gv_avbl.OptionsMenu.ShowDateTimeGroupIntervalItems = false;
+            this.gv_avbl.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gv_avbl.OptionsMenu.ShowSplitItem = false;
+            this.gv_avbl.OptionsNavigation.EnterMoveNextColumn = true;
+            this.gv_avbl.OptionsSelection.MultiSelect = true;
+            this.gv_avbl.OptionsView.ShowDetailButtons = false;
+            this.gv_avbl.OptionsView.ShowGroupExpandCollapseButtons = false;
+            this.gv_avbl.OptionsView.ShowGroupPanel = false;
+            // 
+            // SEL
+            // 
+            this.SEL.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SEL.AppearanceHeader.Options.UseFont = true;
+            this.SEL.AppearanceHeader.Options.UseTextOptions = true;
+            this.SEL.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.SEL.Caption = "SEL";
+            this.SEL.ColumnEdit = this.repositoryItemCheckEdit1;
+            this.SEL.FieldName = "SEL";
+            this.SEL.Name = "SEL";
+            this.SEL.OptionsColumn.AllowMove = false;
+            this.SEL.OptionsColumn.AllowShowHide = false;
+            this.SEL.OptionsColumn.AllowSort = DevExpress.Utils.DefaultBoolean.True;
+            this.SEL.OptionsColumn.FixedWidth = true;
+            this.SEL.OptionsFilter.AllowAutoFilter = false;
+            this.SEL.OptionsFilter.AllowFilter = false;
+            this.SEL.Visible = true;
+            this.SEL.VisibleIndex = 0;
+            this.SEL.Width = 41;
+            // 
+            // repositoryItemCheckEdit1
+            // 
+            this.repositoryItemCheckEdit1.AutoHeight = false;
+            this.repositoryItemCheckEdit1.Caption = "Check";
+            this.repositoryItemCheckEdit1.DisplayValueChecked = "1";
+            this.repositoryItemCheckEdit1.DisplayValueGrayed = "0";
+            this.repositoryItemCheckEdit1.DisplayValueUnchecked = "0";
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            this.repositoryItemCheckEdit1.ValueGrayed = false;
+            // 
+            // Location
+            // 
+            this.Location.Caption = "Location";
+            this.Location.FieldName = "MachineDesc";
+            this.Location.Name = "Location";
+            this.Location.OptionsColumn.AllowEdit = false;
+            this.Location.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Location.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.Location.OptionsColumn.AllowMove = false;
+            this.Location.OptionsColumn.ReadOnly = true;
+            this.Location.Visible = true;
+            this.Location.VisibleIndex = 1;
+            // 
+            // MachineIP
+            // 
+            this.MachineIP.Caption = "IP Address";
+            this.MachineIP.FieldName = "MachineIP";
+            this.MachineIP.Name = "MachineIP";
+            this.MachineIP.OptionsColumn.AllowEdit = false;
+            this.MachineIP.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.MachineIP.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.MachineIP.OptionsColumn.AllowMove = false;
+            this.MachineIP.OptionsColumn.ReadOnly = true;
+            this.MachineIP.Visible = true;
+            this.MachineIP.VisibleIndex = 3;
+            // 
+            // MachineNo
+            // 
+            this.MachineNo.Caption = "MNO";
+            this.MachineNo.FieldName = "MachineNo";
+            this.MachineNo.Name = "MachineNo";
+            this.MachineNo.OptionsColumn.AllowEdit = false;
+            this.MachineNo.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.MachineNo.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.MachineNo.OptionsColumn.AllowMove = false;
+            this.MachineNo.OptionsColumn.ReadOnly = true;
+            this.MachineNo.Visible = true;
+            this.MachineNo.VisibleIndex = 2;
+            // 
+            // Records
+            // 
+            this.Records.Caption = "Records";
+            this.Records.FieldName = "Records";
+            this.Records.Name = "Records";
+            this.Records.OptionsColumn.AllowEdit = false;
+            this.Records.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Records.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.Records.OptionsColumn.AllowMove = false;
+            this.Records.OptionsColumn.ReadOnly = true;
+            this.Records.Visible = true;
+            this.Records.VisibleIndex = 4;
+            // 
+            // AutoClear
+            // 
+            this.AutoClear.Caption = "AutoClear";
+            this.AutoClear.FieldName = "AutoClear";
+            this.AutoClear.Name = "AutoClear";
+            this.AutoClear.OptionsColumn.AllowEdit = false;
+            this.AutoClear.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.AutoClear.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.AutoClear.OptionsColumn.AllowMove = false;
+            this.AutoClear.OptionsColumn.ReadOnly = true;
+            this.AutoClear.Visible = true;
+            this.AutoClear.VisibleIndex = 5;
+            // 
+            // Type
+            // 
+            this.Type.Caption = "Type";
+            this.Type.FieldName = "IOFLG";
+            this.Type.Name = "Type";
+            this.Type.OptionsColumn.AllowEdit = false;
+            this.Type.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Type.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.Type.OptionsColumn.AllowMove = false;
+            this.Type.OptionsColumn.ReadOnly = true;
+            this.Type.Visible = true;
+            this.Type.VisibleIndex = 6;
+            // 
+            // Remarks
+            // 
+            this.Remarks.Caption = "Remarks";
+            this.Remarks.Name = "Remarks";
+            this.Remarks.OptionsColumn.AllowEdit = false;
+            this.Remarks.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Remarks.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.Remarks.OptionsColumn.AllowMove = false;
+            this.Remarks.OptionsColumn.ReadOnly = true;
+            this.Remarks.Visible = true;
+            this.Remarks.VisibleIndex = 7;
+            // 
+            // Mess
+            // 
+            this.Mess.Caption = "Mess";
+            this.Mess.FieldName = "CanteenFLG";
+            this.Mess.Name = "Mess";
+            this.Mess.OptionsColumn.AllowEdit = false;
+            this.Mess.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.Mess.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.Mess.OptionsColumn.AllowMove = false;
+            this.Mess.OptionsColumn.ReadOnly = true;
+            this.Mess.Visible = true;
+            this.Mess.VisibleIndex = 8;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.simpleButton1);
+            this.groupBox1.Controls.Add(this.simpleButton5);
+            this.groupBox1.Controls.Add(this.simpleButton4);
+            this.groupBox1.Controls.Add(this.simpleButton3);
+            this.groupBox1.Controls.Add(this.simpleButton2);
+            this.groupBox1.Controls.Add(this.btnSelAll);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(945, 63);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.Location = new System.Drawing.Point(642, 23);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(120, 27);
+            this.simpleButton1.TabIndex = 5;
+            this.simpleButton1.Text = "&Unlock Machine";
+            // 
+            // simpleButton5
+            // 
+            this.simpleButton5.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton5.Appearance.Options.UseFont = true;
+            this.simpleButton5.Location = new System.Drawing.Point(516, 23);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(120, 27);
+            this.simpleButton5.TabIndex = 4;
+            this.simpleButton5.Text = "&Restart Machine";
+            // 
+            // simpleButton4
+            // 
+            this.simpleButton4.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton4.Appearance.Options.UseFont = true;
+            this.simpleButton4.Location = new System.Drawing.Point(390, 23);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(120, 27);
+            this.simpleButton4.TabIndex = 3;
+            this.simpleButton4.Text = "&Clear Machine";
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton3.Appearance.Options.UseFont = true;
+            this.simpleButton3.Location = new System.Drawing.Point(264, 23);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(120, 27);
+            this.simpleButton3.TabIndex = 2;
+            this.simpleButton3.Text = "Set &DateTime";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton2.Appearance.Options.UseFont = true;
+            this.simpleButton2.Location = new System.Drawing.Point(138, 23);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(120, 27);
+            this.simpleButton2.TabIndex = 1;
+            this.simpleButton2.Text = "Download &Logs";
+            // 
+            // btnSelAll
+            // 
+            this.btnSelAll.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelAll.Appearance.Options.UseFont = true;
+            this.btnSelAll.Location = new System.Drawing.Point(12, 23);
+            this.btnSelAll.Name = "btnSelAll";
+            this.btnSelAll.Size = new System.Drawing.Size(120, 27);
+            this.btnSelAll.TabIndex = 0;
+            this.btnSelAll.Text = "Select &All/None";
+            this.btnSelAll.Click += new System.EventHandler(this.btnSelAll_Click);
+            // 
+            // frmDataDownload
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(951, 576);
+            this.Controls.Add(this.tblp);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Name = "frmDataDownload";
+            this.Text = "Data Download";
+            this.Load += new System.EventHandler(this.frmDataDownload_Load);
+            this.tblp.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TableLayoutPanel tblp;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private DevExpress.XtraGrid.GridControl grd_avbl;
+        private DevExpress.XtraGrid.Views.Grid.GridView gv_avbl;
+        private DevExpress.XtraGrid.Columns.GridColumn SEL;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn Location;
+        private DevExpress.XtraGrid.Columns.GridColumn MachineIP;
+        private DevExpress.XtraGrid.Columns.GridColumn MachineNo;
+        private DevExpress.XtraGrid.Columns.GridColumn Records;
+        private DevExpress.XtraGrid.Columns.GridColumn AutoClear;
+        private DevExpress.XtraGrid.Columns.GridColumn Type;
+        private DevExpress.XtraGrid.Columns.GridColumn Remarks;
+        private DevExpress.XtraGrid.Columns.GridColumn Mess;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton5;
+        private DevExpress.XtraEditors.SimpleButton simpleButton4;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton btnSelAll;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+    }
+}
