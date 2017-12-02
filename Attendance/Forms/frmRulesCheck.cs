@@ -8,30 +8,29 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using Attendance.Classes;
-
-
 
 namespace Attendance.Forms
 {
-    public partial class frmLunchHalfDaypost : Form
+    public partial class frmRulesCheck : Form
     {
         
         public string GRights = "XXXV";
-        clsProcess pro = new clsProcess();
+        private DataSet LeaveRules = new DataSet();
 
-
-        public frmLunchHalfDaypost()
+        public frmRulesCheck()
         {
             InitializeComponent();
         }
 
-        private void frmLunchHalfDaypost_Load(object sender, EventArgs e)
+        private void frmMastUnit_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             SetRights();
+
             
+
+
         }
 
         private string DataValidate()
@@ -142,7 +141,7 @@ namespace Attendance.Forms
             pBar.Properties.PercentView = true;
             pBar.Properties.Minimum = 0;
 
-          
+            btnProcess.Enabled = true;
             txtWrkGrpCode.Enabled = true;
             txtEmpUnqID.Enabled = true;
             txtFromDt.Enabled = true;
@@ -430,7 +429,7 @@ namespace Attendance.Forms
 
             if (string.IsNullOrEmpty(txtEmpUnqID.Text.Trim()))
             {
-                 question = "Are You Sure to Process/Post Lunch Half Day Check For : " + sWrkGrp + Environment.NewLine
+                 question = "Are You Sure to Process/Post Leave Rules For : " + sWrkGrp + Environment.NewLine
                     + "Processed Data will be deleted between '" + txtFromDt.DateTime.ToString("yyyy-MM-dd") + "' And '" + txtToDate.DateTime.ToString("yyyy-MM-dd") + "' ";
 
 
@@ -439,7 +438,7 @@ namespace Attendance.Forms
             }else{
 
 
-                question = "Are You Sure to to Process/Post Lunch Half Day Check For : " + txtEmpUnqID.Text.Trim().ToString() + Environment.NewLine
+                question = "Are You Sure to to Process/Post Leave Rules For : " + txtEmpUnqID.Text.Trim().ToString() + Environment.NewLine
                     + "Processed Data will be deleted between '" + txtFromDt.DateTime.ToString("yyyy-MM-dd") + "' And '" + txtToDate.DateTime.ToString("yyyy-MM-dd") + "' ";
 
                 sql = "Select CompCode,WrkGrp,EmpUnqID,OTFlg,WeekOff From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' "
@@ -456,6 +455,18 @@ namespace Attendance.Forms
                 return;
             }
 
+
+            LeaveRules = Utils.Helper.GetData("Select Rules,RuleRepl from AttdRules Where WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "'  order by RuleID", Utils.Helper.constr);
+
+            bool hasRows = LeaveRules.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (!hasRows)
+            {
+                MessageBox.Show("There are no Rules Defined...,Process Canceled", "Information", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
             btnProcess.Enabled = false;
             txtWrkGrpCode.Enabled = false;
             txtEmpUnqID.Enabled = false;
@@ -465,15 +476,82 @@ namespace Attendance.Forms
             string sFromDt = txtFromDt.DateTime.ToString("yyyy-MM-dd");
             string sToDt = txtToDate.DateTime.ToString("yyyy-MM-dd");
 
+            DateTime dFromDt = Convert.ToDateTime(sFromDt);
+            DateTime dToDt = Convert.ToDateTime(sToDt);
 
             Cursor.Current = Cursors.WaitCursor;
 
             DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
+            hasRows = ds.Tables.Cast<DataTable>()
                            .Any(table => table.Rows.Count != 0);
 
             if (hasRows)
             {
+
+                #region Log_Process
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+
+                    try
+                    {
+                        cn.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ResetCtrl();
+                        SetRights();
+                        return;
+                    }
+
+                    SqlTransaction tr = cn.BeginTransaction();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.Transaction = tr;
+
+                    if (txtEmpUnqID.Text.Trim() != "")
+                    {
+                        sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                             " GetDate(),'" + Utils.User.GUserID + "','LeaveRule','" + sFromDt + "'," +
+                             " '" + sToDt + "','" + txtEmpUnqID.Text.Trim() + "')";
+                    }
+                    else
+                    {
+                        sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,WrkGrp ) Values (" +
+                            " GetDate(),'" + Utils.User.GUserID + "','LeaveRule','" + sFromDt + "'," +
+                            " '" + sToDt + "','" + txtWrkGrpCode.Text.Trim() + "')";
+                    }
+
+                    try
+                    {
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ResetCtrl();
+                        SetRights();
+                        return;
+                    }
+
+                    try
+                    {
+                        tr.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        tr.Rollback();
+                        ResetCtrl();
+                        SetRights();
+
+                    }
+                    
+                }//using connection
+                
+                #endregion
+                
                 pBar.Properties.Maximum = ds.Tables[0].Rows.Count + 1;
                 
                 foreach (DataRow drs in ds.Tables[0].Rows)
@@ -481,166 +559,118 @@ namespace Attendance.Forms
                     //update progressbar
                     pBar.PerformStep();
                     pBar.Update();
-                    sEmpUnqID = drs["EmpUnqID"].ToString();
+                    string  tEmpUnqID = drs["EmpUnqID"].ToString();
                     string WeekOff = drs["WeekOff"].ToString();
+                    txtError.Text = "Processing Emp :" + sEmpUnqID + Environment.NewLine;
                     //save in db for accountibility
                     using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                     {
+                        
                         try
                         {
                             cn.Open();
-                            SqlTransaction tr = cn.BeginTransaction("LunchHalfDayPost");
-                            
-                            
-
-                            DataSet AttdLunchDs = new DataSet();
-
-                            sql = "Select * From AttdLunchHistory where tDate " +
-                                 " Between '" + sFromDt + "' and '" + sToDt + "' and " +
-                                 " EmpUnqID = '" + drs["EmpUnqID"].ToString() + "' and ignore = 0 and posted = 0 Order By tDate Asc ";
-
-                            AttdLunchDs = Utils.Helper.GetData(sql, Utils.Helper.constr);
-                            int lngRecAffected = 0, tLeaveHalf = 0;
-                            
-                            bool posted = false;
-
-                            hasRows = AttdLunchDs.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                            #region trsloop
-                            if (hasRows)
-                            {  
-                                posted = false;
-
-                                foreach (DataRow trs in AttdLunchDs.Tables[0].Rows)
-                                {
-                                    lngRecAffected = 0; tLeaveHalf = 0;
-
-                                    #region posting
-                                    if ( (trs["LeaveStatus"].ToString()) != "" && (trs["LeaveStatus"].ToString()) == "AB")
-                                    {
-                                        lngRecAffected = 0;
-                                        tLeaveHalf = 1;
-
-                                        sql = "Select Count(*) from LeaveEntry where CompCode = '" + drs["CompCode"] + "' and " +
-                                        " WrkGrp = '" + drs["WrkGrp"] + "' and tYear = '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy") + "' " +
-                                        " And EmpUnqID = '" + drs["EmpUnqID"].ToString() + "' and FromDt ='" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "' and isnull(LeaveTyp,'') <> '' ";
-
-                                        int cnt = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
-
-                                        if (cnt == 0)
-                                        {
-                                           sql = " Insert into LeaveEntry (CompCode,WrkGrp,tYear,EmpUnqID,FromDt,ToDt,LeaveTyp,TotDay," +
-                                                 " WoDay,PublicHL,LeaveDed,LeaveAdv,LeaveHalf,Remark,AddDt,AddID,DelFlg)" +
-                                                 " Values (" +
-                                                    " '" + drs["CompCode"].ToString() + "', " +
-                                                    " '" + drs["WrkGrp"].ToString() + "'," +
-                                                    " '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy") + "', " + 
-                                                    " '" + drs["EmpUnqID"].ToString() +  "'," +
-                                                    " '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "', " + 
-                                                    " '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "', " + 
-                                                    " 'AB',0.5,0,0,0.5,0,1,'Lunch Rules', GetDate(),'Sys',0)" ;
-
-                                            SqlCommand cmd = new SqlCommand(sql,cn,tr);
-                                            cmd.CommandType = CommandType.Text;
-                                            lngRecAffected = (int)cmd.ExecuteNonQuery();
-
-                                            if (lngRecAffected > 0)
-                                            {
-                                                posted = true;
-                                                lngRecAffected = 0 ;
-                                                 sql = "Insert into MastLeaveSchedule " +
-                                                      "(EmpUnqID,WrkGrp,tDate,AddDt,AddID,schLeave,SchLeaveHalf) " +
-                                                        " Values ('" + trs["EmpUnqID"].ToString()  + "'," +
-                                                        " '" + trs["WrkGrp"].ToString() + "','" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "'," +
-                                                        " GetDate(),'Sys','AB','" + tLeaveHalf + "')";
-                            
-                                                 cmd = new SqlCommand(sql,cn,tr);
-                                                 cmd.CommandType = CommandType.Text;
-                                                 lngRecAffected = (int)cmd.ExecuteNonQuery();
-                                                
-                                                if(lngRecAffected > 0)
-                                                {
-                                                
-                                                    sql = "Update AttdLunchHistory Set Posted = 1, PostedBy ='" + Utils.User.GUserID + "' " +
-                                                        " where tDate '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "' And " +
-                                                        " EmpUnqID = '" + trs["EmpUnqID"].ToString() + "' ";
-                                                    cmd = new SqlCommand(sql, cn, tr);
-                                                    cmd.CommandType = CommandType.Text;
-                                                    cmd.ExecuteNonQuery();
-                                                }
-                                                    
-                                                
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            txtError.Text += drs["EmpUnqID"].ToString() + " : " + "Transaction Failur.." + Environment.NewLine;
-
-                                            int res = 0;
-                                            pro.LunchInOutProcess(drs["EmpUnqID"].ToString(), Convert.ToDateTime(trs["tDate"]), Convert.ToDateTime(trs["tDate"]), out res);
-                                            
-                                        }
-
-
-                                    }
-                                     #endregion posting
-
-                                }//for each AttdLunchDs Rows
-                                try
-                                {
-                                    tr.Commit();
-                                }
-                                catch (Exception ex)
-                                {
-                                    txtError.Text += txtError.Text + ex.ToString();
-                                    tr.Rollback();
-                                    continue;
-                                }
-                                #region processAttendance
-                                if (posted == true)
-                                {
-
-                                    //get minimum date of postedflg = true between from date and todate
-                                    //get maximum date of posted flg = true between from date and todate
-                                    string minsql = "Select Convert(date,Min(tDate),121) from AttdLunchHistory where Empunqid = '" + drs["EmpUnqID"].ToString() + "' and tDate Between '" + sFromDt + "' and '" + sToDt + "' and posted = 1" ;
-                                    string maxsql = "Select Convert(date,Max(tDate),121) from AttdLunchHistory where Empunqid = '" + drs["EmpUnqID"].ToString() + "' and tDate Between '" + sFromDt + "' and '" + sToDt + "' and posted = 1";
-
-                                    string s1dt = Utils.Helper.GetDescription(minsql, Utils.Helper.constr);
-                                    string s2dt = Utils.Helper.GetDescription(maxsql, Utils.Helper.constr);
-
-                                    if(!string.IsNullOrEmpty(s1dt) && !string.IsNullOrEmpty(s2dt))
-                                    {
-                                        int res = 0;
-                                        err = string.Empty;
-                                        DateTime tFromDt = Convert.ToDateTime(s1dt);
-                                        DateTime tToDt = Convert.ToDateTime(s2dt);
-                                        string tEmpUnq = drs["EmpUnqID"].ToString();
-                                        pro.AttdProcess(tEmpUnq, tFromDt, tToDt,out res, out err);
-                                    
-                                    }
-
-                                    
-
-                                }
-                                #endregion processAttendance
-
-                            }//if has row
-
-                            
-                            #endregion trsloop
-
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            txtError.Text += "Processing Emp :" + tEmpUnqID + " " + ex.ToString() + Environment.NewLine;
+                            continue;
                         }
+
+                        SqlTransaction tr = cn.BeginTransaction("LeaveRulesCheck");
+                        SqlCommand cmd = new SqlCommand();
+                        cmd.Connection = cn;
+                        cmd.Transaction = tr;
+
+                        
+                        sql = "SELECT '" + tEmpUnqID + "' AS EmpUnqID, F_TABLE_DATE_1.Date , " +
+                             " dbo.AttdData.LeaveTyp, ISNULL(dbo.AttdData.Status, 'A') AS Status " +
+                             " FROM dbo.F_TABLE_DATE('" + sFromDt + "','" + sToDt + "') AS F_TABLE_DATE_1 LEFT OUTER JOIN " +
+                             " dbo.AttdData ON F_TABLE_DATE_1.Date = dbo.AttdData.tDate AND '" + tEmpUnqID + "' = dbo.AttdData.EmpUnqID Order By F_TABLE_DATE_1.Date  ";
+
+                        DataSet dsdaily = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        hasRows = dsdaily.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (!hasRows)
+                        {
+                            continue;
+                        }
+
+                        string lstr = string.Empty;
+
+                        foreach (DataRow tdr in dsdaily.Tables[0].Rows)
+                        {
+                            string LeaveTyp = tdr["LeaveTyp"].ToString();
+                            
+                            if (LeaveTyp != "WO" && LeaveTyp != "HL" && LeaveTyp != "LW" && LeaveTyp != "AB" && LeaveTyp != "SP")
+                            {
+                                lstr += tdr["Status"].ToString() + ";" ;
+                            }else
+                            {
+                                lstr += tdr["LeaveTyp"].ToString() + ";" ;
+                            }
+                                
+                        }//foreach day status 
+
+                        if (string.IsNullOrEmpty(lstr))
+                        {
+                            continue;
+                        }
+
+                        lstr = lstr.Substring(0, lstr.Length - 1);
+
+                        foreach (DataRow tmp in LeaveRules.Tables[0].Rows)
+                        {
+                            
+                            lstr = lstr.Replace(tmp["Rules"].ToString(),tmp["RuleRepl"].ToString());
+
+                            //lstr = Replace(lstr, ruleary(i, 0), ruleary(i, 1))
+                           
+                        }
+                        string[] dtary = lstr.Split(';');
+
+                        DateTime tmpDt = dFromDt;
+
+                        foreach (string d in dtary)
+                        {
+                            if (d == "A")
+                            {
+                                sql = "Update AttdData Set LeaveTyp = Null,Status = 'A' ,Rules = 1 Where EmpUnqID = '" + tEmpUnqID + "' " +
+                                " And tDate ='" + tmpDt.ToString("yyyy-MM-dd") + "' and ConsIn is null and ConsOut is null";
+
+                                try
+                                {
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    txtError.Text += "Error while processing : " + tEmpUnqID + " " + ex.ToString() + Environment.NewLine;
+                                    
+                                }
+                                
+                            
+                            }
+
+                            tmpDt = tmpDt.AddDays(1);
+                        }
+
+
+                        try
+                        {
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            txtError.Text += "Error while processing : " + sEmpUnqID + " " + ex.ToString() + Environment.NewLine;
+                        }
+                        
 
 
                     }//using connection
 
                 } //foreach loop drs
             }
-            MessageBox.Show("Process Completed..", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Process Completed...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Cursor.Current = Cursors.Default;
             ResetCtrl();
             SetRights();

@@ -102,18 +102,19 @@ namespace Attendance
             }
 
             //Set GateInOutIP
-            Attendance.Classes.Globals.SetGateInOutIPList();
+            Globals.SetGateInOutIPList();
 
             //set LunchInOutIP
-            Attendance.Classes.Globals.SetLunchInOutIPList();
+            Globals.SetLunchInOutIPList();
 
             //set waterip
-            Attendance.Classes.Globals.SetWaterIPList();
+            Globals.SetWaterIPList();
 
             //set ShiftList
-            Attendance.Classes.Globals.SetShiftList();
+            Globals.SetShiftList();
 
-
+            //set global vars
+            Globals.GetGlobalVars();
         }
         
         private void SetToolStripItems(ToolStripItemCollection dropDownItems)
@@ -556,13 +557,23 @@ namespace Attendance
 
         private void mnuAutoMail_Click(object sender, EventArgs e)
         {
-            Form t = Application.OpenForms["frmAutoMailSubScription"];
-            if (t == null)
+            if (!string.IsNullOrEmpty(Globals.G_DefaultMailID))
             {
-                Attendance.Forms.frmAutoMailSubScription m = new Attendance.Forms.frmAutoMailSubScription();
-                m.MdiParent = this;
-                m.Show();
+                Form t = Application.OpenForms["frmAutoMailSubScription"];
+                if (t == null)
+                {
+                    Attendance.Forms.frmAutoMailSubScription m = new Attendance.Forms.frmAutoMailSubScription();
+                    m.MdiParent = this;
+                    m.Show();
+                }
             }
+            else
+            {
+                MessageBox.Show("Default MailID is not configured..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+           
         }
 
         private void mnuLeaveBalUpload_Click(object sender, EventArgs e)
@@ -777,6 +788,32 @@ namespace Attendance
             {
                 Attendance.Forms.frmBulkWOChange m = new Attendance.Forms.frmBulkWOChange();
                 m.GType = "SHIFT";
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuHalfDayCheck_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmHalfDayCheck"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmHalfDayCheck m = new Attendance.Forms.frmHalfDayCheck();
+
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuRulesCheck_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmRulesCheck"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmRulesCheck m = new Attendance.Forms.frmRulesCheck();
+                
                 m.MdiParent = this;
                 m.Show();
             }

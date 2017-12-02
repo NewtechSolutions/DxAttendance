@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmLunchHalfDaypost
+    partial class frmHalfDayCheck
     {
         /// <summary>
         /// Required designer variable.
@@ -258,7 +258,7 @@
             this.btnProcess.UseVisualStyleBackColor = false;
             this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
             // 
-            // frmLunchHalfDaypost
+            // frmHalfDayCheck
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -267,9 +267,9 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmLunchHalfDaypost";
-            this.Text = "Lunch Half Day Post";
-            this.Load += new System.EventHandler(this.frmLunchHalfDaypost_Load);
+            this.Name = "frmHalfDayCheck";
+            this.Text = "HalfDay Rules Check/Apply";
+            this.Load += new System.EventHandler(this.frmHalfDayCheck_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).EndInit();

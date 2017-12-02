@@ -5,6 +5,9 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
 
@@ -179,6 +182,21 @@ namespace Utils
             }
 
             return Result;
+        }
+
+        public static List<string> GetLocalIPAddress()
+        {
+            List<string> t = new List<string>();
+            
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    t.Add(ip.ToString());
+                }
+            }
+            return t;        
         }
 
         /// <summary>

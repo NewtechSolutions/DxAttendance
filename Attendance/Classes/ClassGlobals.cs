@@ -20,6 +20,91 @@ namespace Attendance.Classes
         public static List<string> LunchInOutIP = new List<string>();
         public static string G_LunchInOutIP;
 
+        public static string G_AutoProcessWrkGrp;
+        public static TimeSpan G_AutoProcessTime;
+        public static string G_ReportServiceURL;
+        public static string G_ReportSerExeUrl;
+        public static string G_DefaultMailID;
+        public static string G_SmtpHostIP;
+        public static string G_ServerWorkerIP;
+
+        public static string G_NetworkDomain;
+        public static string G_NetworkUser;
+        public static string G_NetworkPass;
+        public static List<string> G_SchAutoTimeSet;
+
+        public static bool GetGlobalVars()
+        {
+            bool tset = false;
+            
+            DataSet ds = new DataSet();
+            string sql = "Select top 1 * From MastNetwork ";
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                tset = true;
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if(dr["AutoProcessWrkGrp"].ToString() != string.Empty)
+                    {
+                        G_AutoProcessWrkGrp = dr["AutoProcessWrkGrp"].ToString().Replace(",", "','");
+                        G_AutoProcessWrkGrp = "'" + G_AutoProcessWrkGrp + "'";
+                    }
+                    TimeSpan t = new TimeSpan();
+                    if (dr["AutoProcessTime"] != DBNull.Value)
+                    {
+                            TimeSpan.TryParse(dr["AutoProcessTime"].ToString(),out t);
+                            G_AutoProcessTime = t;
+                    }
+                    else
+                    {
+                        G_AutoProcessTime = t;
+                    }
+
+                    //G_AutoProcessTime = (dr["AutoProccessTime"] != null) ? Convert.ToDateTime(dr["AutoProccessTime"]) : t;
+                    G_ReportServiceURL = dr["ReportServiceURL"].ToString();
+                    G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
+                    G_DefaultMailID = dr["DefaultMailID"].ToString();
+                    G_SmtpHostIP = dr["SmtpHostIP"].ToString();
+                    G_ServerWorkerIP = dr["ServerWorkerIP"].ToString();
+                    
+                    G_NetworkDomain = dr["NetworkDomain"].ToString();
+                    G_NetworkUser = dr["NetworkUser"].ToString();
+                    G_NetworkPass = dr["NetworkPass"].ToString();
+                    
+                    Utils.DomainUserConfig.DomainName = dr["NetworkDomain"].ToString();
+                    Utils.DomainUserConfig.DomainUser = dr["NetworkUser"].ToString();
+                    Utils.DomainUserConfig.DomainPassword = dr["NetworkPass"].ToString();
+
+                }
+                
+            }
+            else
+            {
+                tset = false ;
+            }
+
+
+            sql = "Select * From AutoTimeSet";
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasRows)
+            {
+                G_SchAutoTimeSet.Clear();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    G_SchAutoTimeSet.Add(Convert.ToDateTime(dr["SchTime"]).ToString("HH:mm"));
+
+                }
+            }
+
+
+            return tset;
+        }
+
+
         public static List<string> WaterIP = new List<string>();
         public static string G_WaterIP;
 

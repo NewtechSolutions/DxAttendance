@@ -14,8 +14,8 @@ namespace Attendance
     {
 
         private DataSet dsAttdData;
-        public SqlDataAdapter daAttdData;
-        public SqlCommandBuilder AttdCmdBuilder;
+        private SqlDataAdapter daAttdData;
+        private SqlCommandBuilder AttdCmdBuilder;
 
         public clsProcess()
         {
@@ -2164,6 +2164,103 @@ namespace Attendance
 
 
         }
+
+
+        public void HalfDay_Rules_Process(string tWrkGrp ,string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out string result)
+        {
+            result = string.Empty;
+
+            if (string.IsNullOrEmpty(tWrkGrp))
+            {
+                result = "WrkGrp is required...";
+                return;
+            }
+
+            if (tToDate < tFromDt)
+            {
+                result = "Invalid date range ...";
+                return;
+            }
+
+            if (tFromDt == DateTime.MinValue)
+            {
+                result = "Invalid From Date...";
+                return;
+            }
+
+            if (tToDate == DateTime.MinValue)
+            {
+                result = "Invalid To Date...";
+                return;
+            }
+
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+            
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.Text;
+
+                        string sql = string.Empty;
+
+                        if (string.IsNullOrEmpty(tEmpUnqID))
+                        {
+                            sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,WrkGrp ) Values (" +
+                            " GetDate(),'" + Utils.User.GUserID + "','HalfDayRule','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
+                            " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tWrkGrp + "')";
+                        }
+                        else
+                        {
+                            sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                           " GetDate(),'" + Utils.User.GUserID + "','HalfDayRule','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
+                           " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
+                        }
+                        
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Attd_HalfDay_LateEarly";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.StringFixedLength;
+                        spout.Size = 400;
+                        spout.ParameterName = "@status";
+                        string tout = "";
+                        spout.Value = tout;
+
+                        cmd.Parameters.AddWithValue("@pWrkGrp", tWrkGrp);
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", tEmpUnqID);
+                        cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
+                        cmd.Parameters.AddWithValue("@pToDt", tToDate);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (string)cmd.Parameters["@status"].Value;
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    result = "Error : " + ex.ToString();
+                }
+
+            }//using connection
+        
+        }
+
 
     }
 

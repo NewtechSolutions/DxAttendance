@@ -74,11 +74,13 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-
                         cmd.CommandText = "Delete From MastNetwork Where 1=1";
                         cmd.ExecuteNonQuery();
                         
-                        cmd.CommandText = "Insert into MastNetwork (NetworkDomain,NetWorkUser,NetWorkPass) values ('" + txtDomainName.Text.Trim() + "','" + txtUserID.Text.Trim() + "','" + txtPassword.Text.Trim().ToString() + "' )";
+                        cmd.CommandText = "Insert into MastNetwork (NetworkDomain,NetWorkUser,NetWorkPass,AddDt,AddId) values (" +
+                            " '" + txtDomainName.Text.Trim() + "','" + txtUserID.Text.Trim() + "','" + txtPassword.Text.Trim().ToString() + "',GetDate()," +
+                            " '" + Utils.User.GUserID + "')";
+
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Network configuration saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         

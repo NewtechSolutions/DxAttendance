@@ -469,7 +469,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAutoMailSubScription";
             this.Text = "User WrkGrp Rights/Inheritance";
-            this.Load += new System.EventHandler(this.frmMastRules_Load);
+            this.Load += new System.EventHandler(this.frmAutoMailSubScription_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();

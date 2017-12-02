@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Attendance.Classes;
 
 namespace Attendance.Forms
 {
@@ -28,7 +29,7 @@ namespace Attendance.Forms
             InitializeComponent();
         }
 
-        private void frmMastRules_Load(object sender, EventArgs e)
+        private void frmAutoMailSubScription_Load(object sender, EventArgs e)
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
@@ -61,7 +62,10 @@ namespace Attendance.Forms
                 err = err + "Please Enter WrkGrp Description..." + Environment.NewLine;
             }
 
-            
+            if (string.IsNullOrEmpty(Globals.G_DefaultMailID))
+            {
+                err = err + "Default Mail ID is not configured, please configured from other configuration..." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -175,7 +179,7 @@ namespace Attendance.Forms
                             txtEmail.Text.Trim().ToString(),
                             txtEmailCopy.Text.Trim().ToString(),
                             txtBCCTo.Text.Trim().ToString(),
-                            "attendance.ipu@jindalsaw.com",
+                            Globals.G_DefaultMailID,
                             Utils.User.GUserID,
                             txtWrkGrpCode.Text.Trim()
                             );
@@ -847,7 +851,7 @@ namespace Attendance.Forms
                             txtEmail.Text.Trim().ToString(),
                             txtEmailCopy.Text.Trim().ToString(),
                             txtBCCTo.Text.Trim().ToString(),
-                            "attendance.ipu@jindalsaw.com",
+                            Globals.G_DefaultMailID,
                             Utils.User.GUserID,
                             txtID.Text.Trim().ToString(),
                             txtWrkGrpCode.Text.Trim()

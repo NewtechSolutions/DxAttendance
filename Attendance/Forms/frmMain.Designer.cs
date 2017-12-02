@@ -668,46 +668,48 @@
             // mnuDataProcess
             // 
             this.mnuDataProcess.Name = "mnuDataProcess";
-            this.mnuDataProcess.Size = new System.Drawing.Size(188, 22);
+            this.mnuDataProcess.Size = new System.Drawing.Size(222, 22);
             this.mnuDataProcess.Text = "Atn. Data Process";
             this.mnuDataProcess.Click += new System.EventHandler(this.mnuDataProcess_Click);
             // 
             // mnuLunchInOutProcess
             // 
             this.mnuLunchInOutProcess.Name = "mnuLunchInOutProcess";
-            this.mnuLunchInOutProcess.Size = new System.Drawing.Size(188, 22);
+            this.mnuLunchInOutProcess.Size = new System.Drawing.Size(222, 22);
             this.mnuLunchInOutProcess.Text = "Lunch In/Out Process";
             this.mnuLunchInOutProcess.Click += new System.EventHandler(this.mnuLunchInOutProcess_Click);
             // 
             // mnuRulesCheck
             // 
             this.mnuRulesCheck.Name = "mnuRulesCheck";
-            this.mnuRulesCheck.Size = new System.Drawing.Size(188, 22);
-            this.mnuRulesCheck.Text = "Rules Check";
+            this.mnuRulesCheck.Size = new System.Drawing.Size(222, 22);
+            this.mnuRulesCheck.Text = "Leave Rules Check/Apply";
+            this.mnuRulesCheck.Click += new System.EventHandler(this.mnuRulesCheck_Click);
             // 
             // mnuHalfDayCheck
             // 
             this.mnuHalfDayCheck.Name = "mnuHalfDayCheck";
-            this.mnuHalfDayCheck.Size = new System.Drawing.Size(188, 22);
-            this.mnuHalfDayCheck.Text = "Half Day Check";
+            this.mnuHalfDayCheck.Size = new System.Drawing.Size(222, 22);
+            this.mnuHalfDayCheck.Text = "Half Day Rules Check/Apply";
+            this.mnuHalfDayCheck.Click += new System.EventHandler(this.mnuHalfDayCheck_Click);
             // 
             // mnuMessDataProcess
             // 
             this.mnuMessDataProcess.Name = "mnuMessDataProcess";
-            this.mnuMessDataProcess.Size = new System.Drawing.Size(188, 22);
+            this.mnuMessDataProcess.Size = new System.Drawing.Size(222, 22);
             this.mnuMessDataProcess.Text = "Mess Data Process";
             this.mnuMessDataProcess.Click += new System.EventHandler(this.mnuMessDataProcess_Click);
             // 
             // mnuDataDownload
             // 
             this.mnuDataDownload.Name = "mnuDataDownload";
-            this.mnuDataDownload.Size = new System.Drawing.Size(188, 22);
+            this.mnuDataDownload.Size = new System.Drawing.Size(222, 22);
             this.mnuDataDownload.Text = "Data Download";
             // 
             // mnuRFIDUser
             // 
             this.mnuRFIDUser.Name = "mnuRFIDUser";
-            this.mnuRFIDUser.Size = new System.Drawing.Size(188, 22);
+            this.mnuRFIDUser.Size = new System.Drawing.Size(222, 22);
             this.mnuRFIDUser.Text = "User Management";
             // 
             // statusStrip1

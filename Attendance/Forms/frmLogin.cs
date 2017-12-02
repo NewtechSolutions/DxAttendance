@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Attendance
 {
@@ -64,20 +65,6 @@ namespace Attendance
                     Utils.User.IsAdmin = (ds.Tables[0].Rows[0]["IsAdmin"].ToString()== "Y") ? true : false;
                     Utils.User.GUserName = ds.Tables[0].Rows[0]["UserName"].ToString();
                    
-
-                    ds = Utils.Helper.GetData("Select Top 1 * From MastNetWork", Utils.Helper.constr);
-                    hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                    if (hasrows)
-                    {
-                        foreach (DataRow row in ds.Tables[0].Rows)
-                        {
-                            Utils.DomainUserConfig.DomainName = row["NetworkDomain"].ToString();
-                            Utils.DomainUserConfig.DomainUser= row["NetworkUser"].ToString();
-                            Utils.DomainUserConfig.DomainPassword = row["NetworkPass"].ToString();
-                            //Utils.DomainUserConfig.NetworkShare = row["NetworkShare"].ToString();
-                        }
-                    }
-
                     this.Hide();
                     Program.OpenMDIFormOnClose = true;
                     this.Close();
@@ -110,6 +97,67 @@ namespace Attendance
         {
             txtUserName.Text = "";
             txtPassword.Text = "";
+
+            #region loadserverside
+
+            try
+            {
+                Utils.DbCon dbcon = Utils.Helper.ReadConDb("DBCON");
+
+                if (string.IsNullOrEmpty(dbcon.DataSource))
+                {
+                    
+                    return;
+                }
+                else
+                {
+                    Utils.Helper.constr = dbcon.ToString();
+                }
+
+                DataSet ds = Utils.Helper.GetData("Select Top 1 * From MastNetWork", Utils.Helper.constr);
+                bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                if (hasrows)
+                {
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        Attendance.Classes.Globals.G_ServerWorkerIP = row["ServerWorkerIP"].ToString();
+                    }
+                }
+
+                string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
+                List<string> localip = Utils.Helper.GetLocalIPAddress();
+                if (localip.Count > 0)
+                {
+                    bool found = false;
+                    
+                    foreach (string ip in localip)
+                    {
+                        if (ip == Attendance.Classes.Globals.G_ServerWorkerIP)
+                        {
+                            Utils.User.GUserID = "SERVER";
+                            Utils.User.GUserPass = string.Empty;
+                            Utils.User.IsAdmin = false;
+                            Utils.User.GUserName = "SERVER";
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found)
+                    {
+                        this.Hide();
+                        Program.OpenMDIFormOnClose = true;
+                        this.Close();
+                    }                    
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            #endregion
+
         }
     }
 }
