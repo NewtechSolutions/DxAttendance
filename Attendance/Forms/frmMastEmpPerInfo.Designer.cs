@@ -149,6 +149,15 @@
             this.gridExp = new DevExpress.XtraGrid.GridControl();
             this.gvExp = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
+            this.txtMedChkDt = new DevExpress.XtraEditors.DateEdit();
+            this.label10 = new System.Windows.Forms.Label();
+            this.chkMed = new System.Windows.Forms.CheckBox();
+            this.txtMedRes = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.chkSafety = new System.Windows.Forms.CheckBox();
+            this.txtSafetyDt = new DevExpress.XtraEditors.DateEdit();
+            this.label49 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -221,6 +230,11 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridExp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvExp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedChkDt.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedChkDt.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedRes.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -720,6 +734,15 @@
             // 
             // xtraTabPage3
             // 
+            this.xtraTabPage3.Controls.Add(this.txtSafetyDt);
+            this.xtraTabPage3.Controls.Add(this.label49);
+            this.xtraTabPage3.Controls.Add(this.label48);
+            this.xtraTabPage3.Controls.Add(this.chkSafety);
+            this.xtraTabPage3.Controls.Add(this.label12);
+            this.xtraTabPage3.Controls.Add(this.txtMedRes);
+            this.xtraTabPage3.Controls.Add(this.chkMed);
+            this.xtraTabPage3.Controls.Add(this.txtMedChkDt);
+            this.xtraTabPage3.Controls.Add(this.label10);
             this.xtraTabPage3.Controls.Add(this.txtIDPrfExpOn3);
             this.xtraTabPage3.Controls.Add(this.txtIDPrfExpOn2);
             this.xtraTabPage3.Controls.Add(this.label25);
@@ -1575,6 +1598,102 @@
             this.ctrlEmp1.Size = new System.Drawing.Size(1088, 184);
             this.ctrlEmp1.TabIndex = 0;
             // 
+            // txtMedChkDt
+            // 
+            this.txtMedChkDt.EditValue = null;
+            this.txtMedChkDt.Location = new System.Drawing.Point(353, 132);
+            this.txtMedChkDt.Name = "txtMedChkDt";
+            this.txtMedChkDt.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtMedChkDt.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtMedChkDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtMedChkDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtMedChkDt.Size = new System.Drawing.Size(100, 20);
+            this.txtMedChkDt.TabIndex = 41;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(265, 135);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(79, 14);
+            this.label10.TabIndex = 42;
+            this.label10.Text = "Checkup Dt :";
+            // 
+            // chkMed
+            // 
+            this.chkMed.AutoSize = true;
+            this.chkMed.Location = new System.Drawing.Point(184, 134);
+            this.chkMed.Name = "chkMed";
+            this.chkMed.Size = new System.Drawing.Size(55, 18);
+            this.chkMed.TabIndex = 43;
+            this.chkMed.Text = "Done";
+            this.chkMed.UseVisualStyleBackColor = true;
+            // 
+            // txtMedRes
+            // 
+            this.txtMedRes.Location = new System.Drawing.Point(478, 129);
+            this.txtMedRes.Name = "txtMedRes";
+            this.txtMedRes.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtMedRes.Properties.Items.AddRange(new object[] {
+            "FIT",
+            "UNFIT"});
+            this.txtMedRes.Size = new System.Drawing.Size(72, 20);
+            this.txtMedRes.TabIndex = 44;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(25, 136);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(109, 14);
+            this.label12.TabIndex = 46;
+            this.label12.Text = "Medical Checkup  :";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(33, 162);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(101, 14);
+            this.label48.TabIndex = 48;
+            this.label48.Text = "Safety Training  :";
+            // 
+            // chkSafety
+            // 
+            this.chkSafety.AutoSize = true;
+            this.chkSafety.Location = new System.Drawing.Point(184, 160);
+            this.chkSafety.Name = "chkSafety";
+            this.chkSafety.Size = new System.Drawing.Size(55, 18);
+            this.chkSafety.TabIndex = 47;
+            this.chkSafety.Text = "Done";
+            this.chkSafety.UseVisualStyleBackColor = true;
+            // 
+            // txtSafetyDt
+            // 
+            this.txtSafetyDt.EditValue = null;
+            this.txtSafetyDt.Location = new System.Drawing.Point(353, 159);
+            this.txtSafetyDt.Name = "txtSafetyDt";
+            this.txtSafetyDt.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtSafetyDt.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtSafetyDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtSafetyDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtSafetyDt.Size = new System.Drawing.Size(100, 20);
+            this.txtSafetyDt.TabIndex = 49;
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(269, 162);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(75, 14);
+            this.label49.TabIndex = 50;
+            this.label49.Text = "Training Dt :";
+            // 
             // frmMastEmpPerInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1663,6 +1782,11 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridExp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvExp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedChkDt.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedChkDt.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMedRes.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1790,5 +1914,14 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label45;
+        private DevExpress.XtraEditors.DateEdit txtSafetyDt;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.CheckBox chkSafety;
+        private System.Windows.Forms.Label label12;
+        private DevExpress.XtraEditors.ComboBoxEdit txtMedRes;
+        private System.Windows.Forms.CheckBox chkMed;
+        private DevExpress.XtraEditors.DateEdit txtMedChkDt;
+        private System.Windows.Forms.Label label10;
     }
 }

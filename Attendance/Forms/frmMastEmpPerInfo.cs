@@ -85,7 +85,20 @@ namespace Attendance.Forms
                 err = err + "Invalid CompCode..." + Environment.NewLine;
             }
 
-            
+            if (chkMed.Checked && txtMedChkDt.DateTime == DateTime.MinValue)
+            {
+                err = err + "Please Eenter Medical Checkup Date..." + Environment.NewLine;
+            }
+
+            if (chkMed.Checked && txtMedRes.Text == string.Empty)
+            {
+                err = err + "Please Eenter Medical Checkup Result..." + Environment.NewLine;
+            }
+
+            if (chkSafety.Checked && txtSafetyDt.DateTime == DateTime.MinValue)
+            {
+                err = err + "Please Eenter Safety Training Date..." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -157,6 +170,14 @@ namespace Attendance.Forms
             gridFam.DataSource = null;
             gridEdu.DataSource = null;
             gridExp.DataSource = null;
+
+            chkMed.Checked = false;
+            txtMedChkDt.EditValue = null;
+            txtMedRes.Text = "";
+
+            chkSafety.Checked = false;
+            txtSafetyDt.EditValue = null;
+
 
             oldCode = "";
             mode = "NEW";
@@ -276,8 +297,10 @@ namespace Attendance.Forms
                             " PerAdd1 = '{12}', PerAdd2 = '{13}', PerAdd3='{14}',PerAdd4='{15}' , PerCity = '{16}',PerDistrict = '{17}', PerState='{18}' , PerPin ='{19}', " +         
                             " IDPRF1 = '{20}',IDPRF1NO = '{21}', IDPRF1EXPON = {22} ," +
                             " IDPRF2 = '{23}',IDPRF2NO = '{24}', IDPRF2EXPON = {25} ," +
-                            " IDPRF3 = '{26}',IDPRF3NO = '{27}', IDPRF3EXPON = {28} ," +                            
-                            " UpdDt = GetDate(),UpdID ='{29}' where CompCode = '{30}' and EmpUnqID = '{31}' ";
+                            " IDPRF3 = '{26}',IDPRF3NO = '{27}', IDPRF3EXPON = {28} ," +   
+                            " MedChkFlg = {29},MedChkDt = {30}, MedChkSts = '{31}' ," +
+                            " SafetyTrnFlg = {32}, SafetyTrnDt = {33} ," +
+                            " UpdDt = GetDate(),UpdID ='{34}' where CompCode = '{35}' and EmpUnqID = '{36}' ";
 
                         sql = string.Format(sql, 
                             txtAdd1.Text.Trim().ToString(),
@@ -313,9 +336,17 @@ namespace Attendance.Forms
                             txtIDPrfNo3.Text.Trim().ToString(),
                             ((txtIDPrfExpOn3.EditValue == DBNull.Value) ? "null" : "'" + txtIDPrfExpOn3.DateTime.ToString("yyyy-MM-dd") + "'"),
                             
+                            ((chkMed.Checked)?1:0),
+                            ((txtMedChkDt.EditValue == DBNull.Value) ? "null" : "'" + txtMedChkDt.DateTime.ToString("yyyy-MM-dd") + "'"),
+                            txtMedRes.Text.ToString(),
+
+                            ((chkSafety.Checked)?1:0),
+                            ((txtSafetyDt.EditValue == DBNull.Value) ? "null" : "'" + txtSafetyDt.DateTime.ToString("yyyy-MM-dd") + "'"),
+
                             Utils.User.GUserID,
                             ctrlEmp1.txtCompCode.Text.Trim(),
                             ctrlEmp1.txtEmpUnqID.Text.Trim()
+                            
                             );
 
                         cmd.CommandText = sql;
@@ -564,8 +595,18 @@ namespace Attendance.Forms
                 txtIDPrf3.Text = dr["IDPRF3"].ToString();
                 txtIDPrfNo3.Text = dr["IDPRF3NO"].ToString();
                 txtIDPrfExpOn3.EditValue = dr["IDPRF3EXPON"];
-       
-       
+
+                bool t = false;
+                bool.TryParse(dr["MedChkFlg"].ToString(), out t);
+                chkMed.Checked = t;
+                txtMedChkDt.EditValue = dr["MedChkDt"];
+                txtMedRes.Text = dr["MedChkSts"].ToString();
+
+                t = false;
+                bool.TryParse(dr["SafetyTrnFlg"].ToString(), out t);
+                chkSafety.Checked = t;
+                txtSafetyDt.EditValue = dr["SafetyTrnDT"];
+                
 
                 mode = "OLD";
                 oldCode = tEmpUnqID;
