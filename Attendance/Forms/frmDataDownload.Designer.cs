@@ -30,7 +30,7 @@
         {
             this.tblp = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.grd_avbl = new DevExpress.XtraGrid.GridControl();
+            this.grpGrid = new DevExpress.XtraGrid.GridControl();
             this.gv_avbl = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.SEL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
@@ -43,15 +43,15 @@
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnUnockMach = new DevExpress.XtraEditors.SimpleButton();
+            this.btnRestartMach = new DevExpress.XtraEditors.SimpleButton();
+            this.btnClearMach = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDownload = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -74,7 +74,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.grd_avbl);
+            this.groupBox2.Controls.Add(this.grpGrid);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 72);
             this.groupBox2.Name = "groupBox2";
@@ -83,17 +83,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Available Machine";
             // 
-            // grd_avbl
+            // grpGrid
             // 
-            this.grd_avbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grd_avbl.Location = new System.Drawing.Point(3, 17);
-            this.grd_avbl.MainView = this.gv_avbl;
-            this.grd_avbl.Name = "grd_avbl";
-            this.grd_avbl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.grpGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpGrid.Location = new System.Drawing.Point(3, 17);
+            this.grpGrid.MainView = this.gv_avbl;
+            this.grpGrid.Name = "grpGrid";
+            this.grpGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.grd_avbl.Size = new System.Drawing.Size(939, 481);
-            this.grd_avbl.TabIndex = 3;
-            this.grd_avbl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.grpGrid.Size = new System.Drawing.Size(939, 481);
+            this.grpGrid.TabIndex = 3;
+            this.grpGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_avbl});
             // 
             // gv_avbl
@@ -108,7 +108,7 @@
             this.Type,
             this.Remarks,
             this.Mess});
-            this.gv_avbl.GridControl = this.grd_avbl;
+            this.gv_avbl.GridControl = this.grpGrid;
             this.gv_avbl.Name = "gv_avbl";
             this.gv_avbl.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gv_avbl.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
@@ -135,6 +135,7 @@
             this.gv_avbl.OptionsView.ShowDetailButtons = false;
             this.gv_avbl.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_avbl.OptionsView.ShowGroupPanel = false;
+            this.gv_avbl.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gv_avbl_CellValueChanging);
             // 
             // SEL
             // 
@@ -271,11 +272,11 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.simpleButton1);
-            this.groupBox1.Controls.Add(this.simpleButton5);
-            this.groupBox1.Controls.Add(this.simpleButton4);
-            this.groupBox1.Controls.Add(this.simpleButton3);
-            this.groupBox1.Controls.Add(this.simpleButton2);
+            this.groupBox1.Controls.Add(this.btnUnockMach);
+            this.groupBox1.Controls.Add(this.btnRestartMach);
+            this.groupBox1.Controls.Add(this.btnClearMach);
+            this.groupBox1.Controls.Add(this.btnSetTime);
+            this.groupBox1.Controls.Add(this.btnDownload);
             this.groupBox1.Controls.Add(this.btnSelAll);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
@@ -284,55 +285,57 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
-            // simpleButton1
+            // btnUnockMach
             // 
-            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton1.Appearance.Options.UseFont = true;
-            this.simpleButton1.Location = new System.Drawing.Point(642, 23);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(120, 27);
-            this.simpleButton1.TabIndex = 5;
-            this.simpleButton1.Text = "&Unlock Machine";
+            this.btnUnockMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnockMach.Appearance.Options.UseFont = true;
+            this.btnUnockMach.Location = new System.Drawing.Point(642, 23);
+            this.btnUnockMach.Name = "btnUnockMach";
+            this.btnUnockMach.Size = new System.Drawing.Size(120, 27);
+            this.btnUnockMach.TabIndex = 5;
+            this.btnUnockMach.Text = "&Unlock Machine";
             // 
-            // simpleButton5
+            // btnRestartMach
             // 
-            this.simpleButton5.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton5.Appearance.Options.UseFont = true;
-            this.simpleButton5.Location = new System.Drawing.Point(516, 23);
-            this.simpleButton5.Name = "simpleButton5";
-            this.simpleButton5.Size = new System.Drawing.Size(120, 27);
-            this.simpleButton5.TabIndex = 4;
-            this.simpleButton5.Text = "&Restart Machine";
+            this.btnRestartMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestartMach.Appearance.Options.UseFont = true;
+            this.btnRestartMach.Location = new System.Drawing.Point(516, 23);
+            this.btnRestartMach.Name = "btnRestartMach";
+            this.btnRestartMach.Size = new System.Drawing.Size(120, 27);
+            this.btnRestartMach.TabIndex = 4;
+            this.btnRestartMach.Text = "&Restart Machine";
             // 
-            // simpleButton4
+            // btnClearMach
             // 
-            this.simpleButton4.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton4.Appearance.Options.UseFont = true;
-            this.simpleButton4.Location = new System.Drawing.Point(390, 23);
-            this.simpleButton4.Name = "simpleButton4";
-            this.simpleButton4.Size = new System.Drawing.Size(120, 27);
-            this.simpleButton4.TabIndex = 3;
-            this.simpleButton4.Text = "&Clear Machine";
+            this.btnClearMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearMach.Appearance.Options.UseFont = true;
+            this.btnClearMach.Location = new System.Drawing.Point(390, 23);
+            this.btnClearMach.Name = "btnClearMach";
+            this.btnClearMach.Size = new System.Drawing.Size(120, 27);
+            this.btnClearMach.TabIndex = 3;
+            this.btnClearMach.Text = "&Clear Machine";
             // 
-            // simpleButton3
+            // btnSetTime
             // 
-            this.simpleButton3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton3.Appearance.Options.UseFont = true;
-            this.simpleButton3.Location = new System.Drawing.Point(264, 23);
-            this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(120, 27);
-            this.simpleButton3.TabIndex = 2;
-            this.simpleButton3.Text = "Set &DateTime";
+            this.btnSetTime.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetTime.Appearance.Options.UseFont = true;
+            this.btnSetTime.Location = new System.Drawing.Point(264, 23);
+            this.btnSetTime.Name = "btnSetTime";
+            this.btnSetTime.Size = new System.Drawing.Size(120, 27);
+            this.btnSetTime.TabIndex = 2;
+            this.btnSetTime.Text = "Set &DateTime";
+            this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
             // 
-            // simpleButton2
+            // btnDownload
             // 
-            this.simpleButton2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simpleButton2.Appearance.Options.UseFont = true;
-            this.simpleButton2.Location = new System.Drawing.Point(138, 23);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(120, 27);
-            this.simpleButton2.TabIndex = 1;
-            this.simpleButton2.Text = "Download &Logs";
+            this.btnDownload.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDownload.Appearance.Options.UseFont = true;
+            this.btnDownload.Location = new System.Drawing.Point(138, 23);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(120, 27);
+            this.btnDownload.TabIndex = 1;
+            this.btnDownload.Text = "Download &Logs";
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // btnSelAll
             // 
@@ -357,7 +360,7 @@
             this.Load += new System.EventHandler(this.frmDataDownload_Load);
             this.tblp.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -369,7 +372,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tblp;
         private System.Windows.Forms.GroupBox groupBox2;
-        private DevExpress.XtraGrid.GridControl grd_avbl;
+        private DevExpress.XtraGrid.GridControl grpGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_avbl;
         private DevExpress.XtraGrid.Columns.GridColumn SEL;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
@@ -382,11 +385,11 @@
         private DevExpress.XtraGrid.Columns.GridColumn Remarks;
         private DevExpress.XtraGrid.Columns.GridColumn Mess;
         private System.Windows.Forms.GroupBox groupBox1;
-        private DevExpress.XtraEditors.SimpleButton simpleButton5;
-        private DevExpress.XtraEditors.SimpleButton simpleButton4;
-        private DevExpress.XtraEditors.SimpleButton simpleButton3;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton btnRestartMach;
+        private DevExpress.XtraEditors.SimpleButton btnClearMach;
+        private DevExpress.XtraEditors.SimpleButton btnSetTime;
+        private DevExpress.XtraEditors.SimpleButton btnDownload;
         private DevExpress.XtraEditors.SimpleButton btnSelAll;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton btnUnockMach;
     }
 }

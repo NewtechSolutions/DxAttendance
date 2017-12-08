@@ -26,6 +26,15 @@ namespace Utils
         static public BindingSource SampleListbds = new BindingSource();
         static public DataSet SampleListDataSet = new DataSet();
 
+        static public string GetLogFilePath()
+        {
+            string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dir = System.IO.Path.Combine(dir, "PunchLogData");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
 
         static public string GetUserDataPath()
         {
