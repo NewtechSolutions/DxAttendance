@@ -42,19 +42,20 @@
             this.Type = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpButtons = new System.Windows.Forms.GroupBox();
             this.btnUnockMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnRestartMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnClearMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnDownload = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.grpButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // tblp
@@ -62,7 +63,7 @@
             this.tblp.ColumnCount = 1;
             this.tblp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp.Controls.Add(this.groupBox2, 0, 1);
-            this.tblp.Controls.Add(this.groupBox1, 0, 0);
+            this.tblp.Controls.Add(this.grpButtons, 0, 0);
             this.tblp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblp.Location = new System.Drawing.Point(0, 0);
             this.tblp.Name = "tblp";
@@ -135,7 +136,6 @@
             this.gv_avbl.OptionsView.ShowDetailButtons = false;
             this.gv_avbl.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_avbl.OptionsView.ShowGroupPanel = false;
-            this.gv_avbl.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gv_avbl_CellValueChanging);
             // 
             // SEL
             // 
@@ -248,6 +248,7 @@
             // Remarks
             // 
             this.Remarks.Caption = "Remarks";
+            this.Remarks.FieldName = "Remarks";
             this.Remarks.Name = "Remarks";
             this.Remarks.OptionsColumn.AllowEdit = false;
             this.Remarks.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
@@ -270,20 +271,21 @@
             this.Mess.Visible = true;
             this.Mess.VisibleIndex = 8;
             // 
-            // groupBox1
+            // grpButtons
             // 
-            this.groupBox1.Controls.Add(this.btnUnockMach);
-            this.groupBox1.Controls.Add(this.btnRestartMach);
-            this.groupBox1.Controls.Add(this.btnClearMach);
-            this.groupBox1.Controls.Add(this.btnSetTime);
-            this.groupBox1.Controls.Add(this.btnDownload);
-            this.groupBox1.Controls.Add(this.btnSelAll);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(945, 63);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
+            this.grpButtons.Controls.Add(this.btnExport);
+            this.grpButtons.Controls.Add(this.btnUnockMach);
+            this.grpButtons.Controls.Add(this.btnRestartMach);
+            this.grpButtons.Controls.Add(this.btnClearMach);
+            this.grpButtons.Controls.Add(this.btnSetTime);
+            this.grpButtons.Controls.Add(this.btnDownload);
+            this.grpButtons.Controls.Add(this.btnSelAll);
+            this.grpButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpButtons.Location = new System.Drawing.Point(3, 3);
+            this.grpButtons.Name = "grpButtons";
+            this.grpButtons.Size = new System.Drawing.Size(945, 63);
+            this.grpButtons.TabIndex = 4;
+            this.grpButtons.TabStop = false;
             // 
             // btnUnockMach
             // 
@@ -348,6 +350,17 @@
             this.btnSelAll.Text = "Select &All/None";
             this.btnSelAll.Click += new System.EventHandler(this.btnSelAll_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Appearance.Options.UseFont = true;
+            this.btnExport.Location = new System.Drawing.Point(768, 23);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(120, 27);
+            this.btnExport.TabIndex = 6;
+            this.btnExport.Text = "&Export Errors";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // frmDataDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -363,7 +376,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            this.grpButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -384,12 +397,13 @@
         private DevExpress.XtraGrid.Columns.GridColumn Type;
         private DevExpress.XtraGrid.Columns.GridColumn Remarks;
         private DevExpress.XtraGrid.Columns.GridColumn Mess;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpButtons;
         private DevExpress.XtraEditors.SimpleButton btnRestartMach;
         private DevExpress.XtraEditors.SimpleButton btnClearMach;
         private DevExpress.XtraEditors.SimpleButton btnSetTime;
         private DevExpress.XtraEditors.SimpleButton btnDownload;
         private DevExpress.XtraEditors.SimpleButton btnSelAll;
         private DevExpress.XtraEditors.SimpleButton btnUnockMach;
+        private DevExpress.XtraEditors.SimpleButton btnExport;
     }
 }

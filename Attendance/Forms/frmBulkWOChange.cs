@@ -19,6 +19,9 @@ namespace Attendance.Forms
         DataTable SelDt = new DataTable();
         public string GType = string.Empty;
         clsProcess pro = new clsProcess();
+        public string GRights = "XXXV";
+        
+
 
         public frmBulkWOChange()
         {
@@ -538,6 +541,8 @@ namespace Attendance.Forms
                 cmbList.Properties.Items.Add("THU");
                 cmbList.Properties.Items.Add("FRI");
                 cmbList.Properties.Items.Add("SAT");
+
+                GRights = Attendance.Classes.Globals.GetFormRights("frmBulkWOChange");
             }
             else
             {
@@ -548,11 +553,14 @@ namespace Attendance.Forms
                 {
                     cmbList.Properties.Items.Add(t);
                 }
+
+                GRights = Attendance.Classes.Globals.GetFormRights("frmBulkShiftChange");
             }
 
             SelDt.Columns.Add("EmpUnqID", typeof(string));
             SelDt.Columns.Add("EmpName", typeof(string));
             SelDt.Columns.Add("Remarks", typeof(string));
+
 
         }
 
@@ -680,6 +688,11 @@ namespace Attendance.Forms
             if (mth < curmth)
             {
                 err += "Previous Month Changes are not allowed";
+            }
+
+            if (!GRights.Contains("AUVD"))
+            {
+                err += "You are not Authorised...";
             }
 
             return err;
