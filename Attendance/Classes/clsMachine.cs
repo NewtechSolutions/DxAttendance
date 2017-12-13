@@ -213,9 +213,7 @@ namespace Attendance.Classes
             string filepath = Utils.Helper.GetLogFilePath();
             string filenm = "AttdLog_" + idwDay.ToString() + "_" + idwMonth.ToString() + "_" + idwYear.ToString() + "_" + idwHour.ToString() + "_" + idwMinute.ToString() + ".txt";
             string fullpath = Path.Combine(filepath, filenm);
-
-            
-
+                        
             CZKEM1.EnableDevice(_machineno, false);//disable the device
             if (CZKEM1.ReadGeneralLogData(_machineno))//read all the attendance records to the memory
             {
@@ -291,7 +289,7 @@ namespace Attendance.Classes
             //write text file and also store in db
             foreach (AttdLog t in AttdLogRec)
             {
-                string dberr = StoreToDb(t);
+                string dberr = AttdLogStoreToDb(t);
                 if (!string.IsNullOrEmpty(dberr))
                 {
                     t.Error = dberr;
@@ -303,12 +301,15 @@ namespace Attendance.Classes
                 {
                     file.WriteLine(t.ToString());
                 }
-            }    
+            }
 
-
+            if (this._autoclear)
+            {
+                AttdLogClear(out err);
+            }
         }
 
-        public string StoreToDb(AttdLog t)
+        public string AttdLogStoreToDb(AttdLog t)
         {
             string err = string.Empty;
 
@@ -349,7 +350,7 @@ namespace Attendance.Classes
             return err;
         }
 
-        public void ClearAttdLog(out string err)
+        public void AttdLogClear(out string err)
         {
             err = string.Empty;
             if (!_connected)
@@ -358,12 +359,13 @@ namespace Attendance.Classes
                 return;
             }
 
+            err = "Not Implemented..";
+            return;
+
+
             CZKEM1.EnableDevice(_machineno, false);//disable the device
             
-            //before clearing machine make sure to  download the data
             
-
-
             if (CZKEM1.ClearGLog(_machineno))
             {
                 CZKEM1.RefreshData(_machineno);//the data in the device should be refreshed
@@ -379,11 +381,61 @@ namespace Attendance.Classes
 
         public void SetTime(out string err)
         {
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            
+            
             this.CZKEM1.EnableDevice(_machineno,false);
 
             err = (this.CZKEM1.SetDeviceTime(_machineno) ? "" : "Unable to Set Time...");
 
             this.CZKEM1.EnableDevice(_machineno, true);
         }
+
+        public void Restart(out string err)
+        {
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool t = CZKEM1.RestartDevice(_machineno);
+            
+        }
+
+        public void Unlock(out string err)
+        {
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            CZKEM1.EnableDevice(_machineno, false);
+            bool t = CZKEM1.ClearAdministrators(_machineno);
+            CZKEM1.RefreshData(_machineno);
+            CZKEM1.EnableDevice(_machineno, true);
+            
+        }
+
+        public void Register(string EmpUnqID, out string err)
+        {
+            
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+
+        }
+
     }
 }

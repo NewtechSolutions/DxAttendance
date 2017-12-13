@@ -55,7 +55,7 @@ namespace Attendance.Forms
         {
             if (GRights.Contains("AUDV"))
             {
-                btnClearMach.Enabled = true;
+                
                 btnDownload.Enabled = true;
                 btnRestartMach.Enabled = true;
                 btnUnockMach.Enabled = true;
@@ -63,7 +63,7 @@ namespace Attendance.Forms
             }
             else
             {
-                btnClearMach.Enabled = false;
+                
                 btnDownload.Enabled = false;
                 btnRestartMach.Enabled = false;
                 btnUnockMach.Enabled = false;
@@ -295,6 +295,123 @@ namespace Attendance.Forms
                     }
                 }
             }
+        }
+
+        private void btnRestartMach_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+
+
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                //check if selected...
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+                
+                //try to connect
+                m.Connect(out err);
+
+                gv_avbl.SetRowCellValue(i, "Records", 0);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+
+                string nerr = string.Empty;
+                if (!string.IsNullOrEmpty(err))
+                {
+                    m.DisConnect(out nerr);
+                    gv_avbl.SetRowCellValue(i, "Remarks", err + ";" + nerr);
+                    continue;
+                }
+
+                
+                m.Restart(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (string.IsNullOrEmpty(err))
+                {
+
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Restart Completed...");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Some issues found.." + Environment.NewLine + err);
+                }
+                m.DisConnect(out nerr);
+
+
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnUnockMach_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+
+
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                //check if selected...
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+
+                gv_avbl.SetRowCellValue(i, "Records", 0);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+
+                string nerr = string.Empty;
+                if (!string.IsNullOrEmpty(err))
+                {
+                    m.DisConnect(out nerr);
+                    gv_avbl.SetRowCellValue(i, "Remarks", err + ";" + nerr);
+                    continue;
+                }
+
+
+                m.Unlock(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (string.IsNullOrEmpty(err))
+                {
+
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Machine Unlocked...");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Some issues found.." + Environment.NewLine + err);
+                }
+
+                m.DisConnect(out nerr);
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
         }
     }
 }

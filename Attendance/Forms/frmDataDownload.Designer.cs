@@ -43,13 +43,12 @@
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
             this.grpButtons = new System.Windows.Forms.GroupBox();
+            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.btnUnockMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnRestartMach = new DevExpress.XtraEditors.SimpleButton();
-            this.btnClearMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnDownload = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
-            this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).BeginInit();
@@ -276,7 +275,6 @@
             this.grpButtons.Controls.Add(this.btnExport);
             this.grpButtons.Controls.Add(this.btnUnockMach);
             this.grpButtons.Controls.Add(this.btnRestartMach);
-            this.grpButtons.Controls.Add(this.btnClearMach);
             this.grpButtons.Controls.Add(this.btnSetTime);
             this.grpButtons.Controls.Add(this.btnDownload);
             this.grpButtons.Controls.Add(this.btnSelAll);
@@ -287,35 +285,38 @@
             this.grpButtons.TabIndex = 4;
             this.grpButtons.TabStop = false;
             // 
+            // btnExport
+            // 
+            this.btnExport.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Appearance.Options.UseFont = true;
+            this.btnExport.Location = new System.Drawing.Point(768, 23);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(120, 27);
+            this.btnExport.TabIndex = 6;
+            this.btnExport.Text = "&Export Errors";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // btnUnockMach
             // 
             this.btnUnockMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUnockMach.Appearance.Options.UseFont = true;
-            this.btnUnockMach.Location = new System.Drawing.Point(642, 23);
+            this.btnUnockMach.Location = new System.Drawing.Point(516, 23);
             this.btnUnockMach.Name = "btnUnockMach";
             this.btnUnockMach.Size = new System.Drawing.Size(120, 27);
             this.btnUnockMach.TabIndex = 5;
             this.btnUnockMach.Text = "&Unlock Machine";
+            this.btnUnockMach.Click += new System.EventHandler(this.btnUnockMach_Click);
             // 
             // btnRestartMach
             // 
             this.btnRestartMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRestartMach.Appearance.Options.UseFont = true;
-            this.btnRestartMach.Location = new System.Drawing.Point(516, 23);
+            this.btnRestartMach.Location = new System.Drawing.Point(390, 23);
             this.btnRestartMach.Name = "btnRestartMach";
             this.btnRestartMach.Size = new System.Drawing.Size(120, 27);
             this.btnRestartMach.TabIndex = 4;
             this.btnRestartMach.Text = "&Restart Machine";
-            // 
-            // btnClearMach
-            // 
-            this.btnClearMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearMach.Appearance.Options.UseFont = true;
-            this.btnClearMach.Location = new System.Drawing.Point(390, 23);
-            this.btnClearMach.Name = "btnClearMach";
-            this.btnClearMach.Size = new System.Drawing.Size(120, 27);
-            this.btnClearMach.TabIndex = 3;
-            this.btnClearMach.Text = "&Clear Machine";
+            this.btnRestartMach.Click += new System.EventHandler(this.btnRestartMach_Click);
             // 
             // btnSetTime
             // 
@@ -350,17 +351,6 @@
             this.btnSelAll.Text = "Select &All/None";
             this.btnSelAll.Click += new System.EventHandler(this.btnSelAll_Click);
             // 
-            // btnExport
-            // 
-            this.btnExport.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.Appearance.Options.UseFont = true;
-            this.btnExport.Location = new System.Drawing.Point(768, 23);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(120, 27);
-            this.btnExport.TabIndex = 6;
-            this.btnExport.Text = "&Export Errors";
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
             // frmDataDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -369,7 +359,7 @@
             this.Controls.Add(this.tblp);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmDataDownload";
-            this.Text = "Data Download";
+            this.Text = "Data Download : Auto Clear is not implemented for testing";
             this.Load += new System.EventHandler(this.frmDataDownload_Load);
             this.tblp.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -399,7 +389,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Mess;
         private System.Windows.Forms.GroupBox grpButtons;
         private DevExpress.XtraEditors.SimpleButton btnRestartMach;
-        private DevExpress.XtraEditors.SimpleButton btnClearMach;
         private DevExpress.XtraEditors.SimpleButton btnSetTime;
         private DevExpress.XtraEditors.SimpleButton btnDownload;
         private DevExpress.XtraEditors.SimpleButton btnSelAll;
