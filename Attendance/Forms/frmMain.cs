@@ -858,6 +858,18 @@ namespace Attendance
             }
         }
 
+        private void mnuRFIDUser_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastUserManagement"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastUserManagement m = new Attendance.Forms.frmMastUserManagement();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
     }

@@ -145,6 +145,12 @@
     <Compile Include="Forms\frmHalfDayCheck.designer.cs">
       <DependentUpon>frmHalfDayCheck.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastUserManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastUserManagement.Designer.cs">
+      <DependentUpon>frmMastUserManagement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMessInOutMachine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -481,6 +487,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHalfDayCheck.resx">
       <DependentUpon>frmHalfDayCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastUserManagement.resx">
+      <DependentUpon>frmMastUserManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMessInOutMachine.resx">
       <DependentUpon>frmMessInOutMachine.cs</DependentUpon>

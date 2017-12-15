@@ -730,6 +730,7 @@
             this.mnuRFIDUser.Name = "mnuRFIDUser";
             this.mnuRFIDUser.Size = new System.Drawing.Size(222, 22);
             this.mnuRFIDUser.Text = "User Management";
+            this.mnuRFIDUser.Click += new System.EventHandler(this.mnuRFIDUser_Click);
             // 
             // statusStrip1
             // 
