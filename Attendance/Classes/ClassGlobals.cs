@@ -13,6 +13,8 @@ namespace Attendance.Classes
     
     class Globals
     {
+
+        public static string MasterMachineIP = string.Empty;
         
         public static List<string> GateInOutIP = new List<string>();
         public static string G_GateInOutIP;
@@ -100,6 +102,7 @@ namespace Attendance.Classes
                 }
             }
 
+            MasterMachineIP = MasterMachineIP = Utils.Helper.GetDescription("Select MachineIP From ReaderConfig Where master = 1", Utils.Helper.constr);
 
             return tset;
         }
@@ -160,6 +163,8 @@ namespace Attendance.Classes
 
             }
         }
+
+        
 
         public static void SetWaterIPList()
         {
@@ -369,6 +374,300 @@ namespace Attendance.Classes
         public bool NightFLG;
         public int BreakHrs;
         public int ShiftHrs;
+
+    }
+
+    public class UserBioInfo
+    {
+        public string UserID, UserName, WrkGrp, Password, CardNumber, FaceTemp, FingerTemp, MessCode, MessGrpCode, err;
+        
+        public long Previlege;
+        public bool Enabled;
+        public long VerifyStyle;
+        public int FaceLength = 0;
+        public int FaceIndex = 50 ;
+        public int FingerIndex = 0;
+        public int FingerLength = 0;
+
+        public UserBioInfo()
+        {
+            UserID = "";
+            UserName = "";
+            WrkGrp = "";
+            Password = "";
+            Previlege = 0;
+            Enabled = false;
+            VerifyStyle = 0;
+            FaceTemp = "";
+            FingerTemp = "";
+            FaceLength = 0;
+            FingerLength = 0;
+            err = "";
+        }
+
+        public void GetBioInfoFromDB(string tEmpUnqID){
+
+            if (tEmpUnqID == string.Empty)
+            {
+                this.err = "User ID is required...";
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                }
+                catch (Exception ex)
+                {
+                    this.err = ex.ToString();
+                    return;
+                }
+
+                try
+                {
+                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
+                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+                    if (hasRows)
+                    {
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            this.WrkGrp = dr["WrkGrp"].ToString();
+                            this.MessCode = dr["MessCode"].ToString();
+                            this.MessGrpCode = dr["MessGrpCode"].ToString();
+                            this.UserID = dr["EmpUnqID"].ToString();
+                            this.UserName = dr["EmpName"].ToString();
+                        }
+                    }
+
+                    sql = "Select [EmpUnqID],[MachineIP],[Type],[RFIDNO],[TmpData] " +
+                          " FROM [EmpBioData] " +
+                          " where EmpUnqID = '" + tEmpUnqID + "' and [Type] in ('RFID','FACE','FINGER') " +
+                          " and MachineNo = 9999 ";
+
+                    SqlCommand cmd = new SqlCommand(sql, cn);
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        if (sdr.HasRows)
+                        {
+                            while (sdr.Read())
+                            {
+                                if (sdr["Type"].ToString() == "RFID")
+                                    this.CardNumber = sdr["RFIDNO"].ToString();
+                                if (sdr["Type"].ToString() == "FACE")
+                                    this.FaceTemp = sdr["TmpData"].ToString();
+                                if (sdr["Type"].ToString() == "FINGER")
+                                    this.FingerTemp = sdr["TmpData"].ToString();
+                            }
+                        }
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    return;
+                }
+            }//using sqlconnection
+        }
+
+        public void SetUserInfoForMachine(string tEmpUnqID)
+        {
+
+            if (tEmpUnqID == string.Empty)
+            {
+                this.err = "User ID is required...";
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                }
+                catch (Exception ex)
+                {
+                    this.err = ex.ToString();
+                    return;
+                }
+
+                try
+                {
+                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
+                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+                    if (hasRows)
+                    {
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            this.WrkGrp = dr["WrkGrp"].ToString();
+                            this.MessCode = dr["MessCode"].ToString();
+                            this.MessGrpCode = dr["MessGrpCode"].ToString();
+                            this.UserID = dr["EmpUnqID"].ToString();
+                            this.UserName = dr["EmpName"].ToString();
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    return;
+                }
+            }//using sqlconnection
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tInfoType">1->RFID,2->Face,3->Finger</param>
+        /// <param name="err">1->return error</param>
+        public void StoreToDb(int tInfoType,out string err)
+        {
+            err = "";
+            if(tInfoType < 1 || tInfoType > 3)
+            {
+                err = "Invalid infotype";
+                return;
+            }
+            if (string.IsNullOrEmpty(this.UserID))
+            {
+                err = "UserID is Required...";
+                return;
+            }
+            if (string.IsNullOrEmpty(this.CardNumber))
+            {
+                err = "RFID Card Number is Required...";
+                return;
+            }
+
+            if (tInfoType == 2 && string.IsNullOrEmpty(this.FaceTemp))
+            {
+                err = "Face Template is Required...";
+                return;
+            }
+            if (tInfoType == 3 && string.IsNullOrEmpty(this.FingerTemp))
+            {
+                err = "Finger Template is Required...";
+                return;
+            }
+
+            if(tInfoType == 2 && this.FaceLength == 0 )
+            {
+                err = "Data Template Length is Required...";
+                return;
+            }
+            if (tInfoType == 3 && this.FingerLength == 0)
+            {
+                err = "Data Template Length is Required...";
+                return;
+            }
+
+
+            //store to db
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                    return;
+                }
+
+                string sql = string.Empty;
+                string delsql = string.Empty;
+
+                #region set_sqlstr
+                switch (tInfoType)
+                {
+                    case 1:
+                        sql = "Insert Into EmpBioData (EmpUnqID,MachineIP,Type,idx,MachineNo,EmpName,Pass,Privilege,Blocked,RFIDNO,AddDt,AddID)" +
+                                " Values ('" + this.UserID + "' " +
+                                " ,'" + "Master" +  "'" +
+                                " ,'RFID',10 " +
+                                " ,'9999'  " +
+                                " ,'" + this.UserName + "' " +
+                                " ,'" + this.Password + "' " +
+                                " ,'" + this.Previlege.ToString() + "'" +
+                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + this.CardNumber +  "',GetDate(),'" + Utils.User.GUserID + "')";
+                        delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'RFID' and MachineNo = 9999 ";
+
+                        break;
+                    case 2:
+                        sql = "Insert Into EmpBioData (EmpUnqID,MachineIP,Type,idx,MachineNo,EmpName,Pass,Privilege,Blocked,RFIDNO,tmpData,Length,AddDt,AddID)" +
+                                " Values ('" + this.UserID + "' " +
+                                " ,'" + "Master" +  "'" +
+                                " ,'FACE','" + this.FaceIndex.ToString() + "'" +
+                                " ,'9999'  " +
+                                " ,'" + this.UserName + "' " +
+                                " ,'" + this.Password + "' " +
+                                " ,'" + this.Previlege.ToString() + "'" +
+                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + this.CardNumber + "','" + this.FaceTemp + "','" + this.FaceLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
+
+                        delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FACE' and MachineNo = 9999 ";
+
+                                break;
+                    case 3:
+                         sql = "Insert Into EmpBioData (EmpUnqID,MachineIP,Type,idx,MachineNo,EmpName,Pass,Privilege,Blocked,RFIDNO,tmpData,Length,AddDt,AddID)" +
+                                " Values ('" + this.UserID + "' " +
+                                " ,'" + "Master" +  "'" +
+                                " ,'FINGER','" + this.FingerIndex.ToString() + "'" +
+                                " ,'9999'  " +
+                                " ,'" + this.UserName + "' " +
+                                " ,'" + this.Password + "' " +
+                                " ,'" + this.Previlege.ToString() + "'" +
+                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + this.CardNumber + "','" + this.FingerIndex + "','" + this.FingerLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
+
+                         delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FINGER' and MachineNo = 9999 ";
+
+                                break;
+
+                    default:
+                        break;
+                }
+                #endregion
+
+                if (string.IsNullOrEmpty(sql) || string.IsNullOrEmpty(delsql))
+                {
+                    err = "could not find steps to perform storage";
+                    return;
+                }
+
+                
+                using (SqlTransaction tr = cn.BeginTransaction())
+                {
+                    try
+                    {
+                        //perform delete first
+                        SqlCommand cmd = new SqlCommand(delsql, cn, tr);
+                        cmd.ExecuteNonQuery();
+                        //insert record..
+                        cmd = new SqlCommand(sql, cn, tr);
+                        cmd.ExecuteNonQuery();
+                        tr.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        err = ex.ToString();
+                        tr.Rollback();
+                        return;
+                    }
+                }
+            }
+        }
+
 
     }
 

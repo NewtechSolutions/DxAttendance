@@ -13,15 +13,17 @@ namespace Attendance.Classes
 {
     class clsMachine
     {
+        private zkemkeeper.CZKEM CZKEM1;
+        
         private string _ip,_machinedesc , _tableName,_location;
         private bool _connected;
-      
+        private string _version,_fingerprintversion;
+
         private int _port;
         private int _machineno,_LastErrCode,_AttdLogCount;
-        private zkemkeeper.CZKEM CZKEM1;
         private string _ioflg;
 
-        private bool _messflg,_autoclear,_lunchinout,_gateinout;
+        private bool _messflg,_autoclear,_lunchinout,_gateinout,_istft, _rfid,_face,_finger;
 
 
         private bool GetMachineInfoFromDb()
@@ -42,6 +44,10 @@ namespace Attendance.Classes
                     _lunchinout = Convert.ToBoolean(dr["LunchInOut"]);
                     _gateinout = Convert.ToBoolean(dr["GateInOut"]);
                     _location = dr["Location"].ToString();
+                    
+                    _rfid = Convert.ToBoolean(dr["RFID"]);
+                    _face = Convert.ToBoolean(dr["FACE"]);
+                    _finger = Convert.ToBoolean(dr["Finger"]);
 
                     if (_lunchinout)
                         _tableName = "AttdLunchGate";
@@ -83,7 +89,12 @@ namespace Attendance.Classes
             _connected = false;
             _port = 4370;
             _LastErrCode = 0;
-            
+            _istft = false;
+            _version = "";
+            _rfid = false;
+            _face = false;
+            _finger = false;
+
             CZKEM1 = new zkemkeeper.CZKEM();
         }
 
@@ -117,6 +128,19 @@ namespace Attendance.Classes
             this.GetMachineInfoFromDb();
 
             _connected = CZKEM1.Connect_Net(_ip, _port);
+            CZKEM1.GetFirmwareVersion(_machineno, ref _version);
+            _version = _version.Substring(5,4);
+            _istft = CZKEM1.IsTFTMachine(_machineno);
+        
+            if ( _finger)
+            {
+                //'Determine Whether the Device Uses ZKFinger10.0 or ZKFinger9 0#
+                //'If vValue='10', the device uses ZKFinger10.0
+                //'If vValue=‘9’ or vValue=‘’, the device uses ZKFinger9.0
+
+                
+                CZKEM1.GetSysOption(_machineno, "~ZKFPVersion", out _fingerprintversion);
+            }
         }
 
         public void DisConnect (out string err)
@@ -363,7 +387,7 @@ namespace Attendance.Classes
             return;
 
 
-            CZKEM1.EnableDevice(_machineno, false);//disable the device
+            this.CZKEM1.EnableDevice(_machineno, false);//disable the device
             
             
             if (CZKEM1.ClearGLog(_machineno))
@@ -424,7 +448,32 @@ namespace Attendance.Classes
             
         }
 
-        public void Register(string EmpUnqID, out string err)
+        public void StoreRegEntryinDB(string tEmpUnqID)
+        {
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddDt,AddId) Values (" +
+                               "'" + _ip + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
+                        cmd.Connection = cn;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+                catch(Exception ex)
+                {
+
+                }
+            }
+        }
+
+
+        public void Register(string tEmpUnqID, out string err)
         {
             
             err = string.Empty;
@@ -433,9 +482,391 @@ namespace Attendance.Classes
                 err = "Machine not connected..";
                 return;
             }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return;
+            }
 
+            this.CZKEM1.EnableDevice(_machineno, false);
+            UserBioInfo emp = new UserBioInfo();
+            emp.SetUserInfoForMachine(tEmpUnqID);
+            emp.GetBioInfoFromDB(tEmpUnqID);
+
+            //check user rights for the wrkgrp
+            //'if not move next emp
+            if(!Globals.GetWrkGrpRights(635,emp.WrkGrp,emp.UserID))
+            {
+                err = "You are not Authorised...";
+                return;
+            }
+
+            if(string.IsNullOrEmpty(emp.CardNumber))
+            {
+                err = "RFID Card Number not found...";
+                return;
+            }
+            
+            //store registration info in db....
+
+            StoreRegEntryinDB(emp.UserID);
+
+            if(!_istft)
+            {
+                this.CZKEM1.set_CardNumber(0,Convert.ToInt32(emp.UserID));
+                this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,true);
+                this.CZKEM1.RefreshData(_machineno);
+                this.CZKEM1.EnableDevice(_machineno, true);
+                return;
+            }
+            
+            if(this.CZKEM1.SetStrCardNumber(emp.CardNumber))
+            {
+                this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "","", 0, true);
+                
+                
+                //if it not used in Mess set user face and finger
+                if(_messflg == false )
+                {
+                    if (_face)
+                    {
+                        if (!string.IsNullOrEmpty(emp.FaceTemp))
+                        {
+                            this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                        }
+                    }
+
+                    if (_finger)
+                    {
+                        if (!string.IsNullOrEmpty(emp.FingerTemp))
+                        {
+                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+                        }
+                    }                    
+                    
+                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                }
+
+                this.CZKEM1.RefreshData(_machineno);
+                this.CZKEM1.EnableDevice(_machineno, true);
+            }
 
         }
+
+        public void DownloadALLUsers(out string err, out List<UserBioInfo> tUsers)
+        {
+            err = string.Empty;
+            tUsers = new List<UserBioInfo>();
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno) ; // 'read all the user information to the memory
+            if(!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            //if (_finger)
+            //{
+            //    vRet = this.CZKEM1.ReadAllTemplate(_machineno); //this is for finger print 
+            //    if (!vRet)
+            //    {
+            //        err = "Error : Can not read All User Template";
+            //        return;
+            //    }
+            //}           
+
+            
+            UserBioInfo tmpuser = new UserBioInfo();
+
+            string _userid, _username, _password,_cardno,_facetemp,_fingertemp ;
+            
+            int _prev ,_facelength,_fingerlength,_fingerflg , _useridInt; 
+            bool _enabled = false;
+
+            CZKEM1.EnableDevice(_machineno, false);
+
+            if(_istft)
+            {
+                _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+                _facetemp = string.Empty; _fingertemp = string.Empty;
+                _facelength = 0; _fingerlength = 0; _fingerflg = 0; _useridInt = 0; _prev = 0;
+                _enabled = false;
+
+                //loop while users in machine 
+                while (CZKEM1.SSR_GetAllUserInfo(_machineno,out _userid, out _username, out _password, out _prev, out _enabled))
+	            {
+	                
+                    
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _userid;
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+
+                    CZKEM1.GetStrCardNumber(out _cardno);
+                    
+                    tmpuser.CardNumber = _cardno;
+
+                    if(this._face)
+                    {
+                        if(CZKEM1.GetUserFaceStr(_machineno,_userid , 50,ref _facetemp, ref _facelength))
+                        {
+                            tmpuser.FaceTemp = _facetemp;
+                            tmpuser.FaceLength = _facelength;
+                        }
+                    }
+                    
+    
+                    //make sure to check version there are difference in get fingerprint
+                    if(this._finger)
+                    {
+                        if(Convert.ToDouble(_version) > 6.6)
+                        {
+                            if(CZKEM1.GetUserTmpExStr(_machineno, _userid, 0,out _fingerflg,out _fingertemp,out _fingerlength))
+                            {
+                                //tmpuser.FingerIndex = tmpuser.FingerIndex;
+                                tmpuser.FingerLength = _fingerlength;
+                                tmpuser.FingerTemp = _fingertemp;
+                            }
+                        
+                        }
+                        else if (Convert.ToDouble(_version) < 6.6 )
+                        {
+                            if(int.TryParse(_userid,out _useridInt))
+                            {
+                                if (CZKEM1.GetUserTmpStr(_machineno, _useridInt, 0, ref _fingertemp, ref _fingerlength))
+                                {
+                                    //tmpuser.FingerIndex = tmpuser.FingerIndex;
+                                    tmpuser.FingerLength = _fingerlength;
+                                    tmpuser.FingerTemp = _fingertemp;
+                                }
+                            }
+                        }
+                    }
+
+                    tUsers.Add(tmpuser);
+	            }//end while loop                  
+                
+            }
+            else
+            {
+                //simple old black machine with only rfid access
+
+                _userid = string.Empty; _username = string.Empty; _password  = string.Empty;_cardno = string.Empty;
+                _useridInt = 0; _prev = 0; _enabled = false;
+                
+                CZKEM1.ReadAllUserID (_machineno);
+                while (CZKEM1.GetAllUserInfo(_machineno,ref _useridInt,ref _username,ref _password,ref _prev , ref _enabled))
+	            {
+	               
+                    
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+
+                    CZKEM1.GetStrCardNumber(out _cardno);                    
+                    tmpuser.CardNumber = _cardno;
+                    tUsers.Add(tmpuser);
+	            }
+            
+            
+            }
+
+            CZKEM1.EnableDevice(_machineno, true);
+
+            //save to db
+            if(tUsers.Count > 0)
+            {
+                foreach(UserBioInfo tmp in tUsers)
+                {
+                    string allerr = string.Empty;
+                    string terr = string.Empty;
+                    
+                    tmp.GetBioInfoFromDB(tmp.UserID);
+                    if(!string.IsNullOrEmpty(tmp.CardNumber))
+                    {
+                        tmp.StoreToDb(1,out terr);
+                        allerr += terr;
+                        terr = string.Empty;
+                    }
+                        
+
+                    if(!string.IsNullOrEmpty(tmp.FaceTemp))
+                    {                        
+                        tmp.StoreToDb(2,out terr);
+                        allerr += terr;
+                        terr = string.Empty;
+                    }
+
+                    if(!string.IsNullOrEmpty(tmp.FingerTemp))
+                    {
+                        tmp.StoreToDb(3,out terr);
+                        allerr += terr;
+                        terr = string.Empty;
+                    }
+
+                    tmp.err = allerr;
+
+                }
+            }
+
+        }
+
+        public void DownloadTemplate(string tEmpUnqID,out string err,out UserBioInfo tUser)
+        {
+            err = string.Empty;
+            tUser = new UserBioInfo();
+            tUser.err = "";
+
+            string _userid, _username, _password,_cardno,_facetemp,_fingertemp ;
+            
+            int _prev ,_facelength,_fingerlength,_fingerflg , _useridInt; 
+            bool _enabled = false;
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return;
+            }
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+            UserBioInfo emp = new UserBioInfo();
+            emp.SetUserInfoForMachine(tEmpUnqID);
+            
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _facetemp = string.Empty; _fingertemp = string.Empty;
+            _facelength = 0; _fingerlength = 0; _fingerflg = 0; _useridInt = 0; _prev = 0;
+            _enabled = false;
+            
+            if(this.CZKEM1.ReadAllUserID(_machineno))
+            {
+                
+                if (_istft)
+                {
+                    this.CZKEM1.GetAllUserID(_machineno,Convert.ToInt32(emp.UserID), _machineno, 0, 0, 1);
+                    if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
+                    {
+                        emp.Password = _password;
+                        emp.Enabled = _enabled;
+                        emp.Previlege = _prev;
+                        emp.Enabled = _enabled;
+                    }
+
+                    this.CZKEM1.GetStrCardNumber(out _cardno);
+                    if(!string.IsNullOrEmpty(_cardno))
+                    {
+                        emp.CardNumber = _cardno;
+                    }
+                    else
+                    {
+                        err = "RFID Card Number Not Found...";
+                        emp.err = err + Environment.NewLine;
+                    }
+
+                    if (_face)
+                    {
+                        this.CZKEM1.GetUserFaceStr(_machineno, emp.UserID, emp.FaceIndex, ref _facetemp, ref _facelength);
+                        emp.FaceIndex = 50;
+                        emp.FaceLength = _facelength;
+                        emp.FaceTemp = _facetemp;
+
+                        if (string.IsNullOrEmpty(_facetemp))
+                        {
+                            emp.err = emp.err + "Face Template Not Found..." + Environment.NewLine;
+                        }
+                    }
+
+                    if (_finger)
+                    {
+                        double fpversion = 0;
+                        double.TryParse(_fingerprintversion,out fpversion);
+                        if(fpversion>= 10 )
+                        {
+                            this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
+
+                        }else if(fpversion == 9)
+                        {
+                            this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
+                        }
+
+                        emp.FingerTemp = _fingertemp;
+                        emp.FingerLength = _fingerlength;
+                    }
+
+                }
+                else
+                {
+                    //old machine
+                    if(this.CZKEM1.GetUserInfo(_machineno, Convert.ToInt32(emp.UserID),ref _username,ref _password,ref _prev,ref _enabled))
+                    {
+                        _cardno = this.CZKEM1.get_CardNumber(0).ToString();
+                        emp.CardNumber = _cardno;
+                        emp.Enabled = _enabled;
+                        emp.Previlege = _prev;
+                        emp.Password = _password;
+
+                        if(string.IsNullOrEmpty(_cardno)){
+                            emp.err = emp.err + "RFID Card Number Not Found..." + Environment.NewLine;
+                        }
+
+                    }                        
+                }                
+                
+            }
+            else
+            {
+                err = "Can not read all users";
+                return;
+            }
+            //save to db
+
+            string allerr =  emp.err;
+
+            if(_rfid)
+            {
+                if(!string.IsNullOrEmpty(emp.CardNumber))
+                {
+                        emp.StoreToDb(1,out err);
+                    allerr +=  err + Environment.NewLine;
+                }
+            }
+            
+            if(_face)
+            {
+                if(!string.IsNullOrEmpty(emp.FaceTemp)){
+                    emp.StoreToDb(2,out err);
+                    allerr +=  err + Environment.NewLine;
+                }
+            }
+
+            if(_finger){
+                if(!string.IsNullOrEmpty(emp.FingerTemp)){
+                    emp.StoreToDb(3,out err);
+                    allerr +=  err + Environment.NewLine;
+                }
+            }
+
+            err = allerr;
+
+            this.CZKEM1.EnableDevice(_machineno, true);
+
+            }
+    
 
     }
 }
