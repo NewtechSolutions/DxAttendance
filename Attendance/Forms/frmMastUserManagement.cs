@@ -237,6 +237,7 @@ namespace Attendance.Forms
 
                 txtMessGrpCode.Text = "";
                 txtMessGrpDesc.Text = "";
+                txtOldRFID.Text = "";
 
                 chkActive.Checked = false;
                 chkComp.Checked = false;
@@ -285,6 +286,7 @@ namespace Attendance.Forms
                 txtMessDesc.Text = "";
                 txtMessGrpCode.Text = "";
                 txtMessGrpDesc.Text = "";
+                txtOldRFID.Text = "";
                 chkActive.Checked = false;
                 chkComp.Checked = false;
                 chkCont.Checked = false;
@@ -298,7 +300,7 @@ namespace Attendance.Forms
             chkRFID.Checked = ((!string.IsNullOrEmpty(x.CardNumber)) ? true : false);
             chkFace.Checked = ((!string.IsNullOrEmpty(x.FaceTemp)) ? true : false);
             chkFinger.Checked = ((!string.IsNullOrEmpty(x.FingerTemp)) ? true : false);
-            
+            txtOldRFID.Text = x.CardNumber;
             
         }
 
@@ -563,7 +565,7 @@ namespace Attendance.Forms
         {
             if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty)
             {
-                MessageBox.Show("Invalid Employee...","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                //MessageBox.Show("Invalid Employee...","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
             string tEmpUnqID = txtEmpUnqID.Text.Trim();
@@ -578,7 +580,7 @@ namespace Attendance.Forms
 
             txtEmpUnqID.Text = "";
             txtEmpUnqID_Validated(sender, e);
-        
+            txtEmpUnqID.Focus();
         }
 
         private void btnDelEmp_Click(object sender, EventArgs e)
@@ -615,13 +617,14 @@ namespace Attendance.Forms
                     lblDownAll.Text = err;
                     return;
                 }
+               
                 lblDownAll.Text = "Downloading...";
                 lblDownAll.Update();
 
                 this.Cursor = Cursors.WaitCursor;
                 List<UserBioInfo> tusers = new List<UserBioInfo>();
-
-                tmach.DownloadALLUsers(out err, out tusers);
+                
+                tmach.DownloadALLUsers(true,out err, out tusers);
                 lblDownAll.Text = tusers.Count().ToString() + " Downloaded Users";
                 lblDownAll.Update();
                 this.Cursor = Cursors.Default;
@@ -644,7 +647,7 @@ namespace Attendance.Forms
                 this.Cursor = Cursors.WaitCursor;
                 List<UserBioInfo> tusers = new List<UserBioInfo>();
 
-                tmach.DownloadALLUsers(out err, out tusers);
+                tmach.DownloadALLUsers(true,out err, out tusers);
                 tmach.DisConnect(out err);
                 lblDownAll.Text = tusers.Count().ToString() + " Downloaded Users";
                 lblDownAll.Update();
@@ -812,18 +815,17 @@ namespace Attendance.Forms
                     continue;
                 }
 
+                //grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+
+                //user bulk method
+                List<UserBioInfo> tempusers = new List<UserBioInfo>();
+                m.DownloadTemplate(tUserList, out err, out tempusers);
+                
                 string allerr = "";
-                foreach (UserBioInfo emp in tUserList)
+                foreach (UserBioInfo emp in tempusers)
                 {
-                    UserBioInfo tmp = new UserBioInfo();
-                    m.DownloadTemplate(emp.UserID, out err,out tmp );
-                    if (!string.IsNullOrEmpty(err))
-                    {
-                        allerr += err + Environment.NewLine;
-                    }
+                    allerr +=  (emp.err.Length > 0 ? emp.UserID + emp.err : "");                  
                 }
-
-
 
                 if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine,"")))
                 {
@@ -835,6 +837,7 @@ namespace Attendance.Forms
                 }
 
                 m.DisConnect(out err);
+                grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
             }
 
@@ -843,6 +846,412 @@ namespace Attendance.Forms
             Cursor.Current = Cursors.WaitCursor;
         }
 
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (tUserList.Count == 0)
+            {
+                MessageBox.Show("Please Add Employeee first...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+
+                //user bulk method
+                List<UserBioInfo> tempusers = new List<UserBioInfo>();
+                m.DeleteUser(tUserList, out err, out tempusers);
+
+                string allerr = "";
+                foreach (UserBioInfo emp in tempusers)
+                {
+                    allerr += (emp.err.Length > 0 ? emp.UserID + emp.err : "");
+                }
+
+                if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
+                }
+
+                m.DisConnect(out err);
+                grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+
+            }
+
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnBlock_Click(object sender, EventArgs e)
+        {
+            if (tUserList.Count == 0)
+            {
+                MessageBox.Show("Please Add Employeee first...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+                string allerr = "";
+
+                foreach (UserBioInfo emp in tUserList)
+                {
+                    m.BlockUser(emp.UserID, out err);
+                    allerr += (err.Length > 0 ? emp.UserID + err + Environment.NewLine : "");
+                }
+                
+                if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
+                }
+
+                m.DisConnect(out err);
+                //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnUnBlock_Click(object sender, EventArgs e)
+        {
+            if (tUserList.Count == 0)
+            {
+                MessageBox.Show("Please Add Employeee first...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+                string allerr = "";
+
+                foreach (UserBioInfo emp in tUserList)
+                {
+                    m.UnBlockUser(emp.UserID, out err);
+                    allerr += (err.Length > 0 ? emp.UserID + err + Environment.NewLine : "");
+                }
+
+                if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
+                }
+
+                m.DisConnect(out err);
+                //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnUnlockMaster_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            
+            Cursor.Current = Cursors.WaitCursor;
+
+            string ip = Globals.MasterMachineIP;
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            string err = string.Empty;
+            //try to connect
+            m.Connect(out err);
+            if(!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            m.Unlock(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Master Machine Unlocked", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            m.DisConnect(out err);
+            Cursor.Current = Cursors.Default;
+            
+        }
+
+        private void btnUnlock_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+
+                m.Unlock(out err);
+                
+                if (string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                }
+
+                m.DisConnect(out err);
+               
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnUpdateRFID_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(txtEmpUnqID.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter EmpUnqID", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if(string.IsNullOrEmpty(txtNewRFID.Text.Trim()))
+            {
+                MessageBox.Show("New RFID Card No is required..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if(!Globals.GetWrkGrpRights(655,txtWrkGrpCode.Text.Trim(),txtEmpUnqID.Text.Trim()))
+            {
+                MessageBox.Show("You are not authorised for this kind of employee..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    con.Open();
+                    string tEmpUnqID = txtEmpUnqID.Text.Trim();
+                    string sql = string.Empty;
+
+                    if (string.IsNullOrEmpty(txtOldRFID.Text.Trim()))
+                    {
+                        MessageBox.Show("Old RFID Detais not Found, System is Adding new RFID Card", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        sql = "Insert Into EmpBioData (EmpUnqID,MachineIP,Type,idx,MachineNo,EmpName,Pass,Privilege,Blocked,RFIDNO,AddDt,AddID)" +
+                                 " Values ('" + tEmpUnqID + "' " +
+                                 " ,'" + "Master" + "'" +
+                                 " ,'RFID',10 " +
+                                 " ,'9999'  " +
+                                 " ,'" + txtEmpName.Text.Trim() + "' " +
+                                 " ,'' " +
+                                 " ,'0'" +
+                                 " ,'1'" +
+                                 " ,'" + txtNewRFID.Text.Trim() + "',GetDate(),'" + Utils.User.GUserID + "')";                        
+                    }
+                    else
+                    {
+                        sql = "Update EmpBioData Set RFIDNO = '" + txtNewRFID.Text.Trim() + "' where Type = 'RFID' And EmpUnqID ='" + tEmpUnqID + "' and MachineIP='Master'";
+                    
+                    }
+                    
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("RFID Card No is changed..", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                con.Close();
+            }
+
+        }
+
+        private void btnGetExcelUser_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAdd1.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string ip = txtIPAdd1.Text.Trim().ToString();
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            string err = string.Empty;
+            m.Connect(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            LockCtrl();
+            
+            this.Cursor = Cursors.WaitCursor;
+
+            List<UserBioInfo> tmpuser = new List<UserBioInfo>();
+            m.DownloadALLUsers(false, out err, out tmpuser);
+
+            if (tmpuser.Count > 0)
+            {
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    try
+                    {
+                        cn.Open();
+                        string reqno;
+                        reqno = Utils.Helper.GetDescription("Select isnull(Max(ReqNo),0) + 1 from tmp_machineusers", Utils.Helper.constr);
+                        string sql = string.Empty;
+
+                        SqlCommand cmd = new SqlCommand();
+
+                        foreach (UserBioInfo emp in tmpuser)
+                        {
+                            sql = "Insert Into tmp_machineusers (ReqNo,MachineIP,EmpUnqID,RFID,AMthD,AddDt,AddID )" +
+                            " Values ('" + reqno + "','" + ip + "','" + emp.UserID + "','" + emp.CardNumber + "','0',GetDate(),'" + Utils.User.GUserID +  "')";
+
+                            cmd = new SqlCommand(sql, cn);
+                            cmd.ExecuteNonQuery();
+                        }
+                        
+                        //update other info in tmp_machineusers
+                        sql = "Update a " +
+                              " Set a.WrkGrp = b.WrkGrp , a.EmpName = b.EmpName , a.Active = b.Active " +
+                              " From tmp_machineusers a , MastEmp b " +
+                              " Where a.EmpUnqID = b.EmpUnqID and ReqNo = '" + reqno + "'";
+
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.ExecuteNonQuery();
+
+                        lblReqNo.Text = reqno;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        UnLockCtrl();
+                        this.Cursor = Cursors.Default;
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                        
+                        return;
+                    }
+                }
+            }
+
+            UnLockCtrl();
+            this.Cursor = Cursors.Default;
+            MessageBox.Show("Request Generated : " + lblReqNo.Text.Trim(), "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
 
 
     }

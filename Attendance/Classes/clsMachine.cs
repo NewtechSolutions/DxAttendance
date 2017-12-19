@@ -448,7 +448,12 @@ namespace Attendance.Classes
             
         }
 
-        public void StoreRegEntryinDB(string tEmpUnqID)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tEmpUnqID">UserID</param>
+        /// <param name="reg">true-if register, false -if delete from machine</param>
+        public void StoreHistoryinDB(string tEmpUnqID,bool reg)
         {
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
@@ -458,9 +463,16 @@ namespace Attendance.Classes
 
                     using (SqlCommand cmd = new SqlCommand())
                     {
-                        cmd.CommandText = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddDt,AddId) Values (" +
-                               "'" + _ip + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
                         cmd.Connection = cn;
+                        cmd.CommandText = "Delete From MastMachineUsers Where MachineIP ='" + _ip + "' and EmpUnqID ='" + tEmpUnqID + "'";
+                        cmd.ExecuteNonQuery();
+
+                        if (reg)
+                        {
+                            cmd.CommandText = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddDt,AddId) Values (" +
+                              "'" + _ip + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
+                        }                       
+                        
                         cmd.ExecuteNonQuery();
                     }
 
@@ -472,6 +484,45 @@ namespace Attendance.Classes
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tEmpUnqID">UserID</param>
+        /// <param name="reg">true-if blocked, false -if unblocked </param>
+        public void StoreBlockHistory(string tEmpUnqID, bool reg)
+        {
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        
+
+                        if (reg)
+                        {
+                            cmd.CommandText = "Insert into EmpBlocked (EmpUnqID,IPAdd,Blocked,BlockedDate,BlockedBy) Values (" +
+                              "'" + tEmpUnqID + "','" + _ip + "',1,GetDate(),'" + Utils.User.GUserID + "')";
+                        }
+                        else
+                        {
+                            cmd.CommandText = "Update EmpBlocked Set Unblockeddt = GetDate(), UnblockedBy = '" + Utils.User.GUserID + "'" +
+                              " Where EmpUnqID ='" + tEmpUnqID + "' And IPAdd = '" + _ip + "' And Unblockeddt is null " ;
+                        }
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
 
         public void Register(string tEmpUnqID, out string err)
         {
@@ -488,7 +539,8 @@ namespace Attendance.Classes
                 return;
             }
 
-            this.CZKEM1.EnableDevice(_machineno, false);
+            
+
             UserBioInfo emp = new UserBioInfo();
             emp.SetUserInfoForMachine(tEmpUnqID);
             emp.GetBioInfoFromDB(tEmpUnqID);
@@ -506,10 +558,28 @@ namespace Attendance.Classes
                 err = "RFID Card Number not found...";
                 return;
             }
-            
-            //store registration info in db....
 
-            StoreRegEntryinDB(emp.UserID);
+            if (_messflg)
+            {
+                if (string.IsNullOrEmpty(emp.MessCode))
+                {
+                    err = "Employee Mess Code is Required....";
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(emp.MessGrpCode))
+                {
+                    err = "Employee Mess Grp Code is Required....";
+                    return;
+                }
+            }
+
+            
+
+            //store registration info in db....
+            this.CZKEM1.EnableDevice(_machineno, false);
+            
+            StoreHistoryinDB(emp.UserID,true);
 
             if(!_istft)
             {
@@ -553,7 +623,117 @@ namespace Attendance.Classes
 
         }
 
-        public void DownloadALLUsers(out string err, out List<UserBioInfo> tUsers)
+
+        public void Register(List<UserBioInfo> tUserList,out List<UserBioInfo> RetUserList)
+        {
+            RetUserList = new List<UserBioInfo>();
+
+            if (!_connected)
+            {
+                foreach (UserBioInfo emp in tUserList)
+                {
+                    emp.err = "Machine not connected..";
+                }
+                RetUserList = tUserList;
+                return;
+            }
+
+            foreach (UserBioInfo emp in tUserList)
+            {
+                if (string.IsNullOrEmpty(emp.UserID))
+                {
+                    emp.UserID = "DELETE";
+                    continue;
+                }
+                emp.SetUserInfoForMachine(emp.UserID);
+                emp.GetBioInfoFromDB(emp.UserID);
+
+                //check user rights for the wrkgrp
+                //'if not move next emp
+                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+                {
+                    emp.err += "You are not Authorised...";
+                    
+                }
+
+                if (string.IsNullOrEmpty(emp.CardNumber))
+                {
+                    emp.err += ",RFID Card Number not found...";
+                    
+                }
+
+            }
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            foreach (UserBioInfo emp in tUserList)
+            {
+                //store registration info in db....
+
+                if (string.IsNullOrEmpty(emp.err))
+                {
+                    StoreHistoryinDB(emp.UserID,true);
+
+                    if (!_istft)
+                    {
+                        this.CZKEM1.set_CardNumber(0, Convert.ToInt32(emp.UserID));
+                        this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0, true);
+                        emp.err += "RFID Registered";
+                    }
+                    else
+                    {
+                        if (this.CZKEM1.SetStrCardNumber(emp.CardNumber))
+                        {
+                            emp.err += "RFID Registered,";
+                            this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, true);
+
+                            //if it not used in Mess set user face and finger
+                            if (_messflg == false)
+                            {
+                                if (_face)
+                                {
+                                    if (!string.IsNullOrEmpty(emp.FaceTemp))
+                                    {
+                                        this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                                        emp.err += "Face Registered,";
+                                    }
+                                }
+
+                                if (_finger)
+                                {
+                                    if (!string.IsNullOrEmpty(emp.FingerTemp))
+                                    {
+                                        this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+                                        emp.err += "Finger Registered";
+                                    }
+                                }
+
+                                //make sure to access method rfid+face
+                                this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                                emp.err += "RFID+FACE Access Given";
+                            }
+                            else
+                            {
+                                emp.err += "RFID Access Given";
+                            }
+
+                        }
+                    }// new machine
+
+                }// if no errors found                
+            }//end foreach
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true);
+            RetUserList = tUserList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isReqToStore">true ->if Store to master data,else false</param>
+        /// <param name="err">out string err</param>
+        /// <param name="tUsers">out list of users</param>
+        public void DownloadALLUsers(bool isReqToStore, out string err, out List<UserBioInfo> tUsers)
         {
             err = string.Empty;
             tUsers = new List<UserBioInfo>();
@@ -683,51 +863,53 @@ namespace Attendance.Classes
             }
 
             CZKEM1.EnableDevice(_machineno, true);
-
-            //save to db
-            if(tUsers.Count > 0)
+            if (isReqToStore)
             {
-                foreach(UserBioInfo tmp in tUsers)
+                //save to db
+                if (tUsers.Count > 0)
                 {
-                    string allerr = string.Empty;
-                    string terr = string.Empty;
-                    
-                    tmp.GetBioInfoFromDB(tmp.UserID);
-                    if(!string.IsNullOrEmpty(tmp.CardNumber))
+                    foreach (UserBioInfo tmp in tUsers)
                     {
-                        tmp.StoreToDb(1,out terr);
-                        allerr += terr;
-                        terr = string.Empty;
+                        string allerr = string.Empty;
+                        string terr = string.Empty;
+
+                        tmp.GetBioInfoFromDB(tmp.UserID);
+                        if (!string.IsNullOrEmpty(tmp.CardNumber))
+                        {
+                            tmp.StoreToDb(1, out terr);
+                            allerr += terr;
+                            terr = string.Empty;
+                        }
+
+
+                        if (!string.IsNullOrEmpty(tmp.FaceTemp))
+                        {
+                            tmp.StoreToDb(2, out terr);
+                            allerr += terr;
+                            terr = string.Empty;
+                        }
+
+                        if (!string.IsNullOrEmpty(tmp.FingerTemp))
+                        {
+                            tmp.StoreToDb(3, out terr);
+                            allerr += terr;
+                            terr = string.Empty;
+                        }
+
+                        tmp.err = allerr;
+
                     }
-                        
-
-                    if(!string.IsNullOrEmpty(tmp.FaceTemp))
-                    {                        
-                        tmp.StoreToDb(2,out terr);
-                        allerr += terr;
-                        terr = string.Empty;
-                    }
-
-                    if(!string.IsNullOrEmpty(tmp.FingerTemp))
-                    {
-                        tmp.StoreToDb(3,out terr);
-                        allerr += terr;
-                        terr = string.Empty;
-                    }
-
-                    tmp.err = allerr;
-
                 }
             }
+           
+            
 
         }
 
-        public void DownloadTemplate(string tEmpUnqID,out string err,out UserBioInfo tUser)
+        public void DownloadTemplate(string tEmpUnqID,out string err)
         {
             err = string.Empty;
-            tUser = new UserBioInfo();
-            tUser.err = "";
-
+            
             string _userid, _username, _password,_cardno,_facetemp,_fingertemp ;
             
             int _prev ,_facelength,_fingerlength,_fingerflg , _useridInt; 
@@ -866,7 +1048,322 @@ namespace Attendance.Classes
             this.CZKEM1.EnableDevice(_machineno, true);
 
             }
-    
+
+        public void DownloadTemplate(List<UserBioInfo> tUserList, out string err,out List<UserBioInfo> RetUserList)
+        {
+            err = string.Empty;           
+
+            string _userid, _username, _password, _cardno, _facetemp, _fingertemp;
+            int _prev, _facelength, _fingerlength, _fingerflg, _useridInt;
+            bool _enabled = false;
+
+            if (!_connected)
+            {
+                foreach (UserBioInfo emp in tUserList)
+                {
+                    emp.err = "Machine not connected..";                   
+                }
+                err = "Machine not connected..";
+                RetUserList = tUserList;
+                return;
+            }
+
+            foreach (UserBioInfo emp in tUserList)
+            {
+                emp.SetUserInfoForMachine(emp.UserID);
+                if (string.IsNullOrEmpty(emp.UserID))
+                {
+                    emp.err += "UserID is required..";
+                }
+            }
+                       
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _facetemp = string.Empty; _fingertemp = string.Empty;
+            _facelength = 0; _fingerlength = 0; _fingerflg = 0; _useridInt = 0; _prev = 0;
+            _enabled = false;
+
+            if (this.CZKEM1.ReadAllUserID(_machineno))
+            {
+                if (_istft)
+                {
+                    
+
+                    foreach (UserBioInfo emp in tUserList)
+                    {
+                        this.CZKEM1.GetAllUserID(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0, 0, 1);
+
+                        if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
+                        {
+                            emp.Password = _password;
+                            emp.Enabled = _enabled;
+                            emp.Previlege = _prev;
+                        }
+
+                        this.CZKEM1.GetStrCardNumber(out _cardno);
+                        if (!string.IsNullOrEmpty(_cardno))
+                        {
+                            emp.CardNumber = _cardno;
+                        }
+                        else
+                        {   
+                            emp.err += "RFID Card Number Not Found..." +Environment.NewLine;
+                        }
+                        
+                        if (_face)
+                        {
+                            this.CZKEM1.GetUserFaceStr(_machineno, emp.UserID, emp.FaceIndex, ref _facetemp, ref _facelength);
+                            emp.FaceIndex = 50;
+                            emp.FaceLength = _facelength;
+                            emp.FaceTemp = _facetemp;
+
+                            if (string.IsNullOrEmpty(_facetemp))
+                            {
+                                emp.err = emp.err + "Face Template Not Found..." + Environment.NewLine;
+                            }
+                        }
+
+                        if (_finger)
+                        {
+                            double fpversion = 0;
+                            double.TryParse(_fingerprintversion, out fpversion);
+                            if (fpversion >= 10)
+                            {
+                                this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
+
+                            }
+                            else if (fpversion == 9)
+                            {
+                                this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
+                            }
+                            else
+                            {
+                                emp.err += emp.err + "Can not determine Finger print version" + Environment.NewLine;
+                                continue;
+                            }
+
+                            emp.FingerTemp = _fingertemp;
+                            emp.FingerLength = _fingerlength;
+                            if (string.IsNullOrEmpty(_fingertemp))
+                            {
+                                emp.err += emp.err + "Finger Template Not Found..." + Environment.NewLine;
+                            }
+                        }
+
+                    }//end foreach loop
+                    
+
+                }
+                else
+                {
+                    foreach (UserBioInfo emp in tUserList)
+                    {
+                        //old machine
+                        if (this.CZKEM1.GetUserInfo(_machineno, Convert.ToInt32(emp.UserID), ref _username, ref _password, ref _prev, ref _enabled))
+                        {
+                            _cardno = this.CZKEM1.get_CardNumber(0).ToString();
+                            emp.CardNumber = _cardno;
+                            emp.Enabled = _enabled;
+                            emp.Previlege = _prev;
+                            emp.Password = _password;
+
+                            if (string.IsNullOrEmpty(_cardno))
+                            {
+                                emp.err = emp.err + "RFID Card Number Not Found..." + Environment.NewLine;
+                            }
+
+                        }
+                    }
+                    
+                }
+
+            }
+            else
+            {
+                RetUserList = tUserList;
+                err = "Can not read all users";
+                return;
+            }
+            //save to db
+
+            foreach (UserBioInfo emp in tUserList)
+            {
+                if (_rfid)
+                {
+                    if (!string.IsNullOrEmpty(emp.CardNumber))
+                    {
+                        emp.StoreToDb(1, out err);
+                        emp.err += err;
+                    }
+                }
+
+                if (_face)
+                {
+                    if (!string.IsNullOrEmpty(emp.FaceTemp))
+                    {
+                        emp.StoreToDb(2, out err);
+                        emp.err += err;
+                    }
+                }
+
+                if (_finger)
+                {
+                    if (!string.IsNullOrEmpty(emp.FingerTemp))
+                    {
+                        emp.StoreToDb(3, out err);
+                        emp.err += err;
+                    }
+                }
+            }//end foreach store to db
+
+            RetUserList = tUserList;
+            this.CZKEM1.EnableDevice(_machineno, true);
+
+        }
+        
+        public void DeleteUser(string tEmpUnqID, out string err)
+        {
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return;
+            }
+
+            UserBioInfo emp = new UserBioInfo();
+            emp.SetUserInfoForMachine(tEmpUnqID);
+            
+            //check user rights for the wrkgrp
+            //'if not move next emp
+            if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+            {
+                err = "You are not Authorised...";
+                return;
+            }
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+           
+
+            if (!_istft)
+            {
+                this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);                
+            }
+            else
+            {
+                this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
+                this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
+            }
+
+            this.StoreHistoryinDB(tEmpUnqID, false);        
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true); 
+        }
+
+        public void DeleteUser(List<UserBioInfo> tUserList, out string err, out List<UserBioInfo> RetUserList)
+        {
+            err = string.Empty;
+            RetUserList = tUserList;
+            if (!_connected)
+            {
+                foreach (UserBioInfo emp in tUserList)
+                {
+                    emp.err = "Machine not connected..";
+                }
+                err = "Machine not connected..";
+                RetUserList = tUserList;
+                return;
+            }
+
+            foreach (UserBioInfo emp in tUserList)
+            {                
+                emp.SetUserInfoForMachine(emp.UserID);
+                
+                //check user rights for the wrkgrp
+                //'if not move next emp
+                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+                {
+                    emp.err += "You are not Authorised...";
+                }
+            }
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            foreach (UserBioInfo emp in tUserList)
+            {
+                //store registration info in db....
+                if (string.IsNullOrEmpty(emp.err))
+                {
+                    StoreHistoryinDB(emp.UserID, false);
+                    if (!_istft)
+                    {
+                        this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
+                    }
+                    else
+                    {
+                        this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
+                        this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
+                    }
+                }// if no errors found 
+               
+            }//end foreach
+
+
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true);
+
+            RetUserList = tUserList;
+
+
+        }
+
+        public void BlockUser(string tEmpUnqID, out string err)
+        {
+            err = string.Empty;
+           
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return;
+            }
+
+            //simply call delete
+            this.DeleteUser(tEmpUnqID, out err);
+            this.StoreBlockHistory(tEmpUnqID,true);
+        }
+
+        public void UnBlockUser(string tEmpUnqID, out string err)
+        {
+            err = string.Empty;
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return;
+            }
+
+            //simply call register
+            this.Register(tEmpUnqID, out err);
+            this.StoreBlockHistory(tEmpUnqID, false);
+        }
+
+        
 
     }
 }

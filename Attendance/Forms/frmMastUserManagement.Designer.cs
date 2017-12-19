@@ -118,6 +118,19 @@
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.txtOldRFID = new DevExpress.XtraEditors.TextEdit();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtNewRFID = new DevExpress.XtraEditors.TextEdit();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btnUpdateRFID = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtIPAdd1 = new DevExpress.XtraEditors.TextEdit();
+            this.btnGetExcelUser = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.lblReqNo = new System.Windows.Forms.Label();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -155,6 +168,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.tbp_Other.SuspendLayout();
             this.tblp_Other.SuspendLayout();
+            this.grpButtons3.SuspendLayout();
+            this.grpButtons4.SuspendLayout();
             this.tbp_Misc.SuspendLayout();
             this.tblp_Misc.SuspendLayout();
             this.tbp_Upload.SuspendLayout();
@@ -165,6 +180,9 @@
             this.grpButtons11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tblp
@@ -364,6 +382,7 @@
             this.txtMessCode.Properties.ReadOnly = true;
             this.txtMessCode.Size = new System.Drawing.Size(57, 20);
             this.txtMessCode.TabIndex = 8;
+            this.txtMessCode.TabStop = false;
             // 
             // label6
             // 
@@ -397,6 +416,7 @@
             this.txtMessGrpCode.Properties.ReadOnly = true;
             this.txtMessGrpCode.Size = new System.Drawing.Size(57, 20);
             this.txtMessGrpCode.TabIndex = 6;
+            this.txtMessGrpCode.TabStop = false;
             // 
             // chkActive
             // 
@@ -506,7 +526,7 @@
             // 
             // txtEmpUnqID
             // 
-            this.txtEmpUnqID.EditValue = "20005890";
+            this.txtEmpUnqID.EditValue = "";
             this.txtEmpUnqID.Location = new System.Drawing.Point(77, 20);
             this.txtEmpUnqID.Name = "txtEmpUnqID";
             this.txtEmpUnqID.Properties.Mask.EditMask = "[0-9]+";
@@ -680,6 +700,7 @@
             this.btnUnBlock.Size = new System.Drawing.Size(120, 27);
             this.btnUnBlock.TabIndex = 10;
             this.btnUnBlock.Text = "&Unblock";
+            this.btnUnBlock.Click += new System.EventHandler(this.btnUnBlock_Click);
             // 
             // btnBlock
             // 
@@ -690,6 +711,7 @@
             this.btnBlock.Size = new System.Drawing.Size(120, 27);
             this.btnBlock.TabIndex = 9;
             this.btnBlock.Text = "Block";
+            this.btnBlock.Click += new System.EventHandler(this.btnBlock_Click);
             // 
             // btnDelete
             // 
@@ -700,6 +722,7 @@
             this.btnDelete.Size = new System.Drawing.Size(120, 27);
             this.btnDelete.TabIndex = 8;
             this.btnDelete.Text = "Delete";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnRegister
             // 
@@ -744,7 +767,8 @@
             this.btnUnlock.Name = "btnUnlock";
             this.btnUnlock.Size = new System.Drawing.Size(120, 27);
             this.btnUnlock.TabIndex = 11;
-            this.btnUnlock.Text = "Unlock Machine";
+            this.btnUnlock.Text = "Unlock Sel. Machine";
+            this.btnUnlock.Click += new System.EventHandler(this.btnUnlock_Click);
             // 
             // btnUnlockMaster
             // 
@@ -755,6 +779,7 @@
             this.btnUnlockMaster.Size = new System.Drawing.Size(120, 27);
             this.btnUnlockMaster.TabIndex = 10;
             this.btnUnlockMaster.Text = "Unlock Master";
+            this.btnUnlockMaster.Click += new System.EventHandler(this.btnUnlockMaster_Click);
             // 
             // btnDownTemp
             // 
@@ -1090,12 +1115,20 @@
             // grpButtons3
             // 
             this.grpButtons3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons3.Controls.Add(this.label11);
+            this.grpButtons3.Controls.Add(this.label9);
+            this.grpButtons3.Controls.Add(this.btnUpdateRFID);
+            this.grpButtons3.Controls.Add(this.label8);
+            this.grpButtons3.Controls.Add(this.txtNewRFID);
+            this.grpButtons3.Controls.Add(this.label7);
+            this.grpButtons3.Controls.Add(this.txtOldRFID);
             this.grpButtons3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons3.Location = new System.Drawing.Point(3, 3);
             this.grpButtons3.Name = "grpButtons3";
             this.grpButtons3.Size = new System.Drawing.Size(650, 149);
             this.grpButtons3.TabIndex = 0;
             this.grpButtons3.TabStop = false;
+            this.grpButtons3.Text = "Add New/Change RFID Card Number in Data";
             // 
             // grpButtons5
             // 
@@ -1110,12 +1143,19 @@
             // grpButtons4
             // 
             this.grpButtons4.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons4.Controls.Add(this.lblReqNo);
+            this.grpButtons4.Controls.Add(this.label14);
+            this.grpButtons4.Controls.Add(this.btnGetExcelUser);
+            this.grpButtons4.Controls.Add(this.label13);
+            this.grpButtons4.Controls.Add(this.txtIPAdd1);
+            this.grpButtons4.Controls.Add(this.label12);
             this.grpButtons4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons4.Location = new System.Drawing.Point(3, 158);
             this.grpButtons4.Name = "grpButtons4";
             this.grpButtons4.Size = new System.Drawing.Size(650, 149);
             this.grpButtons4.TabIndex = 2;
             this.grpButtons4.TabStop = false;
+            this.grpButtons4.Text = "Download All Users From Single Machine To Excel File";
             // 
             // tbp_Misc
             // 
@@ -1365,6 +1405,131 @@
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Width = 943;
             // 
+            // txtOldRFID
+            // 
+            this.txtOldRFID.Location = new System.Drawing.Point(153, 45);
+            this.txtOldRFID.Name = "txtOldRFID";
+            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtOldRFID.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtOldRFID.Properties.ReadOnly = true;
+            this.txtOldRFID.Size = new System.Drawing.Size(159, 20);
+            this.txtOldRFID.TabIndex = 3;
+            this.txtOldRFID.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(38, 47);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(109, 14);
+            this.label7.TabIndex = 66;
+            this.label7.Text = "Old RFID Card No :";
+            // 
+            // txtNewRFID
+            // 
+            this.txtNewRFID.EditValue = "";
+            this.txtNewRFID.Location = new System.Drawing.Point(153, 72);
+            this.txtNewRFID.Name = "txtNewRFID";
+            this.txtNewRFID.Properties.Mask.EditMask = "[0-9]+";
+            this.txtNewRFID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtNewRFID.Properties.MaxLength = 15;
+            this.txtNewRFID.Size = new System.Drawing.Size(159, 20);
+            this.txtNewRFID.TabIndex = 67;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(31, 75);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(116, 14);
+            this.label8.TabIndex = 68;
+            this.label8.Text = "New RFID Card No :";
+            // 
+            // btnUpdateRFID
+            // 
+            this.btnUpdateRFID.Location = new System.Drawing.Point(318, 43);
+            this.btnUpdateRFID.Name = "btnUpdateRFID";
+            this.btnUpdateRFID.Size = new System.Drawing.Size(118, 50);
+            this.btnUpdateRFID.TabIndex = 69;
+            this.btnUpdateRFID.Text = "Update";
+            this.btnUpdateRFID.UseVisualStyleBackColor = true;
+            this.btnUpdateRFID.Click += new System.EventHandler(this.btnUpdateRFID_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(31, 104);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(200, 14);
+            this.label9.TabIndex = 70;
+            this.label9.Text = "* Enter EmpUnqID in Left Side Box";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(31, 126);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(326, 14);
+            this.label11.TabIndex = 71;
+            this.label11.Text = "* Please Register Employee to machine after RFID Change";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 95);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(438, 14);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Use -> Monthly Report \\ Machine Wise Employee Report with your request No";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(74, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(73, 14);
+            this.label13.TabIndex = 70;
+            this.label13.Text = "IP Address :";
+            // 
+            // txtIPAdd1
+            // 
+            this.txtIPAdd1.EditValue = "";
+            this.txtIPAdd1.Location = new System.Drawing.Point(153, 24);
+            this.txtIPAdd1.Name = "txtIPAdd1";
+            this.txtIPAdd1.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAdd1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAdd1.Properties.MaxLength = 15;
+            this.txtIPAdd1.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAdd1.TabIndex = 69;
+            // 
+            // btnGetExcelUser
+            // 
+            this.btnGetExcelUser.Location = new System.Drawing.Point(318, 21);
+            this.btnGetExcelUser.Name = "btnGetExcelUser";
+            this.btnGetExcelUser.Size = new System.Drawing.Size(118, 23);
+            this.btnGetExcelUser.TabIndex = 71;
+            this.btnGetExcelUser.Text = "Download";
+            this.btnGetExcelUser.UseVisualStyleBackColor = true;
+            this.btnGetExcelUser.Click += new System.EventHandler(this.btnGetExcelUser_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(88, 51);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(59, 14);
+            this.label14.TabIndex = 72;
+            this.label14.Text = "Req. No :";
+            // 
+            // lblReqNo
+            // 
+            this.lblReqNo.AutoSize = true;
+            this.lblReqNo.Location = new System.Drawing.Point(153, 50);
+            this.lblReqNo.Name = "lblReqNo";
+            this.lblReqNo.Size = new System.Drawing.Size(0, 14);
+            this.lblReqNo.TabIndex = 73;
+            // 
             // frmMastUserManagement
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1415,6 +1580,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.tbp_Other.ResumeLayout(false);
             this.tblp_Other.ResumeLayout(false);
+            this.grpButtons3.ResumeLayout(false);
+            this.grpButtons3.PerformLayout();
+            this.grpButtons4.ResumeLayout(false);
+            this.grpButtons4.PerformLayout();
             this.tbp_Misc.ResumeLayout(false);
             this.tblp_Misc.ResumeLayout(false);
             this.tbp_Upload.ResumeLayout(false);
@@ -1426,6 +1595,9 @@
             this.grpButtons11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1522,5 +1694,18 @@
         private DevExpress.XtraGrid.GridControl grd_Emp;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_Emp;
         private System.Windows.Forms.Label lblDownAll;
+        private System.Windows.Forms.Label label7;
+        public DevExpress.XtraEditors.TextEdit txtOldRFID;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnUpdateRFID;
+        private System.Windows.Forms.Label label8;
+        public DevExpress.XtraEditors.TextEdit txtNewRFID;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        public DevExpress.XtraEditors.TextEdit txtIPAdd1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button btnGetExcelUser;
+        private System.Windows.Forms.Label lblReqNo;
     }
 }
