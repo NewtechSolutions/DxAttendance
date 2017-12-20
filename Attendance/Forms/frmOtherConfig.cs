@@ -32,6 +32,31 @@ namespace Attendance.Forms
                 MessageBox.Show("Please Specify No. of Days...", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
+
+            if (txtLateComeSec.Value == 0)
+            {
+                MessageBox.Show("Please Specify Late Come Seconds...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtEarlyComeSec.Value == 0)
+            {
+                MessageBox.Show("Please Specify Early Come Seconds...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtEarlyGoingSec.Value == 0)
+            {
+                MessageBox.Show("Please Specify Early Going Seconds...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtGracePeriodSec.Value == 0)
+            {
+                MessageBox.Show("Please Specify Grace Period Seconds...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
                 try
@@ -46,15 +71,36 @@ namespace Attendance.Forms
                         string sql = "";
                         if(cnt > 0)
                         {
-                            sql = "Update MastBCFlg Set SanDayLimit = '" + txtSanDayLimit.Value.ToString() + "'";
+                            sql = "Update MastBCFlg Set SanDayLimit = '" + txtSanDayLimit.Value.ToString() + "'," +
+                                " LateComeSec = '" + txtLateComeSec.Value.ToString() + "'," +
+                                " EarlyComeSec ='" + txtEarlyComeSec.Value.ToString() + "'," +
+                                " EarlyGoingSec ='" + txtEarlyGoingSec.Value.ToString() + "'," +
+                                " GracePeriodSec ='" + txtGracePeriodSec.Value.ToString() + "'," +
+                                " GraceHalfDayFlg ='" + ((chkGraceHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                " LateHalfDayFlg = '" + ((chkLateHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                " EarlyGoingHalfDayFlg ='" + ((chkEarlyGoingHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                " EarlyGoingHalfDaySec ='" + txtEarlyGoingHalfDaySec.Value.ToString() + "'," +
+                                " LateHalfDaySec ='" + txtLateHalfDaySec.Value.ToString() + "'";
+
                         }else{
 
-                            sql = "Insert into MastBCFlg (SanDayLimit) values ('" + txtSanDayLimit.Value.ToString() + "')";
+                            sql = "Insert into MastBCFlg (SanDayLimit,LateComeSec,EarlyComeSec,EarlyGoingSec,GracePeriodSec" +
+                            "  GraceHalfDayFlg, LateHalfDayFlg,EarlyGoingHalfDayFlg,EarlyGoingHalfDaySec,LateHalfDaySec ) values (" +
+                                "'" + txtSanDayLimit.Value.ToString() + "'," +
+                                "'" + txtLateComeSec.Value.ToString() + "'," +
+                                "'" + txtEarlyComeSec.Value.ToString() + "'," +
+                                "'" + txtEarlyGoingSec.Value.ToString() + "'," +
+                                "'" + txtGracePeriodSec.Value.ToString() + "'," +
+                                "'" + ((chkGraceHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                "'" + ((chkLateHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                "'" + ((chkEarlyGoingHalfDayFlg.Checked) ? "1" : "0") + "'," +
+                                "'" + txtEarlyGoingHalfDaySec.Value.ToString() + "'," +
+                                "'" + txtLateHalfDaySec.Value.ToString() + "')";
                         }
                         cmd.Connection = cn;
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Record Updated...,Please Restart Application/Server to Reflact Changes.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 catch (Exception ex)
@@ -68,64 +114,10 @@ namespace Attendance.Forms
         private void frmOtherConfig_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
-
-            //txtSanDayLimit.Value = Convert.ToInt32(Utils.Helper.GetDescription("Select SanDayLimit From MastBCFlg", Utils.Helper.constr));
-            string cntdays = Utils.Helper.GetDescription("Select SanDayLimit From MastBCFlg", Utils.Helper.constr);
-
-            DataSet ds = Utils.Helper.GetData("select top 1 * from MastNetWork", Utils.Helper.constr);
             
-            if(!string.IsNullOrEmpty(cntdays))
-            {
-                int tdays = 0;
-                int.TryParse(cntdays, out tdays);
-                txtSanDayLimit.Value = tdays;
-            }
-
-            if (GRights.Contains("XXXV"))
-            {
-                btnUpdateSan.Enabled = false;
-                btnUpdateNetwork.Enabled = false;
-            }
-            else if (GRights.Contains("AU"))
-            {
-                btnUpdateSan.Enabled = true;
-                btnUpdateNetwork.Enabled = true;
-               
-            }
-            else
-            {
-                btnUpdateSan.Enabled = false;
-                btnUpdateNetwork.Enabled = false;
-            }
-
-            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    txtEmailID.Text = dr["DefaultMailID"].ToString();
-                    txtSMTPIP.Text = dr["SmtpHostIP"].ToString();
-                    txtReportServiceURL.Text = dr["ReportServiceURL"].ToString();
-                    txtReportSerExeURL.Text = dr["ReportSerExeURL"].ToString();
-                    txtServerWorkerIP.Text = dr["ServerWorkerIP"].ToString();
-
-                    GNetWorkDomain = dr["NetWorkDomain"].ToString();
-                    GNetWorkUser = dr["NetWorkUser"].ToString();
-                    txtAutoProcessWrkGrp.Text = dr["AutoProcessWrkGrp"].ToString();
-                    
-                    if(dr["AutoProcessTime"] != DBNull.Value)
-                    {
-                        TimeSpan t = new TimeSpan();
-                        TimeSpan.TryParse(dr["AutoProcessTime"].ToString(),out t);
-                        txtAutoProccessTime.EditValue = t; 
-                    }
-                    
-                }
-            }
-
+            DisplayData();
             LoadGrid();
-            
+            SetRights();
         }
 
         private void LoadGrid()
@@ -158,6 +150,92 @@ namespace Attendance.Forms
 
         }
 
+        private void DisplayData()
+        {
+            DataSet ds = Utils.Helper.GetData("select top 1 * from MastBCFlg", Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtSanDayLimit.Value = Convert.ToInt32(dr["SanDayLimit"].ToString());
+                    txtLateComeSec.Value = Convert.ToInt32(dr["LateComeSec"].ToString());
+                    txtEarlyComeSec.Value = Convert.ToInt32(dr["EarlyComeSec"].ToString());
+                    txtEarlyGoingSec.Value = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
+                    txtGracePeriodSec.Value = Convert.ToInt32(dr["GracePeriodSec"].ToString());
+
+                    chkGraceHalfDayFlg.Checked = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
+                    chkLateHalfDayFlg.Checked = Convert.ToBoolean(dr["LateHalfDayFlg"]);
+                    chkEarlyGoingHalfDayFlg.Checked = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
+                    txtEarlyGoingHalfDaySec.Value = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
+                    txtLateHalfDaySec.Value = Convert.ToInt32(dr["LateHalfDaySec"].ToString());
+
+                }
+            }
+            else
+            {
+                txtSanDayLimit.Value = 0;
+                txtLateComeSec.Value = 0;
+                txtEarlyComeSec.Value = 0;
+                txtEarlyGoingSec.Value = 0;
+                txtGracePeriodSec.Value = 0;
+                
+                txtLateHalfDaySec.Value = 0;
+                txtEarlyGoingHalfDaySec.Value = 0;
+
+                chkEarlyGoingHalfDayFlg.Checked = false;
+                chkGraceHalfDayFlg.Checked = false;
+                chkLateHalfDayFlg.Checked = false;
+            }
+
+            ds = Utils.Helper.GetData("select top 1 * from MastNetWork", Utils.Helper.constr);
+            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtEmailID.Text = dr["DefaultMailID"].ToString();
+                    txtSMTPIP.Text = dr["SmtpHostIP"].ToString();
+                    txtReportServiceURL.Text = dr["ReportServiceURL"].ToString();
+                    txtReportSerExeURL.Text = dr["ReportSerExeURL"].ToString();
+                    txtServerWorkerIP.Text = dr["ServerWorkerIP"].ToString();
+
+                    GNetWorkDomain = dr["NetWorkDomain"].ToString();
+                    GNetWorkUser = dr["NetWorkUser"].ToString();
+                    txtAutoProcessWrkGrp.Text = dr["AutoProcessWrkGrp"].ToString();
+
+                    if (dr["AutoProcessTime"] != DBNull.Value)
+                    {
+                        TimeSpan t = new TimeSpan();
+                        TimeSpan.TryParse(dr["AutoProcessTime"].ToString(), out t);
+                        txtAutoProccessTime.EditValue = t;
+                    }
+
+                }
+            }
+        }
+
+        private void SetRights()
+        {
+            if (GRights.Contains("XXXV"))
+            {
+                btnUpdateSan.Enabled = false;
+                btnUpdateNetwork.Enabled = false;
+            }
+            else if (GRights.Contains("AU"))
+            {
+                btnUpdateSan.Enabled = true;
+                btnUpdateNetwork.Enabled = true;
+
+            }
+            else
+            {
+                btnUpdateSan.Enabled = false;
+                btnUpdateNetwork.Enabled = false;
+            }
+        }
 
         private void btnUpdateNetwork_Click(object sender, EventArgs e)
         {
@@ -333,6 +411,8 @@ namespace Attendance.Forms
             Point pt = view.GridControl.PointToClient(Control.MousePosition);
             DoRowDoubleClick(view, pt);
         }
+
+        
 
     }
 }

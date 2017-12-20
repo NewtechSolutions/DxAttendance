@@ -129,7 +129,16 @@ namespace Attendance.Classes
 
             _connected = CZKEM1.Connect_Net(_ip, _port);
             CZKEM1.GetFirmwareVersion(_machineno, ref _version);
-            _version = _version.Substring(5,4);
+            try
+            {
+
+
+                _version = _version.Substring(4, 4);
+            }
+            catch (Exception ex)
+            {
+                _version = "0";
+            }
             _istft = CZKEM1.IsTFTMachine(_machineno);
         
             if ( _finger)
@@ -842,7 +851,7 @@ namespace Attendance.Classes
                 _userid = string.Empty; _username = string.Empty; _password  = string.Empty;_cardno = string.Empty;
                 _useridInt = 0; _prev = 0; _enabled = false;
                 
-                CZKEM1.ReadAllUserID (_machineno);
+               
                 while (CZKEM1.GetAllUserInfo(_machineno,ref _useridInt,ref _username,ref _password,ref _prev , ref _enabled))
 	            {
 	               
@@ -1363,7 +1372,73 @@ namespace Attendance.Classes
             this.StoreBlockHistory(tEmpUnqID, false);
         }
 
-        
+        public void DeleteLeftEmp(out string err)
+        {
+            err = string.Empty;
+            List<UserBioInfo> tUsers = new List<UserBioInfo>();
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            UserBioInfo tmpuser = new UserBioInfo();
+
+            string _userid, _username, _password, _cardno;
+
+            int _prev,  _useridInt;
+            bool _enabled = false;
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _useridInt = 0; _prev = 0; _enabled = false;
+            
+            while (CZKEM1.GetAllUserInfo(_machineno, ref _useridInt, ref _username, ref _password, ref _prev, ref _enabled))
+            {
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+                    int tActive = 0;
+                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                    if (cnt != "0")
+                    {
+                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                        tActive = Convert.ToInt32(cnt);
+                    }
+
+                    if(tActive == 0)
+                    {
+                        string terr = string.Empty;
+                        this.DeleteUser(tmpuser.UserID,out terr);
+                        if (!string.IsNullOrEmpty(terr))
+                        {
+                            err += tmpuser.UserID + ":" + terr;
+                        }
+                    }        
+                    
+            }
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true);
+
+        }
 
     }
 }

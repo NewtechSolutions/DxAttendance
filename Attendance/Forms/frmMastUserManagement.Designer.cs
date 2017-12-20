@@ -131,6 +131,10 @@
             this.btnGetExcelUser = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.lblReqNo = new System.Windows.Forms.Label();
+            this.btnDelLeftEmp = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtIPAdd2 = new DevExpress.XtraEditors.TextEdit();
+            this.label16 = new System.Windows.Forms.Label();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -169,6 +173,7 @@
             this.tbp_Other.SuspendLayout();
             this.tblp_Other.SuspendLayout();
             this.grpButtons3.SuspendLayout();
+            this.grpButtons5.SuspendLayout();
             this.grpButtons4.SuspendLayout();
             this.tbp_Misc.SuspendLayout();
             this.tblp_Misc.SuspendLayout();
@@ -183,6 +188,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tblp
@@ -1133,12 +1139,18 @@
             // grpButtons5
             // 
             this.grpButtons5.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons5.Controls.Add(this.label16);
+            this.grpButtons5.Controls.Add(this.btnDelLeftEmp);
+            this.grpButtons5.Controls.Add(this.label15);
+            this.grpButtons5.Controls.Add(this.txtIPAdd2);
             this.grpButtons5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons5.Location = new System.Drawing.Point(3, 313);
             this.grpButtons5.Name = "grpButtons5";
             this.grpButtons5.Size = new System.Drawing.Size(650, 151);
             this.grpButtons5.TabIndex = 1;
             this.grpButtons5.TabStop = false;
+            this.grpButtons5.Text = "Delete Left Employee From Machine";
+            this.grpButtons5.Enter += new System.EventHandler(this.grpButtons5_Enter);
             // 
             // grpButtons4
             // 
@@ -1530,6 +1542,45 @@
             this.lblReqNo.Size = new System.Drawing.Size(0, 14);
             this.lblReqNo.TabIndex = 73;
             // 
+            // btnDelLeftEmp
+            // 
+            this.btnDelLeftEmp.Location = new System.Drawing.Point(321, 32);
+            this.btnDelLeftEmp.Name = "btnDelLeftEmp";
+            this.btnDelLeftEmp.Size = new System.Drawing.Size(118, 23);
+            this.btnDelLeftEmp.TabIndex = 74;
+            this.btnDelLeftEmp.Text = "Delete";
+            this.btnDelLeftEmp.UseVisualStyleBackColor = true;
+            this.btnDelLeftEmp.Click += new System.EventHandler(this.btnDelLeftEmp_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(77, 37);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(73, 14);
+            this.label15.TabIndex = 73;
+            this.label15.Text = "IP Address :";
+            // 
+            // txtIPAdd2
+            // 
+            this.txtIPAdd2.EditValue = "";
+            this.txtIPAdd2.Location = new System.Drawing.Point(156, 35);
+            this.txtIPAdd2.Name = "txtIPAdd2";
+            this.txtIPAdd2.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAdd2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAdd2.Properties.MaxLength = 15;
+            this.txtIPAdd2.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAdd2.TabIndex = 72;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(7, 109);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(314, 14);
+            this.label16.TabIndex = 75;
+            this.label16.Text = "This Function will delete all left employee from machine.";
+            // 
             // frmMastUserManagement
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1582,6 +1633,8 @@
             this.tblp_Other.ResumeLayout(false);
             this.grpButtons3.ResumeLayout(false);
             this.grpButtons3.PerformLayout();
+            this.grpButtons5.ResumeLayout(false);
+            this.grpButtons5.PerformLayout();
             this.grpButtons4.ResumeLayout(false);
             this.grpButtons4.PerformLayout();
             this.tbp_Misc.ResumeLayout(false);
@@ -1598,6 +1651,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1707,5 +1761,9 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnGetExcelUser;
         private System.Windows.Forms.Label lblReqNo;
+        private System.Windows.Forms.Button btnDelLeftEmp;
+        private System.Windows.Forms.Label label15;
+        public DevExpress.XtraEditors.TextEdit txtIPAdd2;
+        private System.Windows.Forms.Label label16;
     }
 }

@@ -62,6 +62,18 @@
             this.gv_avbl = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.SchTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtLateComeSec = new DevExpress.XtraEditors.SpinEdit();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtEarlyComeSec = new DevExpress.XtraEditors.SpinEdit();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtEarlyGoingSec = new DevExpress.XtraEditors.SpinEdit();
+            this.txtGracePeriodSec = new DevExpress.XtraEditors.SpinEdit();
+            this.txtLateHalfDaySec = new DevExpress.XtraEditors.SpinEdit();
+            this.chkLateHalfDayFlg = new System.Windows.Forms.CheckBox();
+            this.chkEarlyGoingHalfDayFlg = new System.Windows.Forms.CheckBox();
+            this.txtEarlyGoingHalfDaySec = new DevExpress.XtraEditors.SpinEdit();
+            this.chkGraceHalfDayFlg = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -77,24 +89,42 @@
             ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyComeSec.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyGoingSec.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGracePeriodSec.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLateHalfDaySec.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyGoingHalfDaySec.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkGraceHalfDayFlg);
+            this.groupBox1.Controls.Add(this.chkEarlyGoingHalfDayFlg);
+            this.groupBox1.Controls.Add(this.txtEarlyGoingHalfDaySec);
+            this.groupBox1.Controls.Add(this.chkLateHalfDayFlg);
+            this.groupBox1.Controls.Add(this.txtLateHalfDaySec);
+            this.groupBox1.Controls.Add(this.txtGracePeriodSec);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.txtEarlyGoingSec);
+            this.groupBox1.Controls.Add(this.label16);
+            this.groupBox1.Controls.Add(this.txtEarlyComeSec);
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.txtLateComeSec);
             this.groupBox1.Controls.Add(this.btnUpdateSan);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtSanDayLimit);
             this.groupBox1.Location = new System.Drawing.Point(12, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(618, 100);
+            this.groupBox1.Size = new System.Drawing.Size(618, 189);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Other Configuration";
+            this.groupBox1.Text = "Other Configuration - In Respect of Shift Timing";
             // 
             // btnUpdateSan
             // 
-            this.btnUpdateSan.Location = new System.Drawing.Point(503, 60);
+            this.btnUpdateSan.Location = new System.Drawing.Point(503, 141);
             this.btnUpdateSan.Name = "btnUpdateSan";
             this.btnUpdateSan.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateSan.TabIndex = 1;
@@ -107,18 +137,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(260, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(344, 14);
+            this.label2.Size = new System.Drawing.Size(330, 14);
             this.label2.TabIndex = 2;
-            this.label2.Text = "* This will restrict app to sanction entry within specified days.";
+            this.label2.Text = "* Verious App Setting will Mark respective fields in Process.";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 24);
+            this.label1.Location = new System.Drawing.Point(6, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 14);
+            this.label1.Size = new System.Drawing.Size(120, 14);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Sanction Limit :";
+            this.label1.Text = "Sanction Days Limit :";
             // 
             // txtSanDayLimit
             // 
@@ -155,12 +185,13 @@
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.btnUpdateNetwork);
             this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Location = new System.Drawing.Point(12, 125);
+            this.groupBox3.Location = new System.Drawing.Point(12, 214);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(618, 364);
+            this.groupBox3.Size = new System.Drawing.Size(618, 275);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
+            
             // 
             // label14
             // 
@@ -330,7 +361,7 @@
             // 
             // btnUpdateNetwork
             // 
-            this.btnUpdateNetwork.Location = new System.Drawing.Point(503, 324);
+            this.btnUpdateNetwork.Location = new System.Drawing.Point(505, 227);
             this.btnUpdateNetwork.Name = "btnUpdateNetwork";
             this.btnUpdateNetwork.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateNetwork.TabIndex = 7;
@@ -472,6 +503,147 @@
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             this.repositoryItemCheckEdit1.ValueGrayed = false;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(16, 50);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(98, 14);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "LateCome Sec. :";
+            // 
+            // txtLateComeSec
+            // 
+            this.txtLateComeSec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtLateComeSec.Location = new System.Drawing.Point(138, 48);
+            this.txtLateComeSec.Name = "txtLateComeSec";
+            this.txtLateComeSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtLateComeSec.Size = new System.Drawing.Size(96, 20);
+            this.txtLateComeSec.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(16, 76);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(99, 14);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "EarlyCome Sec. :";
+            // 
+            // txtEarlyComeSec
+            // 
+            this.txtEarlyComeSec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtEarlyComeSec.Location = new System.Drawing.Point(138, 74);
+            this.txtEarlyComeSec.Name = "txtEarlyComeSec";
+            this.txtEarlyComeSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtEarlyComeSec.Size = new System.Drawing.Size(96, 20);
+            this.txtEarlyComeSec.TabIndex = 5;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(253, 76);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(99, 14);
+            this.label17.TabIndex = 8;
+            this.label17.Text = "EarlyGoing Sec. :";
+            // 
+            // txtEarlyGoingSec
+            // 
+            this.txtEarlyGoingSec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtEarlyGoingSec.Location = new System.Drawing.Point(358, 74);
+            this.txtEarlyGoingSec.Name = "txtEarlyGoingSec";
+            this.txtEarlyGoingSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtEarlyGoingSec.Size = new System.Drawing.Size(93, 20);
+            this.txtEarlyGoingSec.TabIndex = 7;
+            // 
+            // txtGracePeriodSec
+            // 
+            this.txtGracePeriodSec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtGracePeriodSec.Location = new System.Drawing.Point(358, 156);
+            this.txtGracePeriodSec.Name = "txtGracePeriodSec";
+            this.txtGracePeriodSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtGracePeriodSec.Size = new System.Drawing.Size(93, 20);
+            this.txtGracePeriodSec.TabIndex = 9;
+            // 
+            // txtLateHalfDaySec
+            // 
+            this.txtLateHalfDaySec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtLateHalfDaySec.Location = new System.Drawing.Point(358, 107);
+            this.txtLateHalfDaySec.Name = "txtLateHalfDaySec";
+            this.txtLateHalfDaySec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtLateHalfDaySec.Size = new System.Drawing.Size(93, 20);
+            this.txtLateHalfDaySec.TabIndex = 12;
+            // 
+            // chkLateHalfDayFlg
+            // 
+            this.chkLateHalfDayFlg.AutoSize = true;
+            this.chkLateHalfDayFlg.Location = new System.Drawing.Point(9, 108);
+            this.chkLateHalfDayFlg.Name = "chkLateHalfDayFlg";
+            this.chkLateHalfDayFlg.Size = new System.Drawing.Size(247, 18);
+            this.chkLateHalfDayFlg.TabIndex = 13;
+            this.chkLateHalfDayFlg.Text = "* Mark Half Day if Late More Than Sec. :";
+            this.chkLateHalfDayFlg.UseVisualStyleBackColor = true;
+            // 
+            // chkEarlyGoingHalfDayFlg
+            // 
+            this.chkEarlyGoingHalfDayFlg.AutoSize = true;
+            this.chkEarlyGoingHalfDayFlg.Location = new System.Drawing.Point(9, 132);
+            this.chkEarlyGoingHalfDayFlg.Name = "chkEarlyGoingHalfDayFlg";
+            this.chkEarlyGoingHalfDayFlg.Size = new System.Drawing.Size(283, 18);
+            this.chkEarlyGoingHalfDayFlg.TabIndex = 15;
+            this.chkEarlyGoingHalfDayFlg.Text = "* Mark Half Day if Early Going More Than Sec. :";
+            this.chkEarlyGoingHalfDayFlg.UseVisualStyleBackColor = true;
+            // 
+            // txtEarlyGoingHalfDaySec
+            // 
+            this.txtEarlyGoingHalfDaySec.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtEarlyGoingHalfDaySec.Location = new System.Drawing.Point(358, 132);
+            this.txtEarlyGoingHalfDaySec.Name = "txtEarlyGoingHalfDaySec";
+            this.txtEarlyGoingHalfDaySec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtEarlyGoingHalfDaySec.Size = new System.Drawing.Size(93, 20);
+            this.txtEarlyGoingHalfDaySec.TabIndex = 14;
+            // 
+            // chkGraceHalfDayFlg
+            // 
+            this.chkGraceHalfDayFlg.AutoSize = true;
+            this.chkGraceHalfDayFlg.Location = new System.Drawing.Point(9, 156);
+            this.chkGraceHalfDayFlg.Name = "chkGraceHalfDayFlg";
+            this.chkGraceHalfDayFlg.Size = new System.Drawing.Size(269, 18);
+            this.chkGraceHalfDayFlg.TabIndex = 16;
+            this.chkGraceHalfDayFlg.Text = "* Mark Half Day if Exceed Grace Period Sec :";
+            this.chkGraceHalfDayFlg.UseVisualStyleBackColor = true;
+            // 
             // frmOtherConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -502,6 +674,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.grd_avbl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_avbl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyComeSec.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyGoingSec.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGracePeriodSec.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLateHalfDaySec.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEarlyGoingHalfDaySec.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -542,5 +720,17 @@
         private System.Windows.Forms.Label label12;
         private DevExpress.XtraEditors.TextEdit txtAutoProcessWrkGrp;
         private System.Windows.Forms.Label label14;
+        private DevExpress.XtraEditors.SpinEdit txtGracePeriodSec;
+        private System.Windows.Forms.Label label17;
+        private DevExpress.XtraEditors.SpinEdit txtEarlyGoingSec;
+        private System.Windows.Forms.Label label16;
+        private DevExpress.XtraEditors.SpinEdit txtEarlyComeSec;
+        private System.Windows.Forms.Label label15;
+        private DevExpress.XtraEditors.SpinEdit txtLateComeSec;
+        private DevExpress.XtraEditors.SpinEdit txtLateHalfDaySec;
+        private System.Windows.Forms.CheckBox chkLateHalfDayFlg;
+        private System.Windows.Forms.CheckBox chkEarlyGoingHalfDayFlg;
+        private DevExpress.XtraEditors.SpinEdit txtEarlyGoingHalfDaySec;
+        private System.Windows.Forms.CheckBox chkGraceHalfDayFlg;
     }
 }

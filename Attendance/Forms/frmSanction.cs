@@ -540,8 +540,8 @@ namespace Attendance.Forms
 
 
             SqlAttd = "Select Top 40 " +
-                    " tDate , upper(left(datename(dw, tdate),3)) as Day, ScheduleShift as SchShift,ConsShift, ConsIn, ConsOut, Status,ConsOverTime as OT, ConsWrkHrs as WrkHrs,  HalfDay,LeaveTyp,LeaveHalf,LateCome,EarlyGoing,EarlyCome " +
-                    " From AttdData " +
+                    " tDate, upper(left(datename(dw, tdate),3)) as Day, ScheduleShift as SchShift,ConsShift, ConsIn, ConsOut, Status,ConsOverTime as TPAHrs, ConsWrkHrs as WrkHrs,  HalfDay,LeaveTyp,LeaveHalf,LateCome,EarlyGoing,EarlyCome " +
+                    " ,GracePeriod From AttdData " +
                     " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + FromDt + "' AND CompCode = '01' And WrkGrp = '" + Emp.WrkGrp + "' Order By tDate" ;
     
             SqlSanc = "Select Top 40 " +

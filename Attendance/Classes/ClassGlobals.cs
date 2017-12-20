@@ -35,14 +35,50 @@ namespace Attendance.Classes
         public static string G_NetworkPass;
         public static List<string> G_SchAutoTimeSet;
 
+        public static int G_SanDayLimit;
+        public static int G_LateComeSec;
+        public static int G_EarlyComeSec;
+        public static int G_EarlyGoingSec;
+        public static int G_GracePeriodSec;
+        
+        public static bool G_HFFLG_Grace;
+        public static bool G_HFFLG_EarlyGoing;
+        public static bool G_HFFLG_LateCome;
+        public static int G_HFSEC_EarlyGoing;
+        public static int G_HFSEC_LateCome;
+
+
         public static bool GetGlobalVars()
         {
             bool tset = false;
-            
+
             DataSet ds = new DataSet();
-            string sql = "Select top 1 * From MastNetwork ";
+
+            string sql = "Select Top 1 * from MastBCFlg ";
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {                
+                    G_SanDayLimit = Convert.ToInt32(dr["SanDayLimit"].ToString());
+                    G_LateComeSec = Convert.ToInt32(dr["LateComeSec"].ToString());
+                    G_EarlyComeSec = Convert.ToInt32(dr["EarlyComeSec"].ToString());
+                    G_EarlyGoingSec = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
+                    G_GracePeriodSec = Convert.ToInt32(dr["GracePeriodSec"].ToString());
+                    
+                    G_HFFLG_Grace = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
+                    G_HFFLG_LateCome = Convert.ToBoolean(dr["LateHalfDayFlg"]);
+                    G_HFFLG_EarlyGoing = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
+                    G_HFSEC_EarlyGoing = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
+                    G_HFSEC_LateCome = Convert.ToInt32(dr["LateHalfDaySec"].ToString());
+
+                }
+            }
+
+            sql = "Select top 1 * From MastNetwork ";
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
 
             if (hasRows)
             {

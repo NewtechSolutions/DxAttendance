@@ -1253,6 +1253,51 @@ namespace Attendance.Forms
 
         }
 
+        private void grpButtons5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDelLeftEmp_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAdd2.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string ip = txtIPAdd2.Text.Trim().ToString();
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            string err = string.Empty;
+            m.Connect(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            LockCtrl();
+
+            this.Cursor = Cursors.WaitCursor;
+
+            
+            m.DeleteLeftEmp(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Process Completed" , "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
+
+            UnLockCtrl();
+            this.Cursor = Cursors.Default;
+            
+
+        }
+
 
     }
 }
