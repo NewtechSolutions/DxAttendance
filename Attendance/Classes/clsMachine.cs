@@ -25,7 +25,10 @@ namespace Attendance.Classes
 
         private bool _messflg,_autoclear,_lunchinout,_gateinout,_istft, _rfid,_face,_finger;
 
-
+        /// <summary>
+        /// get machine info from database->readerconfig
+        /// </summary>
+        /// <returns></returns>
         private bool GetMachineInfoFromDb()
         {
             bool ret = false;
@@ -342,6 +345,11 @@ namespace Attendance.Classes
             }
         }
 
+        /// <summary>
+        /// store attendance logs in db
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public string AttdLogStoreToDb(AttdLog t)
         {
             string err = string.Empty;
@@ -383,6 +391,11 @@ namespace Attendance.Classes
             return err;
         }
 
+
+        /// <summary>
+        /// clear the attendance records
+        /// </summary>
+        /// <param name="err"></param>
         public void AttdLogClear(out string err)
         {
             err = string.Empty;
@@ -412,6 +425,10 @@ namespace Attendance.Classes
             CZKEM1.EnableDevice(_machineno, true);//enable the device
         }
 
+        /// <summary>
+        /// set the system's current time in machine
+        /// </summary>
+        /// <param name="err"></param>
         public void SetTime(out string err)
         {
             err = string.Empty;
@@ -429,6 +446,10 @@ namespace Attendance.Classes
             this.CZKEM1.EnableDevice(_machineno, true);
         }
 
+        /// <summary>
+        /// restart machine
+        /// </summary>
+        /// <param name="err"></param>
         public void Restart(out string err)
         {
             err = string.Empty;
@@ -442,6 +463,10 @@ namespace Attendance.Classes
             
         }
 
+        /// <summary>
+        /// unlock machine clear all administrators
+        /// </summary>
+        /// <param name="err"></param>
         public void Unlock(out string err)
         {
             err = string.Empty;
@@ -458,7 +483,7 @@ namespace Attendance.Classes
         }
 
         /// <summary>
-        /// 
+        /// this function will handle history of machine users in database according supplied second parameter.
         /// </summary>
         /// <param name="tEmpUnqID">UserID</param>
         /// <param name="reg">true-if register, false -if delete from machine</param>
@@ -494,7 +519,7 @@ namespace Attendance.Classes
         }
 
         /// <summary>
-        /// 
+        /// this function will store blocked employee with ip address
         /// </summary>
         /// <param name="tEmpUnqID">UserID</param>
         /// <param name="reg">true-if blocked, false -if unblocked </param>
@@ -532,7 +557,14 @@ namespace Attendance.Classes
                 }
             }
         }
-
+        
+        /// <summary>
+        /// this function will get the bio detail from master data, 
+        /// if MessGrp and MessCode not defined and machine is used for canteen
+        /// return with err.
+        /// </summary>
+        /// <param name="tEmpUnqID">EmpUnqID</param>
+        /// <param name="err">return string err</param>
         public void Register(string tEmpUnqID, out string err)
         {
             
@@ -633,6 +665,91 @@ namespace Attendance.Classes
         }
 
 
+        /// <summary>
+        /// this function will help to register as per supplied UserBioInfo
+        /// </summary>
+        /// <param name="emp">UserBioInfo</param>
+        /// <param name="err">Out string err</param>
+        public void Register(UserBioInfo emp, out string err)
+        {
+
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            if (string.IsNullOrEmpty(emp.UserID)) ;
+            {
+                err = "UserID is required...";
+                return;
+            }
+
+            if(string.IsNullOrEmpty(emp.CardNumber))
+            {
+                err = "RFID Card No. is Required...";
+                return;
+            }
+            
+            //store registration info in db....
+            StoreHistoryinDB(emp.UserID, true);
+
+            if (!_istft)
+            {
+                this.CZKEM1.set_CardNumber(0, Convert.ToInt32(emp.UserID));
+                this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0, true);
+                this.CZKEM1.RefreshData(_machineno);
+                this.CZKEM1.EnableDevice(_machineno, true);
+                return;
+            }
+
+            if (this.CZKEM1.SetStrCardNumber(emp.CardNumber))
+            {
+                this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, true);
+
+
+                //if it not used in Mess set user face and finger
+                if (_messflg == false)
+                {
+                    if (_face)
+                    {
+                        if (!string.IsNullOrEmpty(emp.FaceTemp))
+                        {
+                            this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                        }
+                    }
+
+                    if (_finger)
+                    {
+                        if (!string.IsNullOrEmpty(emp.FingerTemp))
+                        {
+                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+                        }
+                    }
+
+                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                }
+
+            }
+
+        }
+
+        public void EnableDevice(bool isEnabled)
+        {
+            this.CZKEM1.EnableDevice(_machineno, isEnabled);
+        }
+
+        public void RefreshData()
+        {
+            this.CZKEM1.RefreshData(_machineno);
+        }
+
+        /// <summary>
+        /// this function will get the bio detail from master data
+        /// </summary>
+        /// <param name="tUserList">List of UserBioInfo</param>
+        /// <param name="RetUserList">return List of UsersBioInfo with err details</param>
         public void Register(List<UserBioInfo> tUserList,out List<UserBioInfo> RetUserList)
         {
             RetUserList = new List<UserBioInfo>();
@@ -737,7 +854,7 @@ namespace Attendance.Classes
         }
 
         /// <summary>
-        /// 
+        /// this function stores bio details in master data if supplied fist para to true
         /// </summary>
         /// <param name="isReqToStore">true ->if Store to master data,else false</param>
         /// <param name="err">out string err</param>
@@ -915,6 +1032,11 @@ namespace Attendance.Classes
 
         }
 
+        /// <summary>
+        /// this function help to download bio details from machine and store to master data
+        /// </summary>
+        /// <param name="tEmpUnqID">EmpUnqID</param>
+        /// <param name="err">out string err</param>
         public void DownloadTemplate(string tEmpUnqID,out string err)
         {
             err = string.Empty;
@@ -1058,6 +1180,12 @@ namespace Attendance.Classes
 
             }
 
+        /// <summary>
+        /// this function help to download bio details from machine and store to master data
+        /// </summary>
+        /// <param name="tUserList">List of UserBioInfo</param>
+        /// <param name="err">out string err</param>
+        /// <param name="RetUserList">out List of UserBioInfo with err</param>
         public void DownloadTemplate(List<UserBioInfo> tUserList, out string err,out List<UserBioInfo> RetUserList)
         {
             err = string.Empty;           

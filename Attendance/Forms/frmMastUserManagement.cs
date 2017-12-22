@@ -303,18 +303,27 @@ namespace Attendance.Forms
             txtOldRFID.Text = x.CardNumber;
             
         }
-
-        private void btnImport_Click(object sender, EventArgs e)
+                        
+        private void btnBulkUpload_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(cmbListMachine2.Text.Trim() ))
+            {
+                MessageBox.Show("Please Select Machine...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            Cursor.Current = Cursors.WaitCursor;
+            if(gv_Upload.DataRowCount <= 0)
+            {
+                 MessageBox.Show("Please Enter EmpUnqID...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            
 
             DataTable dtMaterial = new DataTable();
             DataTable sortedDT = new DataTable();
             try
             {
-
-
                 foreach (GridColumn column in gv_Upload.VisibleColumns)
                 {
                     if (column.FieldName != string.Empty)
@@ -337,24 +346,37 @@ namespace Attendance.Forms
                 dv.Sort = "EmpUnqID asc";
                 sortedDT = dv.ToTable();
 
-                using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
+
+                string ip = cmbListMachine2.Text.Trim();
+                string ioflg = "B";
+                string err;
+                clsMachine m = new clsMachine(ip,ioflg);
+                m.Connect(out err);
+
+                if(!string.IsNullOrEmpty(err)){
+                    MessageBox.Show(err,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    return;
+                }
+                
+                Cursor.Current = Cursors.WaitCursor;
+                LockCtrl();
+                
+                foreach (DataRow dr in sortedDT.Rows)
                 {
-                    con.Open();
-                    foreach (DataRow dr in sortedDT.Rows)
+                    string tEmpUnqID = dr["EmpUnqID"].ToString();
+                    if(string.IsNullOrEmpty(tEmpUnqID))
                     {
-                        string tEmpUnqID = dr["EmpUnqID"].ToString();
+                        dr["Remarks"] = "EmpUnqID Required...";
+                        continue;
+                    }    
+                    err = string.Empty;
+
+                    m.Register(tEmpUnqID,out err);
+                    dr["Remarks"] = (!string.IsNullOrEmpty(err)?err:"Registered");
                         
-
-
-                        
-
-
-                        
-                    }
-
-                    con.Close();
                 }
 
+                m.DisConnect(out err);
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show("file uploaded Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -365,6 +387,7 @@ namespace Attendance.Forms
             grd_Upload.DataMember = ds.Tables[0].TableName;
             grd_Upload.Refresh();
 
+            UnLockCtrl();
             Cursor.Current = Cursors.Default;
         }
 
@@ -378,13 +401,21 @@ namespace Attendance.Forms
 
             btnBrowse.Enabled = false;
 
-            if (GRights.Contains("A") || GRights.Contains("U") || GRights.Contains("D"))
+            if (GRights.Contains("A") || GRights.Contains("U"))
             {
-                btnImport.Enabled = true;
+                btnBulkUpload.Enabled = true;
             }
             else
             {
-                btnImport.Enabled = false;
+                btnBulkUpload.Enabled = false;
+            }
+
+            if(GRights.Contains("D"))
+            {
+                btnBulkDelete.Enabled = true;
+
+            }else{
+                btnBulkDelete.Enabled = false;
             }
 
 
@@ -414,7 +445,7 @@ namespace Attendance.Forms
                 oledbconn.Close();
                 MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
-                btnImport.Enabled = false;
+                btnBulkUpload.Enabled = false;
                 oledbconn.Close();
                 return;
             }
@@ -429,14 +460,25 @@ namespace Attendance.Forms
 
             grd_Upload.DataSource = sortedDT;
 
-            if (GRights.Contains("A") || GRights.Contains("U") || GRights.Contains("D"))
+            if (GRights.Contains("A") || GRights.Contains("U"))
             {
-                btnImport.Enabled = true;
+                btnBulkUpload.Enabled = true;
             }
             else
             {
-                btnImport.Enabled = false;
+                btnBulkUpload.Enabled = false;
             }
+
+            if(GRights.Contains("D"))
+            {
+                btnBulkDelete.Enabled = true;
+            }
+            else
+            {
+                btnBulkDelete.Enabled = false;
+            }
+            
+            gv_Upload.RefreshData();
 
             Cursor.Current = Cursors.Default;
         }
@@ -523,7 +565,7 @@ namespace Attendance.Forms
 
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             grd_Upload.DataSource = null;
-            btnImport.Enabled = false;
+            btnBulkUpload.Enabled = false;
             optMachineType.EditValue = 1;
         }
 
@@ -731,6 +773,7 @@ namespace Attendance.Forms
                 gv_avbl.SetRowCellValue(i, "Remarks", "");
             }
         }
+        
         private void LockCtrl()
         {
             grpButtons1.Enabled = false;
@@ -755,6 +798,7 @@ namespace Attendance.Forms
            
             grpGrid.Enabled = false;
         }
+        
         private void UnLockCtrl()
         {
             grpButtons1.Enabled = true;
@@ -1253,11 +1297,6 @@ namespace Attendance.Forms
 
         }
 
-        private void grpButtons5_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnDelLeftEmp_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtIPAdd2.Text.Trim()))
@@ -1298,6 +1337,244 @@ namespace Attendance.Forms
 
         }
 
+        private void btnCopyUsers_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAddSrc.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(txtIPAddDest.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            if(txtIPAddSrc.Text.Trim() == txtIPAddDest.Text.Trim())
+            {
+                MessageBox.Show("Src And Dest IP is same please enter diff Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string ip = txtIPAddSrc.Text.Trim().ToString();
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            string err = string.Empty;
+            m.Connect(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            
+
+            this.Cursor = Cursors.WaitCursor;
+            LockCtrl();
+
+            List<UserBioInfo> tmpuser = new List<UserBioInfo>();
+            m.DownloadALLUsers(false, out err, out tmpuser);
+            if (!string.IsNullOrEmpty(err))
+            {
+                UnLockCtrl();
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Source IP : " + err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            m.DisConnect(out err);
+
+            err = string.Empty;
+            
+            if (tmpuser.Count > 0)
+            {
+                ip = txtIPAddDest.Text.Trim();
+                ioflg = "B";
+                m = new clsMachine(ip, ioflg);
+                m.Connect(out err);
+                
+                if(!string.IsNullOrEmpty(err)){
+                    UnLockCtrl();
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show("Dest. IP : " + err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string allerr = string.Empty;
+                m.EnableDevice(false);
+                foreach (UserBioInfo emp in tmpuser)
+                {
+                    if (emp.Previlege == 3)
+                        continue;
+
+                    m.Register(emp, out err);
+                    
+                    if(!string.IsNullOrEmpty(err))
+                    {
+                        allerr += emp.UserID + ":" + err ;
+                    }
+                }
+
+                m.EnableDevice(true);
+                m.RefreshData();
+                m.DisConnect(out err);
+
+                
+                if (!string.IsNullOrEmpty(allerr))
+                {
+                    UnLockCtrl();
+                    this.Cursor = Cursors.Default;
+                    MessageBox.Show(allerr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                
+                UnLockCtrl();
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("No Users Found", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            UnLockCtrl();
+            this.Cursor = Cursors.Default;
+            MessageBox.Show("Process Completed..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+       
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openKeywordsFileDialog = new OpenFileDialog();
+            openKeywordsFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openKeywordsFileDialog.Multiselect = false;
+            openKeywordsFileDialog.ValidateNames = true;
+            //openKeywordsFileDialog.CheckFileExists = true;
+            openKeywordsFileDialog.DereferenceLinks = false;        //Will return .lnk in shortcuts.
+            openKeywordsFileDialog.Filter = "Files|*.xls;*.xlsx;*.xlsb";
+            openKeywordsFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(OpenKeywordsFileDialog_FileOk);
+            var dialogResult = openKeywordsFileDialog.ShowDialog();
+
+            if (dialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                //first check if already exits if found return..
+                string filenm = openKeywordsFileDialog.FileName.ToString();
+                if (string.IsNullOrEmpty(filenm))
+                    return;
+                try
+                {
+                    txtBrowse.Text = openKeywordsFileDialog.FileName;
+                }
+                catch (Exception ex)
+                {
+                    txtBrowse.Text = "";
+                }
+            }
+            else
+            {
+                txtBrowse.Text = "";
+            }
+        }
+
+        void OpenKeywordsFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            OpenFileDialog fileDialog = sender as OpenFileDialog;
+            string selectedFile = fileDialog.FileName;
+            if (string.IsNullOrEmpty(selectedFile) || selectedFile.Contains(".lnk"))
+            {
+                MessageBox.Show("Please select a valid File");
+                e.Cancel = true;
+            }
+            return;
+        }
+
+        private void btnBulkDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cmbListMachine2.Text.Trim()))
+            {
+                MessageBox.Show("Please Select Machine...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (gv_Upload.DataRowCount <= 0)
+            {
+                MessageBox.Show("Please Enter EmpUnqID...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+
+            DataTable dtMaterial = new DataTable();
+            DataTable sortedDT = new DataTable();
+            try
+            {
+                foreach (GridColumn column in gv_Upload.VisibleColumns)
+                {
+                    if (column.FieldName != string.Empty)
+                        dtMaterial.Columns.Add(column.FieldName, column.ColumnType);
+                }
+
+
+                for (int i = 0; i < gv_Upload.DataRowCount; i++)
+                {
+                    DataRow row = dtMaterial.NewRow();
+
+                    foreach (GridColumn column in gv_Upload.VisibleColumns)
+                    {
+                        row[column.FieldName] = gv_Upload.GetRowCellValue(i, column);
+                    }
+                    dtMaterial.Rows.Add(row);
+                }
+
+                DataView dv = dtMaterial.DefaultView;
+                dv.Sort = "EmpUnqID asc";
+                sortedDT = dv.ToTable();
+
+
+                string ip = cmbListMachine2.Text.Trim();
+                string ioflg = "B";
+                string err;
+                clsMachine m = new clsMachine(ip, ioflg);
+                m.Connect(out err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Cursor.Current = Cursors.WaitCursor;
+                LockCtrl();
+
+                foreach (DataRow dr in sortedDT.Rows)
+                {
+                    string tEmpUnqID = dr["EmpUnqID"].ToString();
+                    if (string.IsNullOrEmpty(tEmpUnqID))
+                    {
+                        dr["Remarks"] = "EmpUnqID Required...";
+                        continue;
+                    }
+                    err = string.Empty;
+
+                    m.DeleteUser(tEmpUnqID, out err);
+                    dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Deleted");
+
+                }
+
+                m.DisConnect(out err);
+                Cursor.Current = Cursors.Default;
+                MessageBox.Show("file processed Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            DataSet ds = new DataSet();
+            ds.Tables.Add(sortedDT);
+            grd_Upload.DataSource = ds;
+            grd_Upload.DataMember = ds.Tables[0].TableName;
+            grd_Upload.Refresh();
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.Default;
+        }
+        
     }
 }

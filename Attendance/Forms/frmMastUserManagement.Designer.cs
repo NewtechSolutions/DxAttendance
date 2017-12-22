@@ -95,46 +95,50 @@
             this.tbp_Other = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Other = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnUpdateRFID = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtNewRFID = new DevExpress.XtraEditors.TextEdit();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtOldRFID = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons5 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnDelLeftEmp = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtIPAdd2 = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons4 = new System.Windows.Forms.GroupBox();
+            this.lblReqNo = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.btnGetExcelUser = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtIPAdd1 = new DevExpress.XtraEditors.TextEdit();
+            this.label12 = new System.Windows.Forms.Label();
             this.tbp_Misc = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Misc = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons9 = new System.Windows.Forms.GroupBox();
             this.grpButtons6 = new System.Windows.Forms.GroupBox();
+            this.btnCopyUsers = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtIPAddDest = new DevExpress.XtraEditors.TextEdit();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtIPAddSrc = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons8 = new System.Windows.Forms.GroupBox();
             this.grpButtons7 = new System.Windows.Forms.GroupBox();
             this.tbp_Upload = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Upload = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons10 = new DevExpress.XtraEditors.GroupControl();
+            this.btnBulkDelete = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbListMachine2 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
+            this.btnBulkUpload = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.txtOldRFID = new DevExpress.XtraEditors.TextEdit();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtNewRFID = new DevExpress.XtraEditors.TextEdit();
-            this.label8 = new System.Windows.Forms.Label();
-            this.btnUpdateRFID = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtIPAdd1 = new DevExpress.XtraEditors.TextEdit();
-            this.btnGetExcelUser = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
-            this.lblReqNo = new System.Windows.Forms.Label();
-            this.btnDelLeftEmp = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtIPAdd2 = new DevExpress.XtraEditors.TextEdit();
-            this.label16 = new System.Windows.Forms.Label();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -173,10 +177,17 @@
             this.tbp_Other.SuspendLayout();
             this.tblp_Other.SuspendLayout();
             this.grpButtons3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).BeginInit();
             this.grpButtons5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).BeginInit();
             this.grpButtons4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).BeginInit();
             this.tbp_Misc.SuspendLayout();
             this.tblp_Misc.SuspendLayout();
+            this.grpButtons6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddDest.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc.Properties)).BeginInit();
             this.tbp_Upload.SuspendLayout();
             this.tblp_Upload.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpButtons10)).BeginInit();
@@ -185,10 +196,6 @@
             this.grpButtons11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tblp
@@ -1136,6 +1143,75 @@
             this.grpButtons3.TabStop = false;
             this.grpButtons3.Text = "Add New/Change RFID Card Number in Data";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(31, 126);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(326, 14);
+            this.label11.TabIndex = 71;
+            this.label11.Text = "* Please Register Employee to machine after RFID Change";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(31, 104);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(200, 14);
+            this.label9.TabIndex = 70;
+            this.label9.Text = "* Enter EmpUnqID in Left Side Box";
+            // 
+            // btnUpdateRFID
+            // 
+            this.btnUpdateRFID.Location = new System.Drawing.Point(318, 43);
+            this.btnUpdateRFID.Name = "btnUpdateRFID";
+            this.btnUpdateRFID.Size = new System.Drawing.Size(118, 50);
+            this.btnUpdateRFID.TabIndex = 69;
+            this.btnUpdateRFID.Text = "Update";
+            this.btnUpdateRFID.UseVisualStyleBackColor = true;
+            this.btnUpdateRFID.Click += new System.EventHandler(this.btnUpdateRFID_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(31, 75);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(116, 14);
+            this.label8.TabIndex = 68;
+            this.label8.Text = "New RFID Card No :";
+            // 
+            // txtNewRFID
+            // 
+            this.txtNewRFID.EditValue = "";
+            this.txtNewRFID.Location = new System.Drawing.Point(153, 72);
+            this.txtNewRFID.Name = "txtNewRFID";
+            this.txtNewRFID.Properties.Mask.EditMask = "[0-9]+";
+            this.txtNewRFID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtNewRFID.Properties.MaxLength = 15;
+            this.txtNewRFID.Size = new System.Drawing.Size(159, 20);
+            this.txtNewRFID.TabIndex = 67;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(38, 47);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(109, 14);
+            this.label7.TabIndex = 66;
+            this.label7.Text = "Old RFID Card No :";
+            // 
+            // txtOldRFID
+            // 
+            this.txtOldRFID.Location = new System.Drawing.Point(153, 45);
+            this.txtOldRFID.Name = "txtOldRFID";
+            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtOldRFID.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtOldRFID.Properties.ReadOnly = true;
+            this.txtOldRFID.Size = new System.Drawing.Size(159, 20);
+            this.txtOldRFID.TabIndex = 3;
+            this.txtOldRFID.TabStop = false;
+            // 
             // grpButtons5
             // 
             this.grpButtons5.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -1150,7 +1226,45 @@
             this.grpButtons5.TabIndex = 1;
             this.grpButtons5.TabStop = false;
             this.grpButtons5.Text = "Delete Left Employee From Machine";
-            this.grpButtons5.Enter += new System.EventHandler(this.grpButtons5_Enter);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(7, 109);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(314, 14);
+            this.label16.TabIndex = 75;
+            this.label16.Text = "This Function will delete all left employee from machine.";
+            // 
+            // btnDelLeftEmp
+            // 
+            this.btnDelLeftEmp.Location = new System.Drawing.Point(321, 32);
+            this.btnDelLeftEmp.Name = "btnDelLeftEmp";
+            this.btnDelLeftEmp.Size = new System.Drawing.Size(118, 23);
+            this.btnDelLeftEmp.TabIndex = 74;
+            this.btnDelLeftEmp.Text = "Delete";
+            this.btnDelLeftEmp.UseVisualStyleBackColor = true;
+            this.btnDelLeftEmp.Click += new System.EventHandler(this.btnDelLeftEmp_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(77, 37);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(73, 14);
+            this.label15.TabIndex = 73;
+            this.label15.Text = "IP Address :";
+            // 
+            // txtIPAdd2
+            // 
+            this.txtIPAdd2.EditValue = "";
+            this.txtIPAdd2.Location = new System.Drawing.Point(156, 35);
+            this.txtIPAdd2.Name = "txtIPAdd2";
+            this.txtIPAdd2.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAdd2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAdd2.Properties.MaxLength = 15;
+            this.txtIPAdd2.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAdd2.TabIndex = 72;
             // 
             // grpButtons4
             // 
@@ -1168,6 +1282,62 @@
             this.grpButtons4.TabIndex = 2;
             this.grpButtons4.TabStop = false;
             this.grpButtons4.Text = "Download All Users From Single Machine To Excel File";
+            // 
+            // lblReqNo
+            // 
+            this.lblReqNo.AutoSize = true;
+            this.lblReqNo.Location = new System.Drawing.Point(153, 50);
+            this.lblReqNo.Name = "lblReqNo";
+            this.lblReqNo.Size = new System.Drawing.Size(0, 14);
+            this.lblReqNo.TabIndex = 73;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(88, 51);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(59, 14);
+            this.label14.TabIndex = 72;
+            this.label14.Text = "Req. No :";
+            // 
+            // btnGetExcelUser
+            // 
+            this.btnGetExcelUser.Location = new System.Drawing.Point(318, 21);
+            this.btnGetExcelUser.Name = "btnGetExcelUser";
+            this.btnGetExcelUser.Size = new System.Drawing.Size(118, 23);
+            this.btnGetExcelUser.TabIndex = 71;
+            this.btnGetExcelUser.Text = "Download";
+            this.btnGetExcelUser.UseVisualStyleBackColor = true;
+            this.btnGetExcelUser.Click += new System.EventHandler(this.btnGetExcelUser_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(74, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(73, 14);
+            this.label13.TabIndex = 70;
+            this.label13.Text = "IP Address :";
+            // 
+            // txtIPAdd1
+            // 
+            this.txtIPAdd1.EditValue = "";
+            this.txtIPAdd1.Location = new System.Drawing.Point(153, 24);
+            this.txtIPAdd1.Name = "txtIPAdd1";
+            this.txtIPAdd1.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAdd1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAdd1.Properties.MaxLength = 15;
+            this.txtIPAdd1.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAdd1.TabIndex = 69;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 95);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(438, 14);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Use -> Monthly Report \\ Machine Wise Employee Report with your request No";
             // 
             // tbp_Misc
             // 
@@ -1209,12 +1379,68 @@
             // grpButtons6
             // 
             this.grpButtons6.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons6.Controls.Add(this.btnCopyUsers);
+            this.grpButtons6.Controls.Add(this.label18);
+            this.grpButtons6.Controls.Add(this.txtIPAddDest);
+            this.grpButtons6.Controls.Add(this.label17);
+            this.grpButtons6.Controls.Add(this.txtIPAddSrc);
             this.grpButtons6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons6.Location = new System.Drawing.Point(3, 3);
             this.grpButtons6.Name = "grpButtons6";
             this.grpButtons6.Size = new System.Drawing.Size(650, 110);
             this.grpButtons6.TabIndex = 0;
             this.grpButtons6.TabStop = false;
+            this.grpButtons6.Text = "Copy Users From One Machine to Other";
+            // 
+            // btnCopyUsers
+            // 
+            this.btnCopyUsers.Location = new System.Drawing.Point(339, 47);
+            this.btnCopyUsers.Name = "btnCopyUsers";
+            this.btnCopyUsers.Size = new System.Drawing.Size(118, 47);
+            this.btnCopyUsers.TabIndex = 75;
+            this.btnCopyUsers.Text = "Copy";
+            this.btnCopyUsers.UseVisualStyleBackColor = true;
+            this.btnCopyUsers.Click += new System.EventHandler(this.btnCopyUsers_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(30, 77);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(138, 14);
+            this.label18.TabIndex = 74;
+            this.label18.Text = "Destination IP Address :";
+            // 
+            // txtIPAddDest
+            // 
+            this.txtIPAddDest.EditValue = "";
+            this.txtIPAddDest.Location = new System.Drawing.Point(174, 75);
+            this.txtIPAddDest.Name = "txtIPAddDest";
+            this.txtIPAddDest.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAddDest.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAddDest.Properties.MaxLength = 15;
+            this.txtIPAddDest.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAddDest.TabIndex = 73;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(30, 51);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(115, 14);
+            this.label17.TabIndex = 72;
+            this.label17.Text = "Source IP Address :";
+            // 
+            // txtIPAddSrc
+            // 
+            this.txtIPAddSrc.EditValue = "";
+            this.txtIPAddSrc.Location = new System.Drawing.Point(174, 48);
+            this.txtIPAddSrc.Name = "txtIPAddSrc";
+            this.txtIPAddSrc.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAddSrc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAddSrc.Properties.MaxLength = 15;
+            this.txtIPAddSrc.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAddSrc.TabIndex = 71;
             // 
             // grpButtons8
             // 
@@ -1262,11 +1488,12 @@
             // 
             this.grpButtons10.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpButtons10.Appearance.Options.UseFont = true;
+            this.grpButtons10.Controls.Add(this.btnBulkDelete);
             this.grpButtons10.Controls.Add(this.label5);
             this.grpButtons10.Controls.Add(this.cmbListMachine2);
             this.grpButtons10.Controls.Add(this.btnExport);
             this.grpButtons10.Controls.Add(this.btnPreview);
-            this.grpButtons10.Controls.Add(this.btnImport);
+            this.grpButtons10.Controls.Add(this.btnBulkUpload);
             this.grpButtons10.Controls.Add(this.btnBrowse);
             this.grpButtons10.Controls.Add(this.txtBrowse);
             this.grpButtons10.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1275,6 +1502,16 @@
             this.grpButtons10.Size = new System.Drawing.Size(650, 84);
             this.grpButtons10.TabIndex = 3;
             this.grpButtons10.Text = "Import File";
+            // 
+            // btnBulkDelete
+            // 
+            this.btnBulkDelete.Location = new System.Drawing.Point(509, 50);
+            this.btnBulkDelete.Name = "btnBulkDelete";
+            this.btnBulkDelete.Size = new System.Drawing.Size(113, 23);
+            this.btnBulkDelete.TabIndex = 95;
+            this.btnBulkDelete.Text = "Delete Users";
+            this.btnBulkDelete.UseVisualStyleBackColor = true;
+            this.btnBulkDelete.Click += new System.EventHandler(this.btnBulkDelete_Click);
             // 
             // label5
             // 
@@ -1297,12 +1534,13 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(468, 50);
+            this.btnExport.Location = new System.Drawing.Point(548, 23);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(74, 23);
             this.btnExport.TabIndex = 4;
             this.btnExport.Text = "E&xport";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnPreview
             // 
@@ -1310,17 +1548,19 @@
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(74, 23);
             this.btnPreview.TabIndex = 3;
-            this.btnPreview.Text = "Import";
+            this.btnPreview.Text = "Preview";
             this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // btnImport
+            // btnBulkUpload
             // 
-            this.btnImport.Location = new System.Drawing.Point(387, 50);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(74, 23);
-            this.btnImport.TabIndex = 2;
-            this.btnImport.Text = "Upload";
-            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnBulkUpload.Location = new System.Drawing.Point(387, 50);
+            this.btnBulkUpload.Name = "btnBulkUpload";
+            this.btnBulkUpload.Size = new System.Drawing.Size(113, 23);
+            this.btnBulkUpload.TabIndex = 2;
+            this.btnBulkUpload.Text = "Upload Users";
+            this.btnBulkUpload.UseVisualStyleBackColor = true;
+            this.btnBulkUpload.Click += new System.EventHandler(this.btnBulkUpload_Click);
             // 
             // btnBrowse
             // 
@@ -1330,6 +1570,7 @@
             this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtBrowse
             // 
@@ -1362,9 +1603,6 @@
             // 
             // gv_Upload
             // 
-            this.gv_Upload.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.EmpUnqID,
-            this.gridColumn1});
             this.gv_Upload.GridControl = this.grd_Upload;
             this.gv_Upload.Name = "gv_Upload";
             this.gv_Upload.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -1394,192 +1632,6 @@
             this.gv_Upload.OptionsView.ShowDetailButtons = false;
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
-            // 
-            // EmpUnqID
-            // 
-            this.EmpUnqID.Caption = "EmpUnqID";
-            this.EmpUnqID.FieldName = "EmpUnqID";
-            this.EmpUnqID.Name = "EmpUnqID";
-            this.EmpUnqID.OptionsColumn.AllowEdit = false;
-            this.EmpUnqID.OptionsColumn.AllowFocus = false;
-            this.EmpUnqID.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.EmpUnqID.OptionsColumn.AllowMove = false;
-            this.EmpUnqID.OptionsColumn.AllowShowHide = false;
-            this.EmpUnqID.OptionsColumn.AllowSize = false;
-            this.EmpUnqID.OptionsColumn.FixedWidth = true;
-            this.EmpUnqID.OptionsColumn.ReadOnly = true;
-            this.EmpUnqID.Width = 135;
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "Remarks";
-            this.gridColumn1.FieldName = "Remarks";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Width = 943;
-            // 
-            // txtOldRFID
-            // 
-            this.txtOldRFID.Location = new System.Drawing.Point(153, 45);
-            this.txtOldRFID.Name = "txtOldRFID";
-            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtOldRFID.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtOldRFID.Properties.AppearanceReadOnly.Options.UseBackColor = true;
-            this.txtOldRFID.Properties.ReadOnly = true;
-            this.txtOldRFID.Size = new System.Drawing.Size(159, 20);
-            this.txtOldRFID.TabIndex = 3;
-            this.txtOldRFID.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(38, 47);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(109, 14);
-            this.label7.TabIndex = 66;
-            this.label7.Text = "Old RFID Card No :";
-            // 
-            // txtNewRFID
-            // 
-            this.txtNewRFID.EditValue = "";
-            this.txtNewRFID.Location = new System.Drawing.Point(153, 72);
-            this.txtNewRFID.Name = "txtNewRFID";
-            this.txtNewRFID.Properties.Mask.EditMask = "[0-9]+";
-            this.txtNewRFID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtNewRFID.Properties.MaxLength = 15;
-            this.txtNewRFID.Size = new System.Drawing.Size(159, 20);
-            this.txtNewRFID.TabIndex = 67;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(31, 75);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(116, 14);
-            this.label8.TabIndex = 68;
-            this.label8.Text = "New RFID Card No :";
-            // 
-            // btnUpdateRFID
-            // 
-            this.btnUpdateRFID.Location = new System.Drawing.Point(318, 43);
-            this.btnUpdateRFID.Name = "btnUpdateRFID";
-            this.btnUpdateRFID.Size = new System.Drawing.Size(118, 50);
-            this.btnUpdateRFID.TabIndex = 69;
-            this.btnUpdateRFID.Text = "Update";
-            this.btnUpdateRFID.UseVisualStyleBackColor = true;
-            this.btnUpdateRFID.Click += new System.EventHandler(this.btnUpdateRFID_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(31, 104);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(200, 14);
-            this.label9.TabIndex = 70;
-            this.label9.Text = "* Enter EmpUnqID in Left Side Box";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(31, 126);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(326, 14);
-            this.label11.TabIndex = 71;
-            this.label11.Text = "* Please Register Employee to machine after RFID Change";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 95);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(438, 14);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Use -> Monthly Report \\ Machine Wise Employee Report with your request No";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(74, 26);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(73, 14);
-            this.label13.TabIndex = 70;
-            this.label13.Text = "IP Address :";
-            // 
-            // txtIPAdd1
-            // 
-            this.txtIPAdd1.EditValue = "";
-            this.txtIPAdd1.Location = new System.Drawing.Point(153, 24);
-            this.txtIPAdd1.Name = "txtIPAdd1";
-            this.txtIPAdd1.Properties.Mask.EditMask = "[0-9.]+";
-            this.txtIPAdd1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtIPAdd1.Properties.MaxLength = 15;
-            this.txtIPAdd1.Size = new System.Drawing.Size(159, 20);
-            this.txtIPAdd1.TabIndex = 69;
-            // 
-            // btnGetExcelUser
-            // 
-            this.btnGetExcelUser.Location = new System.Drawing.Point(318, 21);
-            this.btnGetExcelUser.Name = "btnGetExcelUser";
-            this.btnGetExcelUser.Size = new System.Drawing.Size(118, 23);
-            this.btnGetExcelUser.TabIndex = 71;
-            this.btnGetExcelUser.Text = "Download";
-            this.btnGetExcelUser.UseVisualStyleBackColor = true;
-            this.btnGetExcelUser.Click += new System.EventHandler(this.btnGetExcelUser_Click);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(88, 51);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 14);
-            this.label14.TabIndex = 72;
-            this.label14.Text = "Req. No :";
-            // 
-            // lblReqNo
-            // 
-            this.lblReqNo.AutoSize = true;
-            this.lblReqNo.Location = new System.Drawing.Point(153, 50);
-            this.lblReqNo.Name = "lblReqNo";
-            this.lblReqNo.Size = new System.Drawing.Size(0, 14);
-            this.lblReqNo.TabIndex = 73;
-            // 
-            // btnDelLeftEmp
-            // 
-            this.btnDelLeftEmp.Location = new System.Drawing.Point(321, 32);
-            this.btnDelLeftEmp.Name = "btnDelLeftEmp";
-            this.btnDelLeftEmp.Size = new System.Drawing.Size(118, 23);
-            this.btnDelLeftEmp.TabIndex = 74;
-            this.btnDelLeftEmp.Text = "Delete";
-            this.btnDelLeftEmp.UseVisualStyleBackColor = true;
-            this.btnDelLeftEmp.Click += new System.EventHandler(this.btnDelLeftEmp_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(77, 37);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(73, 14);
-            this.label15.TabIndex = 73;
-            this.label15.Text = "IP Address :";
-            // 
-            // txtIPAdd2
-            // 
-            this.txtIPAdd2.EditValue = "";
-            this.txtIPAdd2.Location = new System.Drawing.Point(156, 35);
-            this.txtIPAdd2.Name = "txtIPAdd2";
-            this.txtIPAdd2.Properties.Mask.EditMask = "[0-9.]+";
-            this.txtIPAdd2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtIPAdd2.Properties.MaxLength = 15;
-            this.txtIPAdd2.Size = new System.Drawing.Size(159, 20);
-            this.txtIPAdd2.TabIndex = 72;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(7, 109);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(314, 14);
-            this.label16.TabIndex = 75;
-            this.label16.Text = "This Function will delete all left employee from machine.";
             // 
             // frmMastUserManagement
             // 
@@ -1633,12 +1685,20 @@
             this.tblp_Other.ResumeLayout(false);
             this.grpButtons3.ResumeLayout(false);
             this.grpButtons3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).EndInit();
             this.grpButtons5.ResumeLayout(false);
             this.grpButtons5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).EndInit();
             this.grpButtons4.ResumeLayout(false);
             this.grpButtons4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).EndInit();
             this.tbp_Misc.ResumeLayout(false);
             this.tblp_Misc.ResumeLayout(false);
+            this.grpButtons6.ResumeLayout(false);
+            this.grpButtons6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddDest.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc.Properties)).EndInit();
             this.tbp_Upload.ResumeLayout(false);
             this.tblp_Upload.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grpButtons10)).EndInit();
@@ -1648,10 +1708,6 @@
             this.grpButtons11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOldRFID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtNewRFID.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtIPAdd2.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1735,7 +1791,7 @@
         private DevExpress.XtraEditors.GroupControl grpButtons10;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnPreview;
-        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnBulkUpload;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtBrowse;
         private System.Windows.Forms.Label label5;
@@ -1743,8 +1799,6 @@
         private System.Windows.Forms.GroupBox grpButtons9;
         private DevExpress.XtraGrid.GridControl grd_Upload;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_Upload;
-        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.GridControl grd_Emp;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_Emp;
         private System.Windows.Forms.Label lblDownAll;
@@ -1765,5 +1819,11 @@
         private System.Windows.Forms.Label label15;
         public DevExpress.XtraEditors.TextEdit txtIPAdd2;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnCopyUsers;
+        private System.Windows.Forms.Label label18;
+        public DevExpress.XtraEditors.TextEdit txtIPAddDest;
+        private System.Windows.Forms.Label label17;
+        public DevExpress.XtraEditors.TextEdit txtIPAddSrc;
+        private System.Windows.Forms.Button btnBulkDelete;
     }
 }
