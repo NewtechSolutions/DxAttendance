@@ -245,9 +245,9 @@ namespace Attendance.Classes
             m_tft = CZKEM1.IsTFTMachine(_machineno);
             
             //'Prepare File Name for writing log data
-            CZKEM1.GetDeviceTime(_machineno, ref idwYear, ref idwMonth, ref idwDay, ref idwHour, ref idwMinute, ref idwSecond);
+            //CZKEM1.GetDeviceTime(_machineno, ref idwYear, ref idwMonth, ref idwDay, ref idwHour, ref idwMinute, ref idwSecond);
             string filepath = Utils.Helper.GetLogFilePath();
-            string filenm = "AttdLog_" + idwDay.ToString() + "_" + idwMonth.ToString() + "_" + idwYear.ToString() + "_" + idwHour.ToString() + "_" + idwMinute.ToString() + ".txt";
+            string filenm = "AttdLog_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss") + "-[" + _ip.Replace(".","_") + "].txt";
             string fullpath = Path.Combine(filepath, filenm);
                         
             CZKEM1.EnableDevice(_machineno, false);//disable the device
@@ -307,7 +307,7 @@ namespace Attendance.Classes
             else
             {
                 
-                CZKEM1.GetLastError(ref _LastErrCode);
+                this.CZKEM1.GetLastError(ref _LastErrCode);
 
                 if (_LastErrCode != 0)
                 {
@@ -320,7 +320,7 @@ namespace Attendance.Classes
                 
             }
 
-            CZKEM1.EnableDevice(_machineno, true);//enable the device
+            this.CZKEM1.EnableDevice(_machineno, true);//enable the device
 
             //write text file and also store in db
             foreach (AttdLog t in AttdLogRec)
@@ -330,7 +330,7 @@ namespace Attendance.Classes
                 {
                     t.Error = dberr;
 
-                    err += t.EmpUnqID + " : " + dberr + Environment.NewLine;
+                    err += "Error while store to db : " + t.EmpUnqID + " : " + dberr + Environment.NewLine;
                 }
 
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
@@ -341,7 +341,9 @@ namespace Attendance.Classes
 
             if (this._autoclear)
             {
-                AttdLogClear(out err);
+                string terr = string.Empty;
+                AttdLogClear(out terr);
+                err += terr;
             }
         }
 
@@ -405,7 +407,7 @@ namespace Attendance.Classes
                 return;
             }
 
-            err = "Not Implemented..";
+            err = "Auto Clear Not Implemented..";
             return;
 
 
@@ -680,7 +682,7 @@ namespace Attendance.Classes
                 return;
             }
 
-            if (string.IsNullOrEmpty(emp.UserID)) ;
+            if (string.IsNullOrEmpty(emp.UserID)) 
             {
                 err = "UserID is required...";
                 return;

@@ -105,6 +105,10 @@
             this.mnuMessDataProcess = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDataDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRFIDUser = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuStatus = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuServerStat = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserID = new System.Windows.Forms.ToolStripStatusLabel();
@@ -123,7 +127,9 @@
             this.mnuMast,
             this.mnuCostCent,
             this.mnuTranS,
-            this.mnuData});
+            this.mnuData,
+            this.mnuStatus,
+            this.mnuHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1100, 24);
@@ -732,6 +738,36 @@
             this.mnuRFIDUser.Text = "User Management";
             this.mnuRFIDUser.Click += new System.EventHandler(this.mnuRFIDUser_Click);
             // 
+            // mnuStatus
+            // 
+            this.mnuStatus.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuServerStat});
+            this.mnuStatus.Name = "mnuStatus";
+            this.mnuStatus.Size = new System.Drawing.Size(86, 20);
+            this.mnuStatus.Text = "Server Status";
+            // 
+            // mnuServerStat
+            // 
+            this.mnuServerStat.Name = "mnuServerStat";
+            this.mnuServerStat.Size = new System.Drawing.Size(153, 22);
+            this.mnuServerStat.Text = "Status Window";
+            this.mnuServerStat.Click += new System.EventHandler(this.mnuServerStat_Click);
+            // 
+            // mnuHelp
+            // 
+            this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAbout});
+            this.mnuHelp.Name = "mnuHelp";
+            this.mnuHelp.Size = new System.Drawing.Size(44, 20);
+            this.mnuHelp.Text = "Help";
+            // 
+            // mnuAbout
+            // 
+            this.mnuAbout.Name = "mnuAbout";
+            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Text = "About";
+            this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -787,6 +823,7 @@
             this.Name = "frmMain";
             this.Text = "Attendance System";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -882,6 +919,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuOtherConfig;
         private System.Windows.Forms.ToolStripMenuItem mnuMessInOutMachine;
         private System.Windows.Forms.ToolStripMenuItem mnuAutoMailSender;
+        private System.Windows.Forms.ToolStripMenuItem mnuStatus;
+        private System.Windows.Forms.ToolStripMenuItem mnuServerStat;
+        private System.Windows.Forms.ToolStripMenuItem mnuHelp;
+        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
 
 
     }

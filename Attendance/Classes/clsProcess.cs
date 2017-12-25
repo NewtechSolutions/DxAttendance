@@ -870,6 +870,59 @@ namespace Attendance
             }//using connection
         }
 
+        public void ArrivalProcess(DateTime tFromDt, DateTime tToDate, out int result)
+        {
+            result = 0;
+
+            
+            if (tToDate < tFromDt)
+            {
+                return;
+            }
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Attd_Process_Arrival";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.Int32;
+                        spout.ParameterName = "@result";
+                        int tout = 0;
+                        spout.Value = tout;
+
+
+                        cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
+                        cmd.Parameters.AddWithValue("@pToDt", tToDate);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (int)cmd.Parameters["@result"].Value;
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }//using connection
+        }
+
         public void CalcShiftOT(SqlDataAdapter daAttdData, DataSet dsAttdData, DataRow drAttd, clsEmp Emp, string tSchShift, out string err)
         {
             err = string.Empty;

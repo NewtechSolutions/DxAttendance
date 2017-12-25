@@ -20,6 +20,8 @@ namespace Attendance.Forms
         private string GNetWorkDomain = string.Empty;
         private string GNetWorkUser = string.Empty;
         private DataSet dsAutoTime = new DataSet();
+        private DataSet dsAutoTimeLog = new DataSet();
+
         public frmOtherConfig()
         {
             InitializeComponent();
@@ -116,11 +118,15 @@ namespace Attendance.Forms
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             
             DisplayData();
-            LoadGrid();
+            
+            LoadGrid_AutoTimeSet();
+            LoadGrid_AutoLog();
+            LoadGrid_AutoArrival();
+
             SetRights();
         }
 
-        private void LoadGrid()
+        private void LoadGrid_AutoTimeSet()
         {
             dsAutoTime = Utils.Helper.GetData("select * from AutoTimeSet", Utils.Helper.constr);
             bool hasRows = dsAutoTime.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
@@ -138,6 +144,43 @@ namespace Attendance.Forms
             }
         }
 
+        private void LoadGrid_AutoLog()
+        {
+            dsAutoTimeLog = Utils.Helper.GetData("select * from AutoTimeLog", Utils.Helper.constr);
+            bool hasRows = dsAutoTimeLog.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                grd_Log.DataSource = dsAutoTimeLog;
+                grd_Log.DataMember = dsAutoTimeLog.Tables[0].TableName;
+                grd_Log.Refresh();
+            }
+            else
+            {
+                grd_Log.DataSource = null;
+                grd_Log.Refresh();
+            }
+        }
+        
+        private void LoadGrid_AutoArrival()
+        {
+            dsAutoTimeLog = Utils.Helper.GetData("select * from AutoTimeArrival", Utils.Helper.constr);
+            bool hasRows = dsAutoTimeLog.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                grd_arrival.DataSource = dsAutoTimeLog;
+                grd_arrival.DataMember = dsAutoTimeLog.Tables[0].TableName;
+                grd_arrival.Refresh();
+            }
+            else
+            {
+                grd_arrival.DataSource = null;
+                grd_arrival.Refresh();
+            }
+
+        }
+
         private void DoRowDoubleClick(GridView view, Point pt)
         {
             GridHitInfo info = view.CalcHitInfo(pt);
@@ -148,6 +191,26 @@ namespace Attendance.Forms
             }
 
 
+        }
+
+        private void DoRowDoubleClick2(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                txtLogTime.EditValue = gv_Log.GetRowCellValue(info.RowHandle, "SchTime").ToString();
+            }
+        }
+
+        private void DoRowDoubleClick3(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                txtArrSch.EditValue = gv_arrival.GetRowCellValue(info.RowHandle, "SchTime").ToString();
+                txtFromTime.EditValue = gv_arrival.GetRowCellValue(info.RowHandle, "FromTime").ToString();
+                txtToTime.EditValue = gv_arrival.GetRowCellValue(info.RowHandle, "ToTime").ToString();
+            }
         }
 
         private void DisplayData()
@@ -223,17 +286,45 @@ namespace Attendance.Forms
             {
                 btnUpdateSan.Enabled = false;
                 btnUpdateNetwork.Enabled = false;
+                
+                btnAddArrival.Enabled = false;
+                btnDelArrival.Enabled = false;
+
+                btnTimeAdd.Enabled = false;
+                btnTimeDel.Enabled = false;
+
+                btnTimeAdd_Log.Enabled = false;
+                btnTimeDel_Log.Enabled = false;
+
             }
-            else if (GRights.Contains("AU"))
+            else if (GRights.Contains("AUD"))
             {
                 btnUpdateSan.Enabled = true;
                 btnUpdateNetwork.Enabled = true;
+
+                btnAddArrival.Enabled = true;
+                btnDelArrival.Enabled = true;
+
+                btnTimeAdd.Enabled = true;
+                btnTimeDel.Enabled = true;
+
+                btnTimeAdd_Log.Enabled = true;
+                btnTimeDel_Log.Enabled = true;
 
             }
             else
             {
                 btnUpdateSan.Enabled = false;
                 btnUpdateNetwork.Enabled = false;
+
+                btnAddArrival.Enabled = false;
+                btnDelArrival.Enabled = false;
+
+                btnTimeAdd.Enabled = false;
+                btnTimeDel.Enabled = false;
+
+                btnTimeAdd_Log.Enabled = false;
+                btnTimeDel_Log.Enabled = false;
             }
         }
 
@@ -329,6 +420,7 @@ namespace Attendance.Forms
             }
         }
 
+        
         private void btnTimeAdd_Click(object sender, EventArgs e)
         {
             if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
@@ -355,7 +447,7 @@ namespace Attendance.Forms
                         cmd.ExecuteNonQuery();
 
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadGrid();
+                        LoadGrid_AutoTimeSet();
                     }
                 }
                 catch (Exception ex)
@@ -393,7 +485,7 @@ namespace Attendance.Forms
                         if (t > 0)
                         {
                             MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadGrid();
+                            LoadGrid_AutoTimeSet();
                         }
                         
                     }
@@ -410,6 +502,207 @@ namespace Attendance.Forms
             GridView view = (GridView)sender;
             Point pt = view.GridControl.PointToClient(Control.MousePosition);
             DoRowDoubleClick(view, pt);
+        }
+
+        
+        private void btnTimeAdd_Log_Click(object sender, EventArgs e)
+        {
+            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
+            {
+                string msg = "Please Specify Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                        string sql = "";
+                        sql = "Insert into AutoTimeLog (SchTime,AddDt,AddID) Values ('" + txtLogTime.Time.ToString("HH:mm") + "',GetDate(),'" + Utils.User.GUserID + "');";
+
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadGrid_AutoLog();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void gv_Log_DoubleClick(object sender, EventArgs e)
+        {
+            GridView view = (GridView)sender;
+            Point pt = view.GridControl.PointToClient(Control.MousePosition);
+            DoRowDoubleClick2(view, pt);
+        }
+
+        private void btnTimeDel_Log_Click(object sender, EventArgs e)
+        {
+            if (txtLogTime.Time == DateTime.MinValue || txtLogTime.Time == null)
+            {
+                string msg = "Please Specify Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                        string sql = "";
+                        sql = "Delete  From AutoTimeLog Where SchTime = '" + txtLogTime.Time.ToString("HH:mm") + "'";
+
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        int t = (int)cmd.ExecuteNonQuery();
+
+                        if (t > 0)
+                        {
+                            MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadGrid_AutoLog();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
+
+        private void btnAddArrival_Click(object sender, EventArgs e)
+        {
+            if (txtArrSch.Time == DateTime.MinValue || txtArrSch.Time == null)
+            {
+                string msg = "Please Specify Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtFromTime.Time == DateTime.MinValue || txtFromTime.Time == null)
+            {
+                string msg = "Please Specify From Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtToTime.Time == DateTime.MinValue || txtToTime.Time == null)
+            {
+                string msg = "Please Specify To Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (txtToTime.Time < txtFromTime.Time) {
+
+                string msg = "Please Specify Correct FromTime and ToTime...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                        string sql = "";
+                        sql = "Insert into AutoTimeArrival (SchTime,FromTime,ToTime,AddDt,AddID) Values (" +
+                            "'" + txtArrSch.Time.ToString("HH:mm") + "'," +
+                            "'" + txtFromTime.Time.ToString("HH:mm") + "'," +
+                            "'" + txtToTime.Time.ToString("HH:mm") + "'," +
+                            " GetDate(),'" + Utils.User.GUserID + "');";
+
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadGrid_AutoArrival();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnDelArrival_Click(object sender, EventArgs e)
+        {
+            if (txtArrSch.Time == DateTime.MinValue || txtArrSch.Time == null)
+            {
+                string msg = "Please Specify Time...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+
+                        string sql = "";
+                        sql = "Delete  From AutoTimeArrival Where SchTime = '" + txtArrSch.Time.ToString("HH:mm") + "'";
+
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        int t = (int)cmd.ExecuteNonQuery();
+
+                        if (t > 0)
+                        {
+                            MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadGrid_AutoArrival();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void gv_arrival_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                GridView view = (GridView)sender;
+                Point pt = view.GridControl.PointToClient(Control.MousePosition);
+                DoRowDoubleClick3(view, pt);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         

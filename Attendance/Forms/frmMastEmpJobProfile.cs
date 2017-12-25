@@ -127,7 +127,7 @@ namespace Attendance.Forms
 
             chkAutoShift.Checked = false;
             chkOTFlg.Checked = false;
-
+            chkIsHOD.Checked = false;
             txtLeftDt.EditValue = null;
             txtLeftDt.Enabled = true;
 
@@ -258,8 +258,8 @@ namespace Attendance.Forms
                         sql = "Update MastEmp set OTFLG='{0}',Weekoff='{1}', EmpCode='{2}',OldEmpCode='{3}',SAPID='{4}',ShiftType='{5}'," +
                             " LeftDt = {6}  , EmpTypeCode = {7} , CatCode = {8} , DeptCode = {9} , StatCode = {10} , DesgCode = {11} , " +
                             " GradCode = {12} , ContCode = {13} , ShiftCode = {14} , Active = '{15}', " +
-                            " UpdDt=GetDate(),UpdID ='{16}' Where " +
-                            " CompCode ='{17}' and EmpUnqID = '{18}'";
+                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}' Where " +
+                            " CompCode ='{18}' and EmpUnqID = '{19}'";
 
 
                         sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
@@ -274,7 +274,7 @@ namespace Attendance.Forms
                             ((txtContCode.Text.Trim() == "") ? "null" : "'" + txtContCode.Text.Trim() + "'"),
                             ((txtShiftCode.Text.Trim() == "") ? "null" : "'" + txtShiftCode.Text.Trim() + "'"),
                             ((txtLeftDt.EditValue == null)?1:0),
-                            Utils.User.GUserID,
+                            Utils.User.GUserID,((chkIsHOD.Checked) ? 1 : 0),
                             ctrlEmp1.txtCompCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim()
 
                             );
@@ -482,6 +482,7 @@ namespace Attendance.Forms
             txtWeekOff.Text = temp.WeekOffDay;
             chkAutoShift.Checked = temp.AutoShift;
             chkOTFlg.Checked = temp.OTFLG;
+            chkIsHOD.Checked = temp.IsHOD;
 
             txtDeptCode.Text = temp.DeptCode;
             txtDeptDesc.Text = temp.DeptDesc;

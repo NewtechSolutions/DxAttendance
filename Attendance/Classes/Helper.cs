@@ -35,11 +35,28 @@ namespace Utils
             return dir;
         }
 
+        static public string GetErrLogFilePath()
+        {
+            string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dir = System.IO.Path.Combine(dir, "ErrLog");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
+        static public string GetInfoLogFilePath()
+        {
+            string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dir = System.IO.Path.Combine(dir, "InfoLog");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
 
         static public string GetUserDataPath()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            dir = System.IO.Path.Combine(dir, "Attendance");
+            dir = System.IO.Path.Combine(dir, "AttendanceSystem");
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             return dir;
@@ -206,6 +223,14 @@ namespace Utils
                 }
             }
             return t;        
+        }
+
+        public static string GetLocalPCName()
+        {
+            
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            return host.HostName;
+            
         }
 
         /// <summary>

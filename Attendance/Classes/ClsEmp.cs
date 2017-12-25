@@ -33,7 +33,7 @@ namespace Attendance.Classes
 
         private DateTime? _JoinDt, _BirthDt;
         private DateTime? _ValidFrom, _ValidTo,_LeftDt;
-        private bool _Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg, _AutoShift, _IsNew, _MedChkFlg, _PoliceVeriFlg;
+        private bool _IsHOD,_Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg, _AutoShift, _IsNew, _MedChkFlg, _PoliceVeriFlg;
 
 
         public string EmpUnqID { get { return _EmpUnqID; } set { _EmpUnqID = value; } }
@@ -103,6 +103,7 @@ namespace Attendance.Classes
         public bool AutoShift { get { return _AutoShift; } set { _AutoShift = value; } }
         public bool MedChkFlg { get { return _MedChkFlg; } set { _MedChkFlg = value; } }
         public bool PoliceVeriFlg { get { return _PoliceVeriFlg; } set { _PoliceVeriFlg = value; } }
+        public bool IsHOD { get { return _IsHOD; } set { _IsHOD = value; } }
 
 
         public bool IsValid { 
@@ -148,6 +149,7 @@ namespace Attendance.Classes
             _ShiftCode = string.Empty;_ShiftDesc = string.Empty;
             _SAPID = string.Empty; _AdharNo = string.Empty; _EmpCode = string.Empty; _OLDEmpCode = string.Empty; _WeekOffDay = string.Empty;
             _IsNew = false;
+            _IsHOD = false;
 
             DateTime? dt = new DateTime?();
             _JoinDt = dt; _BirthDt = dt;
@@ -196,13 +198,14 @@ namespace Attendance.Classes
                     this.MessGrpCode = dr["MessGrpCode"].ToString();
                     this.CostCode = dr["CostCode"].ToString();
                     this.ShiftCode = dr["ShiftCode"].ToString();
-
+                   
                     this.SAPID = dr["SAPID"].ToString();
                     this.EmpCode = dr["EmpCode"].ToString();
                     this.OLDEmpCode = dr["OldEmpCode"].ToString();
                     this.AdharNo = dr["AdharNo"].ToString();
                     this.WeekOffDay = dr["WeekOff"].ToString();
 
+                    IsHOD = Convert.ToBoolean(dr["IsHOD"]);
                     Gender = Convert.ToBoolean(dr["Sex"]);
                     Active = Convert.ToBoolean(dr["Active"]);
                     OTFLG = Convert.ToBoolean(dr["OTFLG"]);
@@ -772,7 +775,7 @@ namespace Attendance.Classes
             string tUnitCode, string tEmpName, string tFatherName , 
                 bool tSex , bool tActive,DateTime tBirthDt, DateTime tJoinDt,
                     string tWeekoff , bool tPayrollFLG, bool tContractFlg, 
-                        bool tShiftType, bool tOTFLG ,bool tMedChkFlg , 
+                        bool tShiftType, bool tOTFLG ,bool tMedChkFlg ,
                              bool  tPoliceVeriFlg, string tEmpCode, string tContCode, 
                                 string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
                                     string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
@@ -803,6 +806,7 @@ namespace Attendance.Classes
             this.AdharNo = tAdharNo;
             this.ValidFrom = tValidFrom;
             this.ValidTo = tValidTo;
+            
 
             err = this.BasicValidation();
             if (!string.IsNullOrEmpty(err))
@@ -976,14 +980,14 @@ namespace Attendance.Classes
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " + 
                             " ShiftType,MedChkFlg,PoliceVeriFlg,ShiftCode, " +                            
-                            " AddDt,AddID) Values (" +
+                            " AddDt,AddID,isHod) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
                             " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
                             " '{30}','{31}',{32}, " +
-                            " GetDate(),'{33}' )";
+                            " GetDate(),'{33}')";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),

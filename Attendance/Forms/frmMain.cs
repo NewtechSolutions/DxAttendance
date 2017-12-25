@@ -12,6 +12,7 @@ using DevExpress.Skins;
 using DevExpress.LookAndFeel;
 using DevExpress.UserSkins;
 using Attendance.Classes;
+using System.Threading;
 
 namespace Attendance
 {
@@ -19,6 +20,8 @@ namespace Attendance
     {
         public static string cnstr = Utils.Helper.constr;
         public static Utils.DbCon tdb = Utils.Helper.ReadConDb("DBCON");
+        
+
         public frmMain()
         {
             InitializeComponent();
@@ -101,6 +104,12 @@ namespace Attendance
                 }    
             }
 
+            this.mnuHelp.Enabled = true;
+            this.mnuAbout.Enabled = true;
+            this.mnuStatus.Enabled = true;
+            this.mnuServerStat.Enabled = true;
+
+
             //Set GateInOutIP
             Globals.SetGateInOutIPList();
 
@@ -115,8 +124,47 @@ namespace Attendance
 
             //set global vars
             Globals.GetGlobalVars();
+
+            //here we can start Quartz if host is server
+            if (Utils.User.GUserID == "SERVER")
+            {
+                Globals.G_myscheduler = new Scheduler();
+
+                Form t = Application.OpenForms["frmServerStatus"];
+
+                if (t == null)
+                {
+                    Attendance.Forms.frmServerStatus m = new Attendance.Forms.frmServerStatus();
+                    m.MdiParent = this;
+                    m.WindowState = FormWindowState.Maximized;
+                    m.Show();
+                }
+
+                Thread.Sleep(TimeSpan.FromSeconds(5));
+             
+                Globals.G_myscheduler.Start();
+                //create triggers
+                Globals.G_myscheduler.RegSchedule_AutoTimeSet();
+                Globals.G_myscheduler.RegSchedule_WorkerProcess();
+                Globals.G_myscheduler.RegSchedule_AutoArrival();
+                Globals.G_myscheduler.RegSchedule_AutoProcess();
+                Globals.G_myscheduler.RegSchedule_DownloadPunch();
+
+            }
+
         }
-        
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //we need to shutdown our scheduler quartz
+
+            if (Utils.User.GUserID == "SERVER")
+            {
+                Globals.G_myscheduler.Stop();
+            }
+
+        }
+
         private void SetToolStripItems(ToolStripItemCollection dropDownItems)
         {
             try
@@ -869,6 +917,32 @@ namespace Attendance
                 m.Show();
             }
         }
+
+        private void mnuServerStat_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmServerStatus"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmServerStatus m = new Attendance.Forms.frmServerStatus();
+                m.MdiParent = this;
+                m.WindowState = FormWindowState.Maximized;
+                m.Show();
+            }
+
+        }
+
+
+        private void mnuAbout_Click(object sender, EventArgs e)
+        {
+            string msg = "Attedance System" + Environment.NewLine +
+                "Version 2.1 " + Environment.NewLine +
+                "Design & Devloped By : Anand Achraya " + Environment.NewLine;
+
+            MessageBox.Show(msg, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        
 
         
 

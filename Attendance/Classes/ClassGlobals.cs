@@ -16,6 +16,14 @@ namespace Attendance.Classes
 
         public static string MasterMachineIP = string.Empty;
         
+        //used for scheduling jobs
+        public static Scheduler G_myscheduler;
+        public static DataSet G_DsMachine;
+        public static DataSet G_DsAutoTime;
+        public static DataSet G_DsAutoLog;
+        public static DataSet G_DsAutoArrival;
+        
+
         public static List<string> GateInOutIP = new List<string>();
         public static string G_GateInOutIP;
 
@@ -66,7 +74,7 @@ namespace Attendance.Classes
                     G_EarlyComeSec = Convert.ToInt32(dr["EarlyComeSec"].ToString());
                     G_EarlyGoingSec = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
                     G_GracePeriodSec = Convert.ToInt32(dr["GracePeriodSec"].ToString());
-                    
+                   
                     G_HFFLG_Grace = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
                     G_HFFLG_LateCome = Convert.ToBoolean(dr["LateHalfDayFlg"]);
                     G_HFFLG_EarlyGoing = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
@@ -106,8 +114,7 @@ namespace Attendance.Classes
                     G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
                     G_DefaultMailID = dr["DefaultMailID"].ToString();
                     G_SmtpHostIP = dr["SmtpHostIP"].ToString();
-                    G_ServerWorkerIP = dr["ServerWorkerIP"].ToString();
-                    
+                    G_ServerWorkerIP = dr["ServerWorkerIP"].ToString();                    
                     G_NetworkDomain = dr["NetworkDomain"].ToString();
                     G_NetworkUser = dr["NetworkUser"].ToString();
                     G_NetworkPass = dr["NetworkPass"].ToString();
@@ -117,6 +124,9 @@ namespace Attendance.Classes
                     Utils.DomainUserConfig.DomainPassword = dr["NetworkPass"].ToString();
 
                 }
+
+
+                
                 
             }
             else
@@ -124,19 +134,25 @@ namespace Attendance.Classes
                 tset = false ;
             }
 
+            //load all dataset
+            G_DsMachine = Utils.Helper.GetData("Select * From ReaderConfig Where Master = 0 and DelFlg = 0", Utils.Helper.constr);
+            G_DsAutoTime = Utils.Helper.GetData("Select * From AutoTimeSet Where 1 = 1 Order By SchTime ", Utils.Helper.constr);
+            G_DsAutoLog = Utils.Helper.GetData("Select * From AutoTimeLog Where 1 = 1 Order By SchTime ", Utils.Helper.constr);
+            G_DsAutoArrival = Utils.Helper.GetData("Select * From AutoTimeArrival Where 1 = 1 Order By SchTime ", Utils.Helper.constr);
 
-            sql = "Select * From AutoTimeSet";
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-            if (hasRows)
-            {
-                G_SchAutoTimeSet = new List<string>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    G_SchAutoTimeSet.Add(dr["SchTime"].ToString());
 
-                }
-            }
+            //sql = "Select * From AutoTimeSet";
+            //ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            //hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            //if (hasRows)
+            //{
+            //    G_SchAutoTimeSet = new List<string>();
+            //    foreach (DataRow dr in ds.Tables[0].Rows)
+            //    {
+            //        G_SchAutoTimeSet.Add(dr["SchTime"].ToString());
+
+            //    }
+            //}
 
             MasterMachineIP = MasterMachineIP = Utils.Helper.GetDescription("Select MachineIP From ReaderConfig Where master = 1", Utils.Helper.constr);
 
@@ -412,6 +428,19 @@ namespace Attendance.Classes
         public int ShiftHrs;
 
     }
+
+    [Serializable]
+    public class ServerMsg
+    {
+        public DateTime MsgTime;
+        public string MsgType;
+        public string Message;
+
+        public override string ToString()
+        {
+            return MsgTime.ToString("yyyy-MM-dd HH:mm:ss") + " : " + MsgType + " - " + Message + Environment.NewLine; 
+        }
+    } 
 
     public class UserBioInfo
     {

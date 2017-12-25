@@ -36,6 +36,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
             this.GrpMain = new System.Windows.Forms.GroupBox();
+            this.chkIsHOD = new DevExpress.XtraEditors.CheckEdit();
             this.txtShiftDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtShiftCode = new DevExpress.XtraEditors.TextEdit();
             this.txtWeekOff = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -73,6 +74,7 @@
             this.txtLeftDt = new DevExpress.XtraEditors.DateEdit();
             this.grpUserRights.SuspendLayout();
             this.GrpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).BeginInit();
@@ -177,6 +179,7 @@
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.chkIsHOD);
             this.GrpMain.Controls.Add(this.txtShiftDesc);
             this.GrpMain.Controls.Add(this.txtShiftCode);
             this.GrpMain.Controls.Add(this.txtWeekOff);
@@ -217,6 +220,22 @@
             this.GrpMain.Size = new System.Drawing.Size(922, 227);
             this.GrpMain.TabIndex = 1;
             this.GrpMain.TabStop = false;
+            // 
+            // chkIsHOD
+            // 
+            this.chkIsHOD.Location = new System.Drawing.Point(226, 129);
+            this.chkIsHOD.Name = "chkIsHOD";
+            this.chkIsHOD.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIsHOD.Properties.Appearance.Options.UseFont = true;
+            this.chkIsHOD.Properties.Appearance.Options.UseTextOptions = true;
+            this.chkIsHOD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.chkIsHOD.Properties.AppearanceReadOnly.Options.UseTextOptions = true;
+            this.chkIsHOD.Properties.AppearanceReadOnly.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.chkIsHOD.Properties.Caption = "Is Hod (for portal) :";
+            this.chkIsHOD.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.chkIsHOD.Properties.ValueGrayed = false;
+            this.chkIsHOD.Size = new System.Drawing.Size(141, 19);
+            this.chkIsHOD.TabIndex = 112;
             // 
             // txtShiftDesc
             // 
@@ -643,6 +662,7 @@
             this.grpUserRights.ResumeLayout(false);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).EndInit();
@@ -716,5 +736,6 @@
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.TextEdit txtShiftDesc;
         private DevExpress.XtraEditors.TextEdit txtShiftCode;
+        private DevExpress.XtraEditors.CheckEdit chkIsHOD;
     }
 }
