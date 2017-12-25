@@ -32,6 +32,7 @@ namespace Attendance.Classes
         public static bool _StatusAutoProcess = false;
         public static bool _StatusAutoArrival = false;
         public static bool _StatusWorker = false;
+        public static bool _ShutDown = false;
 
         public void Start()
         {
@@ -43,6 +44,7 @@ namespace Attendance.Classes
                 _StatusAutoDownload = false;
                 _StatusAutoProcess = false;
                 _StatusAutoArrival = false;
+                _ShutDown = false;
             }
 
         }
@@ -67,7 +69,8 @@ namespace Attendance.Classes
             if (!scheduler.IsShutdown)
             {
                 scheduler.Clear();
-                scheduler.Shutdown();
+                _ShutDown = true;
+                scheduler.Shutdown(false);
             }
 
         }
@@ -332,9 +335,16 @@ namespace Attendance.Classes
         {
             public void Execute(IJobExecutionContext context)
             {
+                if (_ShutDown)
+                {
+                    return;
+                }
+                
                 bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasrow)
                 {
+                    
+                    
                     _StatusAutoDownload = true;
                     
 
@@ -408,12 +418,23 @@ namespace Attendance.Classes
         {
             public void Execute(IJobExecutionContext context)
             {
+                if (_ShutDown)
+                {
+                    return;
+                }
+
                 bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasrow)
                 {
                     _StatusAutoTimeSet = true;
                     foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
                     {
+                        if (_ShutDown)
+                        {
+                            return;
+                        }
+                        
+                        
                         string ip = dr["MachineIP"].ToString();
 
                         ServerMsg tMsg = new ServerMsg();
@@ -477,7 +498,10 @@ namespace Attendance.Classes
         {
             public void Execute(IJobExecutionContext context)
             {
-
+                if (_ShutDown)
+                {
+                    return;
+                }
                 _StatusAutoProcess = true;
                 JobKey key = context.JobDetail.Key;
 
@@ -502,6 +526,12 @@ namespace Attendance.Classes
                     
                     foreach (DataRow dr in DsEmp.Tables[0].Rows)
                     {
+                        if (_ShutDown)
+                        {
+                            return;
+                        }
+                        
+                        
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
                         
                         ServerMsg tMsg = new ServerMsg();
@@ -622,6 +652,12 @@ namespace Attendance.Classes
         {
             public void Execute(IJobExecutionContext context)
             {
+                if (_ShutDown)
+                {
+                    return;
+                }
+                
+                
                 if (_StatusAutoArrival == false && 
                     _StatusAutoDownload == false && 
                     _StatusAutoProcess == false && 
@@ -643,6 +679,12 @@ namespace Attendance.Classes
 
                         foreach (DataRow dr in DsEmp.Tables[0].Rows)
                         {
+
+                            if (_ShutDown)
+                            {
+                                return;
+                            }
+
 
                             _StatusWorker = true;
                             

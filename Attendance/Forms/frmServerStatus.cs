@@ -19,37 +19,52 @@ namespace Attendance.Forms
 
         // This delegate enables asynchronous calls for setting
         // the text property on a TextBox control.
-        delegate void SetTextCallback(string text);       
-        private static string pcname = Utils.Helper.GetLocalPCName();        
+        delegate void SetTextCallback(string text);
+        private static string pcname = Utils.Helper.GetLocalPCName();
         private static IMqttClient mqtc;
 
 
         public frmServerStatus()
         {
-            InitializeComponent();            
-            
+            InitializeComponent();
+
         }
 
 
-        public  void SetText(string text)
+        public void SetText(string text)
         {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this.rtxtLoginMessage.InvokeRequired)
+            try
             {
-                SetTextCallback d = new SetTextCallback(SetText);
-                this.Invoke(d, new object[] {  text });
+                // InvokeRequired required compares the thread ID of the
+                // calling thread to the thread ID of the creating thread.
+                // If these threads are different, it returns true.
+                if (this.rtxtLoginMessage.InvokeRequired)
+                {
+                    //SetTextCallback d = new SetTextCallback(SetText);
+                    //this.Invoke(d, new object[] {  text });
+                    this.rtxtLoginMessage.Invoke((Action)(() => SetText(text)));
+                }
+                else
+                {
+                    if (this.rtxtLoginMessage.Lines.Count() > 300)
+                        this.rtxtLoginMessage.Text = "";
+
+                    rtxtLoginMessage.Select(0, 0);
+                    rtxtLoginMessage.SelectedText = text + Environment.NewLine;
+
+                }
             }
-            else
+            catch (Exception ex)
             {
-                if (this.rtxtLoginMessage.Lines.Count() > 300)
-                    this.rtxtLoginMessage.Text = "";
-
-                rtxtLoginMessage.Select(0, 0);
-                rtxtLoginMessage.SelectedText = text + Environment.NewLine;
-
+                if (mqtc.IsConnected)
+                {
+                    mqtc.Disconnected -= mqtc_Disconnected;
+                    mqtc.ApplicationMessageReceived -= mqtc_MsgEventHandler;
+                    mqtc.Connected -= mqtc_Connected;
+                    mqtc.DisconnectAsync();
+                }
             }
+
         }
 
         private void frmServerStatus_Load(object sender, EventArgs evt)
@@ -61,14 +76,22 @@ namespace Attendance.Forms
 
         private void frmServerStatus_FormClosing(object sender, FormClosingEventArgs e)
         {
-             mqtc.DisconnectAsync();
-            
+
+            mqtc.Disconnected -= mqtc_Disconnected;
+            mqtc.ApplicationMessageReceived -= mqtc_MsgEventHandler;
+            mqtc.Connected -= mqtc_Connected;
+
+
+            if (mqtc.IsConnected)
+            {
+                mqtc.DisconnectAsync();
+            }
         }
 
 
         private void Connect()
         {
-            
+
             var clientoptions = new MqttClientOptionsBuilder()
             .WithTcpServer(Globals.G_ServerWorkerIP, 1884) // Port is optional
             .Build();
@@ -76,35 +99,73 @@ namespace Attendance.Forms
             mqtc = new MqttFactory().CreateMqttClient();
             mqtc.ConnectAsync(clientoptions);
 
-            mqtc.Connected += async (s, evt) =>
+            mqtc.Connected += mqtc_Connected;
+            
+            //mqtc.Connected += async (s, evt) =>
+            //{
+            //    SetText("### CONNECTED WITH SERVER ###" + Environment.NewLine);
+            //    await mqtc.SubscribeAsync(new TopicFilterBuilder().WithTopic("Server/Status").Build());
+            //    SetText("### SUBSCRIBED ###" + Environment.NewLine);
+            //};
+
+
+            mqtc.Disconnected += mqtc_Disconnected;
+
+            //mqtc.Disconnected += async (s, evtdisconnected) =>
+            //{
+            //    SetText("### DISCONNECTED FROM SERVER ###" + Environment.NewLine);
+            //    await Task.Delay(TimeSpan.FromSeconds(5));
+            //    try
+            //    {
+            //        await mqtc.ConnectAsync(clientoptions);
+            //    }
+            //    catch
+            //    {
+            //        SetText("### RECONNECTING FAILED ### PLEASE CONTACT SERVER ADMINISTRATOR" + Environment.NewLine);
+
+            //    }
+            //};
+
+            mqtc.ApplicationMessageReceived += mqtc_MsgEventHandler;
+
+            //mqtc.ApplicationMessageReceived += (s, msgreceived) =>
+            //{
+            //    //SetText("### RECEIVED APPLICATION MESSAGE ###" + Environment.NewLine);
+            //    SetText(string.Format("{0} Received : {1}", pcname, Encoding.UTF8.GetString(msgreceived.ApplicationMessage.Payload)));
+
+            //};
+
+        }
+
+        private void mqtc_Connected(object s,MqttClientConnectedEventArgs e)
+        {
+            SetText("### CONNECTED WITH SERVER ###" + Environment.NewLine);
+            mqtc.SubscribeAsync(new TopicFilterBuilder().WithTopic("Server/Status").Build());
+            SetText("### SUBSCRIBED ###" + Environment.NewLine);
+        }
+
+        private void mqtc_Disconnected(object s, MqttClientDisconnectedEventArgs e)
+        {
+            var clientoptions = new MqttClientOptionsBuilder()
+            .WithTcpServer(Globals.G_ServerWorkerIP, 1884) // Port is optional
+            .Build();
+            
+            SetText("### DISCONNECTED FROM SERVER ###" + Environment.NewLine);
+            Task.Delay(TimeSpan.FromSeconds(5));
+            try
             {
-                SetText("### CONNECTED WITH SERVER ###" + Environment.NewLine);
-                await mqtc.SubscribeAsync(new TopicFilterBuilder().WithTopic("Server/Status").Build());
-                SetText("### SUBSCRIBED ###" + Environment.NewLine);
-            };
-
-            mqtc.Disconnected += async (s, evtdisconnected) =>
+                mqtc.ConnectAsync(clientoptions);
+            }
+            catch
             {
-                SetText("### DISCONNECTED FROM SERVER ###" + Environment.NewLine);
-                await Task.Delay(TimeSpan.FromSeconds(5));
-                try
-                {
-                    await mqtc.ConnectAsync(clientoptions);
-                }
-                catch
-                {
-                    SetText("### RECONNECTING FAILED ### PLEASE CONTACT SERVER ADMINISTRATOR" + Environment.NewLine);
+                SetText("### RECONNECTING FAILED ### PLEASE CONTACT SERVER ADMINISTRATOR" + Environment.NewLine);
 
-                }
-            };
+            }
+        }
 
-            mqtc.ApplicationMessageReceived += (s, msgreceived) =>
-            {
-                //SetText("### RECEIVED APPLICATION MESSAGE ###" + Environment.NewLine);
-                SetText(string.Format("{0} Received : {1}", pcname, Encoding.UTF8.GetString(msgreceived.ApplicationMessage.Payload)));
-                   
-            };
-
+        private void mqtc_MsgEventHandler(object s, MqttApplicationMessageReceivedEventArgs msgreceived)
+        {
+            SetText(string.Format("{0} Received : {1}", pcname, Encoding.UTF8.GetString(msgreceived.ApplicationMessage.Payload)));
         }
 
 
