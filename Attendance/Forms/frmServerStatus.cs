@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using Attendance.Classes;
 using MQTTnet;
 using MQTTnet.Client;
+using Quartz.Impl;
+using Quartz;
+using Quartz.Impl.Matchers;
 
 
 namespace Attendance.Forms
@@ -168,6 +171,95 @@ namespace Attendance.Forms
             SetText(string.Format("{0} Received : {1}", pcname, Encoding.UTF8.GetString(msgreceived.ApplicationMessage.Payload)));
         }
 
+        private void btnReloadJob_Click(object sender, EventArgs e)
+        {
+            if(Utils.User.GUserID == "SERVER")
+            {
+                IScheduler sch = Globals.G_myscheduler.GetScheduler();
+                DataTable JobDt = GetAllJobs(sch);
+                grd_Upload.DataSource = JobDt;
+                grd_Upload.Refresh();                
+            }
+            else
+            {
+                MessageBox.Show("Only Server can Access this feature..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private static DataTable GetAllJobs(IScheduler scheduler)
+        {
+
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add("JobGroup", typeof(string));
+            Dt.Columns.Add("JobKey", typeof(string));
+            Dt.Columns.Add("JobDetails", typeof(string));
+            Dt.Columns.Add("TriggerName", typeof(string));
+            Dt.Columns.Add("TriggerGroup", typeof(string));
+            Dt.Columns.Add("TriggerType", typeof(string));
+            Dt.Columns.Add("TriggerStats", typeof(string));
+            Dt.Columns.Add("NxtFireTime", typeof(string));
+            Dt.Columns.Add("PrvFireTime", typeof(string));
+
+            IList<string> jobGroups = scheduler.GetJobGroupNames();
+            // IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
+
+            foreach (string group in jobGroups)
+            {
+                var groupMatcher = GroupMatcher<JobKey>.GroupContains(group);
+                var jobKeys = scheduler.GetJobKeys(groupMatcher);
+                foreach (var jobKey in jobKeys)
+                {
+                    var detail = scheduler.GetJobDetail(jobKey);
+                    var triggers = scheduler.GetTriggersOfJob(jobKey);
+                    foreach (ITrigger trigger in triggers)
+                    {
+                        DataRow dr = Dt.NewRow();
+                        dr["JobGroup"] = group;
+                        dr["JobKey"] = jobKey.Name;
+                        dr["JobDetails"] = detail.Description;
+                        dr["TriggerName"] = trigger.Key.Name;
+                        dr["TriggerGroup"] = trigger.Key.Group;
+                        dr["TriggerType"] = trigger.GetType().Name;
+                        dr["TriggerStats"] = scheduler.GetTriggerState(trigger.Key);
+                       
+                        
+                        
+                        //dr["NxtFireTime"] = trigger.GetNextFireTimeUtc();
+                        //dr["PrvFireTime"] = trigger.GetPreviousFireTimeUtc();
+                        
+                        
+                        DateTimeOffset? nextFireTime = trigger.GetNextFireTimeUtc();
+                        if (nextFireTime.HasValue)
+                        {
+                            dr["NxtFireTime"] = Convert.ToDateTime(nextFireTime.Value.LocalDateTime).ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+
+
+                        DateTimeOffset? previousFireTime = trigger.GetPreviousFireTimeUtc();
+                        if (previousFireTime.HasValue)
+                        {
+                            dr["PrvFireTime"] = Convert.ToDateTime(previousFireTime.Value.LocalDateTime).ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+
+                        Dt.Rows.Add(dr);
+                    }
+                }
+            }
+
+            return Dt;
+        }
+
+        private void btnRestartSch_Click(object sender, EventArgs e)
+        {
+            if (Utils.User.GUserID == "SERVER")
+            {
+                Globals.G_myscheduler.Restart();
+                
+            }
+            else
+            {
+                MessageBox.Show("Only Server can Access this feature..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

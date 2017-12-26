@@ -1894,7 +1894,7 @@ namespace Attendance
                         if (drAttd["Latecome"].ToString() != "")
                         {
                             int thr = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(0, 2));
-                            int tmn = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(4, 2));
+                            int tmn = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(3, 2));
 
                             ot = ot - thr;
                             if (tmn >= 15 && tmn <= 40)

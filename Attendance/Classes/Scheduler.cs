@@ -14,12 +14,13 @@ using MQTTnet.Client;
 using MQTTnet.Server;
 using Quartz.Impl.Matchers;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace Attendance.Classes
 {
     public class Scheduler
     {
-        private static IScheduler scheduler;
+        public static IScheduler scheduler;
         
         public static IMqttServer mqts;
         public static IMqttClient mqtc;
@@ -49,6 +50,10 @@ namespace Attendance.Classes
 
         }
 
+        public IScheduler GetScheduler()
+        {
+            return scheduler;
+        }
 
         public static void Publish(ServerMsg tMsg)
         {
@@ -127,6 +132,22 @@ namespace Attendance.Classes
            scheduler = StdSchedulerFactory.GetDefaultScheduler();
            StartMQTTServer();
            StartMQTTClient();
+        }
+
+        public void Restart()
+        {
+            if (!scheduler.IsShutdown)
+            {
+                scheduler.Clear();
+                _ShutDown = true;                
+            }
+
+            RegSchedule_AutoTimeSet();
+            RegSchedule_WorkerProcess();
+            RegSchedule_AutoArrival();
+            RegSchedule_AutoProcess();
+            RegSchedule_DownloadPunch();
+            _ShutDown = false;  
         }
 
         public void RegSchedule_DownloadPunch()
@@ -273,7 +294,7 @@ namespace Attendance.Classes
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerid, "WorkerProcess")
                 .StartNow()
-                .WithCronSchedule("0 0/3 * * * ?")
+                .WithCronSchedule("0 0/2 * * * ?")
                 .Build();
 
             // Tell quartz to schedule the job using our trigger
@@ -328,9 +349,7 @@ namespace Attendance.Classes
                 }
             }
         }
-
-
-        
+                
         public class AutoDownLoad : IJob
         {
             public void Execute(IJobExecutionContext context)
@@ -390,6 +409,7 @@ namespace Attendance.Classes
                             {
                                 file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
                             }
+                            
                             tMsg.MsgTime = DateTime.Now;
                             tMsg.MsgType = "Auto Download";
                             tMsg.Message = ip + "->Error :" + err;
@@ -546,10 +566,7 @@ namespace Attendance.Classes
 
                         if (!string.IsNullOrEmpty(err))
                         {
-                            tMsg.MsgTime = DateTime.Now;
-                            tMsg.MsgType = "Auto Process";
-                            tMsg.Message = tEmpUnqID + ": Error=>" + err;
-                            Scheduler.Publish(tMsg);
+                            
 
                             string filenm = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                             string fullpath = Path.Combine(Errfilepath, filenm);
@@ -557,6 +574,12 @@ namespace Attendance.Classes
                             {
                                 file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-[" + tEmpUnqID + "]-" + err);
                             }
+
+                            tMsg.MsgTime = DateTime.Now;
+                            tMsg.MsgType = "Auto Process";
+                            tMsg.Message = tEmpUnqID + ": Error=>" + err;
+                            Scheduler.Publish(tMsg);
+
                         }
                     }
 
@@ -618,29 +641,35 @@ namespace Attendance.Classes
 
                 if (result == 1)
                 {
-                    tMsg.MsgTime = DateTime.Now;
-                    tMsg.MsgType = "Arrival";
-                    tMsg.Message = "Processing Complete : From " + FromTime + "-" + ToTime;
-                    Scheduler.Publish(tMsg);
+                    
                     string filenm = "AutoArrival_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                     string fullpath = Path.Combine(Loginfopath, filenm);
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                     {
                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoArrival-Completed" );
                     }
+
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "Arrival";
+                    tMsg.Message = "Processing Complete : From " + FromTime + "-" + ToTime;
+                    Scheduler.Publish(tMsg);
+
                 }
                 else
                 {
-                    tMsg.MsgTime = DateTime.Now;
-                    tMsg.MsgType = "Arrival";
-                    tMsg.Message = "Processing Error : From " + FromTime + "-" + ToTime;
-                    Scheduler.Publish(tMsg);
+                    
                     string filenm = "AutoArrival_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                     string fullpath = Path.Combine(Errfilepath, filenm);
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                     {
                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoArrival");
                     }
+
+
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "Arrival";
+                    tMsg.Message = "Processing Error : From " + FromTime + "-" + ToTime;
+                    Scheduler.Publish(tMsg);
                 }
 
                 _StatusAutoArrival = false;
@@ -656,7 +685,13 @@ namespace Attendance.Classes
                 {
                     return;
                 }
-                
+
+                ServerMsg tMsg = new ServerMsg();
+                tMsg.MsgTime = DateTime.Now;
+                tMsg.MsgType = "Greetings";
+                tMsg.Message = "HeartBeat";
+                Scheduler.Publish(tMsg);
+
                 
                 if (_StatusAutoArrival == false && 
                     _StatusAutoDownload == false && 
@@ -664,6 +699,9 @@ namespace Attendance.Classes
                     _StatusAutoTimeSet == false && 
                     _StatusWorker == false)
                 {
+
+                    
+
                     
                     string sql = "Select top 100 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
                     DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr);
@@ -694,7 +732,7 @@ namespace Attendance.Classes
 
                             string MsgID = dr["MsgID"].ToString();
 
-                            ServerMsg tMsg = new ServerMsg();
+                            tMsg = new ServerMsg();
                             tMsg.MsgTime = DateTime.Now;
                             tMsg.MsgType = "Worker Process";
                             tMsg.Message = tEmpUnqID;
@@ -706,10 +744,7 @@ namespace Attendance.Classes
 
                             if (!string.IsNullOrEmpty(err))
                             {
-                                tMsg.MsgTime = DateTime.Now;
-                                tMsg.MsgType = "Auto Process";
-                                tMsg.Message = tEmpUnqID + ": Error=>" + err;
-                                Scheduler.Publish(tMsg);
+                                
 
                                 string filenm = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                                 string fullpath = Path.Combine(Errfilepath, filenm);
@@ -717,6 +752,11 @@ namespace Attendance.Classes
                                 {
                                     file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-[" + tEmpUnqID + "]-" + err);
                                 }
+
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Auto Process";
+                                tMsg.Message = tEmpUnqID + ": Error=>" + err;
+                                Scheduler.Publish(tMsg);
                             }
                             else
                             {
@@ -746,11 +786,148 @@ namespace Attendance.Classes
                 else
                 {
                     _StatusWorker = false;
+                   
                 }
             }
         }
 
-        class DummyJobListener : IJobListener
+
+      class TriggerListenerExample:ITriggerListener
+      {
+          public void TriggerFired(ITrigger trigger, IJobExecutionContext context)
+         {
+             Console.WriteLine("The scheduler called {0} for trigger {1}", MethodBase.GetCurrentMethod().Name, trigger.Key);
+         }
+ 
+         public bool VetoJobExecution(ITrigger trigger, IJobExecutionContext context)
+         {
+             Console.WriteLine("The scheduler called {0} for trigger {1}", MethodBase.GetCurrentMethod().Name,trigger.Key);
+             return false;
+         }
+ 
+         public void TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode)
+         {
+             Console.WriteLine("The scheduler called {0} for trigger {1}", MethodBase.GetCurrentMethod().Name, trigger.Key);
+         }
+ 
+         public void TriggerMisfired(ITrigger trigger)
+         {
+             Console.WriteLine("The scheduler called {0} for trigger {1}", MethodBase.GetCurrentMethod().Name, trigger.Key);
+         }
+ 
+         public string Name
+         {
+             get { return "TriggerListenerExample"; }
+         }
+     }
+
+
+      public class SchedulerListenerExample : ISchedulerListener
+      {
+
+          public void JobAdded(IJobDetail jobDetail)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobDeleted(JobKey jobKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobPaused(JobKey jobKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobResumed(JobKey jobKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobScheduled(ITrigger trigger)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobUnscheduled(TriggerKey triggerKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobsPaused(string jobGroup)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void JobsResumed(string jobGroup)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerError(string msg, SchedulerException cause)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerInStandbyMode()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerShutdown()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerShuttingdown()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerStarted()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulerStarting()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void SchedulingDataCleared()
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void TriggerFinalized(ITrigger trigger)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void TriggerPaused(TriggerKey triggerKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void TriggerResumed(TriggerKey triggerKey)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void TriggersPaused(string triggerGroup)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+
+          public void TriggersResumed(string triggerGroup)
+          {
+              Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
+          }
+      }
+
+
+      class DummyJobListener : IJobListener
         {
             
             public readonly Guid Id = Guid.NewGuid();
