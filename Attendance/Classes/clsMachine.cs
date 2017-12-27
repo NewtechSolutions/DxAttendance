@@ -289,6 +289,9 @@ namespace Attendance.Classes
                 }
                 else
                 {
+
+                    odwEnrollNumber = 0;
+
                     while (CZKEM1.GetGeneralExtLogData(_machineno,ref odwEnrollNumber,ref idwVerifyMode,
                             ref idwInOutMode,ref idwYear,ref idwMonth,ref idwDay,ref idwHour,ref idwMinute,ref idwSecond,ref idwWorkcode,ref idwReserved ))//get records from the memory
                     {
@@ -296,7 +299,7 @@ namespace Attendance.Classes
                         DateTime logdt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute, idwSecond);
 
 
-                        t.EmpUnqID = sdwEnrollNumber.ToString();
+                        t.EmpUnqID = odwEnrollNumber.ToString();
                         t.PunchDate = logdt;
                         t.MachineIP = _ip;
                         t.IOFLG = _ioflg;
