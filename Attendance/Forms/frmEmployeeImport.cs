@@ -166,8 +166,7 @@ namespace Attendance.Forms
                         bool tContractFlg = (tdr["ContractFlg"].ToString().Trim() == "Y"?true:false);
                         bool tShiftType = (tdr["AutoShift"].ToString().Trim() == "Y"?true:false);
                         bool tOTFLG = (tdr["OTFLG"].ToString().Trim() == "Y"?true:false);
-                        bool tMedChkFlg = (tdr["MedChkFlg"].ToString().Trim() == "Y"?true:false);
-                        bool tPoliceVeriFlg = (tdr["PoliceVeriFlg"].ToString().Trim() == "Y"?true:false);
+                        
 
                         string tEmpCode = tdr["EmpCode"].ToString().Trim().ToUpper();
                         string tContCode = tdr["ContCode"].ToString().Trim().ToUpper();
@@ -211,8 +210,8 @@ namespace Attendance.Forms
                             tUnitCode, tEmpName, tFatherName,
                             tSex, tActive, tBirthDt, tJoinDt,
                             tWeekoff, tPayrollFLG, tContractFlg,
-                            tShiftType, tOTFLG, tMedChkFlg,
-                            tPoliceVeriFlg, tEmpCode, tContCode,
+                            tShiftType, tOTFLG, false,
+                            false, tEmpCode, tContCode,
                                 tEmpTypeCode, tCATCODE, tDeptcode, tStatCode,
                                     tDesgCode, tGradeCode, tMessGrpCode, tMessCode,
                                         tOldEmpCode, tSAPID, tCostCode, tAdharNo,
@@ -288,7 +287,7 @@ namespace Attendance.Forms
             try
             {
                 string myexceldataquery = "select EmpUnqID,WrkGrp,UnitCode,EmpName,FatherName,Gender,Active," +
-                    " BirthDt,JoinDt,WeekOff,PayrollFlg,ContractFlg,AutoShift,OTFLG,MEDChkFlg,PoliceVeriFlg,ShiftCode," +
+                    " BirthDt,JoinDt,WeekOff,PayrollFlg,ContractFlg,AutoShift,OTFLG,ShiftCode," +
                     " EmpCode,ContCode,EmpTypeCode,CatCode,DeptCode,StatCode,DesgCode,GradCode,MessGrpCode,MessCode," +
                     " OldEmpCode,SapID,CostCode,AdharNo,ValidFrom,ValidTo,'' as Remarks from " + sheetname;
 

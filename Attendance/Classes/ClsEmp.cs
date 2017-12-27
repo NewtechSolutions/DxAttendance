@@ -33,7 +33,7 @@ namespace Attendance.Classes
 
         private DateTime? _JoinDt, _BirthDt;
         private DateTime? _ValidFrom, _ValidTo,_LeftDt;
-        private bool _IsHOD,_Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg, _AutoShift, _IsNew, _MedChkFlg, _PoliceVeriFlg;
+        private bool _IsHOD, _Active, _OTFLG, _Gender, _ContFlg, _PayrollFlg, _AutoShift, _IsNew, _MedChkFlg, _SafetyTrnFLG;
 
 
         public string EmpUnqID { get { return _EmpUnqID; } set { _EmpUnqID = value; } }
@@ -102,7 +102,7 @@ namespace Attendance.Classes
         public bool PayrollFlg { get { return _PayrollFlg; } set { _PayrollFlg = value; } }
         public bool AutoShift { get { return _AutoShift; } set { _AutoShift = value; } }
         public bool MedChkFlg { get { return _MedChkFlg; } set { _MedChkFlg = value; } }
-        public bool PoliceVeriFlg { get { return _PoliceVeriFlg; } set { _PoliceVeriFlg = value; } }
+        public bool SafetyTrnFLG { get { return _SafetyTrnFLG; } set { _SafetyTrnFLG = value; } }
         public bool IsHOD { get { return _IsHOD; } set { _IsHOD = value; } }
 
 
@@ -155,7 +155,7 @@ namespace Attendance.Classes
             _JoinDt = dt; _BirthDt = dt;
             _ValidFrom = dt; _ValidTo = dt;_LeftDt = dt;
             _Active = false; _OTFLG = false; _Gender = false; _ContFlg = false; _PayrollFlg = false; _AutoShift = false;
-            _PoliceVeriFlg = false; _MedChkFlg = false;
+            _SafetyTrnFLG = false; _MedChkFlg = false;
         }
 
         public bool GetEmpDetails(string tCompCode,string tEmpUnqID)
@@ -198,27 +198,29 @@ namespace Attendance.Classes
                     this.MessGrpCode = dr["MessGrpCode"].ToString();
                     this.CostCode = dr["CostCode"].ToString();
                     this.ShiftCode = dr["ShiftCode"].ToString();
-                   
+                    
                     this.SAPID = dr["SAPID"].ToString();
                     this.EmpCode = dr["EmpCode"].ToString();
                     this.OLDEmpCode = dr["OldEmpCode"].ToString();
                     this.AdharNo = dr["AdharNo"].ToString();
                     this.WeekOffDay = dr["WeekOff"].ToString();
 
-                    IsHOD = Convert.ToBoolean(dr["IsHOD"]);
-                    Gender = Convert.ToBoolean(dr["Sex"]);
-                    Active = Convert.ToBoolean(dr["Active"]);
-                    OTFLG = Convert.ToBoolean(dr["OTFLG"]);
-                    ContFlg = Convert.ToBoolean(dr["ContractFlg"]);
-                    PayrollFlg = Convert.ToBoolean(dr["PayrollFlg"]);
-                    AutoShift = Convert.ToBoolean(dr["ShiftType"]);
+                    this.SafetyTrnFLG = Convert.ToBoolean(dr["SafetyTrnFLG"].ToString());
+                    this.MedChkFlg = Convert.ToBoolean(dr["MedChkFLG"]);
+                    this.IsHOD = Convert.ToBoolean(dr["IsHOD"]);
+                    this.Gender = Convert.ToBoolean(dr["Sex"]);
+                    this.Active = Convert.ToBoolean(dr["Active"]);
+                    this.OTFLG = Convert.ToBoolean(dr["OTFLG"]);
+                    this.ContFlg = Convert.ToBoolean(dr["ContractFlg"]);
+                    this.PayrollFlg = Convert.ToBoolean(dr["PayrollFlg"]);
+                    this.AutoShift = Convert.ToBoolean(dr["ShiftType"]);
 
-                    ValidFrom = (dr["ValidFrom"] != DBNull.Value) ? Convert.ToDateTime(dr["ValidFrom"]): new DateTime?();
-                    ValidTo = (dr["ValidTo"] != DBNull.Value) ? Convert.ToDateTime(dr["ValidTo"]) : new DateTime?();
+                    this.ValidFrom = (dr["ValidFrom"] != DBNull.Value) ? Convert.ToDateTime(dr["ValidFrom"]): new DateTime?();
+                    this.ValidTo = (dr["ValidTo"] != DBNull.Value) ? Convert.ToDateTime(dr["ValidTo"]) : new DateTime?();
 
-                    JoinDt = (dr["JoinDt"] != DBNull.Value) ? Convert.ToDateTime(dr["JoinDt"]) : new DateTime?();
-                    BirthDt = (dr["BirthDt"] != DBNull.Value) ? Convert.ToDateTime(dr["BirthDt"]) : new DateTime?();
-                    LeftDt = (dr["LeftDt"] != DBNull.Value) ? Convert.ToDateTime(dr["LeftDt"]) : new DateTime?();
+                    this.JoinDt = (dr["JoinDt"] != DBNull.Value) ? Convert.ToDateTime(dr["JoinDt"]) : new DateTime?();
+                    this.BirthDt = (dr["BirthDt"] != DBNull.Value) ? Convert.ToDateTime(dr["BirthDt"]) : new DateTime?();
+                    this.LeftDt = (dr["LeftDt"] != DBNull.Value) ? Convert.ToDateTime(dr["LeftDt"]) : new DateTime?();
 
                     SetAllDesc();
                     returnval = true;
@@ -776,7 +778,7 @@ namespace Attendance.Classes
                 bool tSex , bool tActive,DateTime tBirthDt, DateTime tJoinDt,
                     string tWeekoff , bool tPayrollFLG, bool tContractFlg, 
                         bool tShiftType, bool tOTFLG ,bool tMedChkFlg ,
-                             bool  tPoliceVeriFlg, string tEmpCode, string tContCode, 
+                             bool  tSafteyFlg, string tEmpCode, string tContCode, 
                                 string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
                                     string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
                                         string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo, 
@@ -956,7 +958,7 @@ namespace Attendance.Classes
             }
 
             this.MedChkFlg = tMedChkFlg;
-            this.PoliceVeriFlg = tPoliceVeriFlg;
+            this.SafetyTrnFLG = tSafteyFlg;
             this.AutoShift = tShiftType;
             this.CostCode = tCostCode;
             //
@@ -978,8 +980,8 @@ namespace Attendance.Classes
                             " UnitCode,MessCode,MessGrpCode,BirthDt,JoinDt,ValidFrom,ValidTo," +
                             " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active," +
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
-                            " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " + 
-                            " ShiftType,MedChkFlg,PoliceVeriFlg,ShiftCode, " +                            
+                            " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
+                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode, " +                            
                             " AddDt,AddID,isHod) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
@@ -999,7 +1001,7 @@ namespace Attendance.Classes
                              (this.ContFlg?1:0), (this.PayrollFlg?1:0), (this.OTFLG?1:0), this.WeekOffDay,
                             (this.ContCode == "" ? "null": this.ContCode ),this.EmpCode,this.OLDEmpCode,this.SAPID,
                             (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"), (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
-                            (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.PoliceVeriFlg?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
+                            (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
                             Utils.User.GUserID);
 
                         cmd.CommandText = sql;
