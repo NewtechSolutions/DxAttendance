@@ -29,7 +29,7 @@ namespace Attendance.Classes
 
         public static List<string> LunchInOutIP = new List<string>();
         public static string G_LunchInOutIP;
-
+        public static bool G_AutoProcess;
         public static string G_AutoProcessWrkGrp;
         public static TimeSpan G_AutoProcessTime;
         public static string G_ReportServiceURL;
@@ -41,7 +41,8 @@ namespace Attendance.Classes
         public static string G_NetworkDomain;
         public static string G_NetworkUser;
         public static string G_NetworkPass;
-        public static List<string> G_SchAutoTimeSet;
+        public static bool G_AutoDelEmp = false;
+        public static TimeSpan G_AutoDelEmpTime;
 
         public static int G_SanDayLimit;
         public static int G_LateComeSec;
@@ -74,7 +75,7 @@ namespace Attendance.Classes
                     G_EarlyComeSec = Convert.ToInt32(dr["EarlyComeSec"].ToString());
                     G_EarlyGoingSec = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
                     G_GracePeriodSec = Convert.ToInt32(dr["GracePeriodSec"].ToString());
-                   
+
                     G_HFFLG_Grace = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
                     G_HFFLG_LateCome = Convert.ToBoolean(dr["LateHalfDayFlg"]);
                     G_HFFLG_EarlyGoing = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
@@ -98,18 +99,28 @@ namespace Attendance.Classes
                         G_AutoProcessWrkGrp = dr["AutoProcessWrkGrp"].ToString().Replace(",", "','");
                         G_AutoProcessWrkGrp = "'" + G_AutoProcessWrkGrp + "'";
                     }
-                    TimeSpan t = new TimeSpan();
-                    if (dr["AutoProcessTime"] != DBNull.Value)
+
+                    G_AutoProcess = Convert.ToBoolean(dr["AutoProcessFlg"]);
+                    if (G_AutoProcess)
                     {
-                            TimeSpan.TryParse(dr["AutoProcessTime"].ToString(),out t);
+                        TimeSpan t = new TimeSpan();
+                        if (dr["AutoProcessTime"] != DBNull.Value)
+                        {
+                            TimeSpan.TryParse(dr["AutoProcessTime"].ToString(), out t);
                             G_AutoProcessTime = t;
+                        }
                     }
-                    else
+                    
+                    G_AutoDelEmp = Convert.ToBoolean(dr["AutoDelEmpFlg"]);
+                    if (G_AutoDelEmp)
                     {
-                        G_AutoProcessTime = t;
+                        TimeSpan t = new TimeSpan();
+                        if(TimeSpan.TryParse(dr["AutoDelEmpTime"].ToString(),out t))
+                        {
+                            G_AutoDelEmpTime = t;
+                        }                        
                     }
 
-                    //G_AutoProcessTime = (dr["AutoProccessTime"] != null) ? Convert.ToDateTime(dr["AutoProccessTime"]) : t;
                     G_ReportServiceURL = dr["ReportServiceURL"].ToString();
                     G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
                     G_DefaultMailID = dr["DefaultMailID"].ToString();

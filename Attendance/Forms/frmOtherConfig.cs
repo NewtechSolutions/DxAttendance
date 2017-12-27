@@ -269,11 +269,31 @@ namespace Attendance.Forms
                     GNetWorkUser = dr["NetWorkUser"].ToString();
                     txtAutoProcessWrkGrp.Text = dr["AutoProcessWrkGrp"].ToString();
 
-                    if (dr["AutoProcessTime"] != DBNull.Value)
+                    if (Convert.ToBoolean(dr["AutoProcessFlg"]))
                     {
+                        chkAutoProcessFlg.Checked = Convert.ToBoolean(dr["AutoProcessTime"]);
                         TimeSpan t = new TimeSpan();
                         TimeSpan.TryParse(dr["AutoProcessTime"].ToString(), out t);
                         txtAutoProccessTime.EditValue = t;
+                    }
+                    else
+                    {
+                        chkAutoProcessFlg.Checked = false;
+                        txtAutoProccessTime.EditValue = "00:00";
+                    }
+
+
+                    if (Convert.ToBoolean(dr["AutoDelEmpFlg"]))
+                    {
+                        chkAutoDeleteLeftEmp.Checked = Convert.ToBoolean(dr["AutoDelEmpFlg"]);
+                        TimeSpan t = new TimeSpan();
+                        TimeSpan.TryParse(dr["AutoDelEmpTime"].ToString(), out t);
+                        txtAutoDeleteEmpTime.EditValue = t;
+                    }
+                    else
+                    {
+                        chkAutoDeleteLeftEmp.Checked = false;
+                        txtAutoDeleteEmpTime.EditValue = "00:00";
                     }
 
                 }
@@ -375,13 +395,19 @@ namespace Attendance.Forms
                 return;
             }
 
-            if (txtAutoProccessTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
+            if (chkAutoProcessFlg.Checked &&  txtAutoProccessTime.Time.ToString("HH:mm") == "00:00" )
             {
-                string msg = "Please Specify Time of Start Auto Process...";
+                string msg = "Please Specify Time of Start Auto Daily Process...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            if (chkAutoDeleteLeftEmp.Checked && txtAutoDeleteEmpTime.Time.ToString("HH:mm") == "00:00")
+            {
+                string msg = "Please Specify Time of Start Auto Delete Left Employee from machine Process...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
@@ -404,7 +430,9 @@ namespace Attendance.Forms
                             " ServerWorkerIP='" + txtServerWorkerIP.Text.Trim().ToString() + "', " +
                             " UpdDt = GetDate() , UpdID ='" + Utils.User.GUserID + "', " +
                             " AutoProcessWrkGrp ='" + txtAutoProcessWrkGrp.Text.Trim().ToString() + "'," +
-                            " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") +
+                            " AutoProcessFlg ='" + (chkAutoProcessFlg.Checked?1:0) + "'," +
+                            " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") + "," +
+                            " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'" +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;
@@ -423,7 +451,7 @@ namespace Attendance.Forms
         
         private void btnTimeAdd_Click(object sender, EventArgs e)
         {
-            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
+            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null || txtAutoProccessTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -507,7 +535,7 @@ namespace Attendance.Forms
         
         private void btnTimeAdd_Log_Click(object sender, EventArgs e)
         {
-            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null)
+            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null || txtAutoProccessTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -592,21 +620,21 @@ namespace Attendance.Forms
 
         private void btnAddArrival_Click(object sender, EventArgs e)
         {
-            if (txtArrSch.Time == DateTime.MinValue || txtArrSch.Time == null)
+            if (txtArrSch.Time == DateTime.MinValue || txtArrSch.Time == null || txtArrSch.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (txtFromTime.Time == DateTime.MinValue || txtFromTime.Time == null)
+            if (txtFromTime.Time == DateTime.MinValue || txtFromTime.Time == null || txtFromTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify From Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (txtToTime.Time == DateTime.MinValue || txtToTime.Time == null)
+            if (txtToTime.Time == DateTime.MinValue || txtToTime.Time == null || txtToTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify To Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

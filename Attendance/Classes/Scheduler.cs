@@ -227,75 +227,71 @@ namespace Attendance.Classes
 
         public void RegSchedule_AutoProcess()
         {
-
-            TimeSpan tTime = Globals.G_AutoProcessTime;
-            if (tTime.Hours == 0 && tTime.Minutes == 0)
+            if (Globals.G_AutoProcess)
             {
+                TimeSpan tTime = Globals.G_AutoProcessTime;
+                if (tTime.Hours == 0 && tTime.Minutes == 0)
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgType = "Job Building";
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.Message = string.Format("Auto Process : did not get time");
+                    Publish(tMsg);
+                    return;
+                }
 
-                ServerMsg tMsg = new ServerMsg();
-                tMsg.MsgType = "Job Building";
-                tMsg.MsgTime = DateTime.Now;
-                tMsg.Message = string.Format("Auto Process : did not get time");
-                Publish(tMsg);
-                return;
+                string[] tWrkGrp = Globals.G_AutoProcessWrkGrp.Split(',');
+                if (tWrkGrp.Count() <= 0)
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgType = "Job Building";
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.Message = string.Format("Auto Process : did not get wrkgrps");
+                    Publish(tMsg);
+                    return;
+                }
+
+                foreach (string wrk in tWrkGrp)
+                {
+
+                    string jobid = "Job_AutoProcess_" + wrk.Replace("'", "");
+                    string triggerid = "Trigger_AutoProcess_" + wrk.Replace("'", "");
+
+                    // define the job and tie it to our HelloJob class
+                    IJobDetail job = JobBuilder.Create<AutoProcess>()
+                        .WithDescription("Auto Process Attendance Data")
+                        .WithIdentity(jobid, "AutoProcess")
+                        .UsingJobData("WrkGrp", wrk.Replace("'", ""))
+                        .Build();
+                    
+                    // Trigger the job to run now, and then repeat every 10 seconds
+                    ITrigger trigger = TriggerBuilder.Create()
+                        .WithIdentity(triggerid, "AutoProcess")
+                        .StartNow()
+                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
+                        .Build();
+
+                    // Tell quartz to schedule the job using our trigger
+                    scheduler.ScheduleJob(job, trigger);
+
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgType = "Job Building";
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
+                    Publish(tMsg);
+
+                }
             }
-
-            string[] tWrkGrp = Globals.G_AutoProcessWrkGrp.Split(',');
-            if (tWrkGrp.Count() <= 0)
-            {
-                ServerMsg tMsg = new ServerMsg();
-                tMsg.MsgType = "Job Building";
-                tMsg.MsgTime = DateTime.Now;
-                tMsg.Message = string.Format("Auto Process : did not get wrkgrps");
-                Publish(tMsg);
-                return;
-            }
-
-            
-            foreach (string wrk in tWrkGrp)
-            {
-
-                string jobid = "Job_AutoProcess_" + wrk.Replace("'", "");
-                string triggerid = "Trigger_AutoProcess_" + wrk.Replace("'", "");
-                
-                // define the job and tie it to our HelloJob class
-                IJobDetail job = JobBuilder.Create<AutoProcess>()
-                    .WithDescription("Auto Process Attendance Data")
-                    .WithIdentity(jobid, "AutoProcess")
-                    .UsingJobData("WrkGrp", wrk.Replace("'", ""))
-                    .Build();
-
-                
-
-                // Trigger the job to run now, and then repeat every 10 seconds
-                ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity(triggerid, "AutoProcess")
-                    .StartNow()
-                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes  ))                    
-                    .Build();
-
-                // Tell quartz to schedule the job using our trigger
-                scheduler.ScheduleJob(job, trigger);
-
-
-                ServerMsg tMsg = new ServerMsg();
-                tMsg.MsgType = "Job Building";
-                tMsg.MsgTime = DateTime.Now;
-                tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
-                Publish(tMsg);
-                
-            }
-
         }
 
         public void RegSchedule_WorkerProcess()
         {
             string jobid = "Job_WorkerProcess";
-            string triggerid = "Trigger_WorkerProcess" 
-                ;
+            string triggerid = "Trigger_WorkerProcess";
+
             // define the job and tie it to our HelloJob class
             IJobDetail job = JobBuilder.Create<WorkerProcess>()
-                 .WithDescription("Auto Process Pending Data Process")
+                    .WithDescription("Auto Process Worker")
                 .WithIdentity(jobid, "WorkerProcess")
                 .Build();
 
@@ -308,12 +304,44 @@ namespace Attendance.Classes
 
             // Tell quartz to schedule the job using our trigger
             scheduler.ScheduleJob(job, trigger);
-
             ServerMsg tMsg = new ServerMsg();
             tMsg.MsgType = "Job Building";
             tMsg.MsgTime = DateTime.Now;
             tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
             Scheduler.Publish(tMsg);
+            
+            
+            
+
+            if (Globals.G_AutoDelEmp)
+            {
+                
+                string jobid2 = "Job_AutoDeleteLeftEmp";
+                string triggerid2 = "Trigger_AutoDeleteLeftEmp";
+
+                // define the job and tie it to our HelloJob class
+                IJobDetail job2 = JobBuilder.Create<AutoDeleteLeftEmp>()
+                     .WithDescription("Auto Delete Left Employee")
+                    .WithIdentity(jobid2, "WorkerProcess")
+                    .Build();
+
+                // Trigger the job to run 
+                ITrigger trigger2 = TriggerBuilder.Create()
+                    .WithIdentity(triggerid2, "WorkerProcess")
+                    .StartNow()
+                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes))
+                    .Build();
+
+                // Tell quartz to schedule the job using our trigger
+                scheduler.ScheduleJob(job2, trigger2);
+
+                tMsg = new ServerMsg();
+                tMsg.MsgType = "Job Building";
+                tMsg.MsgTime = DateTime.Now;
+                tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
+                Scheduler.Publish(tMsg);
+            }
+           
 
         }
         
@@ -356,6 +384,102 @@ namespace Attendance.Classes
                     tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
                     Scheduler.Publish(tMsg);
                     
+                }
+            }
+        }
+
+        public class AutoDeleteLeftEmp : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+                if (_ShutDown)
+                {
+                    return;
+                }
+
+                if (_StatusAutoArrival == false &&
+                   _StatusAutoDownload == false &&
+                   _StatusAutoProcess == false &&
+                   _StatusAutoTimeSet == false &&
+                   _StatusWorker == false)
+                {
+
+
+                    bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+                    if (hasrow)
+                    {
+                        _StatusWorker = true;
+
+                        string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                        foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
+                        {
+                            string ip = dr["MachineIP"].ToString();
+
+                            try
+                            {
+                                ServerMsg tMsg = new ServerMsg();
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Auto Delete Left Employee";
+                                tMsg.Message = ip;
+                                Scheduler.Publish(tMsg);
+
+                                string ioflg = dr["IOFLG"].ToString();
+                                string err = string.Empty;
+
+                                clsMachine m = new clsMachine(ip, ioflg);
+                                m.Connect(out err);
+                                if (!string.IsNullOrEmpty(err))
+                                {
+
+                                    string fullpath = Path.Combine(Errfilepath, filenm);
+                                    //write primary errors
+                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                    {
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                    }
+
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Auto Delete Left Employee";
+                                    tMsg.Message = ip;
+                                    Scheduler.Publish(tMsg);
+                                    continue;
+                                }
+                                err = string.Empty;
+
+                                m.GetReFreshUsers(out err);
+
+                                if (!string.IsNullOrEmpty(err))
+                                {
+                                    string fullpath = Path.Combine(Errfilepath, filenm);
+                                    //write errlog
+                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                    {
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-" + err);
+                                    }
+
+                                }
+
+                                string fullpath2 = Path.Combine(Loginfopath, filenm);
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-Completed");
+                                }
+
+                                m.DisConnect(out err);
+                            }
+                            catch (Exception ex)
+                            {
+                                string fullpath = Path.Combine(Errfilepath, filenm);
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-" + ex.ToString());
+                                }
+                            }
+                        }
+
+                        _StatusWorker = false;
+                    }
                 }
             }
         }

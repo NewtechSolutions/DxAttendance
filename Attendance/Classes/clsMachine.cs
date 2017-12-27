@@ -921,8 +921,6 @@ namespace Attendance.Classes
                 //loop while users in machine 
                 while (CZKEM1.SSR_GetAllUserInfo(_machineno,out _userid, out _username, out _password, out _prev, out _enabled))
 	            {
-	                
-                    
                     tmpuser = new UserBioInfo();
                     tmpuser.UserID = _userid;
                     tmpuser.UserName = _username;
@@ -1393,11 +1391,15 @@ namespace Attendance.Classes
             
             //check user rights for the wrkgrp
             //'if not move next emp
-            if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+            if (Utils.User.GUserID != "SERVER")
             {
-                err = "You are not Authorised...";
-                return;
+                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+                {
+                    err = "You are not Authorised...";
+                    return;
+                }
             }
+            
 
             this.CZKEM1.EnableDevice(_machineno, false);
            
@@ -1517,7 +1519,7 @@ namespace Attendance.Classes
         public void DeleteLeftEmp(out string err)
         {
             err = string.Empty;
-            List<UserBioInfo> tUsers = new List<UserBioInfo>();
+            
 
             if (!_connected)
             {
@@ -1535,24 +1537,24 @@ namespace Attendance.Classes
             UserBioInfo tmpuser = new UserBioInfo();
 
             string _userid, _username, _password, _cardno;
-
             int _prev,  _useridInt;
             bool _enabled = false;
 
-            this.CZKEM1.EnableDevice(_machineno, false);
-
-            
+            this.CZKEM1.EnableDevice(_machineno, false);            
             _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
             _useridInt = 0; _prev = 0; _enabled = false;
             
-            while (CZKEM1.GetAllUserInfo(_machineno, ref _useridInt, ref _username, ref _password, ref _prev, ref _enabled))
+            if(_istft)
             {
+                while(this.CZKEM1.SSR_GetAllUserInfo(_machineno,out _userid,out _username,out _password,out _prev,out _enabled))
+                {
                     tmpuser = new UserBioInfo();
-                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserID = _userid.ToString();
                     tmpuser.UserName = _username;
                     tmpuser.Password = _password;
                     tmpuser.Previlege = _prev;
                     tmpuser.Enabled = _enabled;
+
                     //3 : superadmin , 0 : normal
                     if (tmpuser.Previlege == 3)
                     {
@@ -1574,13 +1576,302 @@ namespace Attendance.Classes
                         {
                             err += tmpuser.UserID + ":" + terr;
                         }
-                    }        
-                    
+                    } 
+                }//end while
+                
+            }//end if new machine
+            else
+            {
+                //old machines
+                while(this.CZKEM1.GetAllUserInfo(_machineno,ref _useridInt,ref _username,ref _password,ref _prev,ref _enabled))
+                {
+
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+                    int tActive = 0;
+                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                    if (cnt != "0")
+                    {
+                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                        tActive = Convert.ToInt32(cnt);
+                    }
+
+                    if(tActive == 0)
+                    {
+                        string terr = string.Empty;
+                        this.DeleteUser(tmpuser.UserID,out terr);
+                        if (!string.IsNullOrEmpty(terr))
+                        {
+                            err += tmpuser.UserID + ":" + terr;
+                            //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                            if (cnt != "0")
+                            {
+                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                {
+                                    try
+                                    {
+                                        cn.Open();
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+
+                                        using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                        {
+                                            cmd.ExecuteNonQuery();
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                    }
+                                }
+                            }
+                        }
+                    } 
+
+                }
+
             }
+
+            
+                    
+            
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true);
+        }
+
+        /// <summary>
+        /// this update MastMachineUsers Table which have fresh list of user for handy
+        /// also delete inactive users from machine, periodically
+        /// </summary>
+        /// <param name="err">out string err</param>
+        public void GetReFreshUsers(out string err)
+        {
+            err = string.Empty;
+
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            UserBioInfo tmpuser = new UserBioInfo();
+
+            string _userid, _username, _password, _cardno;
+            int _prev, _useridInt;
+            bool _enabled = false;
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _useridInt = 0; _prev = 0; _enabled = false;
+
+            if (_istft)
+            {
+                while (this.CZKEM1.SSR_GetAllUserInfo(_machineno, out _userid, out _username, out _password, out _prev, out _enabled))
+                {
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _userid.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+                    int tActive = 0;
+                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                    if (cnt != "0")
+                    {
+                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                        tActive = Convert.ToInt32(cnt);
+                    }
+
+                    if (tActive == 0)
+                    {
+                        string terr = string.Empty;
+                        this.DeleteUser(tmpuser.UserID, out terr);
+                        if (!string.IsNullOrEmpty(terr))
+                        {
+                            err += tmpuser.UserID + ":" + terr;
+                            //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                            if (cnt != "0")
+                            {
+                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                {
+                                    try
+                                    {
+                                        cn.Open();
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+
+                                        using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                        {
+                                            cmd.ExecuteNonQuery();
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                        if (cnt != "0")
+                        {
+                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
+                                        "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+
+                                    using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                    {
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    err += ex.ToString();
+                                }
+                            }
+                        }
+                    }
+                }//end while
+
+            }//end if new machine
+            else
+            {
+                //old machines
+                while (this.CZKEM1.GetAllUserInfo(_machineno, ref _useridInt, ref _username, ref _password, ref _prev, ref _enabled))
+                {
+
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.Password = _password;
+                    tmpuser.Previlege = _prev;
+                    tmpuser.Enabled = _enabled;
+
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+                    int tActive = 0;
+                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                    if (cnt != "0")
+                    {
+                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                        tActive = Convert.ToInt32(cnt);
+                    }
+
+                    if (tActive == 0)
+                    {
+                        string terr = string.Empty;
+                        this.DeleteUser(tmpuser.UserID, out terr);
+                        if (!string.IsNullOrEmpty(terr))
+                        {
+                            err += tmpuser.UserID + ":" + terr;
+
+                            //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                            if (cnt != "0")
+                            {
+                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                {
+                                    try
+                                    {
+                                        cn.Open();
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+
+                                        using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                        {
+                                            cmd.ExecuteNonQuery();
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                        if (cnt != "0")
+                        {
+                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
+                                        "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+
+                                    using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                    {
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    err += ex.ToString();
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            
             this.CZKEM1.RefreshData(_machineno);
             this.CZKEM1.EnableDevice(_machineno, true);
 
         }
+
 
     }
 }

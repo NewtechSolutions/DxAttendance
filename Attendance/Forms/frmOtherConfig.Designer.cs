@@ -47,7 +47,6 @@
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.txtAutoProccessTime = new DevExpress.XtraEditors.TimeEdit();
             this.label12 = new System.Windows.Forms.Label();
             this.txtAutoProcessWrkGrp = new DevExpress.XtraEditors.TextEdit();
@@ -84,6 +83,10 @@
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtToTime = new DevExpress.XtraEditors.TimeEdit();
+            this.txtFromTime = new DevExpress.XtraEditors.TimeEdit();
             this.label19 = new System.Windows.Forms.Label();
             this.btnDelArrival = new System.Windows.Forms.Button();
             this.btnAddArrival = new System.Windows.Forms.Button();
@@ -91,13 +94,12 @@
             this.grd_arrival = new DevExpress.XtraGrid.GridControl();
             this.gv_arrival = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.txtFromTime = new DevExpress.XtraEditors.TimeEdit();
-            this.txtToTime = new DevExpress.XtraEditors.TimeEdit();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.chkAutoDeleteLeftEmp = new System.Windows.Forms.CheckBox();
+            this.txtAutoDeleteEmpTime = new DevExpress.XtraEditors.TimeEdit();
+            this.chkAutoProcessFlg = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEarlyGoingHalfDaySec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLateHalfDaySec.Properties)).BeginInit();
@@ -125,12 +127,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.gv_Log)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArrSch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_arrival)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_arrival)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFromTime.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtToTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -343,8 +346,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkAutoProcessFlg);
+            this.groupBox3.Controls.Add(this.txtAutoDeleteEmpTime);
+            this.groupBox3.Controls.Add(this.chkAutoDeleteLeftEmp);
             this.groupBox3.Controls.Add(this.label14);
-            this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.txtAutoProccessTime);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.txtAutoProcessWrkGrp);
@@ -378,19 +383,10 @@
             this.label14.TabIndex = 16;
             this.label14.Text = "* ( Comma Seperated WrkGrpCode : Ex. COMP,CONT )";
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(19, 217);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(95, 14);
-            this.label13.TabIndex = 15;
-            this.label13.Text = "Auto Pro Time :";
-            // 
             // txtAutoProccessTime
             // 
             this.txtAutoProccessTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtAutoProccessTime.Location = new System.Drawing.Point(138, 215);
+            this.txtAutoProccessTime.Location = new System.Drawing.Point(293, 211);
             this.txtAutoProccessTime.Name = "txtAutoProccessTime";
             this.txtAutoProccessTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -822,6 +818,56 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Auto Process Arrival Report";
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(99, 57);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(53, 14);
+            this.label21.TabIndex = 14;
+            this.label21.Text = "To Time";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(11, 57);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(61, 14);
+            this.label20.TabIndex = 13;
+            this.label20.Text = "FromTime";
+            // 
+            // txtToTime
+            // 
+            this.txtToTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
+            this.txtToTime.Location = new System.Drawing.Point(102, 74);
+            this.txtToTime.Name = "txtToTime";
+            this.txtToTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtToTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtToTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtToTime.Properties.MaxLength = 5;
+            this.txtToTime.Properties.NullValuePrompt = "Please Enter Time";
+            this.txtToTime.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtToTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtToTime.Size = new System.Drawing.Size(76, 20);
+            this.txtToTime.TabIndex = 12;
+            // 
+            // txtFromTime
+            // 
+            this.txtFromTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
+            this.txtFromTime.Location = new System.Drawing.Point(6, 74);
+            this.txtFromTime.Name = "txtFromTime";
+            this.txtFromTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtFromTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtFromTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtFromTime.Properties.MaxLength = 5;
+            this.txtFromTime.Properties.NullValuePrompt = "Please Enter Time";
+            this.txtFromTime.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtFromTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtFromTime.Size = new System.Drawing.Size(76, 20);
+            this.txtFromTime.TabIndex = 11;
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
@@ -925,66 +971,6 @@
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 0;
             // 
-            // repositoryItemCheckEdit3
-            // 
-            this.repositoryItemCheckEdit3.AutoHeight = false;
-            this.repositoryItemCheckEdit3.Caption = "Check";
-            this.repositoryItemCheckEdit3.DisplayValueChecked = "1";
-            this.repositoryItemCheckEdit3.DisplayValueGrayed = "0";
-            this.repositoryItemCheckEdit3.DisplayValueUnchecked = "0";
-            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
-            this.repositoryItemCheckEdit3.ValueGrayed = false;
-            // 
-            // txtFromTime
-            // 
-            this.txtFromTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtFromTime.Location = new System.Drawing.Point(6, 74);
-            this.txtFromTime.Name = "txtFromTime";
-            this.txtFromTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtFromTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
-            this.txtFromTime.Properties.Mask.EditMask = "HH:mm";
-            this.txtFromTime.Properties.MaxLength = 5;
-            this.txtFromTime.Properties.NullValuePrompt = "Please Enter Time";
-            this.txtFromTime.Properties.NullValuePromptShowForEmptyValue = true;
-            this.txtFromTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
-            this.txtFromTime.Size = new System.Drawing.Size(76, 20);
-            this.txtFromTime.TabIndex = 11;
-            // 
-            // txtToTime
-            // 
-            this.txtToTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtToTime.Location = new System.Drawing.Point(102, 74);
-            this.txtToTime.Name = "txtToTime";
-            this.txtToTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtToTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
-            this.txtToTime.Properties.Mask.EditMask = "HH:mm";
-            this.txtToTime.Properties.MaxLength = 5;
-            this.txtToTime.Properties.NullValuePrompt = "Please Enter Time";
-            this.txtToTime.Properties.NullValuePromptShowForEmptyValue = true;
-            this.txtToTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
-            this.txtToTime.Size = new System.Drawing.Size(76, 20);
-            this.txtToTime.TabIndex = 12;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(11, 57);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(61, 14);
-            this.label20.TabIndex = 13;
-            this.label20.Text = "FromTime";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(99, 57);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(53, 14);
-            this.label21.TabIndex = 14;
-            this.label21.Text = "To Time";
-            // 
             // gridColumn3
             // 
             this.gridColumn3.Caption = "FromTime";
@@ -1000,6 +986,52 @@
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 2;
+            // 
+            // repositoryItemCheckEdit3
+            // 
+            this.repositoryItemCheckEdit3.AutoHeight = false;
+            this.repositoryItemCheckEdit3.Caption = "Check";
+            this.repositoryItemCheckEdit3.DisplayValueChecked = "1";
+            this.repositoryItemCheckEdit3.DisplayValueGrayed = "0";
+            this.repositoryItemCheckEdit3.DisplayValueUnchecked = "0";
+            this.repositoryItemCheckEdit3.Name = "repositoryItemCheckEdit3";
+            this.repositoryItemCheckEdit3.ValueGrayed = false;
+            // 
+            // chkAutoDeleteLeftEmp
+            // 
+            this.chkAutoDeleteLeftEmp.AutoSize = true;
+            this.chkAutoDeleteLeftEmp.Location = new System.Drawing.Point(21, 236);
+            this.chkAutoDeleteLeftEmp.Name = "chkAutoDeleteLeftEmp";
+            this.chkAutoDeleteLeftEmp.Size = new System.Drawing.Size(264, 18);
+            this.chkAutoDeleteLeftEmp.TabIndex = 17;
+            this.chkAutoDeleteLeftEmp.Text = "* Auto Delete Left Employee from Machine";
+            this.chkAutoDeleteLeftEmp.UseVisualStyleBackColor = true;
+            // 
+            // txtAutoDeleteEmpTime
+            // 
+            this.txtAutoDeleteEmpTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
+            this.txtAutoDeleteEmpTime.Location = new System.Drawing.Point(293, 237);
+            this.txtAutoDeleteEmpTime.Name = "txtAutoDeleteEmpTime";
+            this.txtAutoDeleteEmpTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtAutoDeleteEmpTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtAutoDeleteEmpTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtAutoDeleteEmpTime.Properties.MaxLength = 5;
+            this.txtAutoDeleteEmpTime.Properties.NullValuePrompt = "Please Enter Time";
+            this.txtAutoDeleteEmpTime.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtAutoDeleteEmpTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtAutoDeleteEmpTime.Size = new System.Drawing.Size(76, 20);
+            this.txtAutoDeleteEmpTime.TabIndex = 18;
+            // 
+            // chkAutoProcessFlg
+            // 
+            this.chkAutoProcessFlg.AutoSize = true;
+            this.chkAutoProcessFlg.Location = new System.Drawing.Point(21, 212);
+            this.chkAutoProcessFlg.Name = "chkAutoProcessFlg";
+            this.chkAutoProcessFlg.Size = new System.Drawing.Size(166, 18);
+            this.chkAutoProcessFlg.TabIndex = 19;
+            this.chkAutoProcessFlg.Text = "* Auto Daily Data Process";
+            this.chkAutoProcessFlg.UseVisualStyleBackColor = true;
             // 
             // frmOtherConfig
             // 
@@ -1047,12 +1079,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtArrSch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grd_arrival)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_arrival)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtFromTime.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtToTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1088,7 +1121,6 @@
         private DevExpress.XtraEditors.TimeEdit txtTime;
         private System.Windows.Forms.Button btnTimeDel;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label13;
         private DevExpress.XtraEditors.TimeEdit txtAutoProccessTime;
         private System.Windows.Forms.Label label12;
         private DevExpress.XtraEditors.TextEdit txtAutoProcessWrkGrp;
@@ -1129,5 +1161,8 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraEditors.TimeEdit txtAutoDeleteEmpTime;
+        private System.Windows.Forms.CheckBox chkAutoDeleteLeftEmp;
+        private System.Windows.Forms.CheckBox chkAutoProcessFlg;
     }
 }
