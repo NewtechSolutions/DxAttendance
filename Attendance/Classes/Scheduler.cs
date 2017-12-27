@@ -365,70 +365,84 @@ namespace Attendance.Classes
                     
                     
                     _StatusAutoDownload = true;
-                    
+
 
                     foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
                     {
                         string ip = dr["MachineIP"].ToString();
 
-                        ServerMsg tMsg = new ServerMsg();
-                        tMsg.MsgTime = DateTime.Now;
-                        tMsg.MsgType = "Auto Download";
-                        tMsg.Message = ip;
-                        Scheduler.Publish(tMsg);
-                        
-                        string ioflg = dr["IOFLG"].ToString();
-                        string err = string.Empty;
-                        string filenm = "AutoErrLog_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
-                        string fullpath = Path.Combine(Errfilepath, filenm);
-
-                        clsMachine m = new clsMachine(ip, ioflg);
-                        m.Connect(out err);
-                        if (!string.IsNullOrEmpty(err))
+                        try
                         {
-                            //write primary errors
-                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
-                            {
-                                file.WriteLine(DateTime.Now.ToString("yyyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
-                            }
-                           
+
+
+                            ServerMsg tMsg = new ServerMsg();
                             tMsg.MsgTime = DateTime.Now;
                             tMsg.MsgType = "Auto Download";
-                            tMsg.Message = ip ;
+                            tMsg.Message = ip;
                             Scheduler.Publish(tMsg);
-                            continue;
-                        }
-                        err = string.Empty;
 
-                        List<AttdLog> tempattd = new List<AttdLog>();
-                        m.GetAttdRec(out tempattd, out err);
-                        if (!string.IsNullOrEmpty(err))
-                        {
-                            //write errlog
+                            string ioflg = dr["IOFLG"].ToString();
+                            string err = string.Empty;
+                            string filenm = "AutoErrLog_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                            string fullpath = Path.Combine(Errfilepath, filenm);
+
+                            clsMachine m = new clsMachine(ip, ioflg);
+                            m.Connect(out err);
+                            if (!string.IsNullOrEmpty(err))
+                            {
+                                //write primary errors
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                }
+
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Auto Download";
+                                tMsg.Message = ip;
+                                Scheduler.Publish(tMsg);
+                                continue;
+                            }
+                            err = string.Empty;
+
+                            List<AttdLog> tempattd = new List<AttdLog>();
+                            m.GetAttdRec(out tempattd, out err);
+                            if (!string.IsNullOrEmpty(err))
+                            {
+                                //write errlog
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                }
+
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Auto Download";
+                                tMsg.Message = ip + "->Error :" + err;
+                                Scheduler.Publish(tMsg);
+                                continue;
+                            }
+
+
+
+                            filenm = "AutoDownload_Log_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                            fullpath = Path.Combine(Loginfopath, filenm);
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                             {
-                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                file.WriteLine(DateTime.Now.ToString("yyyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-Completed");
                             }
-                            
-                            tMsg.MsgTime = DateTime.Now;
-                            tMsg.MsgType = "Auto Download";
-                            tMsg.Message = ip + "->Error :" + err;
-                            Scheduler.Publish(tMsg);
-                            continue;
+
+                            m.DisConnect(out err);
                         }
-
-
-
-                        filenm = "AutoDownload_Log_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-                        fullpath = Path.Combine(Loginfopath, filenm);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                        catch (Exception ex)
                         {
-                            file.WriteLine(DateTime.Now.ToString("yyyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-Completed");
+                            string filenm = "AutoErrLog_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                            string fullpath = Path.Combine(Errfilepath, filenm);
+                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                            {
+                                file.WriteLine(DateTime.Now.ToString("yyyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + ex.ToString());
+                            }
                         }
-
-                        m.DisConnect(out err);
                     }
-
+                    
                     _StatusAutoDownload = false;
                 }
             }
@@ -514,6 +528,8 @@ namespace Attendance.Classes
             }
         }
 
+        //iStatefuljob will help to preserv jobdatamap after execution
+        [PersistJobDataAfterExecution]
         public class AutoProcess : IJob
         {
             public void Execute(IJobExecutionContext context)
@@ -583,12 +599,21 @@ namespace Attendance.Classes
                         }
                     }
 
+                    string filenminfo = "AutoProcess_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    string fullpath2 = Path.Combine(Loginfopath, filenminfo);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Completed-" + tWrkGrp);
+                    }
+
                 }
 
                 _StatusAutoProcess = false;
             }
         }
 
+        //iStatefuljob will help to preserv jobdatamap after execution
+        [PersistJobDataAfterExecution]
         public class AutoArrival : IJob
         {
             public void Execute(IJobExecutionContext context)

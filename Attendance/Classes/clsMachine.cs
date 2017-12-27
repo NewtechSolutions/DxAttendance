@@ -130,11 +130,20 @@ namespace Attendance.Classes
             
             this.GetMachineInfoFromDb();
 
-            _connected = CZKEM1.Connect_Net(_ip, _port);
-            CZKEM1.GetFirmwareVersion(_machineno, ref _version);
             try
             {
+                _connected = this.CZKEM1.Connect_Net(_ip, _port);
+            }
+            catch (Exception ex)
+            {
+                err = ex.ToString();
+                return;
+            }
+            
 
+            this.CZKEM1.GetFirmwareVersion(_machineno, ref _version);
+            try
+            {
 
                 _version = _version.Substring(4, 4);
             }
@@ -142,7 +151,7 @@ namespace Attendance.Classes
             {
                 _version = "0";
             }
-            _istft = CZKEM1.IsTFTMachine(_machineno);
+            _istft = this.CZKEM1.IsTFTMachine(_machineno);
         
             if ( _finger)
             {
@@ -151,7 +160,7 @@ namespace Attendance.Classes
                 //'If vValue=‘9’ or vValue=‘’, the device uses ZKFinger9.0
 
                 
-                CZKEM1.GetSysOption(_machineno, "~ZKFPVersion", out _fingerprintversion);
+                this.CZKEM1.GetSysOption(_machineno, "~ZKFPVersion", out _fingerprintversion);
             }
         }
 
@@ -167,12 +176,12 @@ namespace Attendance.Classes
             }
             try
             {
-                CZKEM1.Disconnect();
+                this.CZKEM1.Disconnect();
                 _connected = false;
                 return;
             }catch(Exception ex ){
 
-                CZKEM1.GetLastError(ref _LastErrCode);
+                this.CZKEM1.GetLastError(ref _LastErrCode);
                 err = "Operation failed,ErrorCode=" + _LastErrCode.ToString() + Environment.NewLine + ex.ToString();
                 _connected = true;
             }

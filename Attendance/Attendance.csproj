@@ -92,7 +92,7 @@
     </Reference>
     <Reference Include="Interop.zkemkeeper">
       <HintPath>..\Interop.zkemkeeper.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="MQTTnet, Version=2.6.0.0, Culture=neutral, PublicKeyToken=909d71c724771999, processorArchitecture=MSIL">
       <HintPath>packages\MQTTnet.2.6.0\lib\net452\MQTTnet.dll</HintPath>

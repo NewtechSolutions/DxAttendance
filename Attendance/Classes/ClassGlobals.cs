@@ -288,8 +288,9 @@ namespace Attendance.Classes
             string sql = "Select GetDate() as CurrentDate ";
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);          
+                           .Any(table => table.Rows.Count != 0);
 
+            dt = DateTime.Now;
             if (hasRows)
             {
                
