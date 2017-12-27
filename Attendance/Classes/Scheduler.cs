@@ -15,6 +15,7 @@ using MQTTnet.Server;
 using Quartz.Impl.Matchers;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Attendance.Classes
 {
@@ -141,6 +142,10 @@ namespace Attendance.Classes
                 scheduler.Clear();
                 _ShutDown = true;                
             }
+
+
+            //this is required for take new changes in sceduler
+            Globals.GetGlobalVars();
 
             RegSchedule_AutoTimeSet();
             RegSchedule_WorkerProcess();
