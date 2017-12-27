@@ -13,6 +13,7 @@ using MQTTnet.Client;
 using Quartz.Impl;
 using Quartz;
 using Quartz.Impl.Matchers;
+using System.IO;
 
 
 namespace Attendance.Forms
@@ -25,7 +26,7 @@ namespace Attendance.Forms
         delegate void SetTextCallback(string text);
         private static string pcname = Utils.Helper.GetLocalPCName();
         private static IMqttClient mqtc;
-
+        private static string TraceFilePath = Utils.Helper.GetTraceFilePath();
 
         public frmServerStatus()
         {
@@ -54,6 +55,13 @@ namespace Attendance.Forms
 
                     rtxtLoginMessage.Select(0, 0);
                     rtxtLoginMessage.SelectedText = text + Environment.NewLine;
+
+                    string filenminfo = "ServerStatus_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    string fullpath2 = Path.Combine(TraceFilePath, filenminfo);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-" + text);
+                    }
 
                 }
             }
@@ -253,7 +261,9 @@ namespace Attendance.Forms
         {
             if (Utils.User.GUserID == "SERVER")
             {
+                this.Cursor = Cursors.WaitCursor;
                 Globals.G_myscheduler.Restart();
+                this.Cursor = Cursors.Default;
                 
             }
             else

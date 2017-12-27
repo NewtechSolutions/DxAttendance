@@ -167,6 +167,7 @@ namespace Attendance.Classes
                     string triggerid = "Trigger_AutoDownload_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoDownLoad>()
+                         .WithDescription("Auto Download Attendance Log from All Machine")
                         .WithIdentity(jobid, "AutoDownload")
                         .Build();
 
@@ -201,6 +202,7 @@ namespace Attendance.Classes
                     string triggerid = "Trigger_TimeSet_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoTimeSet>()
+                         .WithDescription("Auto Set ServerTime to All Machine")
                         .WithIdentity(jobid, "AutoTimeSet")
                         .Build();
 
@@ -254,11 +256,13 @@ namespace Attendance.Classes
             {
 
                 string jobid = "Job_AutoProcess_" + wrk.Replace("'", "");
-                string triggerid = "T_AutoProcess_" + wrk.Replace("'", "");
+                string triggerid = "Trigger_AutoProcess_" + wrk.Replace("'", "");
                 
                 // define the job and tie it to our HelloJob class
-                IJobDetail job = JobBuilder.Create<AutoTimeSet>()
+                IJobDetail job = JobBuilder.Create<AutoProcess>()
+                    .WithDescription("Auto Process Attendance Data")
                     .WithIdentity(jobid, "AutoProcess")
+                    .UsingJobData("WrkGrp", wrk.Replace("'", ""))
                     .Build();
 
                 
@@ -267,8 +271,7 @@ namespace Attendance.Classes
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithIdentity(triggerid, "AutoProcess")
                     .StartNow()
-                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes  ))
-                    .UsingJobData("WrkGrp", wrk.Replace("'", ""))
+                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes  ))                    
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
@@ -292,6 +295,7 @@ namespace Attendance.Classes
                 ;
             // define the job and tie it to our HelloJob class
             IJobDetail job = JobBuilder.Create<WorkerProcess>()
+                 .WithDescription("Auto Process Pending Data Process")
                 .WithIdentity(jobid, "WorkerProcess")
                 .Build();
 
@@ -332,15 +336,16 @@ namespace Attendance.Classes
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoArrival>()
                         .WithIdentity(jobid, "Arrival")
+                        .WithDescription("Auto Process Shift wise Arrival Report For " + FromTime.ToString() + " TO " + ToTime.ToString())
+                        .UsingJobData("FromTime", FromTime.ToString())
+                        .UsingJobData("ToTime", ToTime.ToString())    
                         .Build();
 
-                    // Trigger the job to run now, and then repeat every 10 seconds
+                    // Trigger the job to run now
                     ITrigger trigger = TriggerBuilder.Create()
                         .WithIdentity(triggerid, "Arrival")
                         .StartNow()
-                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
-                        .UsingJobData("FromTime",FromTime.ToString())
-                        .UsingJobData("ToTime", ToTime.ToString())                        
+                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))                                          
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
@@ -564,7 +569,14 @@ namespace Attendance.Classes
                 if (hasRows)
                 {
                     clsProcess pro = new clsProcess();
-                    
+
+                    string filenminfo = "AutoProcess_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    string fullpath2 = Path.Combine(Loginfopath, filenminfo);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Started-" + tWrkGrp);
+                    }
+
                     foreach (DataRow dr in DsEmp.Tables[0].Rows)
                     {
                         if (_ShutDown)
@@ -604,8 +616,8 @@ namespace Attendance.Classes
                         }
                     }
 
-                    string filenminfo = "AutoProcess_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-                    string fullpath2 = Path.Combine(Loginfopath, filenminfo);
+                    filenminfo = "AutoProcess_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    fullpath2 = Path.Combine(Loginfopath, filenminfo);
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
                     {
                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Completed-" + tWrkGrp);

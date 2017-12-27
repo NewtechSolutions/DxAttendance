@@ -35,6 +35,16 @@ namespace Utils
             return dir;
         }
 
+        static public string GetTraceFilePath()
+        {
+            string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dir = System.IO.Path.Combine(dir, "Trace");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
+
         static public string GetErrLogFilePath()
         {
             string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
