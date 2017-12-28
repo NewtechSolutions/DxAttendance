@@ -271,7 +271,7 @@ namespace Attendance.Forms
 
                     if (Convert.ToBoolean(dr["AutoProcessFlg"]))
                     {
-                        chkAutoProcessFlg.Checked = Convert.ToBoolean(dr["AutoProcessTime"]);
+                        chkAutoProcessFlg.Checked = Convert.ToBoolean(dr["AutoProcessFlg"]);
                         TimeSpan t = new TimeSpan();
                         TimeSpan.TryParse(dr["AutoProcessTime"].ToString(), out t);
                         txtAutoProccessTime.EditValue = t;
