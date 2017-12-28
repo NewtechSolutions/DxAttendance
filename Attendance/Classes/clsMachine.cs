@@ -8,6 +8,7 @@ using Attendance.Classes;
 using System.IO;
 using System.Data.SqlClient;
 using System.Data;
+using System.Net.NetworkInformation;
 
 namespace Attendance.Classes
 {
@@ -24,6 +25,19 @@ namespace Attendance.Classes
         private string _ioflg;
 
         private bool _messflg,_autoclear,_lunchinout,_gateinout,_istft, _rfid,_face,_finger;
+
+        /* Error Codes
+         
+         1 SUCCESSED
+         4 ERR_INVALID_PARAM
+         0 ERR_NO_DATA
+        -1 ERROR_NOT_INIT
+        -2 ERROR_IO
+        -3 ERROR_SIZE
+        -4 ERROR_NO_SPACE
+        -100 ERROR_UNSUPPORT
+        
+         */
 
         /// <summary>
         /// get machine info from database->readerconfig
@@ -101,11 +115,17 @@ namespace Attendance.Classes
             CZKEM1 = new zkemkeeper.CZKEM();
         }
 
-        public int GetLastErr { get { return _LastErrCode; } }
+        public int GetLastErr { 
+            get {
+                this.CZKEM1.GetLastError(_LastErrCode);
+                return _LastErrCode; 
+            } 
+        }
         
         public void Connect(out string err)
         {
             err = string.Empty;
+           
             _LastErrCode = 0;
 
             if(string.IsNullOrEmpty(_ip))
@@ -127,30 +147,45 @@ namespace Attendance.Classes
                 err = "Invalid I/O Flg required(I,O,B)";
                 return;
             }
-            
+
+            //check ping if Success/networkstatus first
+            string status = this.PingMachine(out err);
+            if(status.ToUpper() != "SUCCESS" )
+            {
+                return;
+            }
+
             this.GetMachineInfoFromDb();
 
             try
             {
                 _connected = this.CZKEM1.Connect_Net(_ip, _port);
+                
             }
             catch (Exception ex)
             {
                 err = ex.ToString();
                 return;
             }
-            
 
-            this.CZKEM1.GetFirmwareVersion(_machineno, ref _version);
+            if (!_connected)
+            {
+                this.CZKEM1.GetLastError(_LastErrCode);
+                err = "Can not connect machine ErrorCode :" + _LastErrCode.ToString();
+                return;
+            }
+
+            
             try
             {
-
+                this.CZKEM1.GetFirmwareVersion(_machineno, ref _version);
                 _version = _version.Substring(4, 4);
             }
             catch (Exception ex)
             {
                 _version = "0";
             }
+
             _istft = this.CZKEM1.IsTFTMachine(_machineno);
         
             if ( _finger)
@@ -1870,6 +1905,43 @@ namespace Attendance.Classes
             this.CZKEM1.RefreshData(_machineno);
             this.CZKEM1.EnableDevice(_machineno, true);
 
+        }
+
+        public string PingMachine(out string err)
+        {
+            string status = string.Empty;
+            err = string.Empty;
+
+            if(string.IsNullOrEmpty(_ip))
+            {
+                err = "IP Address is required..";
+                status = "Bad Request";
+            
+                return status;
+            }
+
+            try
+            {
+                Ping myPing = new Ping();
+                PingReply reply = myPing.Send(_ip, 1000);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    status = "Success";
+                }
+                else
+                {
+                    status = reply.Status.ToString();
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                status = "Request timeout";
+                err = ex.ToString();
+            }
+
+            return status;
         }
 
 
