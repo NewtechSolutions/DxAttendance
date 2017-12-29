@@ -16,7 +16,9 @@ using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-    
+ 
+
+
     public partial class frmUploadShiftSchedule : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
@@ -679,10 +681,12 @@ namespace Attendance.Forms
             //string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + filePath + ";extended properties=" + "\"excel 8.0;hdr=yes;IMEX=1;\"";
 
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
             oledbconn.Open();
             string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-            string sheetname = "[" + str.Replace("'", "") + "]";
+            string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
 
+           
             try
             {
                 string myexceldataquery = BuildExcelSelect(txtYearMT.DateTime);
@@ -693,13 +697,16 @@ namespace Attendance.Forms
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt = new DataTable();
                 dt.Clear();
+                MessageBox.Show(myexceldataquery);
                 oledbda.Fill(dt);
+               
                 oledbconn.Close();
+               
             }
             catch (Exception ex)
             {
                 oledbconn.Close();
-                MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please Check upload template.." + Environment.NewLine + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
                 btnImport.Enabled = false;
                 oledbconn.Close();
@@ -857,9 +864,10 @@ namespace Attendance.Forms
                 btnPreview.Enabled = true;
                 btnImport.Enabled = false;
 
-            }
-
-           
+            }           
         }
+
+        
+
     }
 }

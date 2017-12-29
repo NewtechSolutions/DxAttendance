@@ -238,7 +238,7 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
+                        string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}','{2}',GetDate(),'{3}')";
                         sql = string.Format(sql, ctrlEmp1.txtEmpUnqID.Text.Trim(), txtCostCode.Text.Trim().ToString().ToUpper(),
                             txtValidFrom.DateTime.ToString("yyyy-MM-dd"),
                             Utils.User.GUserID);

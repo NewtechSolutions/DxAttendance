@@ -942,6 +942,18 @@ namespace Attendance
             MessageBox.Show(msg, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void mnuMastStatSec_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastStatSec"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastStatSec m = new Attendance.Forms.frmMastStatSec();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
         

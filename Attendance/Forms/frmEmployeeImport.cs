@@ -269,7 +269,12 @@ namespace Attendance.Forms
             string sexcelconnectionstring = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1;\"";
             //string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + filePath + ";extended properties=" + "\"excel 8.0;hdr=yes;IMEX=1;\"";
 
+            
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
+            oledbconn.Open();
+            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+            string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
 
             try
             {
@@ -280,10 +285,6 @@ namespace Attendance.Forms
                 return;
             }
             
-            
-            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-            string sheetname = "[" + str.Replace("'", "") + "]";
-
             try
             {
                 string myexceldataquery = "select EmpUnqID,WrkGrp,UnitCode,EmpName,FatherName,Gender,Active," +

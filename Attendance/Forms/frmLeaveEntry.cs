@@ -1093,7 +1093,7 @@ namespace Attendance.Forms
 
                     //process lunchinout
                     pro.LunchInOutProcess(Emp.EmpUnqID, FromDt, ToDt, out res);
-
+                    MessageBox.Show("Posting Done..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     #endregion
                 }
                 catch (Exception ex)
@@ -1338,6 +1338,8 @@ namespace Attendance.Forms
                     pro.LunchInOutProcess(Emp.EmpUnqID, FromDt, ToDt, out res);
 
                     #endregion
+
+                    MessageBox.Show("Deleted..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -1434,6 +1436,8 @@ namespace Attendance.Forms
 
                     //process lunchinout
                     pro.LunchInOutProcess(Emp.EmpUnqID, tDate, tDate, out res);
+
+                    MessageBox.Show("Deleted..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 LoadGrid();

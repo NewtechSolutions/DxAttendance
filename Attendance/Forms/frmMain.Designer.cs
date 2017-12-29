@@ -115,6 +115,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuMastStatSec = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -328,6 +329,7 @@
             this.mnuMastCat,
             this.mnuMastDept,
             this.mnuMastStat,
+            this.mnuMastStatSec,
             this.mnuMastDesg,
             this.mnuMastGrade,
             this.mnuMastCont,
@@ -764,7 +766,7 @@
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(107, 22);
             this.mnuAbout.Text = "About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
@@ -810,6 +812,13 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
+            // 
+            // mnuMastStatSec
+            // 
+            this.mnuMastStatSec.Name = "mnuMastStatSec";
+            this.mnuMastStatSec.Size = new System.Drawing.Size(193, 22);
+            this.mnuMastStatSec.Text = "Section Master";
+            this.mnuMastStatSec.Click += new System.EventHandler(this.mnuMastStatSec_Click);
             // 
             // frmMain
             // 
@@ -923,6 +932,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuServerStat;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
+        private System.Windows.Forms.ToolStripMenuItem mnuMastStatSec;
 
 
     }

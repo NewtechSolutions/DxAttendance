@@ -119,6 +119,8 @@ namespace Attendance.Forms
             txtGradeDesc.Text = string.Empty;
             txtContCode.Text = "";
             txtContDesc.Text = "";
+            txtSecCode.Text = "";
+            txtSecDesc.Text = "";
 
             txtEmpCode.Text = "";
             txtOldEmpCode.Text = "";
@@ -258,8 +260,8 @@ namespace Attendance.Forms
                         sql = "Update MastEmp set OTFLG='{0}',Weekoff='{1}', EmpCode='{2}',OldEmpCode='{3}',SAPID='{4}',ShiftType='{5}'," +
                             " LeftDt = {6}  , EmpTypeCode = {7} , CatCode = {8} , DeptCode = {9} , StatCode = {10} , DesgCode = {11} , " +
                             " GradCode = {12} , ContCode = {13} , ShiftCode = {14} , Active = '{15}', " +
-                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}' Where " +
-                            " CompCode ='{18}' and EmpUnqID = '{19}'";
+                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}', SecCode = {18} Where " +
+                            " CompCode ='{19}' and EmpUnqID = '{20}'";
 
 
                         sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
@@ -275,8 +277,8 @@ namespace Attendance.Forms
                             ((txtShiftCode.Text.Trim() == "") ? "null" : "'" + txtShiftCode.Text.Trim() + "'"),
                             ((txtLeftDt.EditValue == null)?1:0),
                             Utils.User.GUserID,((chkIsHOD.Checked) ? 1 : 0),
+                            ((txtSecCode.Text.Trim() == "") ? "null" : "'" + txtSecCode.Text.Trim() + "'"),
                             ctrlEmp1.txtCompCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim()
-
                             );
 
                         cmd.CommandText = sql;
@@ -1225,6 +1227,100 @@ namespace Attendance.Forms
 
            
 
+        }
+
+        private void txtSecCode_Validated(object sender, EventArgs e)
+        {
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
+                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || ctrlEmp1.txtDeptCode.Text.Trim() == ""
+                || ctrlEmp1.txtStatCode.Text.Trim() == "" || txtSecCode.Text.Trim() == "")
+            {
+
+                txtSecCode.Text = "";
+                txtSecDesc.Text = "";
+                return;
+            }
+
+            txtSecCode.Text = txtSecCode.Text.Trim().ToString().PadLeft(3, '0');
+
+            DataSet ds = new DataSet();
+            string sql = "select * From MastStatSec where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
+                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
+                    " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
+                    " and DeptCode ='" + ctrlEmp1.txtDeptCode.Text.Trim() + "' " +
+                    " and StatCode ='" + ctrlEmp1.txtStatCode.Text.Trim() + "' " +
+                    " and SecCode ='" + txtSecCode.Text.Trim() + "'";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtSecCode.Text = dr["SecCode"].ToString();
+                    txtSecDesc.Text = dr["SecDesc"].ToString();
+                }
+            }
+            else
+            {
+                txtSecCode.Text = "";
+                txtSecDesc.Text = "";
+            }
+
+        }
+
+        private void txtSecCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
+                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || txtDeptCode.Text.Trim() == ""
+                || txtStatCode.Text.Trim() == ""
+                )
+                return;
+
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+                sql = "Select SecCode,SecDesc From MastStatSec Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
+                   " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
+                   " and DeptCode='" + txtDeptCode.Text.Trim() + "' and StatCode ='" + txtStatCode.Text.Trim() + "'";
+
+                if (e.KeyCode == Keys.F1)
+                {
+
+                    obj = (List<string>)hlp.Show(sql, "SecCode", "SecCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+                else
+                {
+                    obj = (List<string>)hlp.Show(sql, "SecDesc", "SecDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+                    txtSecCode.Text = obj.ElementAt(0).ToString();
+                    txtSecDesc.Text = obj.ElementAt(1).ToString();
+                }
+            }
         }
 
     }

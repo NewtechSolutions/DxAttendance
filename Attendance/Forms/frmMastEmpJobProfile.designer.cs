@@ -36,6 +36,10 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
             this.GrpMain = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtSecDesc = new DevExpress.XtraEditors.TextEdit();
+            this.txtSecCode = new DevExpress.XtraEditors.TextEdit();
             this.chkIsHOD = new DevExpress.XtraEditors.CheckEdit();
             this.txtShiftDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtShiftCode = new DevExpress.XtraEditors.TextEdit();
@@ -74,6 +78,8 @@
             this.txtLeftDt = new DevExpress.XtraEditors.DateEdit();
             this.grpUserRights.SuspendLayout();
             this.GrpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSecDesc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSecCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).BeginInit();
@@ -179,6 +185,10 @@
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.label3);
+            this.GrpMain.Controls.Add(this.label2);
+            this.GrpMain.Controls.Add(this.txtSecDesc);
+            this.GrpMain.Controls.Add(this.txtSecCode);
             this.GrpMain.Controls.Add(this.chkIsHOD);
             this.GrpMain.Controls.Add(this.txtShiftDesc);
             this.GrpMain.Controls.Add(this.txtShiftCode);
@@ -221,9 +231,53 @@
             this.GrpMain.TabIndex = 1;
             this.GrpMain.TabStop = false;
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(744, 101);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(172, 42);
+            this.label3.TabIndex = 116;
+            this.label3.Text = "(* Used For Portal Release Strategy)";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(382, 102);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 15);
+            this.label2.TabIndex = 115;
+            this.label2.Text = "SecCode  :";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtSecDesc
+            // 
+            this.txtSecDesc.Location = new System.Drawing.Point(519, 99);
+            this.txtSecDesc.Name = "txtSecDesc";
+            this.txtSecDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtSecDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtSecDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtSecDesc.Properties.ReadOnly = true;
+            this.txtSecDesc.Size = new System.Drawing.Size(219, 20);
+            this.txtSecDesc.TabIndex = 114;
+            this.txtSecDesc.TabStop = false;
+            // 
+            // txtSecCode
+            // 
+            this.txtSecCode.Location = new System.Drawing.Point(454, 99);
+            this.txtSecCode.Name = "txtSecCode";
+            this.txtSecCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtSecCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtSecCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtSecCode.Properties.Mask.EditMask = "[0-9]+";
+            this.txtSecCode.Size = new System.Drawing.Size(59, 20);
+            this.txtSecCode.TabIndex = 11;
+            this.txtSecCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSecCode_KeyDown);
+            this.txtSecCode.Validated += new System.EventHandler(this.txtSecCode_Validated);
+            // 
             // chkIsHOD
             // 
-            this.chkIsHOD.Location = new System.Drawing.Point(226, 129);
+            this.chkIsHOD.Location = new System.Drawing.Point(6, 153);
             this.chkIsHOD.Name = "chkIsHOD";
             this.chkIsHOD.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIsHOD.Properties.Appearance.Options.UseFont = true;
@@ -239,7 +293,7 @@
             // 
             // txtShiftDesc
             // 
-            this.txtShiftDesc.Location = new System.Drawing.Point(180, 179);
+            this.txtShiftDesc.Location = new System.Drawing.Point(180, 127);
             this.txtShiftDesc.Name = "txtShiftDesc";
             this.txtShiftDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtShiftDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
@@ -251,7 +305,7 @@
             // 
             // txtShiftCode
             // 
-            this.txtShiftCode.Location = new System.Drawing.Point(115, 179);
+            this.txtShiftCode.Location = new System.Drawing.Point(115, 127);
             this.txtShiftCode.Name = "txtShiftCode";
             this.txtShiftCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtShiftCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -264,7 +318,7 @@
             // 
             // txtWeekOff
             // 
-            this.txtWeekOff.Location = new System.Drawing.Point(90, 80);
+            this.txtWeekOff.Location = new System.Drawing.Point(90, 74);
             this.txtWeekOff.Name = "txtWeekOff";
             this.txtWeekOff.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -283,7 +337,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 83);
+            this.label1.Location = new System.Drawing.Point(19, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 15);
             this.label1.TabIndex = 109;
@@ -291,7 +345,7 @@
             // 
             // txtContDesc
             // 
-            this.txtContDesc.Location = new System.Drawing.Point(519, 180);
+            this.txtContDesc.Location = new System.Drawing.Point(519, 201);
             this.txtContDesc.Name = "txtContDesc";
             this.txtContDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtContDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
@@ -304,7 +358,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(381, 183);
+            this.label13.Location = new System.Drawing.Point(381, 204);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(67, 15);
             this.label13.TabIndex = 106;
@@ -312,21 +366,21 @@
             // 
             // txtContCode
             // 
-            this.txtContCode.Location = new System.Drawing.Point(454, 180);
+            this.txtContCode.Location = new System.Drawing.Point(454, 201);
             this.txtContCode.Name = "txtContCode";
             this.txtContCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtContCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtContCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtContCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtContCode.Size = new System.Drawing.Size(59, 20);
-            this.txtContCode.TabIndex = 14;
+            this.txtContCode.TabIndex = 15;
             this.txtContCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContCode_KeyDown);
             this.txtContCode.Validated += new System.EventHandler(this.txtContCode_Validated);
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(27, 55);
+            this.label24.Location = new System.Drawing.Point(27, 49);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(54, 15);
             this.label24.TabIndex = 104;
@@ -334,7 +388,7 @@
             // 
             // txtSAPID
             // 
-            this.txtSAPID.Location = new System.Drawing.Point(90, 53);
+            this.txtSAPID.Location = new System.Drawing.Point(90, 47);
             this.txtSAPID.Name = "txtSAPID";
             this.txtSAPID.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtSAPID.Properties.AppearanceReadOnly.Options.UseBackColor = true;
@@ -344,7 +398,7 @@
             // 
             // chkAutoShift
             // 
-            this.chkAutoShift.Location = new System.Drawing.Point(16, 180);
+            this.chkAutoShift.Location = new System.Drawing.Point(16, 128);
             this.chkAutoShift.Name = "chkAutoShift";
             this.chkAutoShift.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAutoShift.Properties.Appearance.Options.UseFont = true;
@@ -360,7 +414,7 @@
             // 
             // chkOTFlg
             // 
-            this.chkOTFlg.Location = new System.Drawing.Point(22, 129);
+            this.chkOTFlg.Location = new System.Drawing.Point(16, 100);
             this.chkOTFlg.Name = "chkOTFlg";
             this.chkOTFlg.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkOTFlg.Properties.Appearance.Options.UseFont = true;
@@ -371,13 +425,13 @@
             this.chkOTFlg.Properties.Caption = "Extra Hrs :";
             this.chkOTFlg.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkOTFlg.Properties.ValueGrayed = false;
-            this.chkOTFlg.Size = new System.Drawing.Size(85, 19);
+            this.chkOTFlg.Size = new System.Drawing.Size(91, 19);
             this.chkOTFlg.TabIndex = 5;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(193, 27);
+            this.label18.Location = new System.Drawing.Point(193, 21);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(81, 15);
             this.label18.TabIndex = 101;
@@ -385,7 +439,7 @@
             // 
             // txtOldEmpCode
             // 
-            this.txtOldEmpCode.Location = new System.Drawing.Point(277, 26);
+            this.txtOldEmpCode.Location = new System.Drawing.Point(277, 20);
             this.txtOldEmpCode.Name = "txtOldEmpCode";
             this.txtOldEmpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtOldEmpCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
@@ -396,7 +450,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(380, 27);
+            this.label15.Location = new System.Drawing.Point(380, 21);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(68, 15);
             this.label15.TabIndex = 97;
@@ -404,7 +458,7 @@
             // 
             // txtEmpTypeDesc
             // 
-            this.txtEmpTypeDesc.Location = new System.Drawing.Point(519, 26);
+            this.txtEmpTypeDesc.Location = new System.Drawing.Point(519, 20);
             this.txtEmpTypeDesc.Name = "txtEmpTypeDesc";
             this.txtEmpTypeDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtEmpTypeDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -416,7 +470,7 @@
             // 
             // txtEmpTypeCode
             // 
-            this.txtEmpTypeCode.Location = new System.Drawing.Point(454, 26);
+            this.txtEmpTypeCode.Location = new System.Drawing.Point(454, 20);
             this.txtEmpTypeCode.Name = "txtEmpTypeCode";
             this.txtEmpTypeCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtEmpTypeCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -430,7 +484,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(385, 158);
+            this.label14.Location = new System.Drawing.Point(385, 179);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(63, 15);
             this.label14.TabIndex = 96;
@@ -439,7 +493,7 @@
             // 
             // txtCatDesc
             // 
-            this.txtCatDesc.Location = new System.Drawing.Point(519, 155);
+            this.txtCatDesc.Location = new System.Drawing.Point(519, 176);
             this.txtCatDesc.Name = "txtCatDesc";
             this.txtCatDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtCatDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -451,20 +505,20 @@
             // 
             // txtCatCode
             // 
-            this.txtCatCode.Location = new System.Drawing.Point(454, 155);
+            this.txtCatCode.Location = new System.Drawing.Point(454, 176);
             this.txtCatCode.Name = "txtCatCode";
             this.txtCatCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtCatCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtCatCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtCatCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtCatCode.Size = new System.Drawing.Size(59, 20);
-            this.txtCatCode.TabIndex = 13;
+            this.txtCatCode.TabIndex = 14;
             this.txtCatCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCatCode_KeyDown);
             this.txtCatCode.Validated += new System.EventHandler(this.txtCatCode_Validated);
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(13, 27);
+            this.label12.Location = new System.Drawing.Point(13, 21);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(76, 19);
             this.label12.TabIndex = 95;
@@ -472,7 +526,7 @@
             // 
             // txtEmpCode
             // 
-            this.txtEmpCode.Location = new System.Drawing.Point(90, 26);
+            this.txtEmpCode.Location = new System.Drawing.Point(90, 20);
             this.txtEmpCode.Name = "txtEmpCode";
             this.txtEmpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtEmpCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -484,7 +538,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(379, 133);
+            this.label7.Location = new System.Drawing.Point(379, 154);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(69, 15);
             this.label7.TabIndex = 94;
@@ -493,7 +547,7 @@
             // 
             // txtGradeDesc
             // 
-            this.txtGradeDesc.Location = new System.Drawing.Point(519, 130);
+            this.txtGradeDesc.Location = new System.Drawing.Point(519, 151);
             this.txtGradeDesc.Name = "txtGradeDesc";
             this.txtGradeDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtGradeDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -505,21 +559,21 @@
             // 
             // txtGradeCode
             // 
-            this.txtGradeCode.Location = new System.Drawing.Point(454, 130);
+            this.txtGradeCode.Location = new System.Drawing.Point(454, 151);
             this.txtGradeCode.Name = "txtGradeCode";
             this.txtGradeCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtGradeCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtGradeCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtGradeCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtGradeCode.Size = new System.Drawing.Size(59, 20);
-            this.txtGradeCode.TabIndex = 12;
+            this.txtGradeCode.TabIndex = 13;
             this.txtGradeCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtGradeCode_KeyDown);
             this.txtGradeCode.Validated += new System.EventHandler(this.txtGradeCode_Validated);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(377, 107);
+            this.label5.Location = new System.Drawing.Point(377, 128);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 15);
             this.label5.TabIndex = 93;
@@ -528,7 +582,7 @@
             // 
             // txtDesgDesc
             // 
-            this.txtDesgDesc.Location = new System.Drawing.Point(519, 104);
+            this.txtDesgDesc.Location = new System.Drawing.Point(519, 125);
             this.txtDesgDesc.Name = "txtDesgDesc";
             this.txtDesgDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDesgDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -540,30 +594,30 @@
             // 
             // txtDesgCode
             // 
-            this.txtDesgCode.Location = new System.Drawing.Point(454, 104);
+            this.txtDesgCode.Location = new System.Drawing.Point(454, 125);
             this.txtDesgCode.Name = "txtDesgCode";
             this.txtDesgCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDesgCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDesgCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtDesgCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtDesgCode.Size = new System.Drawing.Size(59, 20);
-            this.txtDesgCode.TabIndex = 11;
+            this.txtDesgCode.TabIndex = 12;
             this.txtDesgCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDesgCode_KeyDown);
             this.txtDesgCode.Validated += new System.EventHandler(this.txtDesgCode_Validated);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(382, 81);
+            this.label11.Location = new System.Drawing.Point(382, 75);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(66, 15);
             this.label11.TabIndex = 92;
-            this.label11.Text = "SecCode  :";
+            this.label11.Text = "StatCode  :";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtStatDesc
             // 
-            this.txtStatDesc.Location = new System.Drawing.Point(519, 78);
+            this.txtStatDesc.Location = new System.Drawing.Point(519, 72);
             this.txtStatDesc.Name = "txtStatDesc";
             this.txtStatDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtStatDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -575,7 +629,7 @@
             // 
             // txtStatCode
             // 
-            this.txtStatCode.Location = new System.Drawing.Point(454, 78);
+            this.txtStatCode.Location = new System.Drawing.Point(454, 72);
             this.txtStatCode.Name = "txtStatCode";
             this.txtStatCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtStatCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -589,7 +643,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(380, 54);
+            this.label9.Location = new System.Drawing.Point(380, 48);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 15);
             this.label9.TabIndex = 91;
@@ -598,7 +652,7 @@
             // 
             // txtDeptDesc
             // 
-            this.txtDeptDesc.Location = new System.Drawing.Point(519, 52);
+            this.txtDeptDesc.Location = new System.Drawing.Point(519, 46);
             this.txtDeptDesc.Name = "txtDeptDesc";
             this.txtDeptDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDeptDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -610,7 +664,7 @@
             // 
             // txtDeptCode
             // 
-            this.txtDeptCode.Location = new System.Drawing.Point(454, 52);
+            this.txtDeptCode.Location = new System.Drawing.Point(454, 46);
             this.txtDeptCode.Name = "txtDeptCode";
             this.txtDeptCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDeptCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -624,7 +678,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(206, 83);
+            this.label4.Location = new System.Drawing.Point(206, 77);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 15);
             this.label4.TabIndex = 89;
@@ -634,7 +688,7 @@
             // 
             this.txtLeftDt.EditValue = null;
             this.txtLeftDt.Enabled = false;
-            this.txtLeftDt.Location = new System.Drawing.Point(277, 80);
+            this.txtLeftDt.Location = new System.Drawing.Point(277, 74);
             this.txtLeftDt.Name = "txtLeftDt";
             this.txtLeftDt.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -662,6 +716,8 @@
             this.grpUserRights.ResumeLayout(false);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSecDesc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSecCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShiftCode.Properties)).EndInit();
@@ -737,5 +793,9 @@
         private DevExpress.XtraEditors.TextEdit txtShiftDesc;
         private DevExpress.XtraEditors.TextEdit txtShiftCode;
         private DevExpress.XtraEditors.CheckEdit chkIsHOD;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraEditors.TextEdit txtSecDesc;
+        public DevExpress.XtraEditors.TextEdit txtSecCode;
     }
 }
