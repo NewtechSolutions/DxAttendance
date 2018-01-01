@@ -635,6 +635,17 @@ namespace Attendance.Forms
             gv_Attd.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_Attd.Appearance.ViewCaption.Font, FontStyle.Bold);
             gv_Attd.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             //gv_Attd.Appearance.HeaderPanel.Options.UseFont = true;
+            try
+            {
+                gv_Attd.Columns["ConsIn"].Width = 100;
+                gv_Attd.Columns["ConsOut"].Width = 100;
+
+            }
+            catch
+            {
+
+            }
+            
 
             gv_InOut.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             gv_InOut.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_Attd.Appearance.ViewCaption.Font, FontStyle.Bold);
@@ -1714,7 +1725,8 @@ namespace Attendance.Forms
                         clsProcess pro = new clsProcess();
                         int res = 0; string errpro = string.Empty;
                         pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
-
+                        pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
+                        
                         if (!string.IsNullOrEmpty(errpro))
                         {
                             MessageBox.Show("Data Process Error : " + errpro, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

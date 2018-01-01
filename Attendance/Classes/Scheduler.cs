@@ -341,7 +341,36 @@ namespace Attendance.Classes
                 tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
                 Scheduler.Publish(tMsg);
             }
-           
+
+
+            if (Globals.G_AutoDelExpEmp)
+            {
+                string jobid2 = "Job_AutoDeleteExpireValidityEmp";
+                string triggerid2 = "Trigger_AutoDeleteExpireValidityEmp";
+
+                // define the job and tie it to our HelloJob class
+                IJobDetail job2 = JobBuilder.Create<AutoDeleteLeftEmp>()
+                     .WithDescription("Auto Delete Expired Validity Employee")
+                    .WithIdentity(jobid2, "WorkerProcess")
+                    .Build();
+
+                // Trigger the job to run 
+                ITrigger trigger2 = TriggerBuilder.Create()
+                    .WithIdentity(triggerid2, "WorkerProcess")
+                    .StartNow()
+                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelExpEmpTime.Hours, Globals.G_AutoDelExpEmpTime.Minutes))
+                    .Build();
+
+                // Tell quartz to schedule the job using our trigger
+                scheduler.ScheduleJob(job2, trigger2);
+
+                tMsg = new ServerMsg();
+                tMsg.MsgType = "Job Building";
+                tMsg.MsgTime = DateTime.Now;
+                tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
+                Scheduler.Publish(tMsg);
+            }
+
 
         }
         
@@ -436,7 +465,7 @@ namespace Attendance.Classes
                                     //write primary errors
                                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                     {
-                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDelete-[" + ip + "]-" + err);
                                     }
 
                                     tMsg.MsgTime = DateTime.Now;
@@ -957,6 +986,132 @@ namespace Attendance.Classes
             }
         }
 
+        public class AutoDeleteExpireValidityEmp : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+                if (_ShutDown)
+                {
+                    return;
+                }
+
+                if (_StatusAutoArrival == false &&
+                   _StatusAutoDownload == false &&
+                   _StatusAutoProcess == false &&
+                   _StatusAutoTimeSet == false &&
+                   _StatusWorker == false)
+                {
+                     //
+                    string sql = "Select EmpUnqID from MastEmp where Active = 1 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
+                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                    string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                    
+                    if (hasrows)
+                    {
+
+                        #region create_expired_emplist
+                        //create list of users
+                        List<UserBioInfo> tUserList = new List<UserBioInfo>();
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            UserBioInfo tuser = new UserBioInfo();
+                            tuser.UserID = dr["EmpUnqID"].ToString();
+                            tUserList.Add(tuser);
+                        }
+                        #endregion
+                        
+                        bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasrow)
+                        {
+                            if (_ShutDown)
+                            {
+                                return;
+                            }
+
+                            //loop all machine
+                            foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
+                            {
+                                _StatusWorker = true;
+                                if (_ShutDown)
+                                {
+                                    return;
+                                }
+
+                                string Errfullpath = Path.Combine(Errfilepath, "");
+                                string ip = dr["MachineIP"].ToString();
+
+                                try
+                                {
+                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Auto Delete Validity Expired Employee";
+                                    tMsg.Message = ip;
+                                    Scheduler.Publish(tMsg);
+                                    string ioflg = dr["IOFLG"].ToString();
+                                    string err = string.Empty;
+                                    #region ConnectMachine
+                                    clsMachine m = new clsMachine(ip, ioflg);
+                                    m.Connect(out err);
+                                    if (!string.IsNullOrEmpty(err))
+                                    {
+
+                                        string fullpath = Path.Combine(Errfilepath, filenm);
+                                        //write primary errors
+                                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                        {
+                                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDelete-[" + ip + "]-" + err);
+                                        }
+
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "Auto Delete Left Employee";
+                                        tMsg.Message = ip;
+                                        Scheduler.Publish(tMsg);
+                                        continue;
+                                    }
+                                    #endregion
+                                    
+                                    err = string.Empty;
+                                    List<UserBioInfo> temp = new List<UserBioInfo>();
+                                    m.DeleteUser(tUserList,out err,out temp);
+
+                                    string fullpath2 = Path.Combine(Loginfopath, filenm);
+                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                                    {
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-Completed");
+                                    }
+                                    
+                                    m.DisConnect(out err);
+                                    
+                                }
+                                catch (Exception ex)
+                                {
+                                    string fullpath = Path.Combine(Errfilepath, filenm);
+                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                    {
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-" + ex.ToString());
+                                    }
+                                }
+                            }//foreach loop
+                        }
+                        else
+                        {
+                            _StatusWorker = false;
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        _StatusWorker = false;
+                        return;
+                    }
+                    
+                    _StatusWorker = false;
+                    
+                }
+            }
+        }
 
       class TriggerListenerExample:ITriggerListener
       {

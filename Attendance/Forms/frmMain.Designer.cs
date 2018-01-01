@@ -57,6 +57,7 @@
             this.mnuMastCat = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastDept = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastStat = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastStatSec = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastDesg = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastGrade = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastCont = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,7 +116,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuMastStatSec = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -368,6 +368,13 @@
             this.mnuMastStat.Size = new System.Drawing.Size(193, 22);
             this.mnuMastStat.Text = "Station Master";
             this.mnuMastStat.Click += new System.EventHandler(this.mnuMastStat_Click);
+            // 
+            // mnuMastStatSec
+            // 
+            this.mnuMastStatSec.Name = "mnuMastStatSec";
+            this.mnuMastStatSec.Size = new System.Drawing.Size(193, 22);
+            this.mnuMastStatSec.Text = "Section Master";
+            this.mnuMastStatSec.Click += new System.EventHandler(this.mnuMastStatSec_Click);
             // 
             // mnuMastDesg
             // 
@@ -709,7 +716,7 @@
             // 
             this.mnuRulesCheck.Name = "mnuRulesCheck";
             this.mnuRulesCheck.Size = new System.Drawing.Size(222, 22);
-            this.mnuRulesCheck.Text = "Leave Rules Check/Apply";
+            this.mnuRulesCheck.Text = "Absent Rules Check/Apply";
             this.mnuRulesCheck.Click += new System.EventHandler(this.mnuRulesCheck_Click);
             // 
             // mnuHalfDayCheck
@@ -812,13 +819,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuMastStatSec
-            // 
-            this.mnuMastStatSec.Name = "mnuMastStatSec";
-            this.mnuMastStatSec.Size = new System.Drawing.Size(193, 22);
-            this.mnuMastStatSec.Text = "Section Master";
-            this.mnuMastStatSec.Click += new System.EventHandler(this.mnuMastStatSec_Click);
             // 
             // frmMain
             // 

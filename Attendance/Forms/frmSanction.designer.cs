@@ -422,6 +422,7 @@
             // txtOutTime
             // 
             this.txtOutTime.EditValue = new System.DateTime(2017, 11, 21, 0, 0, 0, 0);
+            this.txtOutTime.EnterMoveNextControl = true;
             this.txtOutTime.Location = new System.Drawing.Point(408, 13);
             this.txtOutTime.Name = "txtOutTime";
             this.txtOutTime.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
@@ -429,7 +430,10 @@
             this.txtOutTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.txtOutTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtOutTime.Properties.EditFormat.FormatString = "d";
+            this.txtOutTime.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.txtOutTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtOutTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtOutTime.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtOutTime.Properties.MaxLength = 5;
             this.txtOutTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
@@ -446,7 +450,10 @@
             this.txtInTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
             this.txtInTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtInTime.Properties.EditFormat.FormatString = "d";
+            this.txtInTime.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.txtInTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtInTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtInTime.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtInTime.Properties.MaxLength = 5;
             this.txtInTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
@@ -844,6 +851,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject4, "", null, null, true)});
             this.txtTimeLunch.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtTimeLunch.Properties.Mask.EditMask = "HH:mm";
+            this.txtTimeLunch.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtTimeLunch.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtTimeLunch.Properties.MaxLength = 5;
             this.txtTimeLunch.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
@@ -1145,6 +1153,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, null, true)});
             this.txtTimeGate.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtTimeGate.Properties.Mask.EditMask = "HH:mm";
+            this.txtTimeGate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtTimeGate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtTimeGate.Properties.MaxLength = 5;
             this.txtTimeGate.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;

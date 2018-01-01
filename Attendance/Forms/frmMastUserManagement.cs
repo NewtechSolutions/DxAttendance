@@ -763,7 +763,7 @@ namespace Attendance.Forms
 
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void ResetRemarks()
@@ -887,7 +887,7 @@ namespace Attendance.Forms
 
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -951,7 +951,7 @@ namespace Attendance.Forms
 
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnBlock_Click(object sender, EventArgs e)
@@ -1011,7 +1011,7 @@ namespace Attendance.Forms
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
@@ -1071,7 +1071,7 @@ namespace Attendance.Forms
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnUnlockMaster_Click(object sender, EventArgs e)
@@ -1152,7 +1152,7 @@ namespace Attendance.Forms
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnUpdateRFID_Click(object sender, EventArgs e)
@@ -1441,8 +1441,7 @@ namespace Attendance.Forms
             MessageBox.Show("Process Completed..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
-
-       
+               
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog openKeywordsFileDialog = new OpenFileDialog();
@@ -1571,6 +1570,52 @@ namespace Attendance.Forms
             grd_Upload.DataSource = ds;
             grd_Upload.DataMember = ds.Tables[0].TableName;
             grd_Upload.Refresh();
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void btnSetTime_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+
+                m.SetTime(out err);
+
+                if (string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                }
+
+                m.DisConnect(out err);
+            }
 
             UnLockCtrl();
             Cursor.Current = Cursors.Default;

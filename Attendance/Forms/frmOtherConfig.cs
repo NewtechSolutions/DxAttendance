@@ -296,6 +296,19 @@ namespace Attendance.Forms
                         txtAutoDeleteEmpTime.EditValue = "00:00";
                     }
 
+                    if (Convert.ToBoolean(dr["AutoDelEmpExpireValFlg"]))
+                    {
+                        chkAutoDelExpEmp.Checked = Convert.ToBoolean(dr["AutoDelEmpExpireValFlg"]);
+                        TimeSpan t = new TimeSpan();
+                        TimeSpan.TryParse(dr["AutoDelEmpExpireTime"].ToString(), out t);
+                        txtAutoDelExpEmpTime.EditValue = t;
+                    }
+                    else
+                    {
+                        chkAutoDelExpEmp.Checked = false;
+                        txtAutoDelExpEmpTime.EditValue = "00:00";
+                    }
+
                 }
             }
         }
@@ -409,6 +422,14 @@ namespace Attendance.Forms
                 return;
             }
 
+            if (chkAutoDelExpEmp.Checked && txtAutoDelExpEmpTime.Time.ToString("HH:mm") == "00:00")
+            {
+                string msg = "Please Specify Time of Start Delete Expired Validity Employee from machine...";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
                 try
@@ -432,7 +453,8 @@ namespace Attendance.Forms
                             " AutoProcessWrkGrp ='" + txtAutoProcessWrkGrp.Text.Trim().ToString() + "'," +
                             " AutoProcessFlg ='" + (chkAutoProcessFlg.Checked?1:0) + "'," +
                             " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") + "," +
-                            " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'" +
+                            " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'," +
+                            " AutoAutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'" +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;

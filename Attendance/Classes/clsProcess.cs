@@ -1069,84 +1069,94 @@ namespace Attendance
                             #region Set_LateComming
                             //'Calc LateCome,EarlyGone
                             TimeSpan tDiff = (tInTime - ShiftStart);
-                            if (tDiff.TotalSeconds > 0)
+                            
+                            if (tInTime > ShiftStart)
                             {
-                                secgrace += tDiff.TotalSeconds;
-                                hurgrace = Math.Truncate(secgrace / 3600);
-                                mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
+                            
+                                #region grace
+                                ////grace period
+                                //if (tDiff.TotalSeconds > 0)
+                                //{
+                                //    secgrace += tDiff.TotalSeconds;
+                                //    hurgrace = Math.Truncate(secgrace / 3600);
+                                //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
 
-                                drAttd["GracePeriod"] = smingrace;
+                                //    drAttd["GracePeriod"] = smingrace;
+                                //}
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    //new development for dynamic halfday
+                                //    if (Globals.G_HFFLG_Grace)
+                                //    {
+                                //        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
+                                //        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 1;
+                                //        }
+                                //    }
+
+                                //}//new development for dynamic halfday
+                                #endregion grace
+
+                                if (tDiff.TotalSeconds >= Globals.G_LateComeSec)
+                                {
+
+                                    seclate = tDiff.TotalSeconds;
+                                    hurlate = Math.Truncate(seclate / 3600);
+                                    minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
+                                    sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate);
+                                    drAttd["LateCome"] = sminlate;
+
+                                    //new development for dynamic halfday
+                                    if (Globals.G_HFFLG_LateCome)
+                                    {
+                                        //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
+                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                        {
+                                            drAttd["Halfday"] = 0;
+                                            drAttd["Latecome"] = "";
+                                            drAttd["EarlyCome"] = "";
+                                        }
+                                        else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                        {
+                                            drAttd["Halfday"] = 0;
+                                            drAttd["Latecome"] = "";
+                                            drAttd["EarlyCome"] = "";
+                                        }
+                                        else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == ""))
+                                        {
+                                            drAttd["Halfday"] = 1;
+
+                                        }
+                                        else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                        {
+                                            drAttd["Halfday"] = 0;
+                                            drAttd["Status"] = "A";
+                                            drAttd["Latecome"] = "";
+                                        }
+                                        else if (seclate > 5400 && eWrkGrp == "COMP")
+                                        {
+                                            drAttd["Halfday"] = 0;
+                                            drAttd["Status"] = "A";
+                                            drAttd["Latecome"] = "";
+                                        }
+
+
+                                    }//new development for dynamic halfday
+
+                                    daAttdData.Update(dsAttdData, "AttdData");
+                                }
                             }
-
-                            //grace period
-                            if (secgrace > Globals.G_GracePeriodSec)
-                            {
-                                //new development for dynamic halfday
-                                if (Globals.G_HFFLG_Grace)
-                                {
-                                    //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
-                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                    }
-                                    else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                    }
-                                    else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
-                                    {
-                                        drAttd["Halfday"] = 1;
-                                    }
-                                }
-
-                            }//new development for dynamic halfday
-
-                            if (tDiff.TotalSeconds > Globals.G_LateComeSec)
-                            {
-
-                                seclate = tDiff.TotalSeconds;
-                                hurlate = Math.Truncate(seclate / 3600);
-                                minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
-                                sminlate = string.Format("{0:00}:{1:00}", hurlate,minlate);
-                                drAttd["LateCome"] = sminlate;
-                                                                
-                                if (Globals.G_HFFLG_LateCome)
-                                {
-                                    //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
-                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                        drAttd["Latecome"] = "";
-                                        drAttd["EarlyCome"] = "";
-                                    }
-                                    else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                        drAttd["Latecome"] = "";
-                                        drAttd["EarlyCome"] = "";
-                                    }
-                                    else if (seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
-                                        drAttd["Halfday"] = 1;
-
-                                    else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                        drAttd["Status"] = "A";
-                                        drAttd["Latecome"] = "";
-                                    }
-                                    else if (seclate > 5400 && eWrkGrp == "COMP")
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                        drAttd["Status"] = "A";
-                                        drAttd["Latecome"] = "";
-                                    }
-                                }
-                                
-                                //
-                                daAttdData.Update(dsAttdData, "AttdData");
-                            }//
-
+                            
                             #endregion Set_LateComming
 
 
@@ -1201,29 +1211,32 @@ namespace Attendance
                                     }
                                 }
 
-                                //grace period
-                                if (secgrace > Globals.G_GracePeriodSec)
-                                {
-                                    //new development for dynamic halfday
-                                    if (Globals.G_HFFLG_Grace)
-                                    {
-                                        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 1;
-                                        }
-                                    }
+                                #region grace
+                                ////grace period
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    //new development for dynamic halfday
+                                //    if (Globals.G_HFFLG_Grace)
+                                //    {
+                                //        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
+                                //        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"].ToString() == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 1;
+                                //        }
+                                //    }
 
-                                }//new development for dynamic halfday
+                                //}//new development for dynamic halfday
 
+                                #endregion
+                                
                                 if (ts.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && ts.TotalSeconds < 0)
                                 {
                                     TimeSpan t1 =  ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]) ;
@@ -1420,7 +1433,7 @@ namespace Attendance
                     #region Setting_Late_Early
 
                     #region Check_intime_if_follow_in_shiftintime
-                    if (tInTime >= ShiftInFrom && tInTime <= ShiftInTo)
+                    if (tInTime >= ShiftInFrom)
                     {
 
                         #region Set_LateComming
@@ -1429,46 +1442,48 @@ namespace Attendance
                         {
                             TimeSpan tDiff = (tInTime - ShiftStart);
 
-                            if (tDiff.TotalSeconds > 0)
-                            {
-                                secgrace += tDiff.TotalSeconds;
-                                hurgrace = Math.Truncate(secgrace / 3600);
-                                mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
 
-                                drAttd["GracePeriod"] = smingrace;
-                            }
+                            #region grace
+                            ////grace period
+                            //if (tDiff.TotalSeconds > 0)
+                            //{
+                            //    secgrace += tDiff.TotalSeconds;
+                            //    hurgrace = Math.Truncate(secgrace / 3600);
+                            //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                            //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
 
-                            //grace period
-                            if (secgrace > Globals.G_GracePeriodSec)
-                            {
-                                //new development for dynamic halfday
-                                if (Globals.G_HFFLG_Grace)
-                                {
-                                    //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
-                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                    }
-                                    else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                    }
-                                    else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
-                                    {
-                                        drAttd["Halfday"] = 1;
-                                    }
-                                }
+                            //    drAttd["GracePeriod"] = smingrace;
+                            //}
+                            //if (secgrace > Globals.G_GracePeriodSec)
+                            //{
+                            //    //new development for dynamic halfday
+                            //    if (Globals.G_HFFLG_Grace)
+                            //    {
+                            //        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
+                            //        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                            //        {
+                            //            drAttd["Halfday"] = 0;
+                            //        }
+                            //        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
+                            //        {
+                            //            drAttd["Halfday"] = 0;
+                            //        }
+                            //        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
+                            //        {
+                            //            drAttd["Halfday"] = 1;
+                            //        }
+                            //    }
 
-                            }//new development for dynamic halfday
+                            //}//new development for dynamic halfday
+                            #endregion grace
 
-                            if (tDiff.TotalSeconds > Globals.G_LateComeSec)
+                            if (tDiff.TotalSeconds >= Globals.G_LateComeSec)
                             {
 
                                 seclate = tDiff.TotalSeconds;
                                 hurlate = Math.Truncate(seclate / 3600);
                                 minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
-                                sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate); 
+                                sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate);
                                 drAttd["LateCome"] = sminlate;
 
                                 //new development for dynamic halfday
@@ -1487,7 +1502,7 @@ namespace Attendance
                                         drAttd["Latecome"] = "";
                                         drAttd["EarlyCome"] = "";
                                     }
-                                    else if ( (seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == ""))
+                                    else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == ""))
                                     {
                                         drAttd["Halfday"] = 1;
 
@@ -1504,31 +1519,29 @@ namespace Attendance
                                         drAttd["Status"] = "A";
                                         drAttd["Latecome"] = "";
                                     }
-                                    
+
 
                                 }//new development for dynamic halfday
-                                
+
                                 daAttdData.Update(dsAttdData, "AttdData");
                             }
                         }
-                        
+
                         #endregion Set_LateComming
 
                         #region Set_EarlyCome
 
                         if (tInTime < ShiftStart)
                         {
-                            TimeSpan tDiff = (tInTime - ShiftStart);
+                            TimeSpan tDiff = (ShiftStart - tInTime);
 
-                            if (tDiff.TotalSeconds <= (-1 * Globals.G_EarlyComeSec))
+                            if (tDiff.TotalSeconds <= (Globals.G_EarlyComeSec))
                             {
                                 TimeSpan t4 = (ShiftStart - tInTime);
 
                                 secearly = t4.TotalSeconds;
-
                                 hurearly = Math.Truncate(secearly / 3600);
                                 minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
-
                                 sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly);
 
                                 drAttd["EarlyCome"] = sminearly;
@@ -1563,58 +1576,60 @@ namespace Attendance
                             }
                         }
 
-                        
+
                         #endregion Set_EarlyCome
 
                         #region Set_EarlyGoing
                         if (drAttd["ConsOut"] != DBNull.Value)
                         {
 
-                            if(ShiftEnd > Convert.ToDateTime(drAttd["ConsOut"]))
+                            if (ShiftEnd > Convert.ToDateTime(drAttd["ConsOut"]))
                             {
-                                TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
+                                TimeSpan t5 = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd);
 
-                                if (t5.TotalSeconds > 0)
-                                {
-                                    secgrace += t5.TotalSeconds;
-                                    hurgrace = Math.Truncate(secgrace / 3600);
-                                    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
+                                #region grace
+                                ////grace period
+                                //if (t5.TotalSeconds > 0)
+                                //{
+                                //    secgrace += t5.TotalSeconds;
+                                //    hurgrace = Math.Truncate(secgrace / 3600);
+                                //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
 
-                                    drAttd["GracePeriod"] = smingrace;
-                                }
+                                //    drAttd["GracePeriod"] = smingrace;
+                                //}
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    //new development for dynamic halfday
+                                //    if (Globals.G_HFFLG_Grace)
+                                //    {
+                                //        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
+                                //        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 1;
+                                //        }
+                                //    }
 
-                                //grace period
-                                if (secgrace > Globals.G_GracePeriodSec)
-                                {
-                                    //new development for dynamic halfday
-                                    if (Globals.G_HFFLG_Grace)
-                                    {
-                                        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 1;
-                                        }
-                                    }
+                                //}//new development for dynamic halfday
 
-                                }//new development for dynamic halfday
+                                #endregion
 
                                 if (t5.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && t5.TotalSeconds < 0)
                                 {
-                                    secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
+                                    secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
                                     smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
                                     drAttd["EarlyGoing"] = smingone;
-                                    
+
                                     //new development for dynamic halfday
                                     if (Globals.G_HFFLG_EarlyGoing)
                                     {
@@ -1642,13 +1657,13 @@ namespace Attendance
                                         {
                                             drAttd["Halfday"] = 1;
                                         }
-                                        
+
                                     }//new development for dynamic halfday
-                                    
+
 
                                 }
                             }
-                            
+
 
                             daAttdData.Update(dsAttdData, "AttdData");
                         }
@@ -1661,87 +1676,88 @@ namespace Attendance
                     {
 
                         #region Set_EarlyCome1
-                        if (tInTime < ShiftStart)
+                       
+                        secearly = (tInTime - ShiftStart).TotalSeconds;
+                        hurearly = Math.Truncate(secearly / 3600);
+                        minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
+                        sminearly = string.Format("{0:00}:{1:00}", Math.Abs(hurearly), Math.Abs(minearly));
+                        drAttd["EarlyCome"] = sminearly;
+
+                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
                         {
-                            secearly = (tInTime - ShiftStart).TotalSeconds;
-                            hurearly = Math.Truncate(secearly / 3600);
-                            minearly = Math.Truncate((secearly - (hurearly * 3600)) / 60);
-                            sminearly = string.Format("{0:00}:{1:00}", hurearly, minearly);
-                            drAttd["EarlyCome"] = sminearly;
-
-                            if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                            drAttd["Halfday"] = 0;
+                            drAttd["Latecome"] = "";
+                            drAttd["EarlyCome"] = "";
+                        }
+                        else if (secearly > (-1 * Globals.G_EarlyComeSec) && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                        {
+                            drAttd["Halfday"] = 0;
+                            drAttd["Latecome"] = "";
+                            drAttd["EarlyCome"] = "";
+                        }
+                        else if (tInTime <= ShiftStart)
+                        {
+                            if (drAttd["ConsOut"] != DBNull.Value)
                             {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Latecome"] = "";
-                                drAttd["EarlyCome"] = "";
-                            }
-                            else if (secearly > Globals.G_EarlyComeSec && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
-                            {
-                                drAttd["Halfday"] = 0;
-                                drAttd["Latecome"] = "";
-                                drAttd["EarlyCome"] = "";
-                            }
-                            else if (tInTime <= ShiftStart)
-                            {
-                                if (drAttd["ConsOut"] != DBNull.Value)
+                                if (Convert.ToDateTime(drAttd["ConsOut"]) >= ShiftEnd)
                                 {
-                                    if (Convert.ToDateTime(drAttd["ConsOut"]) >= ShiftEnd)
-                                    {
-                                        drAttd["Halfday"] = 0;
-                                        drAttd["Status"] = "P";
-                                        drAttd["EarlyCome"] = sminearly;
-
-                                    }
+                                    drAttd["Halfday"] = 0;
+                                    drAttd["Status"] = "P";
+                                    drAttd["EarlyCome"] = sminearly;
 
                                 }
+
                             }
                         }
+                       
+
                         #endregion Set_EarlyCome1
 
                         #region Set_EarlyGoing1
 
                         if (drAttd["ConsOut"] != DBNull.Value)
                         {
-                            if (ShiftEnd > Convert.ToDateTime(drAttd["ConsOut"]))
+                            if (Convert.ToDateTime(drAttd["ConsOut"]) < ShiftEnd)
                             {
                                 TimeSpan t5 = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]));
+                                
 
-                                if (t5.TotalSeconds > 0)
+                                #region grace
+                                //if (t5.TotalSeconds > 0)
+                                //{
+                                //    secgrace += t5.TotalSeconds;
+                                //    hurgrace = Math.Truncate(secgrace / 3600);
+                                //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
+                                //    drAttd["GracePeriod"] = smingrace;
+                                //}                                
+                                ////grace period
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    //new development for dynamic halfday
+                                //    if (Globals.G_HFFLG_Grace)
+                                //    {
+                                //        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
+                                //        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 0;
+                                //        }
+                                //        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
+                                //        {
+                                //            drAttd["Halfday"] = 1;
+                                //        }
+                                //    }
+
+                                //}//new development for dynamic halfday
+                                #endregion
+                                
+                                if (t5.TotalSeconds > (Globals.G_EarlyGoingSec) )
                                 {
-                                    secgrace += t5.TotalSeconds;
-                                    hurgrace = Math.Truncate(secgrace / 3600);
-                                    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
-
-                                    drAttd["GracePeriod"] = smingrace;
-                                }
-
-                                //grace period
-                                if (secgrace > Globals.G_GracePeriodSec)
-                                {
-                                    //new development for dynamic halfday
-                                    if (Globals.G_HFFLG_Grace)
-                                    {
-                                        //'added on 20-12-2017 if exceed graceperiod exclude agm and above on comp emp.
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() != "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 0;
-                                        }
-                                        else if (drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"] == "P")
-                                        {
-                                            drAttd["Halfday"] = 1;
-                                        }
-                                    }
-
-                                }//new development for dynamic halfday
-
-                                if (t5.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && t5.TotalSeconds < 0)
-                                {
-                                    secgone = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd).TotalSeconds;
+                                    secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
                                     smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
@@ -1762,7 +1778,7 @@ namespace Attendance
                                         else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
                                         {
                                             drAttd["Halfday"] = 1;
-                                            
+
                                         }
                                         else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
                                         {
@@ -1784,11 +1800,12 @@ namespace Attendance
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["Status"] = "A";
                                         }
-                                        
+
                                     }
-                                    
+
                                 }
                             }
+                            daAttdData.Update(dsAttdData, "AttdData");
                         }
 
                         #endregion Set_EarlyGoing1
@@ -1860,6 +1877,23 @@ namespace Attendance
 
                     return;
                 }
+
+
+                //'added on 14-02-2014
+                if (Convert.ToBoolean(drAttd["Halfday"]))
+                {
+                    drAttd["ConsOverTime"] = 0;
+                    drAttd["CalcOvertime"] = 0;
+                    return;
+                }
+
+                if (drAttd["Status"].ToString() == "A")
+                {
+                    drAttd["ConsOverTime"] = 0;
+                    drAttd["CalcOvertime"] = 0;
+                    return;
+                }
+
 
 
                 OverTime = 0;
@@ -1939,18 +1973,7 @@ namespace Attendance
 
                 }
 
-                //'added on 14-02-2014
-                if (Convert.ToBoolean(drAttd["Halfday"]))
-                {
-                    drAttd["ConsOverTime"] = 0;
-                    drAttd["CalcOvertime"] = 0;
-                }
-
-                if (drAttd["Status"].ToString() == "A")
-                {
-                    drAttd["ConsOverTime"] = 0;
-                    drAttd["CalcOvertime"] = 0;
-                }
+               
                 daAttdData.Update(dsAttdData, "AttdData");
 
                 #endregion OTCalc

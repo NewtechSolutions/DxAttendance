@@ -103,6 +103,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.chkAutoDelExpEmp = new System.Windows.Forms.CheckBox();
+            this.txtAutoDelExpEmpTime = new DevExpress.XtraEditors.TimeEdit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProccessTime.Properties)).BeginInit();
@@ -141,10 +143,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtAutoDelExpEmpTime);
+            this.groupBox3.Controls.Add(this.chkAutoDelExpEmp);
             this.groupBox3.Controls.Add(this.chkAutoProcessFlg);
             this.groupBox3.Controls.Add(this.txtAutoDeleteEmpTime);
             this.groupBox3.Controls.Add(this.chkAutoDeleteLeftEmp);
@@ -168,7 +173,7 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Location = new System.Drawing.Point(14, 206);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(840, 273);
+            this.groupBox3.Size = new System.Drawing.Size(840, 291);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
@@ -186,7 +191,7 @@
             // txtAutoDeleteEmpTime
             // 
             this.txtAutoDeleteEmpTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtAutoDeleteEmpTime.Location = new System.Drawing.Point(293, 237);
+            this.txtAutoDeleteEmpTime.Location = new System.Drawing.Point(358, 235);
             this.txtAutoDeleteEmpTime.Name = "txtAutoDeleteEmpTime";
             this.txtAutoDeleteEmpTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -221,7 +226,7 @@
             // txtAutoProccessTime
             // 
             this.txtAutoProccessTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtAutoProccessTime.Location = new System.Drawing.Point(293, 211);
+            this.txtAutoProccessTime.Location = new System.Drawing.Point(358, 210);
             this.txtAutoProccessTime.Name = "txtAutoProccessTime";
             this.txtAutoProccessTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -368,7 +373,7 @@
             // 
             // btnUpdateNetwork
             // 
-            this.btnUpdateNetwork.Location = new System.Drawing.Point(505, 227);
+            this.btnUpdateNetwork.Location = new System.Drawing.Point(503, 251);
             this.btnUpdateNetwork.Name = "btnUpdateNetwork";
             this.btnUpdateNetwork.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateNetwork.TabIndex = 7;
@@ -1065,8 +1070,34 @@
             this.xtraTabPage2.Controls.Add(this.groupBox5);
             this.xtraTabPage2.Controls.Add(this.groupBox4);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(858, 484);
+            this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
+            // 
+            // chkAutoDelExpEmp
+            // 
+            this.chkAutoDelExpEmp.AutoSize = true;
+            this.chkAutoDelExpEmp.Location = new System.Drawing.Point(21, 260);
+            this.chkAutoDelExpEmp.Name = "chkAutoDelExpEmp";
+            this.chkAutoDelExpEmp.Size = new System.Drawing.Size(324, 18);
+            this.chkAutoDelExpEmp.TabIndex = 20;
+            this.chkAutoDelExpEmp.Text = "* Auto Delete Validity Expired Employee from Machine";
+            this.chkAutoDelExpEmp.UseVisualStyleBackColor = true;
+            // 
+            // txtAutoDelExpEmpTime
+            // 
+            this.txtAutoDelExpEmpTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
+            this.txtAutoDelExpEmpTime.Location = new System.Drawing.Point(358, 259);
+            this.txtAutoDelExpEmpTime.Name = "txtAutoDelExpEmpTime";
+            this.txtAutoDelExpEmpTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtAutoDelExpEmpTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtAutoDelExpEmpTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtAutoDelExpEmpTime.Properties.MaxLength = 5;
+            this.txtAutoDelExpEmpTime.Properties.NullValuePrompt = "Please Enter Time";
+            this.txtAutoDelExpEmpTime.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtAutoDelExpEmpTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtAutoDelExpEmpTime.Size = new System.Drawing.Size(76, 20);
+            this.txtAutoDelExpEmpTime.TabIndex = 21;
             // 
             // frmOtherConfig
             // 
@@ -1121,6 +1152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1202,5 +1234,7 @@
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.SpinEdit txtSanDayLimit;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
+        private DevExpress.XtraEditors.TimeEdit txtAutoDelExpEmpTime;
+        private System.Windows.Forms.CheckBox chkAutoDelExpEmp;
     }
 }

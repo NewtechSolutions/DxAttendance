@@ -871,7 +871,7 @@ namespace Attendance.Forms
                     " select distinct EmpUnqId from attdlog where lunchflg = 1 and ioflg = 'b' and " +
                     " punchdate Between '" + startdt.ToString("yyyy-MM-dd HH:mm:ss") + "' and '" + enddt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     " and machineip in (Select Lunchmachine from LunchMachine ) " +
-                    " and EmpUnqID in (Select EmpUnqID from MastEmp where WrkGrp = '" + sWrkGrp + "' and Active = 1 and CompCode = '01') " +
+                    " and EmpUnqID in (Select EmpUnqID from MastEmp where WrkGrp = '" + sWrkGrp + "' and Active = 1 and CompCode = '01')) " +
                     " Union " +
                     " select distinct EmpUnqiD,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate, '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate " +
                     " from AttdLunchGate where lunchflg = 0 and ioflg in ('I','O') " +
@@ -1020,6 +1020,7 @@ namespace Attendance.Forms
             btnClearList.Enabled = true;
             ISProcessStarted = false;
             appstatus_Tick(sender, e);
+            MessageBox.Show("Process Completed...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
     }

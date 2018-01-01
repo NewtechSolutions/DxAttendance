@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using Attendance.Classes;
 using DevExpress.XtraGrid.Views.Grid;
 using System.IO;
+using DevExpress.XtraPrinting;
 
 namespace Attendance.Forms
 {
@@ -690,7 +691,7 @@ namespace Attendance.Forms
                 err += "Previous Month Changes are not allowed";
             }
 
-            if (!GRights.Contains("AUVD"))
+            if (!GRights.Contains("AUDV"))
             {
                 err += "You are not Authorised...";
             }

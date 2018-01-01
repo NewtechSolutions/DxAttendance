@@ -323,6 +323,7 @@
             this.gv_avbl.Name = "gv_avbl";
             this.gv_avbl.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gv_avbl.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_avbl.OptionsBehavior.AllowIncrementalSearch = true;
             this.gv_avbl.OptionsCustomization.AllowColumnMoving = false;
             this.gv_avbl.OptionsCustomization.AllowFilter = false;
             this.gv_avbl.OptionsCustomization.AllowGroup = false;
@@ -486,6 +487,7 @@
             this.gv_Sel.Name = "gv_Sel";
             this.gv_Sel.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gv_Sel.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_Sel.OptionsBehavior.AllowIncrementalSearch = true;
             this.gv_Sel.OptionsBehavior.Editable = false;
             this.gv_Sel.OptionsBehavior.ReadOnly = true;
             this.gv_Sel.OptionsCustomization.AllowColumnMoving = false;

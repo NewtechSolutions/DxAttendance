@@ -42,8 +42,14 @@ namespace Attendance.Classes
         public static string G_NetworkDomain;
         public static string G_NetworkUser;
         public static string G_NetworkPass;
+
+        //auto delete left employee
         public static bool G_AutoDelEmp = false;
         public static TimeSpan G_AutoDelEmpTime;
+
+        // auto delete validity expired employee
+        public static bool G_AutoDelExpEmp = false;
+        public static TimeSpan G_AutoDelExpEmpTime;
 
         public static int G_SanDayLimit;
         public static int G_LateComeSec;
@@ -101,6 +107,8 @@ namespace Attendance.Classes
                         G_AutoProcessWrkGrp = "'" + G_AutoProcessWrkGrp + "'";
                     }
 
+
+                    //auto process time
                     G_AutoProcess = Convert.ToBoolean(dr["AutoProcessFlg"]);
                     if (G_AutoProcess)
                     {
@@ -112,6 +120,8 @@ namespace Attendance.Classes
                         }
                     }
                     
+
+                    //auto delete left employee
                     G_AutoDelEmp = Convert.ToBoolean(dr["AutoDelEmpFlg"]);
                     if (G_AutoDelEmp)
                     {
@@ -121,6 +131,20 @@ namespace Attendance.Classes
                             G_AutoDelEmpTime = t;
                         }                        
                     }
+
+
+                    //auto delete validity expire emp.
+                    G_AutoDelExpEmp = Convert.ToBoolean(dr["AutoDelEmpExpireValFlg"]);
+                    if (G_AutoDelExpEmp)
+                    {
+                        TimeSpan t = new TimeSpan();
+                        if (TimeSpan.TryParse(dr["AutoDelEmpExpireTime"].ToString(), out t))
+                        {
+                            G_AutoDelExpEmpTime = t;
+                        }
+                    }
+
+
 
                     G_ReportServiceURL = dr["ReportServiceURL"].ToString();
                     G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
