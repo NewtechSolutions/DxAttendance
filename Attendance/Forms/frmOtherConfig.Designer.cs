@@ -105,6 +105,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtUpdateChkPath = new DevExpress.XtraEditors.TextEdit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
@@ -144,10 +146,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.txtUpdateChkPath);
             this.groupBox3.Controls.Add(this.txtAutoDelExpEmpTime);
             this.groupBox3.Controls.Add(this.chkAutoDelExpEmp);
             this.groupBox3.Controls.Add(this.chkAutoProcessFlg);
@@ -399,7 +404,7 @@
             // 
             // btnUpdateNetwork
             // 
-            this.btnUpdateNetwork.Location = new System.Drawing.Point(503, 251);
+            this.btnUpdateNetwork.Location = new System.Drawing.Point(724, 152);
             this.btnUpdateNetwork.Name = "btnUpdateNetwork";
             this.btnUpdateNetwork.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateNetwork.TabIndex = 7;
@@ -1051,7 +1056,7 @@
             // 
             // btnUpdateSan
             // 
-            this.btnUpdateSan.Location = new System.Drawing.Point(520, 147);
+            this.btnUpdateSan.Location = new System.Drawing.Point(724, 147);
             this.btnUpdateSan.Name = "btnUpdateSan";
             this.btnUpdateSan.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateSan.TabIndex = 1;
@@ -1099,6 +1104,23 @@
             this.xtraTabPage2.Name = "xtraTabPage2";
             this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(448, 212);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(100, 14);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "Update Chk Path";
+            // 
+            // txtUpdateChkPath
+            // 
+            this.txtUpdateChkPath.Location = new System.Drawing.Point(451, 235);
+            this.txtUpdateChkPath.Name = "txtUpdateChkPath";
+            this.txtUpdateChkPath.Properties.Mask.ShowPlaceHolders = false;
+            this.txtUpdateChkPath.Size = new System.Drawing.Size(372, 20);
+            this.txtUpdateChkPath.TabIndex = 22;
             // 
             // frmOtherConfig
             // 
@@ -1154,6 +1176,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1237,5 +1260,7 @@
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraEditors.TimeEdit txtAutoDelExpEmpTime;
         private System.Windows.Forms.CheckBox chkAutoDelExpEmp;
+        private System.Windows.Forms.Label label13;
+        private DevExpress.XtraEditors.TextEdit txtUpdateChkPath;
     }
 }

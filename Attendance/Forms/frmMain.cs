@@ -13,6 +13,10 @@ using DevExpress.LookAndFeel;
 using DevExpress.UserSkins;
 using Attendance.Classes;
 using System.Threading;
+using System.IO;
+using System.Net;
+using ConnectUNCWithCredentials;
+using System.Reflection;
 
 namespace Attendance
 {
@@ -60,6 +64,8 @@ namespace Attendance
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+           
+
 
             ToolStripItemCollection tmnu = menuStrip1.Items;
             SetToolStripItems(tmnu);
@@ -149,11 +155,87 @@ namespace Attendance
                 Globals.G_myscheduler.RegSchedule_AutoArrival();
                 Globals.G_myscheduler.RegSchedule_AutoProcess();
                 Globals.G_myscheduler.RegSchedule_DownloadPunch();
+            }
+            else
+            {
+                //check for update version.
+                DateTime servermodified = new DateTime();
+                DateTime localmodified = new DateTime();
+
+                if (!string.IsNullOrEmpty(Globals.G_UpdateChkPath))
+                {
+                    this.Cursor = Cursors.WaitCursor;
+                    Application.DoEvents();
+                    
+                    using (UNCAccessWithCredentials unc = new UNCAccessWithCredentials())
+                    {
+                        if (unc.NetUseWithCredentials(Globals.G_UpdateChkPath,
+                                                      Globals.G_NetworkUser,
+                                                      Globals.G_NetworkDomain,
+                                                      Globals.G_NetworkPass))
+                        {
+                            string fullpath = Path.Combine(Globals.G_UpdateChkPath, "Attendance.exe");
+                            if (File.Exists(fullpath))
+                            {
+                                servermodified = File.GetLastWriteTime(fullpath);
+                            }
+                        }
+                    }
+
+                    //get localmodification date
+                    string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                    UriBuilder uri = new UriBuilder(codeBase);
+                    string localfile = Uri.UnescapeDataString(uri.Path);
+                    localmodified = File.GetLastWriteTime(localfile);
+                    if (servermodified > localmodified)
+                    {
+                        MessageBox.Show("New Upgrade is available, please update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                        
+                    }
+                    this.Cursor = Cursors.Default;
+                }
 
             }
 
         }
 
+        public static string GetNetworkPathFromServerName(string serverName)
+        {
+            // Assume we can't connect to the server to start with.
+            var networkPath = String.Empty;
+
+            // If this is a rooted path, just make sure it is available.
+            if (Path.IsPathRooted(serverName))
+            {
+                // If the path exists, use it.
+                if (Directory.Exists(serverName))
+                    networkPath = serverName;
+            }
+            // Else this is a network path.
+            else
+            {
+                // If the server name has a backslash in it, remove the backslash and everything after it.
+                serverName = serverName.Trim(@"\".ToCharArray());
+                if (serverName.Contains(@"\"))
+                    serverName = serverName.Remove(serverName.IndexOf(@"\", StringComparison.Ordinal));
+
+                try
+                {
+                    // If the server is available, format the network path properly to use it.
+                    if (Dns.GetHostEntry(serverName) != null)
+                    {
+                        // Root the path as a network path (i.e. add \\ to the front of it).
+                        networkPath = String.Format("\\\\{0}", serverName);
+                    }
+                }
+                // Eat any Host Not Found exceptions for if we can't connect to the server.
+                catch (System.Net.Sockets.SocketException)
+                { }
+            }
+
+            return networkPath;
+        }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             //we need to shutdown our scheduler quartz

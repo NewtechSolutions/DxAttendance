@@ -265,7 +265,8 @@ namespace Attendance.Forms
                     txtReportServiceURL.Text = dr["ReportServiceURL"].ToString();
                     txtReportSerExeURL.Text = dr["ReportSerExeURL"].ToString();
                     txtServerWorkerIP.Text = dr["ServerWorkerIP"].ToString();
-
+                    txtUpdateChkPath.Text = dr["UpdateChkPath"].ToString();
+                    
                     GNetWorkDomain = dr["NetWorkDomain"].ToString();
                     GNetWorkUser = dr["NetWorkUser"].ToString();
                     txtAutoProcessWrkGrp.Text = dr["AutoProcessWrkGrp"].ToString();
@@ -442,7 +443,6 @@ namespace Attendance.Forms
                     using (SqlCommand cmd = new SqlCommand())
                     {
 
-                       
                         string sql = "";
                         
                             sql = "Update MastNetwork Set DefaultMailID = '" + txtEmailID.Text.ToString() + "'," +
@@ -455,7 +455,8 @@ namespace Attendance.Forms
                             " AutoProcessFlg ='" + (chkAutoProcessFlg.Checked?1:0) + "'," +
                             " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") + "," +
                             " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'," +
-                            " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'" +
+                            " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'," +
+                            " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'" +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;

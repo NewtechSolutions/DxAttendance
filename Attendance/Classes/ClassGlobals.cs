@@ -23,7 +23,9 @@ namespace Attendance.Classes
         public static DataSet G_DsAutoTime;
         public static DataSet G_DsAutoLog;
         public static DataSet G_DsAutoArrival;
-        
+
+        //used for checkpath
+        public static string G_UpdateChkPath;
 
         public static List<string> GateInOutIP = new List<string>();
         public static string G_GateInOutIP;
@@ -146,7 +148,7 @@ namespace Attendance.Classes
                     }
 
 
-
+                    G_UpdateChkPath = dr["UpdateChkPath"].ToString();
                     G_ReportServiceURL = dr["ReportServiceURL"].ToString();
                     G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
                     G_DefaultMailID = dr["DefaultMailID"].ToString();
