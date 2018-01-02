@@ -677,19 +677,19 @@ namespace Attendance.Forms
                 
             }
 
-            //make sure to to check months between dates
-            if (txtFromDt.DateTime.ToString("yyyyMM") != txtToDt.DateTime.ToString("yyyyMM"))
-            {
-                err += "Cross Month Changes are not allowed";
-            }
+            ////make sure to to check months between dates
+            //if (txtFromDt.DateTime.ToString("yyyyMM") != txtToDt.DateTime.ToString("yyyyMM"))
+            //{
+            //    err += "Cross Month Changes are not allowed";
+            //}
 
-            //block previous month changes
-            int mth = Convert.ToInt32(txtFromDt.DateTime.ToString("yyyyMM"));
-            int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)",Utils.Helper.constr));
-            if (mth < curmth)
-            {
-                err += "Previous Month Changes are not allowed";
-            }
+            ////block previous month changes
+            //int mth = Convert.ToInt32(txtFromDt.DateTime.ToString("yyyyMM"));
+            //int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)",Utils.Helper.constr));
+            //if (mth < curmth)
+            //{
+            //    err += "Previous Month Changes are not allowed";
+            //}
 
             if (!GRights.Contains("AUDV"))
             {

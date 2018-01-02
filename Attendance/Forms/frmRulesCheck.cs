@@ -640,9 +640,11 @@ namespace Attendance.Forms
                                 {
                                     cmd.CommandText = sql;
                                     cmd.ExecuteNonQuery();
+                                    
                                 }
                                 catch (Exception ex)
                                 {
+                                    
                                     txtError.Text += "Error while processing : " + tEmpUnqID + " " + ex.ToString() + Environment.NewLine;
                                     
                                 }
@@ -653,18 +655,14 @@ namespace Attendance.Forms
                             tmpDt = tmpDt.AddDays(1);
                         }
 
-
                         try
                         {
-                            cmd.CommandText = sql;
-                            cmd.ExecuteNonQuery();
+                            tr.Commit();
                         }
                         catch (Exception ex)
                         {
-                            txtError.Text += "Error while processing : " + sEmpUnqID + " " + ex.ToString() + Environment.NewLine;
+                            tr.Rollback();
                         }
-                        
-
 
                     }//using connection
 

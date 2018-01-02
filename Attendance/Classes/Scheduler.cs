@@ -349,7 +349,7 @@ namespace Attendance.Classes
                 string triggerid2 = "Trigger_AutoDeleteExpireValidityEmp";
 
                 // define the job and tie it to our HelloJob class
-                IJobDetail job2 = JobBuilder.Create<AutoDeleteLeftEmp>()
+                IJobDetail job2 = JobBuilder.Create<AutoDeleteExpireValidityEmp>()
                      .WithDescription("Auto Delete Expired Validity Employee")
                     .WithIdentity(jobid2, "WorkerProcess")
                     .Build();

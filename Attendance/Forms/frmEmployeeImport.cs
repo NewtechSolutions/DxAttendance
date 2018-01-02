@@ -154,7 +154,16 @@ namespace Attendance.Forms
                     con.Open();
                     foreach (DataRow tdr in sortedDT.Rows)
                     {
-                        string tEmpUnqID = tdr["EmpUnqID"].ToString(); 
+                        
+                        
+                        string tEmpUnqID = tdr["EmpUnqID"].ToString();
+                        if (string.IsNullOrEmpty(tEmpUnqID))
+                        {
+                            tdr["Remarks"] = "EmpUnqID is blank...";
+                            continue;
+                        }
+                            
+                        
                         string tWrkGrp = tdr["WrkGrp"].ToString();
                         string tUnitCode = tdr["UnitCode"].ToString();
                         string tEmpName = tdr["EmpName"].ToString();
@@ -271,9 +280,7 @@ namespace Attendance.Forms
 
             
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
-            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
-            oledbconn.Open();
-            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);          
             string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
 
             try
@@ -295,6 +302,15 @@ namespace Attendance.Forms
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt = new DataTable();
                 oledbda.Fill(dt);
+                dt.AcceptChanges();
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (string.IsNullOrEmpty(row["EmpUnqID"].ToString().Trim()))
+                        row.Delete();
+                }
+                dt.AcceptChanges();
+
+                oledbconn.Close();
                 
             }
             catch (Exception ex)
@@ -307,13 +323,11 @@ namespace Attendance.Forms
                 return;
             }
 
-            oledbconn.Close();
+            
 
             DataView dv = dt.DefaultView;
             dv.Sort = "EmpUnqID asc";
             DataTable sortedDT = dv.ToTable();
-
-
 
 
             grd_view.DataSource = sortedDT;

@@ -257,9 +257,20 @@ namespace Attendance.Forms
 
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
             List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
-            oledbconn.Open();
-            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+            
             string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
+
+            try
+            {
+                oledbconn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+
 
             try
             {
@@ -267,6 +278,15 @@ namespace Attendance.Forms
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
+                
+                dt.AcceptChanges();
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (string.IsNullOrEmpty(row["EmpUnqID"].ToString().Trim()))
+                        row.Delete();
+                }
+                dt.AcceptChanges();
+
                 oledbconn.Close();
             }
             catch (Exception ex)

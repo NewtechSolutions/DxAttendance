@@ -454,10 +454,6 @@ namespace Attendance.Classes
                 return;
             }
 
-            err = "Auto Clear Not Implemented..";
-            return;
-
-
             this.CZKEM1.EnableDevice(_machineno, false);//disable the device
             
             

@@ -74,6 +74,7 @@
             this.btnRegister = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
             this.grpButtons2 = new System.Windows.Forms.GroupBox();
+            this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnUnlock = new DevExpress.XtraEditors.SimpleButton();
             this.btnUnlockMaster = new DevExpress.XtraEditors.SimpleButton();
             this.btnDownTemp = new DevExpress.XtraEditors.SimpleButton();
@@ -139,7 +140,6 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -544,7 +544,6 @@
             this.txtEmpUnqID.Location = new System.Drawing.Point(77, 20);
             this.txtEmpUnqID.Name = "txtEmpUnqID";
             this.txtEmpUnqID.Properties.Mask.EditMask = "[0-9]+";
-            this.txtEmpUnqID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEmpUnqID.Properties.MaxLength = 10;
             this.txtEmpUnqID.Size = new System.Drawing.Size(57, 20);
             this.txtEmpUnqID.TabIndex = 0;
@@ -703,6 +702,7 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem(4, "Gate In/Out")});
             this.optMachineType.Size = new System.Drawing.Size(644, 23);
             this.optMachineType.TabIndex = 11;
+            this.optMachineType.SelectedIndexChanged += new System.EventHandler(this.optMachineType_SelectedIndexChanged);
             this.optMachineType.EditValueChanged += new System.EventHandler(this.optMachineType_EditValueChanged);
             // 
             // btnUnBlock
@@ -773,6 +773,17 @@
             this.grpButtons2.Size = new System.Drawing.Size(650, 43);
             this.grpButtons2.TabIndex = 1;
             this.grpButtons2.TabStop = false;
+            // 
+            // btnSetTime
+            // 
+            this.btnSetTime.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetTime.Appearance.Options.UseFont = true;
+            this.btnSetTime.Location = new System.Drawing.Point(407, 10);
+            this.btnSetTime.Name = "btnSetTime";
+            this.btnSetTime.Size = new System.Drawing.Size(120, 27);
+            this.btnSetTime.TabIndex = 12;
+            this.btnSetTime.Text = "Set Time";
+            this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
             // 
             // btnUnlock
             // 
@@ -1634,17 +1645,6 @@
             this.gv_Upload.OptionsView.ShowDetailButtons = false;
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
-            // 
-            // btnSetTime
-            // 
-            this.btnSetTime.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetTime.Appearance.Options.UseFont = true;
-            this.btnSetTime.Location = new System.Drawing.Point(407, 10);
-            this.btnSetTime.Name = "btnSetTime";
-            this.btnSetTime.Size = new System.Drawing.Size(120, 27);
-            this.btnSetTime.TabIndex = 12;
-            this.btnSetTime.Text = "Set Time";
-            this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
             // 
             // frmMastUserManagement
             // 

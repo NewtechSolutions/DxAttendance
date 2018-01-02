@@ -37,15 +37,27 @@ namespace Attendance.Forms
             grpGrid.DataSource = srcDs;
             grpGrid.DataMember = srcDs.Tables[0].TableName;
 
-            gv_avbl.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_avbl.Appearance.ViewCaption.Font, FontStyle.Bold);
-            gv_avbl.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-
-
-            foreach (GridColumn gc in gv_avbl.Columns)
+            try
             {
-                gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-                gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                gv_avbl.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_avbl.Appearance.ViewCaption.Font, FontStyle.Bold);
+                gv_avbl.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                
+                foreach (GridColumn gc in gv_avbl.Columns)
+                {
+                    gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    if (gc.FieldName.ToUpper() == "MACHINEDESC")
+                    {
+                        gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+                    }
+                }
+
             }
+            catch { }
+            
+
+
+            
 
             gv_avbl.RefreshData();          
 

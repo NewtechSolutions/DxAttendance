@@ -226,9 +226,10 @@ namespace Attendance.Forms
                     txtLateComeSec.Value = Convert.ToInt32(dr["LateComeSec"].ToString());
                     txtEarlyComeSec.Value = Convert.ToInt32(dr["EarlyComeSec"].ToString());
                     txtEarlyGoingSec.Value = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
+                    
                     txtGracePeriodSec.Value = Convert.ToInt32(dr["GracePeriodSec"].ToString());
-
                     chkGraceHalfDayFlg.Checked = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
+
                     chkLateHalfDayFlg.Checked = Convert.ToBoolean(dr["LateHalfDayFlg"]);
                     chkEarlyGoingHalfDayFlg.Checked = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
                     txtEarlyGoingHalfDaySec.Value = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
@@ -454,7 +455,7 @@ namespace Attendance.Forms
                             " AutoProcessFlg ='" + (chkAutoProcessFlg.Checked?1:0) + "'," +
                             " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") + "," +
                             " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'," +
-                            " AutoAutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'" +
+                            " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'" +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;

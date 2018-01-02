@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtAutoDelExpEmpTime = new DevExpress.XtraEditors.TimeEdit();
+            this.chkAutoDelExpEmp = new System.Windows.Forms.CheckBox();
             this.chkAutoProcessFlg = new System.Windows.Forms.CheckBox();
             this.txtAutoDeleteEmpTime = new DevExpress.XtraEditors.TimeEdit();
             this.chkAutoDeleteLeftEmp = new System.Windows.Forms.CheckBox();
@@ -103,9 +105,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.chkAutoDelExpEmp = new System.Windows.Forms.CheckBox();
-            this.txtAutoDelExpEmpTime = new DevExpress.XtraEditors.TimeEdit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProccessTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProcessWrkGrp.Properties)).BeginInit();
@@ -143,7 +144,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -177,6 +177,32 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
+            // 
+            // txtAutoDelExpEmpTime
+            // 
+            this.txtAutoDelExpEmpTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
+            this.txtAutoDelExpEmpTime.Location = new System.Drawing.Point(358, 259);
+            this.txtAutoDelExpEmpTime.Name = "txtAutoDelExpEmpTime";
+            this.txtAutoDelExpEmpTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtAutoDelExpEmpTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtAutoDelExpEmpTime.Properties.Mask.EditMask = "HH:mm";
+            this.txtAutoDelExpEmpTime.Properties.MaxLength = 5;
+            this.txtAutoDelExpEmpTime.Properties.NullValuePrompt = "Please Enter Time";
+            this.txtAutoDelExpEmpTime.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtAutoDelExpEmpTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtAutoDelExpEmpTime.Size = new System.Drawing.Size(76, 20);
+            this.txtAutoDelExpEmpTime.TabIndex = 21;
+            // 
+            // chkAutoDelExpEmp
+            // 
+            this.chkAutoDelExpEmp.AutoSize = true;
+            this.chkAutoDelExpEmp.Location = new System.Drawing.Point(21, 260);
+            this.chkAutoDelExpEmp.Name = "chkAutoDelExpEmp";
+            this.chkAutoDelExpEmp.Size = new System.Drawing.Size(324, 18);
+            this.chkAutoDelExpEmp.TabIndex = 20;
+            this.chkAutoDelExpEmp.Text = "* Auto Delete Validity Expired Employee from Machine";
+            this.chkAutoDelExpEmp.UseVisualStyleBackColor = true;
             // 
             // chkAutoProcessFlg
             // 
@@ -291,9 +317,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(18, 142);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(106, 14);
+            this.label7.Size = new System.Drawing.Size(120, 14);
             this.label7.TabIndex = 7;
-            this.label7.Text = "Worker HOST IP :";
+            this.label7.Text = "Scheduler HOST IP :";
             // 
             // txtReportSerExeURL
             // 
@@ -452,12 +478,12 @@
             // grd_avbl
             // 
             this.grd_avbl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grd_avbl.Location = new System.Drawing.Point(3, 276);
+            this.grd_avbl.Location = new System.Drawing.Point(3, 111);
             this.grd_avbl.MainView = this.gv_avbl;
             this.grd_avbl.Name = "grd_avbl";
             this.grd_avbl.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.grd_avbl.Size = new System.Drawing.Size(266, 181);
+            this.grd_avbl.Size = new System.Drawing.Size(266, 346);
             this.grd_avbl.TabIndex = 4;
             this.grd_avbl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_avbl});
@@ -577,12 +603,12 @@
             // grd_Log
             // 
             this.grd_Log.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grd_Log.Location = new System.Drawing.Point(3, 276);
+            this.grd_Log.Location = new System.Drawing.Point(3, 111);
             this.grd_Log.MainView = this.gv_Log;
             this.grd_Log.Name = "grd_Log";
             this.grd_Log.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit2});
-            this.grd_Log.Size = new System.Drawing.Size(259, 181);
+            this.grd_Log.Size = new System.Drawing.Size(259, 346);
             this.grd_Log.TabIndex = 4;
             this.grd_Log.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Log});
@@ -913,7 +939,7 @@
             this.txtEarlyGoingHalfDaySec.Name = "txtEarlyGoingHalfDaySec";
             this.txtEarlyGoingHalfDaySec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtEarlyGoingHalfDaySec.Size = new System.Drawing.Size(93, 20);
+            this.txtEarlyGoingHalfDaySec.Size = new System.Drawing.Size(76, 20);
             this.txtEarlyGoingHalfDaySec.TabIndex = 14;
             // 
             // chkLateHalfDayFlg
@@ -937,7 +963,7 @@
             this.txtLateHalfDaySec.Name = "txtLateHalfDaySec";
             this.txtLateHalfDaySec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtLateHalfDaySec.Size = new System.Drawing.Size(93, 20);
+            this.txtLateHalfDaySec.Size = new System.Drawing.Size(76, 20);
             this.txtLateHalfDaySec.TabIndex = 12;
             // 
             // txtGracePeriodSec
@@ -951,13 +977,13 @@
             this.txtGracePeriodSec.Name = "txtGracePeriodSec";
             this.txtGracePeriodSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtGracePeriodSec.Size = new System.Drawing.Size(93, 20);
+            this.txtGracePeriodSec.Size = new System.Drawing.Size(76, 20);
             this.txtGracePeriodSec.TabIndex = 9;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(253, 76);
+            this.label17.Location = new System.Drawing.Point(253, 77);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(99, 14);
             this.label17.TabIndex = 8;
@@ -974,13 +1000,13 @@
             this.txtEarlyGoingSec.Name = "txtEarlyGoingSec";
             this.txtEarlyGoingSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtEarlyGoingSec.Size = new System.Drawing.Size(93, 20);
+            this.txtEarlyGoingSec.Size = new System.Drawing.Size(76, 20);
             this.txtEarlyGoingSec.TabIndex = 7;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(16, 76);
+            this.label16.Location = new System.Drawing.Point(16, 77);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(99, 14);
             this.label16.TabIndex = 6;
@@ -1003,7 +1029,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(16, 50);
+            this.label15.Location = new System.Drawing.Point(506, 77);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(98, 14);
             this.label15.TabIndex = 4;
@@ -1016,7 +1042,7 @@
             0,
             0,
             0});
-            this.txtLateComeSec.Location = new System.Drawing.Point(138, 48);
+            this.txtLateComeSec.Location = new System.Drawing.Point(628, 74);
             this.txtLateComeSec.Name = "txtLateComeSec";
             this.txtLateComeSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1025,12 +1051,13 @@
             // 
             // btnUpdateSan
             // 
-            this.btnUpdateSan.Location = new System.Drawing.Point(503, 141);
+            this.btnUpdateSan.Location = new System.Drawing.Point(520, 147);
             this.btnUpdateSan.Name = "btnUpdateSan";
             this.btnUpdateSan.Size = new System.Drawing.Size(99, 34);
             this.btnUpdateSan.TabIndex = 1;
             this.btnUpdateSan.Text = "UpDate";
             this.btnUpdateSan.UseVisualStyleBackColor = true;
+            this.btnUpdateSan.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // label2
             // 
@@ -1073,32 +1100,6 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
             // 
-            // chkAutoDelExpEmp
-            // 
-            this.chkAutoDelExpEmp.AutoSize = true;
-            this.chkAutoDelExpEmp.Location = new System.Drawing.Point(21, 260);
-            this.chkAutoDelExpEmp.Name = "chkAutoDelExpEmp";
-            this.chkAutoDelExpEmp.Size = new System.Drawing.Size(324, 18);
-            this.chkAutoDelExpEmp.TabIndex = 20;
-            this.chkAutoDelExpEmp.Text = "* Auto Delete Validity Expired Employee from Machine";
-            this.chkAutoDelExpEmp.UseVisualStyleBackColor = true;
-            // 
-            // txtAutoDelExpEmpTime
-            // 
-            this.txtAutoDelExpEmpTime.EditValue = new System.DateTime(2017, 12, 1, 0, 0, 0, 0);
-            this.txtAutoDelExpEmpTime.Location = new System.Drawing.Point(358, 259);
-            this.txtAutoDelExpEmpTime.Name = "txtAutoDelExpEmpTime";
-            this.txtAutoDelExpEmpTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtAutoDelExpEmpTime.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
-            this.txtAutoDelExpEmpTime.Properties.Mask.EditMask = "HH:mm";
-            this.txtAutoDelExpEmpTime.Properties.MaxLength = 5;
-            this.txtAutoDelExpEmpTime.Properties.NullValuePrompt = "Please Enter Time";
-            this.txtAutoDelExpEmpTime.Properties.NullValuePromptShowForEmptyValue = true;
-            this.txtAutoDelExpEmpTime.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
-            this.txtAutoDelExpEmpTime.Size = new System.Drawing.Size(76, 20);
-            this.txtAutoDelExpEmpTime.TabIndex = 21;
-            // 
             // frmOtherConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1111,6 +1112,7 @@
             this.Load += new System.EventHandler(this.frmOtherConfig_Load);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProccessTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProcessWrkGrp.Properties)).EndInit();
@@ -1152,7 +1154,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

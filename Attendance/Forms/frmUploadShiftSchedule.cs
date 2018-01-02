@@ -18,7 +18,6 @@ namespace Attendance.Forms
 {
  
 
-
     public partial class frmUploadShiftSchedule : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
@@ -253,7 +252,7 @@ namespace Attendance.Forms
                             if(woidx.ElementAt(i) != tchk)
                             {
                                 dr["Remarks"] = dr["Remarks"].ToString() + string.Format("{0} WeekOff is not in correct order..",i);
-                                brkflg = true;
+                                //brkflg = true;
                                 break;
                             }
                         }
@@ -681,16 +680,22 @@ namespace Attendance.Forms
             //string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + filePath + ";extended properties=" + "\"excel 8.0;hdr=yes;IMEX=1;\"";
 
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
-            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
-            oledbconn.Open();
-            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);                     
             string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
-
+            try
+            {
+                oledbconn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
            
             try
             {
                 string myexceldataquery = BuildExcelSelect(txtYearMT.DateTime);
-
                 myexceldataquery += " From " + sheetname;
                
                 
@@ -699,7 +704,15 @@ namespace Attendance.Forms
                 dt.Clear();
                
                 oledbda.Fill(dt);
-               
+                dt.AcceptChanges();
+                foreach (DataRow row in dt.Rows)
+                {
+                    if(string.IsNullOrEmpty(row["EmpUnqID"].ToString().Trim()))
+                        row.Delete();
+                }
+                dt.AcceptChanges();
+
+
                 oledbconn.Close();
                
             }

@@ -76,10 +76,15 @@ namespace Attendance.Forms
                 {
                     gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
                     gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+                    gc.Width = 200;
+                }
+                else
+                {
+                    gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                 }
 
-                gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-                gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+               
             }
 
             gv_avbl.RefreshData();
@@ -559,7 +564,7 @@ namespace Attendance.Forms
             }
             cmbListMachine1.SelectedIndex = 0;
 
-            string sql = "Select CONVERT(BIT,0) as SEL,MachineDesc,MachineIP,MachineNo,'' as Remarks,AutoClear,IOFLG,RFID,FACE,CanteenFLG,GateInOut,LunchInOut From ReaderConfig Where Active = 1 and Master = 0 Order By MachineDesc,IOFLG";
+            string sql = "Select CONVERT(BIT,0) as SEL,MachineDesc,MachineIP,MachineNo,'' as Remarks,AutoClear,IOFLG,RFID,FACE,FINGER,CanteenFLG,GateInOut,LunchInOut From ReaderConfig Where Active = 1 and Master = 0 Order By MachineDesc,IOFLG";
 
             srcDs = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
@@ -670,7 +675,7 @@ namespace Attendance.Forms
                 lblDownAll.Text = tusers.Count().ToString() + " Downloaded Users";
                 lblDownAll.Update();
                 this.Cursor = Cursors.Default;
-                MessageBox.Show("Download Complete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Download Complete", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -721,7 +726,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -750,7 +755,7 @@ namespace Attendance.Forms
 
                 if (string.IsNullOrEmpty(allerr))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Registered..");
                 }
                 else
                 {
@@ -845,7 +850,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -873,7 +878,7 @@ namespace Attendance.Forms
 
                 if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine,"")))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Template Downloaded..");
                 }
                 else
                 {
@@ -911,7 +916,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -937,7 +942,7 @@ namespace Attendance.Forms
 
                 if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Deleted..");
                 }
                 else
                 {
@@ -975,7 +980,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -998,7 +1003,7 @@ namespace Attendance.Forms
                 
                 if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Blocked..");
                 }
                 else
                 {
@@ -1035,7 +1040,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -1058,7 +1063,7 @@ namespace Attendance.Forms
 
                 if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "UnBlocked..");
                 }
                 else
                 {
@@ -1121,7 +1126,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -1139,7 +1144,7 @@ namespace Attendance.Forms
                 
                 if (string.IsNullOrEmpty(err))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "UnBlocked..");
                 }
                 else
                 {
@@ -1327,7 +1332,7 @@ namespace Attendance.Forms
             }
             else
             {
-                MessageBox.Show("Process Completed" , "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Deleted Left Employee" , "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             
 
@@ -1438,7 +1443,7 @@ namespace Attendance.Forms
 
             UnLockCtrl();
             this.Cursor = Cursors.Default;
-            MessageBox.Show("Process Completed..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Copy Users Completed..", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
                
@@ -1589,7 +1594,7 @@ namespace Attendance.Forms
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
-                gv_avbl.SetRowCellValue(i, "Remraks", "Connecting");
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
 
                 clsMachine m = new clsMachine(ip, ioflg);
                 string err = string.Empty;
@@ -1607,7 +1612,7 @@ namespace Attendance.Forms
 
                 if (string.IsNullOrEmpty(err))
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Time Set Completed..");
                 }
                 else
                 {
@@ -1619,6 +1624,16 @@ namespace Attendance.Forms
 
             UnLockCtrl();
             Cursor.Current = Cursors.Default;
+        }
+
+        private void optMachineType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtEmpUnqID_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
         
     }

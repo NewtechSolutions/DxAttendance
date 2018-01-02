@@ -205,7 +205,7 @@ namespace Attendance.Classes
                     this.AdharNo = dr["AdharNo"].ToString();
                     this.WeekOffDay = dr["WeekOff"].ToString();
 
-                    this.SafetyTrnFLG = Convert.ToBoolean(dr["SafetyTrnFLG"].ToString());
+                    this.SafetyTrnFLG = Convert.ToBoolean(dr["SafetyTrnFLG"]);
                     this.MedChkFlg = Convert.ToBoolean(dr["MedChkFLG"]);
                     this.IsHOD = Convert.ToBoolean(dr["IsHOD"]);
                     this.Gender = Convert.ToBoolean(dr["Sex"]);
@@ -824,6 +824,7 @@ namespace Attendance.Classes
             this.ContFlg = tContractFlg;
             this.AutoShift = tShiftType;
             this.OTFLG = tOTFLG;
+            this.EmpCode = tEmpCode;
             this.OLDEmpCode = tOldEmpCode;
             this.ContCode = tContCode;
             this.SAPID = tSAPID;
@@ -836,7 +837,7 @@ namespace Attendance.Classes
             this.MessCode = tMessCode;
             this.MessGrpCode = tMessGrpCode;
             this.CostCode = tCostCode;
-            
+           
 
             //check for CostCode ..
             if(this.CostCode.Trim() != "")
@@ -981,7 +982,7 @@ namespace Attendance.Classes
                             " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active," +
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
-                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode, " +                            
+                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode " +                            
                             " AddDt,AddID,isHod) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
@@ -989,7 +990,7 @@ namespace Attendance.Classes
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
                             " '{30}','{31}',{32}, " +
-                            " GetDate(),'{33}')";
+                            " GetDate(),'{33}',0,'{34}')";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
@@ -997,12 +998,17 @@ namespace Attendance.Classes
                             Convert.ToDateTime(this.BirthDt).ToString("yyyy-MM-dd"), Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd"),
                            ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidFrom).ToString("yyyy-MM-dd") + "'"),
                             ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidTo).ToString("yyyy-MM-dd") + "'"),
-                             this.AdharNo, this.AdharNo, this.Gender,
+                            this.AdharNo, this.AdharNo, (this.Gender?1:0),
                              (this.ContFlg?1:0), (this.PayrollFlg?1:0), (this.OTFLG?1:0), this.WeekOffDay,
-                            (this.ContCode == "" ? "null": this.ContCode ),this.EmpCode,this.OLDEmpCode,this.SAPID,
-                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"), (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
+                            (this.ContCode == "" ? "null" : "'" + this.ContCode + "'"), this.EmpCode, this.OLDEmpCode, this.SAPID,
+                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), 
+                            (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"),
+                            (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), 
+                            (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), 
+                            (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), 
+                            (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
                             (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
-                            Utils.User.GUserID);
+                            Utils.User.GUserID,this.CostCode);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();

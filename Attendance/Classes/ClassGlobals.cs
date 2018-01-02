@@ -81,9 +81,10 @@ namespace Attendance.Classes
                     G_LateComeSec = Convert.ToInt32(dr["LateComeSec"].ToString());
                     G_EarlyComeSec = Convert.ToInt32(dr["EarlyComeSec"].ToString());
                     G_EarlyGoingSec = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
+                    
                     G_GracePeriodSec = Convert.ToInt32(dr["GracePeriodSec"].ToString());
-
                     G_HFFLG_Grace = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
+
                     G_HFFLG_LateCome = Convert.ToBoolean(dr["LateHalfDayFlg"]);
                     G_HFFLG_EarlyGoing = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
                     G_HFSEC_EarlyGoing = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
