@@ -177,14 +177,15 @@ namespace Attendance.Forms
 
                     
                     cn.Open();
-                    SqlTransaction tr = cn.BeginTransaction();
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.Connection = cn;
-                    cmd.Transaction = tr;
+                    
+                  
 
                     foreach (DataRow dr in sortedDT.Rows)
                     {
                         bool brkflg = false;
+                       
+                        SqlTransaction trn = cn.BeginTransaction();
+                        SqlCommand cmd = new SqlCommand();
 
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
                         string tCompCode = Utils.Helper.GetDescription("Select CompCode From MastEmp where EmpUnqID ='" + tEmpUnqID + "'", Utils.Helper.constr);
@@ -273,14 +274,14 @@ namespace Attendance.Forms
                                 if (cnt == 0)
                                 {
                                     sql = "Insert into MastShiftSchedule (YearMt,EmpUnqID,AddDt,AddId) Values ('" + tYearMt + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
-                                    cmd.CommandText = sql;
+                                    cmd = new SqlCommand(sql,cn,trn);
                                     cmd.ExecuteNonQuery();
 
                                 }
                                 else
                                 {
                                     sql = "Update MastShiftSchedule Set UpdDt = GetDate() , UpdID = '" + Utils.User.GUserID + "' Where YearMt = '" + tYearMt + "' And EmpUnqID ='" + tEmpUnqID + "'";
-                                    cmd.CommandText = sql;
+                                    cmd = new SqlCommand(sql, cn, trn);
                                     cmd.ExecuteNonQuery();
                                 }
                             }
@@ -340,7 +341,7 @@ namespace Attendance.Forms
                                      " Set ScheduleShift ='" + fldval + "' Where tYear = '" + date.Year.ToString() + "' And tDate ='" + date.ToString("yyyy-MM-dd") + "' " +
                                     " And CompCode = '" + Emp.CompCode + "' And WrkGrp ='" + Emp.WrkGrp + "' And EmpUnqID='" + Emp.EmpUnqID + "'";
 
-                                cmd.CommandText = sqlattd;
+                                cmd = new SqlCommand(sqlattd,cn,trn);
                                 cmd.ExecuteNonQuery();
                             }
                             catch (Exception ex)
@@ -363,7 +364,8 @@ namespace Attendance.Forms
                         try
                         {
                             //update shiftschedule
-                            cmd.CommandText = "Update MastShiftSchedule Set " + ShiftSql.Substring(0, ShiftSql.Length - 1) + " Where Yearmt = '" + tYearMt + "' and EmpUnqId ='" + Emp.EmpUnqID + "' ";
+                            sql = "Update MastShiftSchedule Set " + ShiftSql.Substring(0, ShiftSql.Length - 1) + " Where Yearmt = '" + tYearMt + "' and EmpUnqId ='" + Emp.EmpUnqID + "' ";
+                            cmd = new SqlCommand(sql,cn,trn);
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -391,7 +393,7 @@ namespace Attendance.Forms
 
                             try
                             {
-                                cmd.CommandText = delsql;
+                                cmd = new SqlCommand(delsql,cn,trn);                              
                                 cmd.ExecuteNonQuery();
                             }
                             catch (Exception ex)
@@ -419,7 +421,7 @@ namespace Attendance.Forms
 
                                     try
                                     {
-                                        cmd.CommandText = inssql;
+                                        cmd = new SqlCommand(inssql,cn,trn);
                                         cmd.ExecuteNonQuery();
                                     }
                                     catch (Exception ex)
@@ -482,7 +484,7 @@ namespace Attendance.Forms
                                                 + " and tDate > '" + LastWO.ToString("yyyy-MM-dd") + "' and tDate <= '" + date.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
                                                 LastWO = date;
 
-                                                cmd.CommandText = delwo;
+                                                cmd = new SqlCommand(delwo,cn,trn);
                                                 cmd.ExecuteNonQuery();
                                             }
                                             catch (Exception ex)
@@ -499,7 +501,7 @@ namespace Attendance.Forms
                                             try
                                             {
                                                 string delwo = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' and tDate = '" + date.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
-                                                cmd.CommandText = delwo;
+                                                cmd = new SqlCommand(delwo,cn,trn);
                                                 cmd.ExecuteNonQuery();
                                             }                                            
                                             catch (Exception ex)
@@ -516,8 +518,9 @@ namespace Attendance.Forms
                                             string inssql = " Insert into MastLeaveSchedule ( EmpUnqID,WrkGrp,tDate,SchLeave,Adddt,AddId )" +
                                             " Values ('" + Emp.EmpUnqID + "','" + Emp.WrkGrp + "','" + date.ToString("yyyy-MM-dd") + "','WO',GetDate(),'ShiftSch')";
 
-                                            cmd.CommandText = inssql;
+                                            cmd = new SqlCommand(inssql,cn,trn);
                                             cmd.ExecuteNonQuery();
+                                        
                                         }catch(Exception ex)
                                         {
                                             dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
@@ -533,8 +536,10 @@ namespace Attendance.Forms
                                 {
                                     try
                                     {
-                                        cmd.CommandText = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' " +
+                                        sql = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' " +
                                                     " and tDate = '" + date.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
+
+                                        cmd = new SqlCommand(sql,cn,trn);
                                         cmd.ExecuteNonQuery();
                                     }
                                     catch (Exception ex)
@@ -560,8 +565,9 @@ namespace Attendance.Forms
                             {
                                 if (LastWO != DateTime.MinValue)
                                 {
-                                    cmd.CommandText = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' and tDate > '" + LastWO.ToString("yyyy-MM-dd") + "' " +
+                                    sql = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' and tDate > '" + LastWO.ToString("yyyy-MM-dd") + "' " +
                                         " and tDate <= '" + EndDt.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
+                                    cmd = new SqlCommand(sql,cn,trn);                                    
                                     cmd.ExecuteNonQuery();
 
                                 }
@@ -585,7 +591,7 @@ namespace Attendance.Forms
 
                         try
                         {
-                            tr.Commit();
+                            trn.Commit();
                             dr["Remarks"] = "Uploded";
 
                             //process data
@@ -604,7 +610,7 @@ namespace Attendance.Forms
                         }
                         catch (Exception ex)
                         {
-                            tr.Rollback();
+                            trn.Rollback();
                             dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
                             brkflg = true;                            
                         }
