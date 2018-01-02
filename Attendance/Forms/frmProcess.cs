@@ -77,9 +77,7 @@ namespace Attendance.Forms
             
             try
             {
-                var rows = from row in ProcessList.AsEnumerable()
-                           where row.Field<bool>("IsDone") == false
-                           select row;
+                DataRow[] rows = ProcessList.Select("IsDone = 0");
 
                 DataTable dt = rows.CopyToDataTable();
 
@@ -809,7 +807,7 @@ namespace Attendance.Forms
             else if (ProcessName == "ATTD")
             {
                 string sql = "Select EmpUnqId,'" + txtWrkFromDt.DateTime.ToString("yyyy-MM-dd") + "' as FromDate, " +
-                    " '" + txtWrkToDate.DateTime.ToString("yyyy-MM-dd") + "' as ToDate " +
+                    " '" + txtWrkToDate.DateTime.ToString("yyyy-MM-dd") + "' as ToDate, Convert(bit,0) as IsDone " +
                     " from MastEmp where WrkGrp='" + txtWrkGrpCode.Text.Trim().ToString().ToUpper() + "' " +
                     " and CompCode ='" + txtCompCode.Text.Trim().ToString() + "' and active = 1 Order By EmpUnqID";
 
@@ -954,6 +952,7 @@ namespace Attendance.Forms
                             dr.EndEdit();
                             dr.AcceptChanges();
                             RefreshAppGrid(sender,e);
+                            Application.DoEvents();
                         }
                         
                         if(!string.IsNullOrEmpty(proerr))
