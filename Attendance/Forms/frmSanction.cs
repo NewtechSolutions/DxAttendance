@@ -65,6 +65,7 @@ namespace Attendance.Forms
                 
                 LoadGrid();
                 SetRights();
+                txtSanDt.Focus();
             } 
         }
 
@@ -1131,7 +1132,7 @@ namespace Attendance.Forms
                     txtOutTime.EditValue = null;
                     chkTPA.Checked = false;
                     chkShift.Checked = false;
-                    txtRemarks.Text = "";
+                    //txtRemarks.Text = "";
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1636,10 +1637,10 @@ namespace Attendance.Forms
                     res = 0;
                     pro.Lunch_HalfDayPost_Process(Emp.EmpUnqID, tSanDt, out res);
 
-                    txtSanDtLunch.EditValue = null;
-                    txtInOutLunch.Text =  "";
-                    txtTimeLunch.Text = "";
-                    txtLocLunch.Text = "";
+                    //txtSanDtLunch.EditValue = null;
+                    //txtInOutLunch.Text =  "";
+                    //txtTimeLunch.Text = "";
+                    //txtLocLunch.Text = "";
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1733,10 +1734,10 @@ namespace Attendance.Forms
                         }
                     }
 
-                    txtSanDtGate.EditValue = null;
-                    txtInOutGate.Text = "";
-                    txtTimeGate.Text = "";
-                    txtLocGate.Text = "";
+                    //txtSanDtGate.EditValue = null;
+                    //txtInOutGate.Text = "";
+                    //txtTimeGate.Text = "";
+                    //txtLocGate.Text = "";
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);

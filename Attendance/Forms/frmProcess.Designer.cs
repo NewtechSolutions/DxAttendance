@@ -552,8 +552,8 @@
             this.btnProcessWrkGrp.Location = new System.Drawing.Point(187, 224);
             this.btnProcessWrkGrp.Name = "btnProcessWrkGrp";
             this.btnProcessWrkGrp.Size = new System.Drawing.Size(75, 23);
-            this.btnProcessWrkGrp.TabIndex = 2;
-            this.btnProcessWrkGrp.Text = "Process";
+            this.btnProcessWrkGrp.TabIndex = 10;
+            this.btnProcessWrkGrp.Text = "&Process";
             this.btnProcessWrkGrp.UseVisualStyleBackColor = true;
             this.btnProcessWrkGrp.Click += new System.EventHandler(this.btnProcessWrkGrp_Click);
             // 
@@ -770,7 +770,7 @@
             this.optServer.Location = new System.Drawing.Point(208, 21);
             this.optServer.Name = "optServer";
             this.optServer.Size = new System.Drawing.Size(105, 18);
-            this.optServer.TabIndex = 1;
+            this.optServer.TabIndex = 8;
             this.optServer.TabStop = true;
             this.optServer.Text = "Server Process";
             this.optServer.UseVisualStyleBackColor = true;
@@ -781,7 +781,7 @@
             this.optSelf.Location = new System.Drawing.Point(21, 21);
             this.optSelf.Name = "optSelf";
             this.optSelf.Size = new System.Drawing.Size(129, 18);
-            this.optSelf.TabIndex = 0;
+            this.optSelf.TabIndex = 7;
             this.optSelf.TabStop = true;
             this.optSelf.Text = "Application Process";
             this.optSelf.UseVisualStyleBackColor = true;
@@ -834,7 +834,7 @@
             this.txtWrkToDate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtWrkToDate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtWrkToDate.Size = new System.Drawing.Size(100, 20);
-            this.txtWrkToDate.TabIndex = 3;
+            this.txtWrkToDate.TabIndex = 5;
             // 
             // txtWrkFromDt
             // 
@@ -848,7 +848,7 @@
             this.txtWrkFromDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtWrkFromDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtWrkFromDt.Size = new System.Drawing.Size(100, 20);
-            this.txtWrkFromDt.TabIndex = 2;
+            this.txtWrkFromDt.TabIndex = 4;
             // 
             // txtCompName
             // 
@@ -896,6 +896,7 @@
             this.txtWrkGrpDesc.Properties.ReadOnly = true;
             this.txtWrkGrpDesc.Size = new System.Drawing.Size(228, 20);
             this.txtWrkGrpDesc.TabIndex = 3;
+            this.txtWrkGrpDesc.TabStop = false;
             // 
             // txtWrkGrpCode
             // 
@@ -905,7 +906,7 @@
             this.txtWrkGrpCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtWrkGrpCode.Properties.Mask.ShowPlaceHolders = false;
             this.txtWrkGrpCode.Size = new System.Drawing.Size(100, 20);
-            this.txtWrkGrpCode.TabIndex = 1;
+            this.txtWrkGrpCode.TabIndex = 2;
             this.txtWrkGrpCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtWrkGrpCode_KeyDown);
             this.txtWrkGrpCode.Validated += new System.EventHandler(this.txtWrkGrpCode_Validated);
             // 

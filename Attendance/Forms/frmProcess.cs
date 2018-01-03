@@ -48,7 +48,16 @@ namespace Attendance.Forms
             appstatus.Enabled = true;
 
             PCName = System.Environment.MachineName;
+            this.ctrlEmp1.EmpUnqIDValidated += new EventHandler(this.ctrlEmpValidateEvent_Handler);
         }
+
+        private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
+        {
+           
+           txtAppFromDt.Focus();
+           
+        }
+
 
         void serverstatus_Tick(object sender, EventArgs e)
         {

@@ -232,7 +232,7 @@
             this.grd_Attd.MainView = this.gv_Attd;
             this.grd_Attd.Name = "grd_Attd";
             this.grd_Attd.Size = new System.Drawing.Size(1036, 338);
-            this.grd_Attd.TabIndex = 0;
+            this.grd_Attd.TabIndex = 2;
             this.grd_Attd.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Attd});
             // 

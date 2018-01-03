@@ -67,18 +67,24 @@ namespace Attendance.Forms
             if (string.IsNullOrEmpty(txtYear.Text))
             {
                 err = err + "Please Enter Year.." + Environment.NewLine;
+                return err;
             }
 
             if (string.IsNullOrEmpty(txtDate.Text))
             {
                 err = err + "Please Enter Date.." + Environment.NewLine;
+                return err;
             }
 
             if (string.IsNullOrEmpty(txtDescription.Text))
             {
                 err = err + "Please Holiday Description.." + Environment.NewLine;
             }
-            
+
+            if (txtDate.DateTime.Year != Convert.ToInt32(txtYear.Text.Trim()))
+            {
+                err = err + "Invalid Year and Date Selection.." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -148,7 +154,7 @@ namespace Attendance.Forms
 
                 sql = "Select LeaveTyp,LeaveDesc from MastLeave Where "
                    + " CompCode ='" + txtCompCode.Text.Trim() + "' "
-                   + " WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' ";
+                   + " and WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and PublicHL = 1 ";
                    
                 if (e.KeyCode == Keys.F1)
                 {
@@ -189,7 +195,7 @@ namespace Attendance.Forms
 
             DataSet ds = new DataSet();
             string sql = "select * From  MastLeave where CompCode ='" + txtCompCode.Text.Trim() + "' " 
-                +   " And WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and LeaveTyp ='" + txtLeaveTyp.Text.Trim() + "'";
+                +   " And WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and LeaveTyp ='" + txtLeaveTyp.Text.Trim() + "' and PublicHL = 1 ";
             
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -198,12 +204,16 @@ namespace Attendance.Forms
             if (hasRows)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    
+                {                    
                     txtLeaveTyp.Text = dr["LeaveTyp"].ToString();
-                    txtLeaveDesc.Text = dr["LeaveDesc"].ToString();
-                    
+                    txtLeaveDesc.Text = dr["LeaveDesc"].ToString();                    
                 }
+            }
+            else
+            {
+                MessageBox.Show("Selected leave is not defined as public holiday", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtLeaveTyp.Text = "";
+                txtLeaveDesc.Text = "";                
             }
             
         }
@@ -310,6 +320,7 @@ namespace Attendance.Forms
                         MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ResetCtrl();
                         LoadGrid();
+                        SetRights();
                     }
                     catch (Exception ex)
                     {
@@ -351,7 +362,7 @@ namespace Attendance.Forms
                         ResetCtrl();
                         LoadGrid();
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       
+                        SetRights();
                     }
                     catch (Exception ex)
                     {
@@ -399,6 +410,7 @@ namespace Attendance.Forms
                             MessageBox.Show("Record Deleted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             ResetCtrl();
                             LoadGrid();
+                            SetRights();
                             return;
                         }
                         catch (Exception ex)
@@ -578,7 +590,10 @@ namespace Attendance.Forms
 
         private void txtDate_Validated(object sender, EventArgs e)
         {
-            
+            if (txtDate.DateTime.Year != Convert.ToInt32(txtYear.Text.Trim()))
+            {
+                txtDate.EditValue = null;
+            }
         }
 
         private void txtDate_EditValueChanged(object sender, EventArgs e)

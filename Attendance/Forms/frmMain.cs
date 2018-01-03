@@ -1036,6 +1036,18 @@ namespace Attendance
             }
         }
 
+        private void mnuMastHolidayOpt_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastHolidayOpt"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastHolidayOpt m = new Attendance.Forms.frmMastHolidayOpt();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
 
         
