@@ -284,6 +284,7 @@ namespace Attendance.Forms
                         txtAutoProccessTime.EditValue = "00:00";
                     }
 
+                    
 
                     if (Convert.ToBoolean(dr["AutoDelEmpFlg"]))
                     {
@@ -310,6 +311,10 @@ namespace Attendance.Forms
                         chkAutoDelExpEmp.Checked = false;
                         txtAutoDelExpEmpTime.EditValue = "00:00";
                     }
+
+                    chkJobNotification.Checked = Convert.ToBoolean(dr["JobNotificationFlg"]);
+                    txtJobNotificationEmail.Text = dr["JobNotificationEmail"].ToString();
+
 
                 }
             }
@@ -457,6 +462,8 @@ namespace Attendance.Forms
                             " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'," +
                             " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'," +
                             " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'" +
+                            " JobNotificationFlg ='" + (chkJobNotification.Checked?1:0)+ "', " +
+                            " JobNotificationEmail ='" + txtJobNotificationEmail.Text.Trim().ToString() + "' " +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;

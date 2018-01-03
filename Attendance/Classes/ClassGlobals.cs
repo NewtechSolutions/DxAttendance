@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Data.OleDb;
+using System.Net.Mail;
 
 namespace Attendance.Classes
 {
@@ -23,7 +24,7 @@ namespace Attendance.Classes
         public static DataSet G_DsAutoTime;
         public static DataSet G_DsAutoLog;
         public static DataSet G_DsAutoArrival;
-
+        
         //used for checkpath
         public static string G_UpdateChkPath;
 
@@ -32,6 +33,7 @@ namespace Attendance.Classes
 
         public static List<string> LunchInOutIP = new List<string>();
         public static string G_LunchInOutIP;
+        
         public static bool G_AutoProcess;
         public static string G_AutoProcessWrkGrp;
         public static TimeSpan G_AutoProcessTime;
@@ -52,6 +54,9 @@ namespace Attendance.Classes
         // auto delete validity expired employee
         public static bool G_AutoDelExpEmp = false;
         public static TimeSpan G_AutoDelExpEmpTime;
+
+        public static bool G_JobNotificationFlg = false;
+        public static string G_JobNotificationEmail;
 
         public static int G_SanDayLimit;
         public static int G_LateComeSec;
@@ -145,6 +150,13 @@ namespace Attendance.Classes
                         {
                             G_AutoDelExpEmpTime = t;
                         }
+                    }
+
+                    //auto notification of schedule job completion
+                    G_JobNotificationFlg = Convert.ToBoolean(dr["JobNotificationFlg"]);
+                    if (G_JobNotificationFlg)
+                    {
+                        G_JobNotificationEmail = dr["JobNotificationEmail"].ToString();
                     }
 
 
@@ -857,4 +869,182 @@ namespace Attendance.Classes
             return sheetNames;
         }
     }
+
+
+    class EmailHelper
+    {
+
+        public static string Email(string to,
+                                     string cc,
+                                     string bcc,
+                                     string body,
+                                     string subject,
+                                     string fromAddress,
+                                     string fromDisplay,
+                                     string credentialUser,
+                                     string credentialPassword,
+                                     params MailAttachment[] attachments)
+        {
+            string host = Globals.G_SmtpHostIP;
+            //body = "";// UpgradeEmailFormat(body);
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+
+                string[] mailto = to.Split(';');
+                string[] mailcc = cc.Split(';');
+                string[] mailbcc = bcc.Split(';');
+
+
+                foreach (string tto in mailto)
+                {
+                    if (!string.IsNullOrWhiteSpace(tto))
+                    {
+                        mail.To.Add(new MailAddress(tto));
+                    }
+
+                }
+
+                foreach (string tcc in mailcc)
+                {
+                    if (!string.IsNullOrWhiteSpace(tcc))
+                    {
+                        mail.CC.Add(new MailAddress(tcc));
+                    }
+
+                }
+
+                foreach (string tbcc in mailbcc)
+                {
+                    if (!string.IsNullOrWhiteSpace(tbcc))
+                    {
+                        mail.Bcc.Add(new MailAddress(tbcc));
+                    }
+
+                }
+
+                if (mailto.Count() <= 0 && to.Trim().Length > 0)
+                {
+                    mail.To.Add(new MailAddress(to));
+                }
+
+                if (mailcc.Count() <= 0 && cc.Trim().Length > 0)
+                {
+                    mail.CC.Add(new MailAddress(cc));
+                }
+
+                if (mailbcc.Count() <= 0 && bcc.Trim().Length > 0)
+                {
+                    mail.Bcc.Add(new MailAddress(to));
+                }
+
+                mail.From = new MailAddress(fromAddress, fromDisplay, Encoding.UTF8);
+                mail.Subject = subject;
+                mail.SubjectEncoding = Encoding.UTF8;
+                mail.Priority = MailPriority.Normal;
+                foreach (MailAttachment ma in attachments)
+                {
+                    mail.Attachments.Add(ma.File);
+                }
+                SmtpClient smtp = new SmtpClient();
+                smtp.Credentials = new System.Net.NetworkCredential(credentialUser, credentialPassword);
+                smtp.Host = host;
+                smtp.Send(mail);
+                return "Send";
+            }
+            catch (Exception ex)
+            {
+                return "Error : " + ex.ToString();
+               
+            }
+        }
+
+
+        public static string Email(string to,
+                                     string cc,
+                                     string bcc,
+                                     string body,
+                                     string subject,
+                                     string fromAddress,
+                                     string fromDisplay,
+                                     string credentialUser,
+                                     string credentialPassword)
+        {
+            string host = Globals.G_SmtpHostIP;
+            //body = "";// UpgradeEmailFormat(body);
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+
+                string[] mailto = to.Split(';');
+                string[] mailcc = cc.Split(';');
+                string[] mailbcc = bcc.Split(';');
+
+
+                foreach (string tto in mailto)
+                {
+                    if (!string.IsNullOrWhiteSpace(tto))
+                    {
+                        mail.To.Add(new MailAddress(tto));
+                    }
+
+                }
+
+                foreach (string tcc in mailcc)
+                {
+                    if (!string.IsNullOrWhiteSpace(tcc))
+                    {
+                        mail.CC.Add(new MailAddress(tcc));
+                    }
+
+                }
+
+                foreach (string tbcc in mailbcc)
+                {
+                    if (!string.IsNullOrWhiteSpace(tbcc))
+                    {
+                        mail.Bcc.Add(new MailAddress(tbcc));
+                    }
+
+                }
+
+                if (mailto.Count() <= 0 && to.Trim().Length > 0)
+                {
+                    mail.To.Add(new MailAddress(to));
+                }
+
+                if (mailcc.Count() <= 0 && cc.Trim().Length > 0)
+                {
+                    mail.CC.Add(new MailAddress(cc));
+                }
+
+                if (mailbcc.Count() <= 0 && bcc.Trim().Length > 0)
+                {
+                    mail.Bcc.Add(new MailAddress(to));
+                }
+
+                mail.From = new MailAddress(fromAddress, fromDisplay, Encoding.UTF8);
+                mail.Subject = subject;
+                mail.SubjectEncoding = Encoding.UTF8;
+                mail.Priority = MailPriority.Normal;
+                
+                SmtpClient smtp = new SmtpClient();
+                smtp.Credentials = new System.Net.NetworkCredential(credentialUser, credentialPassword);
+                smtp.Host = host;
+                smtp.Send(mail);
+                return "Send";
+            }
+            catch (Exception ex)
+            {
+                return "Error : " + ex.ToString();
+
+            }
+        }
+    }
+
+
 }

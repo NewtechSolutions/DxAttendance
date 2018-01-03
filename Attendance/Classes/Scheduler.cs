@@ -40,7 +40,7 @@ namespace Attendance.Classes
         {
             if (!scheduler.IsStarted)
             {
-                scheduler.ListenerManager.AddJobListener(new DummyJobListener(), GroupMatcher<JobKey>.AnyGroup());
+                scheduler.ListenerManager.AddJobListener(new DummyJobListener(), GroupMatcher<JobKey>.GroupStartsWith("Job_"));
                 scheduler.Start();                
                 _StatusAutoTimeSet = false;
                 _StatusAutoDownload = false;
@@ -131,6 +131,8 @@ namespace Attendance.Classes
         public Scheduler()
         {   
            scheduler = StdSchedulerFactory.GetDefaultScheduler();
+           
+         
            StartMQTTServer();
            StartMQTTClient();
         }
@@ -168,12 +170,12 @@ namespace Attendance.Classes
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoDownLoad>()
                          .WithDescription("Auto Download Attendance Log from All Machine")
-                        .WithIdentity(jobid, "AutoDownload")
+                        .WithIdentity(jobid, "Job_AutoDownload")
                         .Build();
 
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "AutoDownload")
+                        .WithIdentity(triggerid, "Job_AutoDownload")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .Build();
@@ -203,12 +205,12 @@ namespace Attendance.Classes
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoTimeSet>()
                          .WithDescription("Auto Set ServerTime to All Machine")
-                        .WithIdentity(jobid, "AutoTimeSet")
+                        .WithIdentity(jobid, "Job_AutoTimeSet")
                         .Build();
 
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "AutoTimeSet")                        
+                        .WithIdentity(triggerid, "Job_AutoTimeSet")                        
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .StartNow()
                         .Build();
@@ -260,13 +262,13 @@ namespace Attendance.Classes
                     // define the job and tie it to our HelloJob class
                     IJobDetail job = JobBuilder.Create<AutoProcess>()
                         .WithDescription("Auto Process Attendance Data")
-                        .WithIdentity(jobid, "AutoProcess")
-                        .UsingJobData("WrkGrp", wrk.Replace("'", ""))
+                        .WithIdentity(jobid, "Job_AutoProcess")
+                        .UsingJobData("WrkGrp", wrk.Replace("'", ""))                        
                         .Build();
                     
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "AutoProcess")
+                        .WithIdentity(triggerid, "Job_AutoProcess")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .Build();
@@ -286,12 +288,12 @@ namespace Attendance.Classes
 
         public void RegSchedule_WorkerProcess()
         {
-            string jobid = "Job_WorkerProcess";
+            string jobid = "WorkerProcess";
             string triggerid = "Trigger_WorkerProcess";
 
             // define the job and tie it to our HelloJob class
             IJobDetail job = JobBuilder.Create<WorkerProcess>()
-                    .WithDescription("Auto Process Worker")
+                    .WithDescription("Heartbeat And Pending backlog Data Process")
                 .WithIdentity(jobid, "WorkerProcess")
                 .Build();
 
@@ -310,9 +312,6 @@ namespace Attendance.Classes
             tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
             Scheduler.Publish(tMsg);
             
-            
-            
-
             if (Globals.G_AutoDelEmp)
             {
                 
@@ -322,12 +321,12 @@ namespace Attendance.Classes
                 // define the job and tie it to our HelloJob class
                 IJobDetail job2 = JobBuilder.Create<AutoDeleteLeftEmp>()
                      .WithDescription("Auto Delete Left Employee")
-                    .WithIdentity(jobid2, "WorkerProcess")
+                    .WithIdentity(jobid2, "Job_WorkerProcess")
                     .Build();
 
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "WorkerProcess")
+                    .WithIdentity(triggerid2, "Job_WorkerProcess")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes))
                     .Build();
@@ -349,20 +348,20 @@ namespace Attendance.Classes
                 string triggerid2 = "Trigger_AutoDeleteExpireValidityEmp";
 
                 // define the job and tie it to our HelloJob class
-                IJobDetail job2 = JobBuilder.Create<AutoDeleteExpireValidityEmp>()
+                IJobDetail job3 = JobBuilder.Create<AutoDeleteExpireValidityEmp>()
                      .WithDescription("Auto Delete Expired Validity Employee")
-                    .WithIdentity(jobid2, "WorkerProcess")
+                    .WithIdentity(jobid2, "Job_WorkerProcess")
                     .Build();
 
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "WorkerProcess")
+                    .WithIdentity(triggerid2, "Job_WorkerProcess")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelExpEmpTime.Hours, Globals.G_AutoDelExpEmpTime.Minutes))
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
-                scheduler.ScheduleJob(job2, trigger2);
+                scheduler.ScheduleJob(job3, trigger2);
 
                 tMsg = new ServerMsg();
                 tMsg.MsgType = "Job Building";
@@ -370,8 +369,6 @@ namespace Attendance.Classes
                 tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
                 Scheduler.Publish(tMsg);
             }
-
-
         }
         
         public void RegSchedule_AutoArrival()
@@ -391,8 +388,8 @@ namespace Attendance.Classes
                     string jobid = "Job_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
                     string triggerid = "Trigger_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
                     // define the job and tie it to our HelloJob class
-                    IJobDetail job = JobBuilder.Create<AutoArrival>()
-                        .WithIdentity(jobid, "Arrival")
+                    IJobDetail job4 = JobBuilder.Create<AutoArrival>()
+                        .WithIdentity(jobid, "Job_Arrival")
                         .WithDescription("Auto Process Shift wise Arrival Report For " + FromTime.ToString() + " TO " + ToTime.ToString())
                         .UsingJobData("FromTime", FromTime.ToString())
                         .UsingJobData("ToTime", ToTime.ToString())    
@@ -400,13 +397,13 @@ namespace Attendance.Classes
 
                     // Trigger the job to run now
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "Arrival")
+                        .WithIdentity(triggerid, "Job_Arrival")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))                                          
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
-                    scheduler.ScheduleJob(job, trigger);
+                    scheduler.ScheduleJob(job4, trigger);
                     ServerMsg tMsg = new ServerMsg();
                     tMsg.MsgType = "Job Building";
                     tMsg.MsgTime = DateTime.Now;
@@ -1252,9 +1249,7 @@ namespace Attendance.Classes
         {
             
             public readonly Guid Id = Guid.NewGuid();
-
-            
-
+          
             public void JobToBeExecuted(IJobExecutionContext context)
             {
                 JobKey jobKey = context.JobDetail.Key;
@@ -1264,7 +1259,19 @@ namespace Attendance.Classes
             public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
             {
                 JobKey jobKey = context.JobDetail.Key;
-            
+
+                if (Globals.G_JobNotificationFlg && !string.IsNullOrEmpty(Globals.G_JobNotificationEmail))
+                {
+                    string body = "Job ID : " + context.JobDetail.Key.ToString() + "</br>" +
+                                  "Job Group : " + context.JobDetail.Key.Group.ToString() + "</br>" +
+                                  "Job Description : " + context.JobDetail.Description + "</br>" +
+                                  "Job Executed on : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    
+                    string subject = "Attendance System : Notification : " + context.JobDetail.Description ;
+                    string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                        Globals.G_DefaultMailID, "", "");
+
+                }
             }
 
             public void JobExecutionVetoed(IJobExecutionContext context)

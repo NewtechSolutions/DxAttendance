@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Attendance.Classes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -584,5 +586,5 @@ namespace Utils
 
     }
 
-    
+   
 }

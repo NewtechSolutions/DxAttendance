@@ -893,22 +893,15 @@ namespace Attendance
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandText = "Attd_Process_Arrival";
 
-                        SqlParameter spout = new SqlParameter();
-                        spout.Direction = ParameterDirection.Output;
-                        spout.DbType = DbType.Int32;
-                        spout.ParameterName = "@result";
-                        int tout = 0;
-                        spout.Value = tout;
-
-
                         cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
                         cmd.Parameters.AddWithValue("@pToDt", tToDate);
-                        cmd.Parameters.Add(spout);
+                        cmd.Parameters.Add("@result",SqlDbType.Int,4);
+                        cmd.Parameters["@result"].Direction = ParameterDirection.Output;                        
                         cmd.CommandTimeout = 0;
                         cmd.ExecuteNonQuery();
 
                         //get the output
-                        result = (int)cmd.Parameters["@result"].Value;
+                        result = Convert.ToInt32(cmd.Parameters["@result"].Value.ToString());
 
 
 
@@ -917,7 +910,7 @@ namespace Attendance
                 }
                 catch (Exception ex)
                 {
-
+                    result = 0;
                 }
 
             }//using connection
@@ -2024,48 +2017,48 @@ namespace Attendance
                 return;
             }
 
-            //make sure to to check months between dates
-            if(tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM")){
-                proerr = "Cross Month Changes are not allowed";
-                err = proerr;
-                return;
-            }
+            ////make sure to to check months between dates
+            //if(tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM")){
+            //    proerr = "Cross Month Changes are not allowed";
+            //    err = proerr;
+            //    return;
+            //}
 
 
-            //block previous month changes
-            int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
-            int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
-            if (mth < curmth)
-            {
-                err += "Previous Month Changes are not allowed";
-                return;
-            }
+            ////block previous month changes
+            //int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
+            //int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
+            //if (mth < curmth)
+            //{
+            //    err += "Previous Month Changes are not allowed";
+            //    return;
+            //}
 
-            //prevent nearest wo from previous wo 
-            string sql = "Select tDate From MastLeaveSchedule Where EmpUnqId = '" + tEmpUnqID + "' " +
-                " And tDate < '" + tFromDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO' Order By SanID Desc ";
+            ////prevent nearest wo from previous wo 
+            //string sql = "Select tDate From MastLeaveSchedule Where EmpUnqId = '" + tEmpUnqID + "' " +
+            //    " And tDate < '" + tFromDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO' Order By SanID Desc ";
 
-            string pdate = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
-            if (!string.IsNullOrEmpty(pdate))
-            {
-                DateTime prvWo = Convert.ToDateTime(pdate);
-                DateTime nxtWo = new DateTime();
-                for (DateTime date = tFromDt; date.Date <= tToDate.Date; date = date.AddDays(1))
-                {
-                    if(date.ToString("dddd").ToUpper().Substring(0,3) == WoDay)
-                    {
-                        nxtWo = date;
-                        break;
-                    }
-                }
+            //string pdate = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
+            //if (!string.IsNullOrEmpty(pdate))
+            //{
+            //    DateTime prvWo = Convert.ToDateTime(pdate);
+            //    DateTime nxtWo = new DateTime();
+            //    for (DateTime date = tFromDt; date.Date <= tToDate.Date; date = date.AddDays(1))
+            //    {
+            //        if(date.ToString("dddd").ToUpper().Substring(0,3) == WoDay)
+            //        {
+            //            nxtWo = date;
+            //            break;
+            //        }
+            //    }
 
-                if ((nxtWo - prvWo).Days + 1 <= 5)
-                {
-                    err +=  string.Format("Next WO on {0} is too near from previous WO : {1}",nxtWo.ToString("dd/MM/yyyy"),prvWo.ToString("dd/MM/yyyy"));
-                    return;
-                }
+            //    if ((nxtWo - prvWo).Days + 1 <= 5)
+            //    {
+            //        err +=  string.Format("Next WO on {0} is too near from previous WO : {1}",nxtWo.ToString("dd/MM/yyyy"),prvWo.ToString("dd/MM/yyyy"));
+            //        return;
+            //    }
 
-            }
+            //}
 
 
             #region Chk_ValidEmp
@@ -2089,7 +2082,7 @@ namespace Attendance
                         
             #region Chk_IfLeavePosted
 
-               sql = "Select count(*) from LeaveEntry Where " +
+              string  sql = "Select count(*) from LeaveEntry Where " +
                " compcode = '" + Emp.CompCode + "'" +
                " and WrkGrp ='" + Emp.WrkGrp + "'" +
                " And tYear ='" + tFromDt.Year + "'" +
@@ -2355,23 +2348,23 @@ namespace Attendance
                 return;
             }
 
-            //make sure to to check months between dates
-            if (tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM"))
-            {
-                proerr = "Cross Month Changes are not allowed";
-                err = proerr;
-                return;
-            }
+            ////make sure to to check months between dates
+            //if (tFromDt.ToString("yyyyMM") != tToDate.ToString("yyyyMM"))
+            //{
+            //    proerr = "Cross Month Changes are not allowed";
+            //    err = proerr;
+            //    return;
+            //}
 
 
-            //block previous month changes
-            int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
-            int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
-            if (mth < curmth)
-            {
-                err += "Previous Month Changes are not allowed";
-                return;
-            }
+            ////block previous month changes
+            //int mth = Convert.ToInt32(tFromDt.ToString("yyyyMM"));
+            //int curmth = Convert.ToInt32(Utils.Helper.GetDescription("SELECT LEFT(CONVERT(varchar, GetDate(),112),6)", Utils.Helper.constr));
+            //if (mth < curmth)
+            //{
+            //    err += "Previous Month Changes are not allowed";
+            //    return;
+            //}
 
             clsEmp Emp = new clsEmp();
             Emp.EmpUnqID = tEmpUnqID;

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtUpdateChkPath = new DevExpress.XtraEditors.TextEdit();
             this.txtAutoDelExpEmpTime = new DevExpress.XtraEditors.TimeEdit();
             this.chkAutoDelExpEmp = new System.Windows.Forms.CheckBox();
             this.chkAutoProcessFlg = new System.Windows.Forms.CheckBox();
@@ -105,9 +107,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtUpdateChkPath = new DevExpress.XtraEditors.TextEdit();
+            this.txtJobNotificationEmail = new DevExpress.XtraEditors.TextEdit();
+            this.chkJobNotification = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProccessTime.Properties)).BeginInit();
@@ -146,11 +149,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chkJobNotification);
+            this.groupBox3.Controls.Add(this.txtJobNotificationEmail);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.txtUpdateChkPath);
             this.groupBox3.Controls.Add(this.txtAutoDelExpEmpTime);
@@ -182,6 +187,23 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(451, 212);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(100, 14);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "Update Chk Path";
+            // 
+            // txtUpdateChkPath
+            // 
+            this.txtUpdateChkPath.Location = new System.Drawing.Point(557, 209);
+            this.txtUpdateChkPath.Name = "txtUpdateChkPath";
+            this.txtUpdateChkPath.Properties.Mask.ShowPlaceHolders = false;
+            this.txtUpdateChkPath.Size = new System.Drawing.Size(272, 20);
+            this.txtUpdateChkPath.TabIndex = 22;
             // 
             // txtAutoDelExpEmpTime
             // 
@@ -286,7 +308,7 @@
             this.txtAutoProcessWrkGrp.Properties.Mask.EditMask = "[a-zA-Z0-9@./:,]+";
             this.txtAutoProcessWrkGrp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtAutoProcessWrkGrp.Properties.Mask.ShowPlaceHolders = false;
-            this.txtAutoProcessWrkGrp.Size = new System.Drawing.Size(464, 20);
+            this.txtAutoProcessWrkGrp.Size = new System.Drawing.Size(369, 20);
             this.txtAutoProcessWrkGrp.TabIndex = 5;
             // 
             // label8
@@ -404,9 +426,9 @@
             // 
             // btnUpdateNetwork
             // 
-            this.btnUpdateNetwork.Location = new System.Drawing.Point(724, 152);
+            this.btnUpdateNetwork.Location = new System.Drawing.Point(730, 238);
             this.btnUpdateNetwork.Name = "btnUpdateNetwork";
-            this.btnUpdateNetwork.Size = new System.Drawing.Size(99, 34);
+            this.btnUpdateNetwork.Size = new System.Drawing.Size(99, 40);
             this.btnUpdateNetwork.TabIndex = 7;
             this.btnUpdateNetwork.Text = "UpDate";
             this.btnUpdateNetwork.UseVisualStyleBackColor = true;
@@ -1105,22 +1127,23 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
             // 
-            // label13
+            // txtJobNotificationEmail
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(448, 212);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(100, 14);
-            this.label13.TabIndex = 23;
-            this.label13.Text = "Update Chk Path";
+            this.txtJobNotificationEmail.Location = new System.Drawing.Point(454, 257);
+            this.txtJobNotificationEmail.Name = "txtJobNotificationEmail";
+            this.txtJobNotificationEmail.Properties.Mask.ShowPlaceHolders = false;
+            this.txtJobNotificationEmail.Size = new System.Drawing.Size(270, 20);
+            this.txtJobNotificationEmail.TabIndex = 24;
             // 
-            // txtUpdateChkPath
+            // chkJobNotification
             // 
-            this.txtUpdateChkPath.Location = new System.Drawing.Point(451, 235);
-            this.txtUpdateChkPath.Name = "txtUpdateChkPath";
-            this.txtUpdateChkPath.Properties.Mask.ShowPlaceHolders = false;
-            this.txtUpdateChkPath.Size = new System.Drawing.Size(372, 20);
-            this.txtUpdateChkPath.TabIndex = 22;
+            this.chkJobNotification.AutoSize = true;
+            this.chkJobNotification.Location = new System.Drawing.Point(454, 238);
+            this.chkJobNotification.Name = "chkJobNotification";
+            this.chkJobNotification.Size = new System.Drawing.Size(276, 18);
+            this.chkJobNotification.TabIndex = 25;
+            this.chkJobNotification.Text = "Schedule Job Completion Notification to Email";
+            this.chkJobNotification.UseVisualStyleBackColor = true;
             // 
             // frmOtherConfig
             // 
@@ -1134,6 +1157,7 @@
             this.Load += new System.EventHandler(this.frmOtherConfig_Load);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoProccessTime.Properties)).EndInit();
@@ -1176,7 +1200,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1262,5 +1286,7 @@
         private System.Windows.Forms.CheckBox chkAutoDelExpEmp;
         private System.Windows.Forms.Label label13;
         private DevExpress.XtraEditors.TextEdit txtUpdateChkPath;
+        private DevExpress.XtraEditors.TextEdit txtJobNotificationEmail;
+        private System.Windows.Forms.CheckBox chkJobNotification;
     }
 }
