@@ -822,6 +822,14 @@ namespace Attendance.Forms
             }
         }
 
+        private void frmBulkWOChange_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
         
     }
 }

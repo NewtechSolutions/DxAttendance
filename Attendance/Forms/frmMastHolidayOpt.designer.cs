@@ -262,9 +262,11 @@
             this.Controls.Add(this.grpUserRights);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmMastHolidayOpt";
             this.Text = "Optional Holiday Configuration";
             this.Load += new System.EventHandler(this.frmMastHolidayOpt_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastHolidayOpt_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();

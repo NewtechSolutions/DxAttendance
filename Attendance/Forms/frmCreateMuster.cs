@@ -455,6 +455,14 @@ namespace Attendance.Forms
             
         }
 
+        private void frmCreateMuster_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
 
 
     }

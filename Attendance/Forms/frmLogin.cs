@@ -159,5 +159,13 @@ namespace Attendance
             #endregion
 
         }
+
+        private void frmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
     }
 }

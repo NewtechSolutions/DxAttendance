@@ -79,6 +79,7 @@ namespace Attendance.Forms
                 SetRights();
 
                 LoadLeaveBalGrid();
+                txtFromDt.Focus();
             } 
         }
 
@@ -1446,6 +1447,14 @@ namespace Attendance.Forms
                 #endregion
 
 
+            }
+        }
+
+        private void frmLeaveEntry_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
             }
         }
 

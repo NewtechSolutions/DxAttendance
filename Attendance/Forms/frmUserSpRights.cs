@@ -80,12 +80,12 @@ namespace Attendance.Forms
 
             txtID.Text = "";
             
-            txtWrkGrpCode.Text = "";
-            txtWrkGrpDesc.Text = "";
-            txtUserID.Text = "";
-            txtUserName.Text = "";
-            txtModuleID.Text = "";
-            txtModuleDesc.Text = "";
+            ////txtWrkGrpCode.Text = "";
+            ////txtWrkGrpDesc.Text = "";
+            ////txtUserID.Text = "";
+            ////txtUserName.Text = "";
+            //txtModuleID.Text = "";
+            //txtModuleDesc.Text = "";
 
             oldCode = "";
             mode = "NEW";
@@ -117,8 +117,6 @@ namespace Attendance.Forms
                 btnDelete.Enabled = false;
             }
         }
-
-        
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -277,7 +275,7 @@ namespace Attendance.Forms
                 mode = "OLD";
                 oldCode = txtID.Text.ToString();
                 
-                txtID_EditValueChanged(o, e);
+                txtID_Validated(o, e);
             }
 
             
@@ -378,27 +376,6 @@ namespace Attendance.Forms
             }
         }
 
-        private void txtUserID_EditValueChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtUserID.Text.Trim()))
-                return;
-
-            DataSet ds = Utils.Helper.GetData("Select * from MastUser Where UserID ='" + txtUserID.Text.Trim() + "'", Utils.Helper.constr);
-            if (ds.Tables.Count > 0)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    txtUserID.Text = dr["UserID"].ToString();
-                    txtUserName.Text = dr["UserName"].ToString();
-                    
-                }
-
-            }
-
-            LoadGrid();
-        }
-
         private void txtID_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -447,15 +424,13 @@ namespace Attendance.Forms
                     txtWrkGrpCode.Text = obj.ElementAt(2).ToString();
                     txtModuleID.Text = obj.ElementAt(3).ToString();
 
-                    txtID_EditValueChanged (sender, e);
+                    txtID_Validated(sender, e);
 
                     mode = "OLD";
                 }
             }
         }
 
-        
-        
         private void txtModuleID_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
@@ -506,8 +481,148 @@ namespace Attendance.Forms
             }
         }
 
-        
-        private void txtID_EditValueChanged(object sender, EventArgs e)
+        private void frmUserSpRights_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
+        private void txtModuleID_Validated(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtModuleID.Text.Trim()))
+            {
+                txtID.Text = "";
+                txtModuleDesc.Text = "";
+                mode = "New";
+                SetRights();
+                return;
+            }
+                
+
+
+            DataSet ds = Utils.Helper.GetData("Select FormID,FormDesc from  MastFrm Where Formid = '" + txtModuleID.Text.Trim() + "'",Utils.Helper.constr);
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    txtModuleID.Text = dr["FormID"].ToString();
+                    txtModuleDesc.Text = dr["FormDesc"].ToString();
+
+                    if(!string.IsNullOrEmpty(txtUserID.Text.Trim()) && !string.IsNullOrEmpty(txtWrkGrpDesc.Text.Trim()))
+                    {
+                        //if already exist
+                        ds = Utils.Helper.GetData("Select * From UserSpRight where UserID ='" + txtUserID.Text.Trim()
+                            + "' And WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' And FormID ='" + txtModuleID.Text.Trim() + "'",
+                            Utils.Helper.constr
+                            );
+                        bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasrows)
+                        {
+                            foreach (DataRow drw in ds.Tables[0].Rows)
+                            {
+                                txtID.Text = drw["SrNo"].ToString();
+                                oldCode = drw["SrNo"].ToString();
+                                mode = "OLD";
+                            }
+
+                            txtID_Validated(sender, e);
+                        }
+                    }
+
+                }
+                else
+                {
+                    txtModuleDesc.Text = "";
+                }
+            }
+            else
+            {
+                txtModuleDesc.Text = "";
+                
+            }
+
+            SetRights();
+        }
+
+        private void txtWrkGrpCode_Validated(object sender, EventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(txtWrkGrpCode.Text.Trim()))
+            {
+                txtWrkGrpDesc.Text = "";
+                mode = "New";
+                SetRights();
+                return;
+            }
+            
+            DataSet ds = new DataSet();
+            string sql = "select * From MastWorkGrp where CompCode ='01'  and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "'";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
+                    txtWrkGrpDesc.Text = dr["WrkGrpDesc"].ToString();
+                }
+                sql = "Select * from UserSpRight where Userid ='" + txtUserID.Text.Trim() + "' and WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and FormID ='" + txtModuleID.Text.Trim() + "'";
+                ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                
+                bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                if (hasrows)
+                {
+                    mode = "OLD";
+                    foreach (DataRow drw in ds.Tables[0].Rows)                
+                    {
+                        txtID.Text = drw["SrNo"].ToString();
+                    }                    
+                }
+                else
+                {
+                    mode = "NEW";
+                }
+                SetRights();
+            }
+            else
+            {
+                txtWrkGrpDesc.Text = "";
+            }
+        }
+
+        private void txtUserID_Validated(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtUserID.Text.Trim()))
+            {
+                
+                txtUserName.Text = "";                
+                return;
+            }
+                
+
+            DataSet ds = Utils.Helper.GetData("Select * from MastUser Where UserID ='" + txtUserID.Text.Trim() + "'", Utils.Helper.constr);
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    txtUserID.Text = dr["UserID"].ToString();
+                    txtUserName.Text = dr["UserName"].ToString();
+                }
+            }
+
+            
+
+            LoadGrid();
+        }
+
+        private void txtID_Validated(object sender, EventArgs e)
         {
             if (txtID.Text.Trim() == "")
             {
@@ -515,6 +630,7 @@ namespace Attendance.Forms
 
                 oldCode = "";
                 mode = "NEW";
+                SetRights();
                 return;
             }
 
@@ -534,14 +650,11 @@ namespace Attendance.Forms
                     txtUserID.Text = dr["UserID"].ToString();
                     txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
                     txtModuleID.Text = dr["FormID"].ToString();
-
-                    string moddesc = Utils.Helper.GetDescription("Select FormDesc from MastFrm where FormID ='" + txtModuleID.Text.Trim() + "'", Utils.Helper.constr);
-                    txtModuleDesc.Text = moddesc;
-                    txtUserID_EditValueChanged(sender, e);
-                    txtWrkGrpCode_EditValueChanged (sender, e);
-
                     mode = "OLD";
                     oldCode = dr["SrNo"].ToString();
+
+                    txtUserID_Validated(sender, e);
+                    txtWrkGrpCode_Validated(sender, e);
                 }
             }
             else
@@ -553,63 +666,7 @@ namespace Attendance.Forms
             SetRights();
         }
 
-        private void txtWrkGrpCode_EditValueChanged(object sender, EventArgs e)
-        {
-            DataSet ds = new DataSet();
-            string sql = "select * From MastWorkGrp where CompCode ='01'  and WrkGrp='" + txtWrkGrpCode.Text.Trim() + "'";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-
-                    txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
-                    txtWrkGrpDesc.Text = dr["WrkGrpDesc"].ToString();
-                   
-                }
-            }
-        }
-
-        private void txtModuleID_EditValueChanged(object sender, EventArgs e)
-        {
-            if ( string.IsNullOrEmpty(txtModuleID.Text.Trim())
-                || string.IsNullOrEmpty(txtUserID.Text.Trim()) || string.IsNullOrEmpty(txtUserName.Text.Trim())
-                || string.IsNullOrEmpty(txtWrkGrpCode.Text.Trim()) || string.IsNullOrEmpty(txtWrkGrpDesc.Text.Trim())
-                )
-                return;
-
-
-            DataSet ds = Utils.Helper.GetData("Select Top 1 a.SrNo,a.FormID,b.FormDesc from UserSpRight a , MastFrm b Where  a.FormID = b.FormID and "
-            + " a.UserID = '" + txtUserID.Text.Trim() + "' and a.WrkGrp = '" + txtWrkGrpCode.Text.Trim() + "' and a.FormID ='" + txtModuleID.Text.Trim() + "'", Utils.Helper.constr);
-            if (ds.Tables.Count > 0)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    txtID.Text = dr["SrNo"].ToString();
-                    //txtModuleID.Text = dr["FormID"].ToString();
-                    txtModuleDesc.Text = dr["FormDesc"].ToString();
-
-                    mode = "OLD";
-                    oldCode = dr["SrNo"].ToString();
-
-                }
-            }
-            else
-            {
-
-                mode = "NEW";
-                txtID.Text = "";
-                oldCode = "";
-            }
-
-            SetRights();
-        }
-
+        
 
     }
 }

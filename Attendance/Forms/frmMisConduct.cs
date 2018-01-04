@@ -32,6 +32,7 @@ namespace Attendance.Forms
         {
                LoadGrid();
                SetRights();
+               txtID.Focus();
         }
 
         //private void ctrlCompValidateEvent_Handler(object sender, EventArgs e)
@@ -555,6 +556,14 @@ namespace Attendance.Forms
 
            
 
+        }
+
+        private void frmMisConduct_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
         }
 
     }

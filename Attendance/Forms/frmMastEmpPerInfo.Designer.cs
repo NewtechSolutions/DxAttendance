@@ -1701,9 +1701,11 @@
             this.ClientSize = new System.Drawing.Size(1107, 599);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "frmMastEmpPerInfo";
             this.Text = "Employee Personal Infomation";
             this.Load += new System.EventHandler(this.frmMastEmpPerInfo_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastEmpPerInfo_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.grpUserRights.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();

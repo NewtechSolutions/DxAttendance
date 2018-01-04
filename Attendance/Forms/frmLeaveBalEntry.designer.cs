@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -142,7 +142,7 @@
             this.txtEncDay.Location = new System.Drawing.Point(162, 94);
             this.txtEncDay.Name = "txtEncDay";
             this.txtEncDay.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
             this.txtEncDay.Size = new System.Drawing.Size(122, 20);
             this.txtEncDay.TabIndex = 3;
             // 
@@ -151,7 +151,7 @@
             this.txtOpnBal.Location = new System.Drawing.Point(162, 68);
             this.txtOpnBal.Name = "txtOpnBal";
             this.txtOpnBal.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.txtOpnBal.Size = new System.Drawing.Size(122, 20);
             this.txtOpnBal.TabIndex = 2;
             // 
@@ -256,9 +256,11 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmLeaveBalEntry";
             this.Text = "Employee Leave Balance Entry..";
             this.Load += new System.EventHandler(this.frmLeaveBalEntry_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLeaveBalEntry_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEncDay.Properties)).EndInit();

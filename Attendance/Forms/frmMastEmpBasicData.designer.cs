@@ -740,9 +740,11 @@
             this.Controls.Add(this.GrpMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmMastEmpBasicData";
             this.Text = "Employee Basic Data";
             this.Load += new System.EventHandler(this.frmMastWrkGrp_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastEmpBasicData_KeyDown);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).EndInit();

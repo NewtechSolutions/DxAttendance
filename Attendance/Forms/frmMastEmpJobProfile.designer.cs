@@ -710,9 +710,11 @@
             this.Controls.Add(this.grpUserRights);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmMastEmpJobProfile";
             this.Text = "Employee Job Profile Master";
             this.Load += new System.EventHandler(this.frmMastEmpJobProfile_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastEmpJobProfile_KeyDown);
             this.grpUserRights.ResumeLayout(false);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();

@@ -643,6 +643,14 @@ namespace Attendance.Forms
             SetRights();
         }
 
+        private void frmMastHoliday_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
         
 
 

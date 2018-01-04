@@ -29,32 +29,32 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.txtWrkGrpDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtRules = new DevExpress.XtraEditors.TextEdit();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtRuleRepl = new DevExpress.XtraEditors.TextEdit();
+            this.txtRuleID = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights = new System.Windows.Forms.GroupBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtRules = new DevExpress.XtraEditors.TextEdit();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtRuleRepl = new DevExpress.XtraEditors.TextEdit();
-            this.txtRuleID = new DevExpress.XtraEditors.TextEdit();
             this.Group2 = new System.Windows.Forms.GroupBox();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
-            this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRules.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRuleRepl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRuleID.Properties)).BeginInit();
+            this.grpUserRights.SuspendLayout();
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -77,6 +77,24 @@
             this.groupBox1.Size = new System.Drawing.Size(865, 86);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(430, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(96, 15);
+            this.label3.TabIndex = 31;
+            this.label3.Text = "Replace Order  :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(437, 68);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(347, 15);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "*Note : Search/Replace Must be Seperated by semi-colons ( ; )";
             // 
             // label8
             // 
@@ -110,6 +128,56 @@
             this.txtWrkGrpCode.TabIndex = 1;
             this.txtWrkGrpCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtWrkGrpCode_KeyDown);
             this.txtWrkGrpCode.Validated += new System.EventHandler(this.txtWrkGrpCode_Validated);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 15);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Rule ID :";
+            // 
+            // txtRules
+            // 
+            this.txtRules.Location = new System.Drawing.Point(532, 16);
+            this.txtRules.Name = "txtRules";
+            this.txtRules.Size = new System.Drawing.Size(320, 20);
+            this.txtRules.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(437, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Search Order  :";
+            // 
+            // txtRuleRepl
+            // 
+            this.txtRuleRepl.Location = new System.Drawing.Point(532, 40);
+            this.txtRuleRepl.Name = "txtRuleRepl";
+            this.txtRuleRepl.Properties.Mask.BeepOnError = true;
+            this.txtRuleRepl.Properties.Mask.EditMask = "[A-Z;]+";
+            this.txtRuleRepl.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtRuleRepl.Properties.MaxLength = 30;
+            this.txtRuleRepl.Size = new System.Drawing.Size(320, 20);
+            this.txtRuleRepl.TabIndex = 3;
+            // 
+            // txtRuleID
+            // 
+            this.txtRuleID.Location = new System.Drawing.Point(98, 16);
+            this.txtRuleID.Name = "txtRuleID";
+            this.txtRuleID.Properties.Mask.EditMask = "[0-9]+";
+            this.txtRuleID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtRuleID.Properties.Mask.ShowPlaceHolders = false;
+            this.txtRuleID.Properties.MaxLength = 2;
+            this.txtRuleID.Properties.ReadOnly = true;
+            this.txtRuleID.Size = new System.Drawing.Size(96, 20);
+            this.txtRuleID.TabIndex = 0;
+            this.txtRuleID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRuleID_KeyDown);
+            this.txtRuleID.Validated += new System.EventHandler(this.txtRuleID_Validated);
             // 
             // grpUserRights
             // 
@@ -179,57 +247,6 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 17);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 15);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Rule ID :";
-            // 
-            // txtRules
-            // 
-            this.txtRules.Location = new System.Drawing.Point(532, 16);
-            this.txtRules.Name = "txtRules";
-            this.txtRules.Size = new System.Drawing.Size(320, 20);
-            this.txtRules.TabIndex = 2;
-            
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(437, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Search Order  :";
-            // 
-            // txtRuleRepl
-            // 
-            this.txtRuleRepl.Location = new System.Drawing.Point(532, 40);
-            this.txtRuleRepl.Name = "txtRuleRepl";
-            this.txtRuleRepl.Properties.Mask.BeepOnError = true;
-            this.txtRuleRepl.Properties.Mask.EditMask = "[A-Z;]+";
-            this.txtRuleRepl.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtRuleRepl.Properties.MaxLength = 30;
-            this.txtRuleRepl.Size = new System.Drawing.Size(320, 20);
-            this.txtRuleRepl.TabIndex = 3;
-            // 
-            // txtRuleID
-            // 
-            this.txtRuleID.Location = new System.Drawing.Point(98, 16);
-            this.txtRuleID.Name = "txtRuleID";
-            this.txtRuleID.Properties.Mask.EditMask = "[0-9]+";
-            this.txtRuleID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtRuleID.Properties.Mask.ShowPlaceHolders = false;
-            this.txtRuleID.Properties.MaxLength = 2;
-            this.txtRuleID.Properties.ReadOnly = true;
-            this.txtRuleID.Size = new System.Drawing.Size(96, 20);
-            this.txtRuleID.TabIndex = 0;
-            this.txtRuleID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRuleID_KeyDown);
-            this.txtRuleID.Validated += new System.EventHandler(this.txtRuleID_Validated);
-            // 
             // Group2
             // 
             this.Group2.Controls.Add(this.grid);
@@ -281,24 +298,6 @@
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.DoubleClick += new System.EventHandler(this.gridView1_DoubleClick);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(437, 68);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(347, 15);
-            this.label2.TabIndex = 30;
-            this.label2.Text = "*Note : Search/Replace Must be Seperated by semi-colons ( ; )";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(430, 41);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 15);
-            this.label3.TabIndex = 31;
-            this.label3.Text = "Replace Order  :";
-            // 
             // frmMastRules
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -309,17 +308,19 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmMastRules";
             this.Text = "Leave Rule Configuration";
             this.Load += new System.EventHandler(this.frmMastRules_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastRules_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
-            this.grpUserRights.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.txtRules.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRuleRepl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtRuleID.Properties)).EndInit();
+            this.grpUserRights.ResumeLayout(false);
             this.Group2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

@@ -1075,5 +1075,13 @@ namespace Attendance.Forms
             GridEditMode = false;
             LoadGrid();
         }
+
+        private void frmAutoMailSubScription_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyData == Keys.Enter))
+            {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
     }
 }

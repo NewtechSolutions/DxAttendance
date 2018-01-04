@@ -108,7 +108,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 96);
+            this.label2.Location = new System.Drawing.Point(7, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 15);
             this.label2.TabIndex = 35;
@@ -127,7 +127,7 @@
             // 
             // txtModuleDesc
             // 
-            this.txtModuleDesc.Location = new System.Drawing.Point(199, 95);
+            this.txtModuleDesc.Location = new System.Drawing.Point(199, 69);
             this.txtModuleDesc.Name = "txtModuleDesc";
             this.txtModuleDesc.Properties.Mask.ShowPlaceHolders = false;
             this.txtModuleDesc.Properties.ReadOnly = true;
@@ -148,15 +148,14 @@
             // 
             // txtModuleID
             // 
-            this.txtModuleID.Location = new System.Drawing.Point(97, 95);
+            this.txtModuleID.Location = new System.Drawing.Point(97, 69);
             this.txtModuleID.Name = "txtModuleID";
             this.txtModuleID.Properties.Mask.EditMask = "\\w{3,10}";
             this.txtModuleID.Properties.Mask.ShowPlaceHolders = false;
-            this.txtModuleID.Properties.ReadOnly = true;
             this.txtModuleID.Size = new System.Drawing.Size(96, 20);
-            this.txtModuleID.TabIndex = 3;
-            this.txtModuleID.EditValueChanged += new System.EventHandler(this.txtModuleID_EditValueChanged);
+            this.txtModuleID.TabIndex = 2;
             this.txtModuleID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtModuleID_KeyDown);
+            this.txtModuleID.Validated += new System.EventHandler(this.txtModuleID_Validated);
             // 
             // label1
             // 
@@ -182,16 +181,15 @@
             this.txtUserID.Location = new System.Drawing.Point(97, 43);
             this.txtUserID.Name = "txtUserID";
             this.txtUserID.Properties.Mask.ShowPlaceHolders = false;
-            this.txtUserID.Properties.ReadOnly = true;
             this.txtUserID.Size = new System.Drawing.Size(96, 20);
             this.txtUserID.TabIndex = 1;
-            this.txtUserID.EditValueChanged += new System.EventHandler(this.txtUserID_EditValueChanged);
             this.txtUserID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserID_KeyDown);
+            this.txtUserID.Validated += new System.EventHandler(this.txtUserID_Validated);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 70);
+            this.label8.Location = new System.Drawing.Point(7, 96);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(83, 15);
             this.label8.TabIndex = 29;
@@ -199,7 +197,7 @@
             // 
             // txtWrkGrpDesc
             // 
-            this.txtWrkGrpDesc.Location = new System.Drawing.Point(199, 69);
+            this.txtWrkGrpDesc.Location = new System.Drawing.Point(199, 95);
             this.txtWrkGrpDesc.Name = "txtWrkGrpDesc";
             this.txtWrkGrpDesc.Properties.Mask.ShowPlaceHolders = false;
             this.txtWrkGrpDesc.Properties.ReadOnly = true;
@@ -209,14 +207,13 @@
             // 
             // txtWrkGrpCode
             // 
-            this.txtWrkGrpCode.Location = new System.Drawing.Point(97, 69);
+            this.txtWrkGrpCode.Location = new System.Drawing.Point(97, 95);
             this.txtWrkGrpCode.Name = "txtWrkGrpCode";
             this.txtWrkGrpCode.Properties.Mask.ShowPlaceHolders = false;
-            this.txtWrkGrpCode.Properties.ReadOnly = true;
             this.txtWrkGrpCode.Size = new System.Drawing.Size(96, 20);
-            this.txtWrkGrpCode.TabIndex = 2;
-            this.txtWrkGrpCode.EditValueChanged += new System.EventHandler(this.txtWrkGrpCode_EditValueChanged);
+            this.txtWrkGrpCode.TabIndex = 3;
             this.txtWrkGrpCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtWrkGrpCode_KeyDown);
+            this.txtWrkGrpCode.Validated += new System.EventHandler(this.txtWrkGrpCode_Validated);
             // 
             // label4
             // 
@@ -238,8 +235,8 @@
             this.txtID.Properties.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(96, 20);
             this.txtID.TabIndex = 0;
-            this.txtID.EditValueChanged += new System.EventHandler(this.txtID_EditValueChanged);
             this.txtID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtID_KeyDown);
+            this.txtID.Validated += new System.EventHandler(this.txtID_Validated);
             // 
             // Group2
             // 
@@ -272,7 +269,6 @@
             this.gridView1.OptionsCustomization.AllowFilter = false;
             this.gridView1.OptionsCustomization.AllowGroup = false;
             this.gridView1.OptionsCustomization.AllowQuickHideColumns = false;
-            this.gridView1.OptionsCustomization.AllowSort = false;
             this.gridView1.OptionsFilter.AllowColumnMRUFilterList = false;
             this.gridView1.OptionsFilter.AllowFilterEditor = false;
             this.gridView1.OptionsFilter.AllowFilterIncrementalSearch = false;
@@ -301,9 +297,11 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmUserSpRights";
             this.Text = "User WrkGrp Rights/Inheritance";
             this.Load += new System.EventHandler(this.frmMastRules_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmUserSpRights_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtModuleDesc.Properties)).EndInit();

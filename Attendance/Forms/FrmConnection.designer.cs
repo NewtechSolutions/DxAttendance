@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmConnection));
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.lblStatus = new DevExpress.XtraEditors.MemoEdit();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtDataBaseName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.btnTest = new DevExpress.XtraEditors.SimpleButton();
@@ -41,9 +44,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbAuth = new System.Windows.Forms.ComboBox();
             this.txtDataSource = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtDataBaseName = new System.Windows.Forms.TextBox();
-            this.lblStatus = new DevExpress.XtraEditors.MemoEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lblStatus.Properties)).BeginInit();
@@ -73,6 +73,32 @@
             this.groupControl1.Size = new System.Drawing.Size(426, 507);
             this.groupControl1.TabIndex = 8;
             this.groupControl1.Text = "Connection Builder";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Location = new System.Drawing.Point(12, 257);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(402, 238);
+            this.lblStatus.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(43, 109);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 16);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Database Name";
+            // 
+            // txtDataBaseName
+            // 
+            this.txtDataBaseName.Font = new System.Drawing.Font("Tahoma", 9.75F);
+            this.txtDataBaseName.Location = new System.Drawing.Point(156, 106);
+            this.txtDataBaseName.MaxLength = 50;
+            this.txtDataBaseName.Name = "txtDataBaseName";
+            this.txtDataBaseName.Size = new System.Drawing.Size(259, 23);
+            this.txtDataBaseName.TabIndex = 2;
             // 
             // label5
             // 
@@ -190,41 +216,17 @@
             this.txtDataSource.Size = new System.Drawing.Size(259, 23);
             this.txtDataSource.TabIndex = 0;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(43, 109);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(98, 16);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Database Name";
-            // 
-            // txtDataBaseName
-            // 
-            this.txtDataBaseName.Font = new System.Drawing.Font("Tahoma", 9.75F);
-            this.txtDataBaseName.Location = new System.Drawing.Point(156, 106);
-            this.txtDataBaseName.MaxLength = 50;
-            this.txtDataBaseName.Name = "txtDataBaseName";
-            this.txtDataBaseName.Size = new System.Drawing.Size(259, 23);
-            this.txtDataBaseName.TabIndex = 2;
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Location = new System.Drawing.Point(12, 257);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(402, 238);
-            this.lblStatus.TabIndex = 14;
-            // 
             // FrmConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 507);
             this.Controls.Add(this.groupControl1);
+            this.KeyPreview = true;
             this.Name = "FrmConnection";
             this.Text = "Connection Builder";
             this.Load += new System.EventHandler(this.FrmConnection_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmConnection_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();

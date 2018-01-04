@@ -260,9 +260,11 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmMastCostCodeEmp";
             this.Text = "Employee Cost Center Master";
             this.Load += new System.EventHandler(this.frmMastCostCodeEmp_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastCostCodeEmp_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtValidFrom.Properties.CalendarTimeProperties)).EndInit();

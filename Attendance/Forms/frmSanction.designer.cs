@@ -172,7 +172,7 @@
             // tblp_Home
             // 
             this.tblp_Home.ColumnCount = 1;
-            this.tblp_Home.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblp_Home.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp_Home.Controls.Add(this.ctrlEmp1, 0, 0);
             this.tblp_Home.Controls.Add(this.xTabCtrl, 0, 1);
             this.tblp_Home.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -180,19 +180,19 @@
             this.tblp_Home.Margin = new System.Windows.Forms.Padding(0);
             this.tblp_Home.Name = "tblp_Home";
             this.tblp_Home.RowCount = 2;
-            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.00506F));
-            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.99494F));
-            this.tblp_Home.Size = new System.Drawing.Size(1048, 593);
+            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblp_Home.Size = new System.Drawing.Size(1058, 609);
             this.tblp_Home.TabIndex = 25;
             // 
             // xTabCtrl
             // 
             this.xTabCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xTabCtrl.Location = new System.Drawing.Point(0, 172);
+            this.xTabCtrl.Location = new System.Drawing.Point(0, 180);
             this.xTabCtrl.Margin = new System.Windows.Forms.Padding(0);
             this.xTabCtrl.Name = "xTabCtrl";
             this.xTabCtrl.SelectedTabPage = this.tb_Attd;
-            this.xTabCtrl.Size = new System.Drawing.Size(1048, 421);
+            this.xTabCtrl.Size = new System.Drawing.Size(1058, 429);
             this.xTabCtrl.TabIndex = 1;
             this.xTabCtrl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tb_Attd,
@@ -206,7 +206,7 @@
             // 
             this.tb_Attd.Controls.Add(this.tblp_Attd);
             this.tb_Attd.Name = "tb_Attd";
-            this.tb_Attd.Size = new System.Drawing.Size(1042, 393);
+            this.tb_Attd.Size = new System.Drawing.Size(1052, 401);
             this.tb_Attd.Text = "Attendance";
             // 
             // tblp_Attd
@@ -222,7 +222,7 @@
             this.tblp_Attd.RowCount = 2;
             this.tblp_Attd.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_Attd.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_Attd.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_Attd.Size = new System.Drawing.Size(1052, 401);
             this.tblp_Attd.TabIndex = 6;
             // 
             // grd_Attd
@@ -231,7 +231,7 @@
             this.grd_Attd.Location = new System.Drawing.Point(3, 53);
             this.grd_Attd.MainView = this.gv_Attd;
             this.grd_Attd.Name = "grd_Attd";
-            this.grd_Attd.Size = new System.Drawing.Size(1036, 338);
+            this.grd_Attd.Size = new System.Drawing.Size(1046, 345);
             this.grd_Attd.TabIndex = 2;
             this.grd_Attd.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Attd});
@@ -296,7 +296,7 @@
             this.grp_Attd.Margin = new System.Windows.Forms.Padding(0);
             this.grp_Attd.Name = "grp_Attd";
             this.grp_Attd.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_Attd.Size = new System.Drawing.Size(1042, 50);
+            this.grp_Attd.Size = new System.Drawing.Size(1052, 50);
             this.grp_Attd.TabIndex = 1;
             this.grp_Attd.TabStop = false;
             // 
@@ -482,6 +482,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtSanDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtSanDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtSanDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtSanDt.Size = new System.Drawing.Size(100, 20);
             this.txtSanDt.TabIndex = 0;
             this.txtSanDt.EditValueChanged += new System.EventHandler(this.txtSanDt_EditValueChanged);
@@ -499,7 +500,7 @@
             // 
             this.tb_Sanction.Controls.Add(this.tblp_Sanction);
             this.tb_Sanction.Name = "tb_Sanction";
-            this.tb_Sanction.Size = new System.Drawing.Size(1042, 393);
+            this.tb_Sanction.Size = new System.Drawing.Size(1052, 401);
             this.tb_Sanction.Text = "Sanction List";
             // 
             // tblp_Sanction
@@ -514,7 +515,7 @@
             this.tblp_Sanction.RowCount = 2;
             this.tblp_Sanction.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_Sanction.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_Sanction.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_Sanction.Size = new System.Drawing.Size(1052, 401);
             this.tblp_Sanction.TabIndex = 7;
             // 
             // grd_Sanction
@@ -523,7 +524,7 @@
             this.grd_Sanction.Location = new System.Drawing.Point(3, 53);
             this.grd_Sanction.MainView = this.gv_Sanction;
             this.grd_Sanction.Name = "grd_Sanction";
-            this.grd_Sanction.Size = new System.Drawing.Size(1036, 337);
+            this.grd_Sanction.Size = new System.Drawing.Size(1046, 345);
             this.grd_Sanction.TabIndex = 0;
             this.grd_Sanction.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Sanction});
@@ -568,7 +569,7 @@
             this.grp_Sanction.Margin = new System.Windows.Forms.Padding(0);
             this.grp_Sanction.Name = "grp_Sanction";
             this.grp_Sanction.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_Sanction.Size = new System.Drawing.Size(1042, 50);
+            this.grp_Sanction.Size = new System.Drawing.Size(1052, 50);
             this.grp_Sanction.TabIndex = 1;
             this.grp_Sanction.TabStop = false;
             // 
@@ -595,7 +596,7 @@
             // 
             this.tb_InOut.Controls.Add(this.tblp_InOut);
             this.tb_InOut.Name = "tb_InOut";
-            this.tb_InOut.Size = new System.Drawing.Size(1042, 393);
+            this.tb_InOut.Size = new System.Drawing.Size(1052, 401);
             this.tb_InOut.Text = "Punch Details";
             // 
             // tblp_InOut
@@ -610,7 +611,7 @@
             this.tblp_InOut.RowCount = 2;
             this.tblp_InOut.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_InOut.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_InOut.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_InOut.Size = new System.Drawing.Size(1052, 401);
             this.tblp_InOut.TabIndex = 7;
             // 
             // grd_InOut
@@ -619,7 +620,7 @@
             this.grd_InOut.Location = new System.Drawing.Point(3, 53);
             this.grd_InOut.MainView = this.gv_InOut;
             this.grd_InOut.Name = "grd_InOut";
-            this.grd_InOut.Size = new System.Drawing.Size(1036, 337);
+            this.grd_InOut.Size = new System.Drawing.Size(1046, 345);
             this.grd_InOut.TabIndex = 0;
             this.grd_InOut.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_InOut});
@@ -665,7 +666,7 @@
             this.grp_InOut.Margin = new System.Windows.Forms.Padding(0);
             this.grp_InOut.Name = "grp_InOut";
             this.grp_InOut.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_InOut.Size = new System.Drawing.Size(1042, 50);
+            this.grp_InOut.Size = new System.Drawing.Size(1052, 50);
             this.grp_InOut.TabIndex = 1;
             this.grp_InOut.TabStop = false;
             // 
@@ -692,7 +693,7 @@
             // 
             this.tb_InOut_Lunch.Controls.Add(this.tblp_InOut_Lunch);
             this.tb_InOut_Lunch.Name = "tb_InOut_Lunch";
-            this.tb_InOut_Lunch.Size = new System.Drawing.Size(1042, 393);
+            this.tb_InOut_Lunch.Size = new System.Drawing.Size(1052, 401);
             this.tb_InOut_Lunch.Text = "Lunch/Dinner In/Out Punch";
             // 
             // tblp_InOut_Lunch
@@ -707,7 +708,7 @@
             this.tblp_InOut_Lunch.RowCount = 2;
             this.tblp_InOut_Lunch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_InOut_Lunch.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_InOut_Lunch.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_InOut_Lunch.Size = new System.Drawing.Size(1052, 401);
             this.tblp_InOut_Lunch.TabIndex = 7;
             // 
             // grd_InOutLunch
@@ -716,7 +717,7 @@
             this.grd_InOutLunch.Location = new System.Drawing.Point(3, 53);
             this.grd_InOutLunch.MainView = this.gv_InOutLunch;
             this.grd_InOutLunch.Name = "grd_InOutLunch";
-            this.grd_InOutLunch.Size = new System.Drawing.Size(1036, 337);
+            this.grd_InOutLunch.Size = new System.Drawing.Size(1046, 345);
             this.grd_InOutLunch.TabIndex = 0;
             this.grd_InOutLunch.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_InOutLunch});
@@ -770,7 +771,7 @@
             this.grp_InOut_Lunch.Margin = new System.Windows.Forms.Padding(0);
             this.grp_InOut_Lunch.Name = "grp_InOut_Lunch";
             this.grp_InOut_Lunch.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_InOut_Lunch.Size = new System.Drawing.Size(1042, 50);
+            this.grp_InOut_Lunch.Size = new System.Drawing.Size(1052, 50);
             this.grp_InOut_Lunch.TabIndex = 1;
             this.grp_InOut_Lunch.TabStop = false;
             // 
@@ -880,6 +881,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtSanDtLunch.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtSanDtLunch.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtSanDtLunch.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtSanDtLunch.Size = new System.Drawing.Size(100, 20);
             this.txtSanDtLunch.TabIndex = 0;
             this.txtSanDtLunch.EditValueChanged += new System.EventHandler(this.txtSanDtLunch_EditValueChanged);
@@ -897,7 +899,7 @@
             // 
             this.tb_LunchDetails.Controls.Add(this.tblp_LunchDetails);
             this.tb_LunchDetails.Name = "tb_LunchDetails";
-            this.tb_LunchDetails.Size = new System.Drawing.Size(1042, 393);
+            this.tb_LunchDetails.Size = new System.Drawing.Size(1052, 401);
             this.tb_LunchDetails.Text = "Lunch/Dinner Details";
             // 
             // tblp_LunchDetails
@@ -912,7 +914,7 @@
             this.tblp_LunchDetails.RowCount = 2;
             this.tblp_LunchDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_LunchDetails.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_LunchDetails.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_LunchDetails.Size = new System.Drawing.Size(1052, 401);
             this.tblp_LunchDetails.TabIndex = 7;
             // 
             // grd_LunchDt
@@ -921,7 +923,7 @@
             this.grd_LunchDt.Location = new System.Drawing.Point(3, 53);
             this.grd_LunchDt.MainView = this.gv_LunchDt;
             this.grd_LunchDt.Name = "grd_LunchDt";
-            this.grd_LunchDt.Size = new System.Drawing.Size(1036, 337);
+            this.grd_LunchDt.Size = new System.Drawing.Size(1046, 345);
             this.grd_LunchDt.TabIndex = 0;
             this.grd_LunchDt.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_LunchDt});
@@ -967,7 +969,7 @@
             this.grp_LunchDetails.Margin = new System.Windows.Forms.Padding(0);
             this.grp_LunchDetails.Name = "grp_LunchDetails";
             this.grp_LunchDetails.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_LunchDetails.Size = new System.Drawing.Size(1042, 50);
+            this.grp_LunchDetails.Size = new System.Drawing.Size(1052, 50);
             this.grp_LunchDetails.TabIndex = 1;
             this.grp_LunchDetails.TabStop = false;
             // 
@@ -994,7 +996,7 @@
             // 
             this.tb_InOut_Gate.Controls.Add(this.tblp_InOut_Gate);
             this.tb_InOut_Gate.Name = "tb_InOut_Gate";
-            this.tb_InOut_Gate.Size = new System.Drawing.Size(1042, 393);
+            this.tb_InOut_Gate.Size = new System.Drawing.Size(1052, 401);
             this.tb_InOut_Gate.Text = "Gate In/Out Punch";
             // 
             // tblp_InOut_Gate
@@ -1009,7 +1011,7 @@
             this.tblp_InOut_Gate.RowCount = 2;
             this.tblp_InOut_Gate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_InOut_Gate.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_InOut_Gate.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_InOut_Gate.Size = new System.Drawing.Size(1052, 401);
             this.tblp_InOut_Gate.TabIndex = 7;
             // 
             // grd_InOutGate
@@ -1018,7 +1020,7 @@
             this.grd_InOutGate.Location = new System.Drawing.Point(3, 53);
             this.grd_InOutGate.MainView = this.gv_InOutGate;
             this.grd_InOutGate.Name = "grd_InOutGate";
-            this.grd_InOutGate.Size = new System.Drawing.Size(1036, 337);
+            this.grd_InOutGate.Size = new System.Drawing.Size(1046, 345);
             this.grd_InOutGate.TabIndex = 0;
             this.grd_InOutGate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_InOutGate});
@@ -1072,7 +1074,7 @@
             this.grp_InOut_Gate.Margin = new System.Windows.Forms.Padding(0);
             this.grp_InOut_Gate.Name = "grp_InOut_Gate";
             this.grp_InOut_Gate.Padding = new System.Windows.Forms.Padding(0);
-            this.grp_InOut_Gate.Size = new System.Drawing.Size(1042, 50);
+            this.grp_InOut_Gate.Size = new System.Drawing.Size(1052, 50);
             this.grp_InOut_Gate.TabIndex = 1;
             this.grp_InOut_Gate.TabStop = false;
             // 
@@ -1182,6 +1184,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtSanDtGate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtSanDtGate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtSanDtGate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtSanDtGate.Size = new System.Drawing.Size(100, 20);
             this.txtSanDtGate.TabIndex = 0;
             this.txtSanDtGate.EditValueChanged += new System.EventHandler(this.txtSanDtGate_EditValueChanged);
@@ -1199,12 +1202,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1048, 593);
+            this.ClientSize = new System.Drawing.Size(1058, 609);
             this.Controls.Add(this.tblp_Home);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "frmSanction";
             this.Text = "Manual Sanction";
             this.Load += new System.EventHandler(this.frmSanction_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmSanction_KeyDown);
             this.tblp_Home.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xTabCtrl)).EndInit();
             this.xTabCtrl.ResumeLayout(false);

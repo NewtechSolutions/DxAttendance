@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pBar = new DevExpress.XtraEditors.ProgressBarControl();
             this.label5 = new System.Windows.Forms.Label();
             this.txtToDate = new DevExpress.XtraEditors.DateEdit();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,8 +45,8 @@
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights = new System.Windows.Forms.GroupBox();
             this.btnCreate = new System.Windows.Forms.Button();
-            this.pBar = new DevExpress.XtraEditors.ProgressBarControl();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFromDt.Properties.CalendarTimeProperties)).BeginInit();
@@ -57,7 +58,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             this.grpUserRights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -81,6 +81,13 @@
             this.groupBox1.Size = new System.Drawing.Size(455, 168);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // pBar
+            // 
+            this.pBar.Location = new System.Drawing.Point(11, 135);
+            this.pBar.Name = "pBar";
+            this.pBar.Size = new System.Drawing.Size(431, 27);
+            this.pBar.TabIndex = 13;
             // 
             // label5
             // 
@@ -241,13 +248,6 @@
             this.btnCreate.UseVisualStyleBackColor = false;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // pBar
-            // 
-            this.pBar.Location = new System.Drawing.Point(11, 135);
-            this.pBar.Name = "pBar";
-            this.pBar.Size = new System.Drawing.Size(431, 27);
-            this.pBar.TabIndex = 13;
-            // 
             // frmCreateMuster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -257,11 +257,14 @@
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmCreateMuster";
             this.Text = "Create Muster Table";
             this.Load += new System.EventHandler(this.frmMastUnit_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmCreateMuster_KeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFromDt.Properties.CalendarTimeProperties)).EndInit();
@@ -273,7 +276,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             this.grpUserRights.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pBar.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

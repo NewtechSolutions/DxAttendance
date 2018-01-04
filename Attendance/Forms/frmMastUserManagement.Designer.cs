@@ -1654,9 +1654,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(990, 522);
             this.Controls.Add(this.tblp);
+            this.KeyPreview = true;
             this.Name = "frmMastUserManagement";
             this.Text = "User Management";
             this.Load += new System.EventHandler(this.frmMastUserManagement_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastUserManagement_KeyDown);
             this.tblp.ResumeLayout(false);
             this.grpButtons12.ResumeLayout(false);
             this.grpButtons12.PerformLayout();

@@ -359,9 +359,11 @@
             this.Controls.Add(this.ctrlEmp1);
             this.Controls.Add(this.grpUserRights);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "frmMisConduct";
             this.Text = "Employee MisConduct Register";
             this.Load += new System.EventHandler(this.frmMisConduct_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMisConduct_KeyDown);
             this.grpUserRights.ResumeLayout(false);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();

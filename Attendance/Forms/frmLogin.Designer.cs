@@ -103,6 +103,7 @@
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnLogin);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -110,6 +111,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Attendance System Login";
             this.Load += new System.EventHandler(this.frmLogin_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLogin_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

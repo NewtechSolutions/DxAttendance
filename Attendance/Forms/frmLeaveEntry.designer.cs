@@ -384,6 +384,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtToDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtToDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtToDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtToDt.Size = new System.Drawing.Size(100, 20);
             this.txtToDt.TabIndex = 1;
             this.txtToDt.EditValueChanged += new System.EventHandler(this.txtToDt_EditValueChanged);
@@ -401,6 +402,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtFromDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtFromDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtFromDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtFromDt.Size = new System.Drawing.Size(100, 20);
             this.txtFromDt.TabIndex = 0;
             this.txtFromDt.EditValueChanged += new System.EventHandler(this.txtFromDt_EditValueChanged);
@@ -415,7 +417,7 @@
             this.grp_LeaveBal.Location = new System.Drawing.Point(438, 17);
             this.grp_LeaveBal.Name = "grp_LeaveBal";
             this.grp_LeaveBal.Size = new System.Drawing.Size(497, 238);
-            this.grp_LeaveBal.TabIndex = 0;
+            this.grp_LeaveBal.TabIndex = 10;
             this.grp_LeaveBal.Text = "Leave Balance";
             // 
             // grd_LeaveBal
@@ -848,9 +850,11 @@
             this.ClientSize = new System.Drawing.Size(1048, 593);
             this.Controls.Add(this.tblp_Home);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "frmLeaveEntry";
             this.Text = "Leave Entry";
             this.Load += new System.EventHandler(this.frmSanction_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLeaveEntry_KeyDown);
             this.tblp_Home.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xTabCtrl)).EndInit();
             this.xTabCtrl.ResumeLayout(false);

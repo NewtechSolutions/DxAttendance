@@ -679,9 +679,11 @@
             this.ClientSize = new System.Drawing.Size(915, 627);
             this.Controls.Add(this.tblp_Main);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyPreview = true;
             this.Name = "frmBulkWOChange";
             this.Text = "Bulk Week Off Change";
             this.Load += new System.EventHandler(this.frmBulkWOChange_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmBulkWOChange_KeyDown);
             this.tblp_Main.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

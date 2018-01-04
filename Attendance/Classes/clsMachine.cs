@@ -273,7 +273,7 @@ namespace Attendance.Classes
             int idwInOutMode = 0;
             
             int idwReserved = 0;
-            bool vRet = false;
+           
             bool m_tft = false;
 
             //count records
