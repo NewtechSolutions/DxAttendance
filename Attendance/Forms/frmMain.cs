@@ -131,6 +131,21 @@ namespace Attendance
             //set global vars
             Globals.GetGlobalVars();
 
+            //get localmodification date
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string localfile = Uri.UnescapeDataString(uri.Path);
+            
+            if (IsNetworkPath(localfile))
+            {
+                MessageBox.Show("Does not allow to run from remote location/shared folder..," +
+                    Environment.NewLine +
+                    "Please Copy to Local Drive and Run Again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                this.Close();
+            }
+
+
             //here we can start Quartz if host is server
             if (Utils.User.GUserID == "SERVER")
             {
@@ -182,10 +197,10 @@ namespace Attendance
                         }
                     }
 
-                    //get localmodification date
-                    string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                    UriBuilder uri = new UriBuilder(codeBase);
-                    string localfile = Uri.UnescapeDataString(uri.Path);
+                    
+                    
+                    
+                    
                     localmodified = File.GetLastWriteTime(localfile);
                     if (servermodified > localmodified)
                     {
@@ -1048,8 +1063,30 @@ namespace Attendance
             }
         }
 
-        
 
+        public static Boolean IsNetworkPath(String path)
+        {
+
+            try
+            {
+                Uri uri = new Uri(path);
+                if (uri.IsUnc)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return true;
+            }
+            
+            
+            
+        }
         
 
     }
