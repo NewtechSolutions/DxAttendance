@@ -40,8 +40,15 @@ namespace Attendance.Classes
         {
             if (!scheduler.IsStarted)
             {
-                scheduler.ListenerManager.AddJobListener(new DummyJobListener(), GroupMatcher<JobKey>.GroupStartsWith("Job_"));
-                scheduler.Start();                
+
+                //attach job listener if required...
+                if (Globals.G_JobNotificationFlg && !string.IsNullOrEmpty(Globals.G_JobNotificationEmail))
+                {
+                    scheduler.ListenerManager.AddJobListener(new DummyJobListener(), GroupMatcher<JobKey>.GroupStartsWith("Job_"));
+                }
+                
+                scheduler.Start();  
+              
                 _StatusAutoTimeSet = false;
                 _StatusAutoDownload = false;
                 _StatusAutoProcess = false;
@@ -175,7 +182,7 @@ namespace Attendance.Classes
 
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "Job_AutoDownload")
+                        .WithIdentity(triggerid, "TRG_AutoDownload")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .Build();
@@ -210,7 +217,7 @@ namespace Attendance.Classes
 
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "Job_AutoTimeSet")                        
+                        .WithIdentity(triggerid, "TRG_AutoTimeSet")                        
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .StartNow()
                         .Build();
@@ -268,7 +275,7 @@ namespace Attendance.Classes
                     
                     // Trigger the job to run now, and then repeat every 10 seconds
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "Job_AutoProcess")
+                        .WithIdentity(triggerid, "TRG_AutoProcess")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
                         .Build();
@@ -326,7 +333,7 @@ namespace Attendance.Classes
 
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "Job_WorkerProcess")
+                    .WithIdentity(triggerid2, "TRG_WorkerProcess")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes))
                     .Build();
@@ -355,7 +362,7 @@ namespace Attendance.Classes
 
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "Job_WorkerProcess")
+                    .WithIdentity(triggerid2, "TRG_WorkerProcess")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelExpEmpTime.Hours, Globals.G_AutoDelExpEmpTime.Minutes))
                     .Build();
@@ -397,7 +404,7 @@ namespace Attendance.Classes
 
                     // Trigger the job to run now
                     ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "Job_Arrival")
+                        .WithIdentity(triggerid, "TRG_Arrival")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))                                          
                         .Build();
@@ -1258,20 +1265,68 @@ namespace Attendance.Classes
 
             public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
             {
-                JobKey jobKey = context.JobDetail.Key;
-
-                if (Globals.G_JobNotificationFlg && !string.IsNullOrEmpty(Globals.G_JobNotificationEmail))
-                {
-                    string body = "Job ID : " + context.JobDetail.Key.ToString() + "</br>" +
-                                  "Job Group : " + context.JobDetail.Key.Group.ToString() + "</br>" +
-                                  "Job Description : " + context.JobDetail.Description + "</br>" +
-                                  "Job Executed on : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                JobKey jobKey = context.JobDetail.Key;                
+  
                     
-                    string subject = "Attendance System : Notification : " + context.JobDetail.Description ;
-                    string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
-                        Globals.G_DefaultMailID, "", "");
+                string body = "Job ID : " + context.JobDetail.Key.ToString() + "</br>" +
+                                "Job Group : " + context.JobDetail.Key.Group.ToString() + "</br>" +
+                                "Job Description : " + context.JobDetail.Description + "</br>" +
+                                "Job Executed on : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    
+                string subject = "Attendance System : Notification : " + context.JobDetail.Description;
 
+                    
+                if (context.JobDetail.Key.ToString().Contains("Job_AutoDownload.Job_AutoDownload"))
+                {
+                    #region tryattach
+                    try
+                    {
+                        const int chunkSize = 2 * 1024; // 2KB
+
+                        var inputFiles = Directory.GetFiles(Errfilepath)
+                            .Where(x => new FileInfo(x).CreationTime.Date == DateTime.Today.Date);
+
+                        string allErrFileName = DateTime.Now.Date.ToString("yyyyMMdd") + "Error_Logs.txt";
+                        
+                        string fullpath = Path.Combine(Errfilepath, allErrFileName);
+
+                        using (var output = File.Create(fullpath))
+                        {
+                            foreach (var file in inputFiles)
+                            {
+                                if (file.Contains(allErrFileName))
+                                    continue;
+                                using (var input = File.OpenRead(file))
+                                {
+                                    var buffer = new byte[chunkSize];
+                                    int bytesRead;
+                                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
+                                    {
+                                        output.Write(buffer, 0, bytesRead);
+                                    }
+                                }
+                            }
+                        }
+
+                        byte[] filecontent = File.ReadAllBytes(fullpath);
+                        MailAttachment m = new MailAttachment(filecontent, allErrFileName);
+                        string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                        Globals.G_DefaultMailID, "", "",m);
+                    }
+                    catch {
+
+                        string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                        Globals.G_DefaultMailID, "", "");
+                    }
+
+                    #endregion
                 }
+                else
+                {
+                    string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                    Globals.G_DefaultMailID, "", "");
+                }
+               
             }
 
             public void JobExecutionVetoed(IJobExecutionContext context)

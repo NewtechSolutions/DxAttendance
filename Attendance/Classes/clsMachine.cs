@@ -152,6 +152,7 @@ namespace Attendance.Classes
             string status = this.PingMachine(out err);
             if(status.ToUpper() != "SUCCESS" )
             {
+                err = "Ping Time Out Expired..";
                 return;
             }
 
