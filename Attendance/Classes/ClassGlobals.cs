@@ -560,7 +560,7 @@ namespace Attendance.Classes
                         }
                     }
 
-                    sql = "Select [EmpUnqID],[MachineIP],[Type],[RFIDNO],[TmpData] " +
+                    sql = "Select [EmpUnqID],[MachineIP],[Type],[RFIDNO],[TmpData],[Length] " +
                           " FROM [EmpBioData] " +
                           " where EmpUnqID = '" + tEmpUnqID + "' and [Type] in ('RFID','FACE','FINGER') " +
                           " and MachineNo = 9999 ";
@@ -576,9 +576,17 @@ namespace Attendance.Classes
                                 if (sdr["Type"].ToString() == "RFID")
                                     this.CardNumber = sdr["RFIDNO"].ToString();
                                 if (sdr["Type"].ToString() == "FACE")
+                                {
                                     this.FaceTemp = sdr["TmpData"].ToString();
+                                    this.FaceLength = Convert.ToInt32(sdr["Length"].ToString());
+                                }
+
                                 if (sdr["Type"].ToString() == "FINGER")
+                                {
                                     this.FingerTemp = sdr["TmpData"].ToString();
+                                    this.FingerLength = Convert.ToInt32(sdr["Length"].ToString());
+                                }
+                                    
                             }
                         }
                         

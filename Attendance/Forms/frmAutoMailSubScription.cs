@@ -397,7 +397,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select SubScriptionID,EmailTo from AutoMailSubscription where 1 = 1";
+                sql = "Select SubScriptionID,EmailTo,EmailCopy,BCCTo from AutoMailSubscription where 1 = 1";
 
 
                 if (e.KeyCode == Keys.F1)
@@ -406,15 +406,24 @@ namespace Attendance.Forms
                     obj = (List<string>)hlp.Show(sql, "SubScriptionID", "SubScriptionID", typeof(int), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
-                else
+                else if(e.KeyCode == Keys.F2)
                 {
                     obj = (List<string>)hlp.Show(sql, "EmailTo", "EmailTo", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
+                else if (e.KeyCode == Keys.F3)
+                {
+                    obj = (List<string>)hlp.Show(sql, "EmailCopy", "EmailCopy", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                  100, 300, 400, 600, 100, 100);
+                }
+                else if (e.KeyCode == Keys.F4)
+                {
+                    obj = (List<string>)hlp.Show(sql, "BccTo", "BccTo", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                  100, 300, 400, 600, 100, 100);
+                }
 
                 if (obj.Count == 0)
                 {
-
                     return;
                 }
                 else if (obj.ElementAt(0).ToString() == "0")
@@ -427,15 +436,10 @@ namespace Attendance.Forms
                 }
                 else
                 {
-
                     txtID.Text = obj.ElementAt(0).ToString();
-                    txtEmail.Text = obj.ElementAt(1).ToString();
-                    
+                    txtEmail.Text = obj.ElementAt(1).ToString();                    
                     txtID_EditValueChanged (sender, e);
-
                     mode = "OLD";
-                    
-                    
                 }
             }
         }

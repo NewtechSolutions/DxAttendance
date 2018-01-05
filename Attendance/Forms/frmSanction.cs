@@ -477,6 +477,7 @@ namespace Attendance.Forms
                     btnGate_IO_San.Enabled = true;
                 }               
             }
+
             if(GateRights.Contains("D"))
             {
                 //Gate In Out Punch
@@ -1136,6 +1137,7 @@ namespace Attendance.Forms
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ctrlEmp1.txtEmpUnqID.Focus();
                     return;
                 }
                 catch (Exception ex)
@@ -1644,6 +1646,7 @@ namespace Attendance.Forms
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ctrlEmp1.txtEmpUnqID.Focus();
                     return;
                 }
                 catch (Exception ex)
@@ -1741,6 +1744,7 @@ namespace Attendance.Forms
                     LoadGrid();
 
                     MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ctrlEmp1.txtEmpUnqID.Focus();
                     return;
                 }
                 catch (Exception ex)

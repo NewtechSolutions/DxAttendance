@@ -283,7 +283,7 @@ namespace Attendance.Classes
 
             if (cnt == 0)
             {
-                err = outerr + err;
+                err = outerr + "No Records Found";
                 return;
             }
             
@@ -679,29 +679,30 @@ namespace Attendance.Classes
             
             if(this.CZKEM1.SetStrCardNumber(emp.CardNumber))
             {
-                this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "","", 0, true);
-                
-                
-                //if it not used in Mess set user face and finger
-                if(_messflg == false )
+                if (this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, true))
                 {
-                    if (_face)
-                    {
-                        if (!string.IsNullOrEmpty(emp.FaceTemp))
-                        {
-                            this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
-                        }
-                    }
 
-                    if (_finger)
+                    //if it not used in Mess set user face and finger
+                    if (_messflg == false)
                     {
-                        if (!string.IsNullOrEmpty(emp.FingerTemp))
+                        if (_face)
                         {
-                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+                            if (!string.IsNullOrEmpty(emp.FaceTemp))
+                            {
+                                this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                            }
                         }
-                    }                    
-                    
-                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+
+                        if (_finger)
+                        {
+                            if (!string.IsNullOrEmpty(emp.FingerTemp))
+                            {
+                                this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+                            }
+                        }
+
+                        this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                    }
                 }
 
                 this.CZKEM1.RefreshData(_machineno);
@@ -1444,6 +1445,8 @@ namespace Attendance.Classes
             {
                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
+                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+                
             }
 
             this.StoreHistoryinDB(tEmpUnqID, false);        
@@ -1497,6 +1500,7 @@ namespace Attendance.Classes
                     {
                         this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                         this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
+                        this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
                     }
                 }// if no errors found 
                
