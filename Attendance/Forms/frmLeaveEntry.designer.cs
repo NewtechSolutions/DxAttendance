@@ -71,6 +71,8 @@
             this.grd_Attd = new DevExpress.XtraGrid.GridControl();
             this.gv_Attd = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.grp_Attd = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtFromDt2 = new DevExpress.XtraEditors.DateEdit();
             this.tb_Sanction = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Sanction = new System.Windows.Forms.TableLayoutPanel();
             this.grd_Sanction = new DevExpress.XtraGrid.GridControl();
@@ -113,6 +115,9 @@
             this.tblp_Attd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_Attd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Attd)).BeginInit();
+            this.grp_Attd.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromDt2.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromDt2.Properties)).BeginInit();
             this.tb_Sanction.SuspendLayout();
             this.tblp_Sanction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_Sanction)).BeginInit();
@@ -127,7 +132,7 @@
             // tblp_Home
             // 
             this.tblp_Home.ColumnCount = 1;
-            this.tblp_Home.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblp_Home.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp_Home.Controls.Add(this.xTabCtrl, 0, 1);
             this.tblp_Home.Controls.Add(this.ctrlEmp1, 0, 0);
             this.tblp_Home.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -135,19 +140,19 @@
             this.tblp_Home.Margin = new System.Windows.Forms.Padding(0);
             this.tblp_Home.Name = "tblp_Home";
             this.tblp_Home.RowCount = 2;
-            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.00506F));
-            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.99494F));
+            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tblp_Home.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp_Home.Size = new System.Drawing.Size(1048, 593);
             this.tblp_Home.TabIndex = 25;
             // 
             // xTabCtrl
             // 
             this.xTabCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xTabCtrl.Location = new System.Drawing.Point(0, 172);
+            this.xTabCtrl.Location = new System.Drawing.Point(0, 180);
             this.xTabCtrl.Margin = new System.Windows.Forms.Padding(0);
             this.xTabCtrl.Name = "xTabCtrl";
             this.xTabCtrl.SelectedTabPage = this.tb_LeaveEntry;
-            this.xTabCtrl.Size = new System.Drawing.Size(1048, 421);
+            this.xTabCtrl.Size = new System.Drawing.Size(1048, 413);
             this.xTabCtrl.TabIndex = 1;
             this.xTabCtrl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tb_LeaveEntry,
@@ -160,7 +165,7 @@
             // 
             this.tb_LeaveEntry.Controls.Add(this.tableLayoutPanel1);
             this.tb_LeaveEntry.Name = "tb_LeaveEntry";
-            this.tb_LeaveEntry.Size = new System.Drawing.Size(1042, 393);
+            this.tb_LeaveEntry.Size = new System.Drawing.Size(1042, 385);
             this.tb_LeaveEntry.Text = "Leave Posting";
             // 
             // tableLayoutPanel1
@@ -174,7 +179,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 393F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1042, 393);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1042, 385);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
             // groupBox1
@@ -654,6 +659,8 @@
             // grp_Attd
             // 
             this.grp_Attd.BackColor = System.Drawing.Color.Gainsboro;
+            this.grp_Attd.Controls.Add(this.label11);
+            this.grp_Attd.Controls.Add(this.txtFromDt2);
             this.grp_Attd.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grp_Attd.Location = new System.Drawing.Point(0, 0);
             this.grp_Attd.Margin = new System.Windows.Forms.Padding(0);
@@ -662,6 +669,33 @@
             this.grp_Attd.Size = new System.Drawing.Size(1042, 50);
             this.grp_Attd.TabIndex = 1;
             this.grp_Attd.TabStop = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(21, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(71, 15);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "From Date :";
+            // 
+            // txtFromDt2
+            // 
+            this.txtFromDt2.EditValue = null;
+            this.txtFromDt2.Location = new System.Drawing.Point(98, 17);
+            this.txtFromDt2.Name = "txtFromDt2";
+            this.txtFromDt2.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFromDt2.Properties.Appearance.Options.UseFont = true;
+            this.txtFromDt2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtFromDt2.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtFromDt2.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtFromDt2.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtFromDt2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtFromDt2.Size = new System.Drawing.Size(100, 20);
+            this.txtFromDt2.TabIndex = 1;
+            this.txtFromDt2.Validated += new System.EventHandler(this.txtFromDt2_Validated);
             // 
             // tb_Sanction
             // 
@@ -886,6 +920,10 @@
             this.tblp_Attd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grd_Attd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Attd)).EndInit();
+            this.grp_Attd.ResumeLayout(false);
+            this.grp_Attd.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromDt2.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFromDt2.Properties)).EndInit();
             this.tb_Sanction.ResumeLayout(false);
             this.tblp_Sanction.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grd_Sanction)).EndInit();
@@ -954,5 +992,7 @@
         private DevExpress.XtraEditors.SimpleButton btnDel_Leave;
         private System.Windows.Forms.Label label10;
         private DevExpress.XtraEditors.SimpleButton btnDel_SanLeave;
+        private System.Windows.Forms.Label label11;
+        private DevExpress.XtraEditors.DateEdit txtFromDt2;
     }
 }

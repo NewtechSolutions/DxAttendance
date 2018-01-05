@@ -94,6 +94,7 @@ namespace Attendance.Forms
             txtLeaveTyp.Properties.Items.Clear();
 
             txtFromDt.DateTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-") + "01");
+            txtFromDt2.DateTime = txtFromDt.DateTime;
             txtToDt.DateTime = txtFromDt.DateTime.AddDays(1);
 
            
@@ -246,7 +247,7 @@ namespace Attendance.Forms
             SqlAttd = "Select Top 40 " +
                     " tDate , upper(left(datename(dw, tdate),3)) as Day, ScheduleShift as SchShift,ConsShift, ConsIn, ConsOut, Status,ConsOverTime as OT, ConsWrkHrs as WrkHrs,  HalfDay,LeaveTyp,LeaveHalf,LateCome,EarlyGoing,EarlyCome " +
                     " ,GracePeriod From AttdData " +
-                    " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate between '" + FromDt.ToString("yyyy-MM-dd") + "' AND '" + ToDt.ToString("yyyy-MM-dd") + "' And CompCode = '01' And WrkGrp = '" + Emp.WrkGrp + "' Order By tDate" ;
+                    " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + txtFromDt2.DateTime.ToString("yyyy-MM-dd") + "' And CompCode = '01' And WrkGrp = '" + Emp.WrkGrp + "' Order By tDate" ;
     
             SqlSanc = "Select Top 40 " +
                       " SanID,tDate,ConsInTime,ConsOutTime,ConsOverTime,ConsShift,SchLeave,AddID,AddDT,Remarks " +
@@ -1456,6 +1457,11 @@ namespace Attendance.Forms
             {
                 SelectNextControl(ActiveControl, true, true, true, true);
             }
+        }
+
+        private void txtFromDt2_Validated(object sender, EventArgs e)
+        {
+            LoadGrid();
         }
 
     }
