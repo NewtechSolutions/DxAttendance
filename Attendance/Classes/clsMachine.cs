@@ -1424,7 +1424,7 @@ namespace Attendance.Classes
             //'if not move next emp
             if (Utils.User.GUserID != "SERVER")
             {
-                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+                if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
                 {
                     err = "You are not Authorised...";
                     return;
@@ -1468,12 +1468,15 @@ namespace Attendance.Classes
             foreach (UserBioInfo emp in tUserList)
             {                
                 emp.SetUserInfoForMachine(emp.UserID);
-                
-                //check user rights for the wrkgrp
-                //'if not move next emp
-                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+
+                if (Utils.User.GUserID != "SERVER")
                 {
-                    emp.err += "You are not Authorised...";
+                    //check user rights for the wrkgrp
+                    //'if not move next emp
+                    if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
+                    {
+                        emp.err += "You are not Authorised...";
+                    }
                 }
             }
 
