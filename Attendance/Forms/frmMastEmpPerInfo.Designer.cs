@@ -369,7 +369,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(556, 72);
+            this.label9.Location = new System.Drawing.Point(388, 75);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 14);
             this.label9.TabIndex = 20;
@@ -378,7 +378,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(593, 44);
+            this.label8.Location = new System.Drawing.Point(425, 47);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 14);
             this.label8.TabIndex = 19;
@@ -387,7 +387,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(603, 16);
+            this.label7.Location = new System.Drawing.Point(435, 19);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 14);
             this.label7.TabIndex = 18;
@@ -396,7 +396,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(176, 240);
+            this.label6.Location = new System.Drawing.Point(8, 243);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(86, 14);
             this.label6.TabIndex = 17;
@@ -405,7 +405,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(204, 213);
+            this.label5.Location = new System.Drawing.Point(36, 216);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(58, 14);
             this.label5.TabIndex = 16;
@@ -414,7 +414,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(217, 184);
+            this.label4.Location = new System.Drawing.Point(49, 187);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 14);
             this.label4.TabIndex = 15;
@@ -423,7 +423,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(210, 156);
+            this.label3.Location = new System.Drawing.Point(42, 159);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 14);
             this.label3.TabIndex = 14;
@@ -432,7 +432,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(227, 128);
+            this.label2.Location = new System.Drawing.Point(59, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 14);
             this.label2.TabIndex = 13;
@@ -441,7 +441,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(204, 17);
+            this.label1.Location = new System.Drawing.Point(36, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 14);
             this.label1.TabIndex = 12;
@@ -449,7 +449,7 @@
             // 
             // txtPoliceST
             // 
-            this.txtPoliceST.Location = new System.Drawing.Point(651, 70);
+            this.txtPoliceST.Location = new System.Drawing.Point(483, 73);
             this.txtPoliceST.Name = "txtPoliceST";
             this.txtPoliceST.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtPoliceST.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -459,7 +459,7 @@
             // 
             // txtMobile
             // 
-            this.txtMobile.Location = new System.Drawing.Point(651, 42);
+            this.txtMobile.Location = new System.Drawing.Point(483, 45);
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtMobile.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -469,7 +469,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(651, 14);
+            this.txtEmail.Location = new System.Drawing.Point(483, 17);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtEmail.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -479,7 +479,7 @@
             // 
             // txtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(268, 238);
+            this.txtPhone.Location = new System.Drawing.Point(100, 241);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtPhone.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -489,7 +489,7 @@
             // 
             // txtPinCode
             // 
-            this.txtPinCode.Location = new System.Drawing.Point(268, 210);
+            this.txtPinCode.Location = new System.Drawing.Point(100, 213);
             this.txtPinCode.Name = "txtPinCode";
             this.txtPinCode.Properties.Mask.EditMask = "[A-Z0-9 .,\\:-()-]+";
             this.txtPinCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -499,7 +499,7 @@
             // 
             // txtState
             // 
-            this.txtState.Location = new System.Drawing.Point(268, 182);
+            this.txtState.Location = new System.Drawing.Point(100, 185);
             this.txtState.Name = "txtState";
             this.txtState.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtState.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -509,7 +509,7 @@
             // 
             // txtDistrict
             // 
-            this.txtDistrict.Location = new System.Drawing.Point(268, 154);
+            this.txtDistrict.Location = new System.Drawing.Point(100, 157);
             this.txtDistrict.Name = "txtDistrict";
             this.txtDistrict.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtDistrict.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -519,7 +519,7 @@
             // 
             // txtCity
             // 
-            this.txtCity.Location = new System.Drawing.Point(268, 126);
+            this.txtCity.Location = new System.Drawing.Point(100, 129);
             this.txtCity.Name = "txtCity";
             this.txtCity.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtCity.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -529,7 +529,7 @@
             // 
             // txtAdd4
             // 
-            this.txtAdd4.Location = new System.Drawing.Point(268, 98);
+            this.txtAdd4.Location = new System.Drawing.Point(100, 101);
             this.txtAdd4.Name = "txtAdd4";
             this.txtAdd4.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtAdd4.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -539,7 +539,7 @@
             // 
             // txtAdd3
             // 
-            this.txtAdd3.Location = new System.Drawing.Point(268, 70);
+            this.txtAdd3.Location = new System.Drawing.Point(100, 73);
             this.txtAdd3.Name = "txtAdd3";
             this.txtAdd3.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtAdd3.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -549,7 +549,7 @@
             // 
             // txtAdd2
             // 
-            this.txtAdd2.Location = new System.Drawing.Point(268, 42);
+            this.txtAdd2.Location = new System.Drawing.Point(100, 45);
             this.txtAdd2.Name = "txtAdd2";
             this.txtAdd2.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtAdd2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -559,7 +559,7 @@
             // 
             // txtAdd1
             // 
-            this.txtAdd1.Location = new System.Drawing.Point(268, 14);
+            this.txtAdd1.Location = new System.Drawing.Point(100, 17);
             this.txtAdd1.Name = "txtAdd1";
             this.txtAdd1.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
             this.txtAdd1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;

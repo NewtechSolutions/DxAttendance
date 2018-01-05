@@ -31,19 +31,21 @@ namespace Attendance.Forms
 
         private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
         {
-            //if (!ctrlEmp1.cEmp.Active)
-            //{
-            //    Emp = new clsEmp();
-            //}
-            //else
-            //{
                 Emp.CompCode = ctrlEmp1.txtCompCode.Text.Trim();
                 Emp.EmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim();
-                Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
+
+                if (Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                {
+                   
+                    mode = "OLD";
+                }
+                else
+                {
+                    mode = "NEW";
+                }
                 DisplayData(Emp);
-                mode = "OLD";
                 SetRights();
-            //} 
+            
         }
 
         //private void ctrlCompValidateEvent_Handler(object sender, EventArgs e)
@@ -136,6 +138,7 @@ namespace Attendance.Forms
 
             oldCode = "";
             mode = "NEW";
+            ctrlEmp1.txtEmpUnqID.Focus();
         }
         
         private void SetRights()
@@ -514,7 +517,7 @@ namespace Attendance.Forms
                 txtLeftDt.Enabled = true;
             }
             
-            mode = "OLD";
+           
         }
 
         private void txtShiftCode_KeyDown(object sender, KeyEventArgs e)
