@@ -306,13 +306,14 @@ namespace Attendance.Classes
 
             // Trigger the job to run every 3 minute
             ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity(triggerid, "WorkerProcess")
+                .WithIdentity(triggerid, "TRG_WorkerProcess")
                 .StartNow()
                 .WithCronSchedule("0 0/2 * * * ?")
                 .Build();
 
             // Tell quartz to schedule the job using our trigger
             scheduler.ScheduleJob(job, trigger);
+            
             ServerMsg tMsg = new ServerMsg();
             tMsg.MsgType = "Job Building";
             tMsg.MsgTime = DateTime.Now;
@@ -328,12 +329,12 @@ namespace Attendance.Classes
                 // define the job and tie it to our HelloJob class
                 IJobDetail job2 = JobBuilder.Create<AutoDeleteLeftEmp>()
                      .WithDescription("Auto Delete Left Employee")
-                    .WithIdentity(jobid2, "Job_WorkerProcess")
+                    .WithIdentity(jobid2, "Job_DEL_LeftEmp")
                     .Build();
 
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "TRG_WorkerProcess")
+                    .WithIdentity(triggerid2, "TRG_DEL_LeftEmp")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes))
                     .Build();
@@ -348,34 +349,35 @@ namespace Attendance.Classes
                 Scheduler.Publish(tMsg);
             }
 
-
+            #region AutoDelExpEmp
             if (Globals.G_AutoDelExpEmp)
             {
-                string jobid2 = "Job_AutoDeleteExpireValidityEmp";
-                string triggerid2 = "Trigger_AutoDeleteExpireValidityEmp";
+                string jobid3 = "Job_AutoDeleteExpireValidityEmp";
+                string triggerid3 = "Trigger_AutoDeleteExpireValidityEmp";
 
                 // define the job and tie it to our HelloJob class
                 IJobDetail job3 = JobBuilder.Create<AutoDeleteExpireValidityEmp>()
                      .WithDescription("Auto Delete Expired Validity Employee")
-                    .WithIdentity(jobid2, "Job_WorkerProcess")
+                    .WithIdentity(jobid3, "Job_DELExpEmp")
                     .Build();
 
                 // Trigger the job to run 
-                ITrigger trigger2 = TriggerBuilder.Create()
-                    .WithIdentity(triggerid2, "TRG_WorkerProcess")
+                ITrigger trigger3 = TriggerBuilder.Create()
+                    .WithIdentity(triggerid3, "TRG_DELExpEmp")
                     .StartNow()
                     .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelExpEmpTime.Hours, Globals.G_AutoDelExpEmpTime.Minutes))
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
-                scheduler.ScheduleJob(job3, trigger2);
+                scheduler.ScheduleJob(job3, trigger3);
 
                 tMsg = new ServerMsg();
                 tMsg.MsgType = "Job Building";
                 tMsg.MsgTime = DateTime.Now;
-                tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
+                tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid3, triggerid3);
                 Scheduler.Publish(tMsg);
             }
+            #endregion
         }
         
         public void RegSchedule_AutoArrival()
@@ -392,29 +394,29 @@ namespace Attendance.Classes
                     TimeSpan ToTime = (TimeSpan)dr["ToTime"];
                      
                     
-                    string jobid = "Job_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
-                    string triggerid = "Trigger_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
+                    string jobid4 = "Job_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
+                    string triggerid4 = "Trigger_Arrival_" + tTime.Hours.ToString() + tTime.Minutes.ToString();
                     // define the job and tie it to our HelloJob class
                     IJobDetail job4 = JobBuilder.Create<AutoArrival>()
-                        .WithIdentity(jobid, "Job_Arrival")
+                        .WithIdentity(jobid4, "Job_Arrival")
                         .WithDescription("Auto Process Shift wise Arrival Report For " + FromTime.ToString() + " TO " + ToTime.ToString())
                         .UsingJobData("FromTime", FromTime.ToString())
                         .UsingJobData("ToTime", ToTime.ToString())    
                         .Build();
 
                     // Trigger the job to run now
-                    ITrigger trigger = TriggerBuilder.Create()
-                        .WithIdentity(triggerid, "TRG_Arrival")
+                    ITrigger trigger4 = TriggerBuilder.Create()
+                        .WithIdentity(triggerid4, "TRG_Arrival")
                         .StartNow()
                         .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))                                          
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
-                    scheduler.ScheduleJob(job4, trigger);
+                    scheduler.ScheduleJob(job4, trigger4);
                     ServerMsg tMsg = new ServerMsg();
                     tMsg.MsgType = "Job Building";
                     tMsg.MsgTime = DateTime.Now;
-                    tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
+                    tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid4, triggerid4);
                     Scheduler.Publish(tMsg);
                     
                 }
@@ -1146,7 +1148,6 @@ namespace Attendance.Classes
          }
      }
 
-
       public class SchedulerListenerExample : ISchedulerListener
       {
 
@@ -1250,8 +1251,7 @@ namespace Attendance.Classes
               Console.WriteLine("The scheduler called {0}", MethodBase.GetCurrentMethod().Name);
           }
       }
-
-
+        
       class DummyJobListener : IJobListener
         {
             
