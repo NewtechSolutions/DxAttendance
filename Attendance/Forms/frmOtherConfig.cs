@@ -461,7 +461,7 @@ namespace Attendance.Forms
                             " AutoProcessTime=" + ((txtAutoProccessTime.Time.TimeOfDay.Hours == 0) ? " NULL " : "'" + txtAutoProccessTime.Time.ToString("HH:mm") + "'") + "," +
                             " AutoDelEmpFlg ='" + (chkAutoDeleteLeftEmp.Checked?1:0) + "', AutoDelEmpTime='" + txtAutoDeleteEmpTime.Time.ToString("HH:mm") + "'," +
                             " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'," +
-                            " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'" +
+                            " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'," +
                             " JobNotificationFlg ='" + (chkJobNotification.Checked?1:0)+ "', " +
                             " JobNotificationEmail ='" + txtJobNotificationEmail.Text.Trim().ToString() + "' " +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";

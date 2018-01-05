@@ -31,19 +31,19 @@ namespace Attendance.Forms
 
         private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
         {
-            if (!ctrlEmp1.cEmp.Active)
-            {
-                Emp = new clsEmp();
-            }
-            else
-            {
+            //if (!ctrlEmp1.cEmp.Active)
+            //{
+            //    Emp = new clsEmp();
+            //}
+            //else
+            //{
                 Emp.CompCode = ctrlEmp1.txtCompCode.Text.Trim();
                 Emp.EmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim();
                 Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
                 DisplayData(Emp);
                 mode = "OLD";
                 SetRights();
-            } 
+            //} 
         }
 
         //private void ctrlCompValidateEvent_Handler(object sender, EventArgs e)

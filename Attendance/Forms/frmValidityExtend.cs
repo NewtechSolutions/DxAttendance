@@ -174,7 +174,7 @@ namespace Attendance.Forms
                         }
                         catch (Exception ex)
                         {
-                            dr["Remarks"] = "Date Conversion Faild..";
+                            dr["Remarks"] = "Date Conversion Failed..";
                             continue;
                         }
                         
