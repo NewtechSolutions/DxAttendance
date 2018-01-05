@@ -491,17 +491,7 @@ namespace Attendance.Forms
 
         private void txtModuleID_Validated(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtModuleID.Text.Trim()))
-            {
-                txtID.Text = "";
-                txtModuleDesc.Text = "";
-                mode = "New";
-                SetRights();
-                return;
-            }
-                
-
-
+            
             DataSet ds = Utils.Helper.GetData("Select FormID,FormDesc from  MastFrm Where Formid = '" + txtModuleID.Text.Trim() + "'",Utils.Helper.constr);
             if (ds.Tables.Count > 0)
             {
@@ -526,24 +516,24 @@ namespace Attendance.Forms
                                 txtID.Text = drw["SrNo"].ToString();
                                 oldCode = drw["SrNo"].ToString();
                                 mode = "OLD";
-                            }
-
-                            txtID_Validated(sender, e);
+                            }                            
                         }
                     }
 
                 }
                 else
                 {
+                    txtModuleID.Text = "";
                     txtModuleDesc.Text = "";
                 }
             }
             else
             {
-                txtModuleDesc.Text = "";
-                
+                txtModuleID.Text = "";
+                txtModuleDesc.Text = "";                
             }
 
+            ValidateAll();
             SetRights();
         }
 
@@ -572,39 +562,51 @@ namespace Attendance.Forms
                     txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
                     txtWrkGrpDesc.Text = dr["WrkGrpDesc"].ToString();
                 }
-                sql = "Select * from UserSpRight where Userid ='" + txtUserID.Text.Trim() + "' and WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and FormID ='" + txtModuleID.Text.Trim() + "'";
-                ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                 
-                bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                if (hasrows)
-                {
-                    mode = "OLD";
-                    foreach (DataRow drw in ds.Tables[0].Rows)                
-                    {
-                        txtID.Text = drw["SrNo"].ToString();
-                    }                    
-                }
-                else
-                {
-                    mode = "NEW";
-                }
-                SetRights();
             }
             else
             {
                 txtWrkGrpDesc.Text = "";
             }
+            ValidateAll();
         }
+
+        private void ValidateAll()
+        {
+            string sql = "Select * from UserSpRight where Userid ='" + txtUserID.Text.Trim() + "' and WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' and FormID ='" + txtModuleID.Text.Trim() + "'";
+            DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+
+            bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasrows)
+            {
+                mode = "OLD";
+                foreach (DataRow drw in ds.Tables[0].Rows)
+                {
+                    txtID.Text = drw["SrNo"].ToString();
+                }
+            }
+            else
+            {
+                mode = "NEW";
+                txtID.Text = "";                
+            }
+
+            if (txtID.Text.Trim() == "")
+            {
+                txtID.Text = Utils.Helper.GetDescription("Select isnull(Max(SrNo),0) + 1 from UserSpRight where 1 = 1", Utils.Helper.constr);
+
+                oldCode = "";
+                mode = "NEW";
+                
+            }
+
+            SetRights();
+        }
+
 
         private void txtUserID_Validated(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUserID.Text.Trim()))
-            {
-                
-                txtUserName.Text = "";                
-                return;
-            }
-                
+            
 
             DataSet ds = Utils.Helper.GetData("Select * from MastUser Where UserID ='" + txtUserID.Text.Trim() + "'", Utils.Helper.constr);
             if (ds.Tables.Count > 0)
@@ -614,10 +616,11 @@ namespace Attendance.Forms
                     DataRow dr = ds.Tables[0].Rows[0];
                     txtUserID.Text = dr["UserID"].ToString();
                     txtUserName.Text = dr["UserName"].ToString();
+                    
                 }
             }
 
-            
+            ValidateAll();
 
             LoadGrid();
         }
