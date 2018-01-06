@@ -1094,10 +1094,14 @@ namespace Attendance
                                 {
 
                                     seclate = tDiff.TotalSeconds;
+                                    if (seclate > 1 && seclate <= 59)
+                                        seclate = 60;
+
                                     hurlate = Math.Truncate(seclate / 3600);
                                     minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
                                     sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate);
-                                    drAttd["LateCome"] = sminlate;
+                                    
+                                        drAttd["LateCome"] = sminlate;
                                     
                                     //new development for dynamic halfday
                                     if (Globals.G_HFFLG_LateCome)
@@ -1222,6 +1226,10 @@ namespace Attendance
                                     TimeSpan t1 =  ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"]) ;
 
                                     secgone = t1.TotalSeconds;
+                                    
+                                    if (secgone > 1 && secgone <= 59)
+                                        secgone = 60;
+
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
                                     smingone = string.Format("{0:00}:{1:00}", hurgone, mingone); 
@@ -1460,6 +1468,9 @@ namespace Attendance
                             {
 
                                 seclate = tDiff.TotalSeconds;
+                                if (seclate > 1 && seclate <= 59)
+                                    seclate = 60;
+
                                 hurlate = Math.Truncate(seclate / 3600);
                                 minlate = Math.Truncate((seclate - (hurlate * 3600)) / 60);
                                 sminlate = string.Format("{0:00}:{1:00}", hurlate, minlate);
@@ -1602,6 +1613,9 @@ namespace Attendance
                                 if (t5.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && t5.TotalSeconds < 0)
                                 {
                                     secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
+                                    if (secgone > 1 && secgone <= 59)
+                                        secgone = 60;
+
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
                                     smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
@@ -1732,6 +1746,10 @@ namespace Attendance
                                 if (t5.TotalSeconds > (Globals.G_EarlyGoingSec) )
                                 {
                                     secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
+                                    if (secgone > 1 && secgone <= 59)
+                                        secgone = 60;
+
+
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
                                     smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);

@@ -1781,12 +1781,13 @@ namespace Attendance.Classes
                                 }
                             }
                         }
+                        
                     }
                     else
                     {
                         //check if Empunqid id Exists in MastMachineUsers if not insert it...
                         cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
-                        if (cnt != "0")
+                        if (cnt == "0")
                         {
                             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                             {
@@ -1849,7 +1850,7 @@ namespace Attendance.Classes
 
                             //check if Empunqid id Exists in MastMachineUsers if not insert it...
                             cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
-                            if (cnt != "0")
+                            if (cnt == "0")
                             {
                                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                 {
@@ -1878,7 +1879,7 @@ namespace Attendance.Classes
                     {
                         //check if Empunqid id Exists in MastMachineUsers if not insert it...
                         cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
-                        if (cnt != "0")
+                        if (cnt == "0")
                         {
                             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                             {

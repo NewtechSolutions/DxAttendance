@@ -240,8 +240,6 @@ namespace Attendance.Forms
             {
                 ToDt = txtToDt.DateTime;
             }
-                
-
 
 
             SqlAttd = "Select Top 40 " +
@@ -252,13 +250,13 @@ namespace Attendance.Forms
             SqlSanc = "Select Top 40 " +
                       " SanID,tDate,ConsInTime,ConsOutTime,ConsOverTime,ConsShift,SchLeave,AddID,AddDT,Remarks " +
                       " From MastLeaveSchedule " +
-                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate between '" + FromDt.ToString("yyyy-MM-dd") + "' AND '" + ToDt.ToString("yyyy-MM-dd") + "' " +
+                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + txtFromDt2.DateTime.ToString("yyyy-MM-dd") + "'  " +
                       " And isnull(SchLeave,'') <> '' Order By SanID Desc ";
 
             SqlPunch = "Select Top 100 " +
                       " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
                       " From AttdLog " +
-                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And PunchDate between '" + FromDt.ToString("yyyy-MM-dd HH:mm:ss") + "' AND '" + ToDt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And PunchDate >= '" + txtFromDt2.DateTime.ToString("yyyy-MM-dd") + "' " +
                       " and LunchFlg = 0 and IOFLG in ('I','O') Order by PunchDate";
 
 
