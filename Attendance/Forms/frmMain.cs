@@ -1028,8 +1028,7 @@ namespace Attendance
             }
 
         }
-
-
+        
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             string msg = "Attedance System" + Environment.NewLine +
@@ -1062,8 +1061,7 @@ namespace Attendance
                 m.Show();
             }
         }
-
-
+        
         public static Boolean IsNetworkPath(String path)
         {
 

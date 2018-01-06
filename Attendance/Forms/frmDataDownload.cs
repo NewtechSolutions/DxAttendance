@@ -241,7 +241,7 @@ namespace Attendance.Forms
                 }
                 else
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Some issues found.." + Environment.NewLine + err);
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
                 }
                 m.DisConnect(out nerr);
 
@@ -356,7 +356,7 @@ namespace Attendance.Forms
                 }
                 else
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Some issues found.." + Environment.NewLine + err);
+                    gv_avbl.SetRowCellValue(i, "Remarks",  err);
                 }
                 m.DisConnect(out nerr);
 
@@ -415,7 +415,7 @@ namespace Attendance.Forms
                 }
                 else
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", "Some issues found.." + Environment.NewLine + err);
+                    gv_avbl.SetRowCellValue(i, "Remarks",  err);
                 }
 
                 m.DisConnect(out nerr);

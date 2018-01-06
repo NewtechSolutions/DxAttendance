@@ -42,6 +42,7 @@ namespace Attendance.Forms
                 else
                 {
                     mode = "NEW";
+                    Emp = new clsEmp();
                 }
                 DisplayData(Emp);
                 SetRights();
@@ -181,8 +182,7 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            MessageBox.Show("Not implemented....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+            btnUpdate_Click(sender, e);              
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -269,7 +269,7 @@ namespace Attendance.Forms
 
                         sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
                             txtEmpCode.Text.Trim(),txtOldEmpCode.Text.Trim(),txtSAPID.Text.Trim(),((chkAutoShift.Checked) ? 1 : 0),
-                            ((txtLeftDt.EditValue == null)? "null" : "'"+ txtLeftDt.DateTime.ToString("yyyyy-MM-dd") + "'"),
+                            ((txtLeftDt.EditValue == null)? "null" : "'"+ txtLeftDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                             ((txtEmpTypeCode.Text.Trim()== "")? "null" : "'"+ txtEmpTypeCode.Text.Trim() + "'"),
                             ((txtCatCode.Text.Trim()== "")? "null" : "'"+ txtCatCode.Text.Trim() + "'"),
                             ((txtDeptCode.Text.Trim()== "")? "null" : "'"+ txtDeptCode.Text.Trim() + "'"),
@@ -502,6 +502,12 @@ namespace Attendance.Forms
             txtCatCode.Text = temp.CatCode;
             txtCatDesc.Text = temp.CatDesc;
             
+            if(string.IsNullOrEmpty(temp.DeptCode))
+            {
+               GRights = "AXXV";
+            }
+
+
             if(temp.LeftDt.HasValue){
                 txtLeftDt.DateTime = Convert.ToDateTime(temp.LeftDt);
                 txtLeftDt.Enabled = false;
@@ -516,7 +522,8 @@ namespace Attendance.Forms
             {
                 txtLeftDt.Enabled = true;
             }
-            
+            SetRights();
+
            
         }
 

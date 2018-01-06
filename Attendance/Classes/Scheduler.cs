@@ -84,6 +84,9 @@ namespace Attendance.Classes
                 scheduler.Clear();
                 _ShutDown = true;
                 scheduler.Shutdown(false);
+                mqtc.DisconnectAsync();               
+                mqts.StopAsync();
+                
             }
 
         }
@@ -100,7 +103,9 @@ namespace Attendance.Classes
 
             mqtc.Disconnected += async (s, evtdisconnected) =>
             {
-                
+                if (_ShutDown)
+                    return;
+
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 try
                 {
@@ -444,11 +449,20 @@ namespace Attendance.Classes
 
                     if (hasrow)
                     {
-                        _StatusWorker = true;
+                       
 
                         string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
                         foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
                         {
+
+                            if (_ShutDown)
+                            {
+                                _StatusWorker = false;
+                                return;
+                            }
+
+                            _StatusWorker = true;
+
                             string ip = dr["MachineIP"].ToString();
 
                             try
@@ -921,6 +935,7 @@ namespace Attendance.Classes
 
                             if (_ShutDown)
                             {
+                                _StatusWorker = false;
                                 return;
                             }
 
@@ -1032,17 +1047,23 @@ namespace Attendance.Classes
                         {
                             if (_ShutDown)
                             {
+                                _StatusWorker = false;
                                 return;
                             }
+
+                            _StatusWorker = true;
 
                             //loop all machine
                             foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
                             {
-                                _StatusWorker = true;
+                                
                                 if (_ShutDown)
                                 {
+                                    _StatusWorker = false;
                                     return;
                                 }
+
+                                _StatusWorker = true;
 
                                 string Errfullpath = Path.Combine(Errfilepath, "");
                                 string ip = dr["MachineIP"].ToString();
@@ -1080,8 +1101,8 @@ namespace Attendance.Classes
                                     err = string.Empty;
                                     List<UserBioInfo> temp = new List<UserBioInfo>();
                                     m.DeleteUser(tUserList,out err,out temp);
-
-                                    string fullpath2 = Path.Combine(Loginfopath, filenm);
+                                    string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                                    string fullpath2 = Path.Combine(Loginfopath, filenm2);
                                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
                                     {
                                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-Completed");
@@ -1092,13 +1113,17 @@ namespace Attendance.Classes
                                 }
                                 catch (Exception ex)
                                 {
-                                    string fullpath = Path.Combine(Errfilepath, filenm);
+                                    string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                                    string fullpath = Path.Combine(Errfilepath, filenm2);
                                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                     {
                                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-" + ex.ToString());
                                     }
                                 }
                             }//foreach loop
+
+                            _StatusWorker = false;
+                            
                         }
                         else
                         {

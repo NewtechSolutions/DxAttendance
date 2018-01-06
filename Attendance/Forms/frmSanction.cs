@@ -1028,13 +1028,13 @@ namespace Attendance.Forms
                 
             if(Utils.User.IsAdmin == false)
             {
-                if (txtInTime.EditValue != null || txtOutTime.EditValue != null)
+                if (txtInTime.Time.Hour > 0|| txtOutTime.Time.Hour > 0)
                 {
                     TimeSpan t = reqDate - curDate;
 
                     if (t.Days > rSanDayLimit)
                     {
-                        MessageBox.Show("System Does not allow to post InTime/outTime unless fall within" +
+                        MessageBox.Show("System Does not allow to sanction unless fall within : " +
                             rSanDayLimit.ToString() + " days...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         return;

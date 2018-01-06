@@ -494,10 +494,7 @@ namespace Attendance.Forms
             string famsql = "Select [Sr],[Name],[BirthDt],[Relation] From [MastEmpFamily] where EmpUnqID='"  + EmpUnqID + "' order By Sr";
             string edusql = "SELECT [Sr],[PassingYear],[EduName],[Subject],[University],[Per],[OtherInfo] FROM [MastEmpEDU] where EmpUnqID='" + EmpUnqID + "' order By Sr" ;
             string expsql = "SELECT [Sr],[ExpYear],[CompName],[Designation],[JobResp],[FromDt],[ToDt],[EmpCode],[Skill] FROM [MastEmpExp] where EmpUnqID='" + EmpUnqID + "' order By Sr" ;
-            //string ppesql = "SELECT [Sr],[PPEName],[Size],[IssueDt],[IssueYear],[PDate] FROM [MastEmpPPE] where EmpUnqID='" + EmpUnqID + "' order By Sr";
-            //string medsql = "SELECT [Sr],[Diseases],[Detail] FROM [MastEmpMed] where EmpUnqID='" + EmpUnqID + "' order By Sr";
-
-
+           
             //family
             ds = Utils.Helper.GetData(famsql, Utils.Helper.constr);
             Boolean hasRows = ds.Tables.Cast<DataTable>() .Any(table => table.Rows.Count != 0);
