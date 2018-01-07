@@ -1662,8 +1662,8 @@ namespace Attendance.Classes
                                     try
                                     {
                                         cn.Open();
-                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
-                                            "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
 
                                         using (SqlCommand cmd = new SqlCommand(tsql, cn))
                                         {
@@ -1857,8 +1857,8 @@ namespace Attendance.Classes
                                     try
                                     {
                                         cn.Open();
-                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
-                                            "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
 
                                         using (SqlCommand cmd = new SqlCommand(tsql, cn))
                                         {
@@ -1886,8 +1886,8 @@ namespace Attendance.Classes
                                 try
                                 {
                                     cn.Open();
-                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,GetDate(),AddID) Values " +
-                                        "('" + tmpuser.UserID + "','" + _ip + "','" + Utils.User.GUserID + "')";
+                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                        "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
 
                                     using (SqlCommand cmd = new SqlCommand(tsql, cn))
                                     {
