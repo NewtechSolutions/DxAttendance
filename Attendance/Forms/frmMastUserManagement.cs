@@ -707,7 +707,7 @@ namespace Attendance.Forms
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            Application.DoEvents();
+           
             if (tUserList.Count == 0)
             {
                 MessageBox.Show("Please Add Employeee first...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -717,10 +717,13 @@ namespace Attendance.Forms
             
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
+
+                Application.DoEvents();
+
                 string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
                 if (!Convert.ToBoolean(tsel))
                     continue;
@@ -769,7 +772,7 @@ namespace Attendance.Forms
 
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            //Cursor.Current = Cursors.Default;
         }
 
         private void ResetRemarks()
