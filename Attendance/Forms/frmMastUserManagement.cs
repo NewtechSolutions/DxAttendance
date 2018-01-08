@@ -363,7 +363,7 @@ namespace Attendance.Forms
                     return;
                 }
                 
-                Cursor.Current = Cursors.WaitCursor;
+                //Cursor.Current = Cursors.WaitCursor;
                 LockCtrl();
                 
                 foreach (DataRow dr in sortedDT.Rows)
@@ -380,9 +380,9 @@ namespace Attendance.Forms
                     dr["Remarks"] = (!string.IsNullOrEmpty(err)?err:"Registered");
                         
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
-                Cursor.Current = Cursors.Default;
+                //Cursor.Current = Cursors.Default;
                 MessageBox.Show("file uploaded Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex) { MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -747,7 +747,6 @@ namespace Attendance.Forms
                 string allerr = "";
                 foreach (UserBioInfo emp in tUserList)
                 {
-                    
                     m.Register(emp.UserID, out err);
                     if (!string.IsNullOrEmpty(err))
                     {
@@ -765,7 +764,7 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
 
             }
@@ -844,7 +843,7 @@ namespace Attendance.Forms
 
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
@@ -891,7 +890,7 @@ namespace Attendance.Forms
 
                 m.DisConnect(out err);
                 grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
-
+                MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
             }
 
 
@@ -910,7 +909,7 @@ namespace Attendance.Forms
 
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
@@ -952,7 +951,7 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
                 grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
@@ -960,7 +959,8 @@ namespace Attendance.Forms
 
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            //Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
 
         private void btnBlock_Click(object sender, EventArgs e)
@@ -974,13 +974,15 @@ namespace Attendance.Forms
 
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
                 string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
                 if (!Convert.ToBoolean(tsel))
                     continue;
+
+                Application.DoEvents();         
 
                 string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
                 string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
@@ -1001,6 +1003,7 @@ namespace Attendance.Forms
 
                 foreach (UserBioInfo emp in tUserList)
                 {
+                              
                     m.BlockUser(emp.UserID, out err);
                     allerr += (err.Length > 0 ? emp.UserID + err + Environment.NewLine : "");
                 }
@@ -1013,14 +1016,15 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
                 //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
+            //Cursor.Current = Cursors.Default;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
@@ -1034,7 +1038,7 @@ namespace Attendance.Forms
 
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
@@ -1073,21 +1077,22 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
                 //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            //Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
 
         private void btnUnlockMaster_Click(object sender, EventArgs e)
         {
             ResetRemarks();
             
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             string ip = Globals.MasterMachineIP;
             string ioflg = "B";
@@ -1112,15 +1117,15 @@ namespace Attendance.Forms
                 MessageBox.Show("Master Machine Unlocked", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             m.DisConnect(out err);
-            Cursor.Current = Cursors.Default;
-            
+            //Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
 
         private void btnUnlock_Click(object sender, EventArgs e)
         {
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
@@ -1161,7 +1166,8 @@ namespace Attendance.Forms
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
+            //Cursor.Current = Cursors.Default;
         }
 
         private void btnUpdateRFID_Click(object sender, EventArgs e)
@@ -1551,7 +1557,7 @@ namespace Attendance.Forms
                     return;
                 }
 
-                Cursor.Current = Cursors.WaitCursor;
+                //Cursor.Current = Cursors.WaitCursor;
                 LockCtrl();
 
                 foreach (DataRow dr in sortedDT.Rows)
@@ -1568,9 +1574,9 @@ namespace Attendance.Forms
                     dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Deleted");
 
                 }
-
+                m.RefreshData();
                 m.DisConnect(out err);
-                Cursor.Current = Cursors.Default;
+                //Cursor.Current = Cursors.Default;
                 MessageBox.Show("file processed Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex) { MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -1588,7 +1594,7 @@ namespace Attendance.Forms
         {
             ResetRemarks();
             LockCtrl();
-            Cursor.Current = Cursors.WaitCursor;
+            //Cursor.Current = Cursors.WaitCursor;
 
             for (int i = 0; i < gv_avbl.DataRowCount; i++)
             {
@@ -1627,7 +1633,8 @@ namespace Attendance.Forms
             }
 
             UnLockCtrl();
-            Cursor.Current = Cursors.Default;
+            //Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
 
         private void optMachineType_SelectedIndexChanged(object sender, EventArgs e)

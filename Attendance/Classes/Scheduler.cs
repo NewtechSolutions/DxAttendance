@@ -514,7 +514,7 @@ namespace Attendance.Classes
                                 {
                                     file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-Completed");
                                 }
-
+                                m.RefreshData();
                                 m.DisConnect(out err);
                             }
                             catch (Exception ex)
@@ -1107,7 +1107,7 @@ namespace Attendance.Classes
                                     {
                                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-Completed");
                                     }
-                                    
+                                    m.RefreshData();
                                     m.DisConnect(out err);
                                     
                                 }

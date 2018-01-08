@@ -838,8 +838,8 @@ namespace Attendance.Classes
 
             }
 
-            //this.CZKEM1.EnableDevice(_machineno, false);
-
+           
+            
             foreach (UserBioInfo emp in tUserList)
             {
                 //store registration info in db....
@@ -1437,7 +1437,7 @@ namespace Attendance.Classes
             }
             
 
-            this.CZKEM1.EnableDevice(_machineno, false);
+            //this.CZKEM1.EnableDevice(_machineno, false);
            
 
             if (!_istft)
@@ -1446,15 +1446,16 @@ namespace Attendance.Classes
             }
             else
             {
+                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
-                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+                
                 
             }
 
             this.StoreHistoryinDB(tEmpUnqID, false);        
-            this.CZKEM1.RefreshData(_machineno);
-            this.CZKEM1.EnableDevice(_machineno, true); 
+            //this.CZKEM1.RefreshData(_machineno);
+            //this.CZKEM1.EnableDevice(_machineno, true); 
         }
 
         public void DeleteUser(List<UserBioInfo> tUserList, out string err, out List<UserBioInfo> RetUserList)
@@ -1472,12 +1473,12 @@ namespace Attendance.Classes
                 return;
             }
 
-            foreach (UserBioInfo emp in tUserList)
-            {                
-                emp.SetUserInfoForMachine(emp.UserID);
-
-                if (Utils.User.GUserID != "SERVER")
+            if (Utils.User.GUserID != "SERVER")
+            {
+                foreach (UserBioInfo emp in tUserList)
                 {
+                    emp.SetUserInfoForMachine(emp.UserID);
+
                     //check user rights for the wrkgrp
                     //'if not move next emp
                     if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
@@ -1487,7 +1488,7 @@ namespace Attendance.Classes
                 }
             }
 
-            this.CZKEM1.EnableDevice(_machineno, false);
+            //this.CZKEM1.EnableDevice(_machineno, false);
 
             foreach (UserBioInfo emp in tUserList)
             {
@@ -1501,17 +1502,18 @@ namespace Attendance.Classes
                     }
                     else
                     {
+                        this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
                         this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                         this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
-                        this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
+                        
                     }
                 }// if no errors found 
                
             }//end foreach
 
 
-            this.CZKEM1.RefreshData(_machineno);
-            this.CZKEM1.EnableDevice(_machineno, true);
+            //this.CZKEM1.RefreshData(_machineno);
+            //this.CZKEM1.EnableDevice(_machineno, true);
 
             RetUserList = tUserList;
 
