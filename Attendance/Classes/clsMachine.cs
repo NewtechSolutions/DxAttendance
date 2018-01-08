@@ -670,8 +670,9 @@ namespace Attendance.Classes
 
             if(!_istft)
             {
-                this.CZKEM1.set_CardNumber(0,Convert.ToInt32(emp.UserID));
-                this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,true);
+                //this.CZKEM1.set_STR_CardNumber(0, emp.UserID);
+                this.CZKEM1.set_CardNumber(0,Convert.ToInt32(emp.CardNumber));
+                bool x = this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,true);
                 this.CZKEM1.RefreshData(_machineno);
                 this.CZKEM1.EnableDevice(_machineno, true);
                 return;
