@@ -375,7 +375,7 @@ namespace Attendance.Forms
                         continue;
                     }    
                     err = string.Empty;
-
+                    Application.DoEvents();
                     m.Register(tEmpUnqID,out err);
                     dr["Remarks"] = (!string.IsNullOrEmpty(err)?err:"Registered");
                         
@@ -707,6 +707,7 @@ namespace Attendance.Forms
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            Application.DoEvents();
             if (tUserList.Count == 0)
             {
                 MessageBox.Show("Please Add Employeee first...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -664,7 +664,7 @@ namespace Attendance.Classes
             
 
             //store registration info in db....
-            this.CZKEM1.EnableDevice(_machineno, false);
+            //this.CZKEM1.EnableDevice(_machineno, false);
             
             StoreHistoryinDB(emp.UserID,true);
 
@@ -673,8 +673,8 @@ namespace Attendance.Classes
                 //this.CZKEM1.set_STR_CardNumber(0, emp.UserID);
                 this.CZKEM1.set_CardNumber(0,Convert.ToInt32(emp.CardNumber));
                 bool x = this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,true);
-                this.CZKEM1.RefreshData(_machineno);
-                this.CZKEM1.EnableDevice(_machineno, true);
+                //this.CZKEM1.RefreshData(_machineno);
+                //this.CZKEM1.EnableDevice(_machineno, true);
                 return;
             }
             
@@ -706,8 +706,8 @@ namespace Attendance.Classes
                     }
                 }
 
-                this.CZKEM1.RefreshData(_machineno);
-                this.CZKEM1.EnableDevice(_machineno, true);
+                //this.CZKEM1.RefreshData(_machineno);
+                //this.CZKEM1.EnableDevice(_machineno, true);
             }
 
         }
@@ -838,12 +838,12 @@ namespace Attendance.Classes
 
             }
 
-            this.CZKEM1.EnableDevice(_machineno, false);
+            //this.CZKEM1.EnableDevice(_machineno, false);
 
             foreach (UserBioInfo emp in tUserList)
             {
                 //store registration info in db....
-
+                
                 if (string.IsNullOrEmpty(emp.err))
                 {
                     StoreHistoryinDB(emp.UserID,true);
@@ -896,8 +896,10 @@ namespace Attendance.Classes
 
                 }// if no errors found                
             }//end foreach
-            this.CZKEM1.RefreshData(_machineno);
-            this.CZKEM1.EnableDevice(_machineno, true);
+            
+            //this.CZKEM1.RefreshData(_machineno);
+            //this.CZKEM1.EnableDevice(_machineno, true);
+            
             RetUserList = tUserList;
         }
 

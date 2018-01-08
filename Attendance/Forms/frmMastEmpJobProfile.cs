@@ -148,16 +148,15 @@ namespace Attendance.Forms
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
 
-            if ( ctrlEmp1.txtEmpUnqID.Text.Trim() != "" && mode == "NEW" && GRights.Contains("A") )
+            if (ctrlEmp1.txtEmpUnqID.Text.Trim() != "" )
             {
-                btnAdd.Enabled = false;
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = false;
-            }
-            else if (ctrlEmp1.txtEmpUnqID.Text.Trim() != "" && mode == "OLD")
-            {
-                btnAdd.Enabled = false;
-
+                //btnAdd.Enabled = false;
+                if(string.IsNullOrEmpty(Emp.DeptCode) && GRights.Contains("A"))
+                {
+                    btnAdd.Enabled = true;
+                    
+                }
+                
                 if(GRights.Contains("U"))
                     btnUpdate.Enabled = true;
                 if (GRights.Contains("D"))
@@ -501,12 +500,9 @@ namespace Attendance.Forms
             txtGradeDesc.Text = temp.GradeDesc;
             txtCatCode.Text = temp.CatCode;
             txtCatDesc.Text = temp.CatDesc;
-            
-            if(string.IsNullOrEmpty(temp.DeptCode))
-            {
-               GRights = "AXXV";
-            }
 
+
+            
 
             if(temp.LeftDt.HasValue){
                 txtLeftDt.DateTime = Convert.ToDateTime(temp.LeftDt);
