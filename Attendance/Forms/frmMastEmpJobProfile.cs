@@ -749,7 +749,7 @@ namespace Attendance.Forms
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
                 || ctrlEmp1.txtUnitCode.Text.Trim() == ""
-                || ctrlEmp1.txtDeptCode.Text.Trim() == ""
+                || txtDeptCode.Text.Trim() == ""
                
                 )
                 return;
@@ -760,7 +760,7 @@ namespace Attendance.Forms
             string sql = "select * From MastStat where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
                     " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
                     " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and DeptCode ='" + ctrlEmp1.txtDeptCode.Text.Trim() + "' " +
+                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' " +
                     " and StatCode ='" + txtStatCode.Text.Trim() + "'";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
@@ -1238,8 +1238,8 @@ namespace Attendance.Forms
         private void txtSecCode_Validated(object sender, EventArgs e)
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || ctrlEmp1.txtDeptCode.Text.Trim() == ""
-                || ctrlEmp1.txtStatCode.Text.Trim() == "" || txtSecCode.Text.Trim() == "")
+                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || txtDeptCode.Text.Trim() == ""
+                || txtStatCode.Text.Trim() == "" || txtSecCode.Text.Trim() == "")
             {
 
                 txtSecCode.Text = "";
@@ -1253,8 +1253,8 @@ namespace Attendance.Forms
             string sql = "select * From MastStatSec where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
                     " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
                     " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and DeptCode ='" + ctrlEmp1.txtDeptCode.Text.Trim() + "' " +
-                    " and StatCode ='" + ctrlEmp1.txtStatCode.Text.Trim() + "' " +
+                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' " +
+                    " and StatCode ='" + txtStatCode.Text.Trim() + "' " +
                     " and SecCode ='" + txtSecCode.Text.Trim() + "'";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
