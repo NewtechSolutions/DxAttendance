@@ -21,11 +21,11 @@ namespace Attendance.Forms
     public partial class frmMastUserManagement : DevExpress.XtraEditors.XtraForm
     {
        
-        public static List<UserBioInfo> tUserList  = new List<UserBioInfo>();
-        public string GRights = "XXXV";
-        DataTable dt = new DataTable();
-        public DataSet srcDs = new DataSet();
-        public bool SelAllFlg = false;
+        private List<UserBioInfo> tUserList  = new List<UserBioInfo>();
+        private string GRights = "XXXV";
+        private DataTable dt = new DataTable();
+        private static DataSet srcDs = new DataSet();
+        private bool SelAllFlg = false;
 
         public frmMastUserManagement()
         {
@@ -546,7 +546,10 @@ namespace Attendance.Forms
 
         private void frmMastUserManagement_Load(object sender, EventArgs e)
         {
-            
+
+            cmbListMachine1.Properties.Items.Clear();
+            cmbListMachine2.Properties.Items.Clear();
+
             cmbListMachine1.Properties.Items.Add(Globals.MasterMachineIP + "-" + "Master");
 
             //load all machine ip in combo
@@ -568,7 +571,7 @@ namespace Attendance.Forms
 
             srcDs = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
-            GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
+            GRights = Globals.GetFormRights(this.Name);
             grd_Upload.DataSource = null;
             btnBulkUpload.Enabled = false;
             optMachineType.EditValue = 1;

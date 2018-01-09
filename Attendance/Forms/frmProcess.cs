@@ -448,6 +448,15 @@ namespace Attendance.Forms
                 oledbda.Fill(TempDt);
                 oledbconn.Close();
 
+                TempDt.AcceptChanges();
+                foreach (DataRow row in TempDt.Rows)
+                {
+                    if (string.IsNullOrEmpty(row["EmpUnqID"].ToString().Trim()))
+                        row.Delete();
+                }
+                TempDt.AcceptChanges();
+
+
                 int errcnt = 0;
                 foreach (DataRow dr in TempDt.Rows)
                 {

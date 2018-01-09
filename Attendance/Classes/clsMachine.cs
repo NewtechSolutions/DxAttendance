@@ -283,7 +283,7 @@ namespace Attendance.Classes
 
             if (cnt == 0)
             {
-                err = outerr + "No Records Found";
+                err = outerr;
                 return;
             }
             
