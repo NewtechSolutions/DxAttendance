@@ -340,7 +340,7 @@ namespace Attendance.Forms
                             
                             if(tMaxDt == ""){
 
-                                sql = "Update EmpMast Set CostCode = '' where EmpUnqID ='"  + ctrlEmp1.cEmp.EmpUnqID + "'";
+                                sql = "Update MastEmp Set CostCode = '' where EmpUnqID ='"  + ctrlEmp1.cEmp.EmpUnqID + "'";
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
 
@@ -351,7 +351,7 @@ namespace Attendance.Forms
                             else
                             {
                                 string tCostCode = Utils.Helper.GetDescription("Select CostCode from MastCostCodeEmp where EmpUnqId = '" +  ctrlEmp1.cEmp.EmpUnqID + "' and ValidFrom ='" + tMaxDt + "'", Utils.Helper.constr);
-                                sql = "Update EmpMast Set CostCode = '' where EmpUnqID ='"  + ctrlEmp1.cEmp.EmpUnqID + "'";
+                                sql = "Update MastEmp Set CostCode = '' where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "'";
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
 
