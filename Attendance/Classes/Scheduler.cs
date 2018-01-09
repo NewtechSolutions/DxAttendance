@@ -721,6 +721,7 @@ namespace Attendance.Classes
                 {
                     return;
                 }
+                
                 _StatusAutoProcess = true;
                 JobKey key = context.JobDetail.Key;
 
@@ -736,8 +737,15 @@ namespace Attendance.Classes
                     return;
                 }
                 DateTime FromDt = ToDt.AddDays(-1);
+                string cnerr = string.Empty;
 
-                DataSet DsEmp = Utils.Helper.GetData(tsql, Utils.Helper.constr);
+                DataSet DsEmp = Utils.Helper.GetData(tsql, Utils.Helper.constr,out cnerr);
+                if (!string.IsNullOrEmpty(cnerr))
+                {
+                    _StatusAutoProcess = false;
+                    return;
+                }
+
                 bool hasRows = DsEmp.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasRows)
                 {
@@ -915,19 +923,21 @@ namespace Attendance.Classes
                     _StatusWorker == false)
                 {
 
-                    
 
-                    
+
+                    string cnerr = string.Empty;
                     string sql = "Select top 100 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
-                    DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr,out cnerr);
+                    if (!string.IsNullOrEmpty(cnerr))
+                    {
+                        _StatusWorker = false;
+                        return;
+                    }
 
                     bool hasRows = DsEmp.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     if (hasRows)
                     {
 
-                       
-                        
-                        
                         clsProcess pro = new clsProcess();
 
                         foreach (DataRow dr in DsEmp.Tables[0].Rows)
@@ -1024,7 +1034,15 @@ namespace Attendance.Classes
                 {
                      //
                     string sql = "Select EmpUnqID from MastEmp where Active = 1 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
-                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    string cnerr = string.Empty;
+                    
+                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr,out cnerr);
+                    if (!string.IsNullOrEmpty(cnerr))
+                    {
+                        _StatusWorker = false;
+                        return;
+                    }
+
                     bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
                     

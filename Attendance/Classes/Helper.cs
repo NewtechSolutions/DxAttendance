@@ -223,6 +223,47 @@ namespace Utils
             return Result;
         }
 
+        public static DataSet GetData(string sql, string ConnectionString,out string err)
+        {
+            err = string.Empty;
+            DataSet Result = new DataSet();
+            if (string.IsNullOrEmpty(sql))
+            {
+                err = "Query is not defined";
+                return Result;
+            }
+
+            if (string.IsNullOrEmpty(ConnectionString))
+            {
+                err = "Connection String is not defined";
+                return Result;
+            }
+
+
+            SqlConnection conn = new SqlConnection(ConnectionString);
+            SqlCommand command = new SqlCommand(sql, conn) { CommandType = CommandType.Text };
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            try
+            {
+                conn.Open();
+                command.ExecuteNonQuery();
+                da.SelectCommand = command;
+                da.Fill(Result, "RESULT");
+                conn.Close();
+            }
+            catch (SqlException ex) { err = ex.Message.ToString(); }
+            catch (Exception ex) { err = ex.Message.ToString(); }
+            finally
+            {
+                if(conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+
+            return Result;
+        }
+
         public static List<string> GetLocalIPAddress()
         {
             List<string> t = new List<string>();
