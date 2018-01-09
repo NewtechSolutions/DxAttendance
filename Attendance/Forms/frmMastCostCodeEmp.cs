@@ -121,6 +121,7 @@ namespace Attendance.Forms
             txtDescription.Text = "";
             grid.DataSource = null;
             txtCostCode.Enabled = true;
+            txtValidFrom.Enabled = true;
             oldCode = "";
             mode = "NEW";
         }
@@ -269,7 +270,11 @@ namespace Attendance.Forms
                 return;
             }
 
-            MessageBox.Show("Not Allowed....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);           
+            MessageBox.Show("Not Allowed....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            mode = "NEW";
+            oldCode = "";
+            ResetCtrl();
+            return;
 
             //using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             //{
@@ -312,6 +317,12 @@ namespace Attendance.Forms
                 return;
             }
 
+
+            MessageBox.Show("Not Allowed....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            mode = "NEW";
+            ResetCtrl();
+            return;
+
             if (string.IsNullOrEmpty(err))
             {
 
@@ -351,7 +362,7 @@ namespace Attendance.Forms
                             else
                             {
                                 string tCostCode = Utils.Helper.GetDescription("Select CostCode from MastCostCodeEmp where EmpUnqId = '" +  ctrlEmp1.cEmp.EmpUnqID + "' and ValidFrom ='" + tMaxDt + "'", Utils.Helper.constr);
-                                sql = "Update MastEmp Set CostCode = '' where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "'";
+                                sql = "Update MastEmp Set CostCode = '" + tCostCode + "' where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "'";
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
 
@@ -436,7 +447,11 @@ namespace Attendance.Forms
                 txtCostCode_Validated(o, e);
                 txtValidFrom_EditValueChanged(o, e);
             }
-
+            else
+            {
+                mode = "NEW";
+            }
+            SetRights();
 
         }
 
@@ -445,6 +460,8 @@ namespace Attendance.Forms
             if (ctrlEmp1.cEmp.CompCode == "" || ctrlEmp1.cEmp.CompDesc == "" || ctrlEmp1.cEmp.EmpUnqID == "" 
                 || ctrlEmp1.cEmp.EmpName == "" || txtValidFrom.EditValue == null)
             {
+                mode = "NEW";
+                SetRights();
                 return;
             }
 
@@ -467,12 +484,15 @@ namespace Attendance.Forms
                     mode = "OLD";
                     oldCode = dr["CostCode"].ToString();
                     txtCostCode.Enabled = false;
+                    txtValidFrom.Enabled = false;
                 }
             }
             else
             {
                 mode = "NEW";
+                oldCode = "";
                 txtCostCode.Enabled = true;
+                txtValidFrom.Enabled = true;
             }
 
             SetRights();
