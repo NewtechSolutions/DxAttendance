@@ -72,7 +72,7 @@ namespace Attendance.Classes
                         _tableName = "AttdLog";
                     else if (_gateinout)
                         _tableName = "AttdGateInOut";
-                    else if (_machinedesc.Contains("water"))
+                    else if (Globals.G_WaterIP.Contains(_ip))
                         _tableName = "AttdWater";
                     else
                         _tableName = "AttdLog";

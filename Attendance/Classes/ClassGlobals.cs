@@ -208,6 +208,8 @@ namespace Attendance.Classes
             MasterMachineIP = MasterMachineIP = Utils.Helper.GetDescription("Select MachineIP From ReaderConfig Where master = 1", Utils.Helper.constr);
 
             return tset;
+
+
         }
 
 
