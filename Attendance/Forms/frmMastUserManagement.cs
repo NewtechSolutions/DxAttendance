@@ -619,13 +619,18 @@ namespace Attendance.Forms
                 return;
             }
             string tEmpUnqID = txtEmpUnqID.Text.Trim();
-            UserBioInfo user = new UserBioInfo();            
+            UserBioInfo user = new UserBioInfo();   
+           
             user.GetBioInfoFromDB(tEmpUnqID);
+            user.MessCode = txtMessCode.Text.Trim();
+            user.MessGrpCode = txtMessGrpCode.Text.Trim();
+            user.WrkGrp = txtWrkGrpCode.Text.Trim();
+
             if (user.UserID == tEmpUnqID)
             {
                 tUserList.RemoveAll(tmpuser => tmpuser.UserID == tEmpUnqID);
                 tUserList.Add(user);   
-                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
             }
 
             txtEmpUnqID.Text = "";

@@ -507,7 +507,7 @@ namespace Attendance.Classes
         public int FaceIndex = 50 ;
         public int FingerIndex = 0;
         public int FingerLength = 0;
-
+        
         public UserBioInfo()
         {
             UserID = "";
@@ -521,6 +521,8 @@ namespace Attendance.Classes
             FingerTemp = "";
             FaceLength = 0;
             FingerLength = 0;
+            MessCode = "";
+            MessGrpCode = "";
             err = "";
         }
 
