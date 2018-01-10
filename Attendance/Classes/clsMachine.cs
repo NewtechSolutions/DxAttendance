@@ -1621,8 +1621,72 @@ namespace Attendance.Classes
                         if (!string.IsNullOrEmpty(terr))
                         {
                             err += tmpuser.UserID + ":" + terr;
+                            //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+                            if (string.IsNullOrEmpty(cnt))
+                            {
+                                cnt = "0";
+                            }
+
+                            if (cnt == "0")
+                            {
+                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                {
+                                    try
+                                    {
+                                        cn.Open();
+                                        string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                            "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
+
+                                        using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                        {
+                                            cmd.ExecuteNonQuery();
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                    }
+                                }
+                            }
+
+
+
                         }
-                    } 
+                    }
+                    else
+                    {
+                        //check if Empunqid id Exists in MastMachineUsers if not insert it...
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+                        if (string.IsNullOrEmpty(cnt))
+                        {
+                            cnt = "0";
+                        }
+
+                        if (cnt == "0")
+                        {
+                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                        "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
+
+                                    using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                    {
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    err += ex.ToString();
+                                }
+                            }
+                        }
+                    }
                 }//end while
                 
             }//end if new machine
@@ -1666,7 +1730,12 @@ namespace Attendance.Classes
                             err += tmpuser.UserID + ":" + terr;
                             //check if Empunqid id Exists in MastMachineUsers if not insert it...
                             cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr,out selerr);
-                            if (cnt != "0")
+                            if (string.IsNullOrEmpty(cnt))
+                            {
+                                cnt = "0";
+                            }
+                            
+                            if (cnt == "0")
                             {
                                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                 {
@@ -1686,6 +1755,35 @@ namespace Attendance.Classes
                                     {
                                         err += ex.ToString();
                                     }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+                        if (string.IsNullOrEmpty(cnt))
+                            cnt = "0";
+
+                        if (cnt == "0")
+                        {
+                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
+                                        "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
+
+                                    using (SqlCommand cmd = new SqlCommand(tsql, cn))
+                                    {
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    err += ex.ToString();
                                 }
                             }
                         }

@@ -102,7 +102,6 @@ namespace Attendance.Forms
             DataTable sortedDT = new DataTable();
             try
             {
-                
 
                 foreach (GridColumn column in grd_view1.VisibleColumns)
                 {
@@ -172,9 +171,9 @@ namespace Attendance.Forms
                                 if(ts.Days > rSanDayLimit && (dr["InTime"].ToString() != "" || dr["OutTime"].ToString() != ""))
                                 {
                                     if(dr["InTime"].ToString() != "" )
-                                        dr["InTime"] = "";
+                                        dr["InTime"] = DBNull.Value;
                                     if(dr["OutTime"].ToString() != "")
-                                        dr["Outtime"] = "";
+                                        dr["Outtime"] = DBNull.Value;
                                     
                                     dr["Remarks"] =  "Did not consider In/Out time (Limit Exceed)" ;
                                 }
@@ -182,10 +181,10 @@ namespace Attendance.Forms
             
                             //'added on 30/06/2016
                             if(Globals.GetWrkGrpRights(GFormID,"",tEmpUnqID) == false){
-                                dr["InTime"] = "";
-                                dr["OutTime"] = "";
-                                dr["ShiftCode"] = "";
-                                dr["TPAHours"] = "";
+                                //dr["InTime"] = DBNull.Value;
+                                //dr["OutTime"] = DBNull.Value;
+                                //dr["ShiftCode"] = DBNull.Value;
+                                //dr["TPAHours"] = DBNull.Value;
                                 dr["Remarks"] = "Unauthorised..";
                                 continue;
                             }
@@ -228,7 +227,7 @@ namespace Attendance.Forms
                                tInTime = tInTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
                             }else
                             {
-                                dr["InTime"] = "";
+                                dr["InTime"] = DBNull.Value;
                                 dr["Remarks"] = dr["Remarks"].ToString() + " Invalid InTime, will not be considered..";
                             }
 
@@ -246,7 +245,7 @@ namespace Attendance.Forms
                                 tOutTime = tOutTime.AddHours(Convert.ToInt32(inary[0].ToString().Trim()));
                                 tOutTime = tOutTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
                             }else{
-                                dr["OutTime"] = "";
+                                dr["OutTime"] = DBNull.Value;
                                 dr["Remarks"] = dr["Remarks"].ToString() + " Invalid OutTime, will not be considered..";
                             }
 
@@ -361,6 +360,7 @@ namespace Attendance.Forms
                                 {
                                     pro.LunchInOutProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result);
                                     dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
+                                    
                                 }
                                 
                                 
