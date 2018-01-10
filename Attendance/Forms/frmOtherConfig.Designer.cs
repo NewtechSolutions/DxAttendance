@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkJobNotification = new System.Windows.Forms.CheckBox();
+            this.txtJobNotificationEmail = new DevExpress.XtraEditors.TextEdit();
             this.label13 = new System.Windows.Forms.Label();
             this.txtUpdateChkPath = new DevExpress.XtraEditors.TextEdit();
             this.txtAutoDelExpEmpTime = new DevExpress.XtraEditors.TimeEdit();
@@ -107,9 +109,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.txtJobNotificationEmail = new DevExpress.XtraEditors.TextEdit();
-            this.chkJobNotification = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).BeginInit();
@@ -149,7 +150,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -187,6 +187,24 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
+            // 
+            // chkJobNotification
+            // 
+            this.chkJobNotification.AutoSize = true;
+            this.chkJobNotification.Location = new System.Drawing.Point(454, 238);
+            this.chkJobNotification.Name = "chkJobNotification";
+            this.chkJobNotification.Size = new System.Drawing.Size(276, 18);
+            this.chkJobNotification.TabIndex = 25;
+            this.chkJobNotification.Text = "Schedule Job Completion Notification to Email";
+            this.chkJobNotification.UseVisualStyleBackColor = true;
+            // 
+            // txtJobNotificationEmail
+            // 
+            this.txtJobNotificationEmail.Location = new System.Drawing.Point(454, 257);
+            this.txtJobNotificationEmail.Name = "txtJobNotificationEmail";
+            this.txtJobNotificationEmail.Properties.Mask.ShowPlaceHolders = false;
+            this.txtJobNotificationEmail.Size = new System.Drawing.Size(270, 20);
+            this.txtJobNotificationEmail.TabIndex = 24;
             // 
             // label13
             // 
@@ -262,9 +280,9 @@
             this.chkAutoDeleteLeftEmp.AutoSize = true;
             this.chkAutoDeleteLeftEmp.Location = new System.Drawing.Point(21, 236);
             this.chkAutoDeleteLeftEmp.Name = "chkAutoDeleteLeftEmp";
-            this.chkAutoDeleteLeftEmp.Size = new System.Drawing.Size(264, 18);
+            this.chkAutoDeleteLeftEmp.Size = new System.Drawing.Size(249, 18);
             this.chkAutoDeleteLeftEmp.TabIndex = 17;
-            this.chkAutoDeleteLeftEmp.Text = "* Auto Delete Left Employee from Machine";
+            this.chkAutoDeleteLeftEmp.Text = "* Auto Delete Left Employee on Sunday";
             this.chkAutoDeleteLeftEmp.UseVisualStyleBackColor = true;
             // 
             // label14
@@ -1127,24 +1145,6 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
             // 
-            // txtJobNotificationEmail
-            // 
-            this.txtJobNotificationEmail.Location = new System.Drawing.Point(454, 257);
-            this.txtJobNotificationEmail.Name = "txtJobNotificationEmail";
-            this.txtJobNotificationEmail.Properties.Mask.ShowPlaceHolders = false;
-            this.txtJobNotificationEmail.Size = new System.Drawing.Size(270, 20);
-            this.txtJobNotificationEmail.TabIndex = 24;
-            // 
-            // chkJobNotification
-            // 
-            this.chkJobNotification.AutoSize = true;
-            this.chkJobNotification.Location = new System.Drawing.Point(454, 238);
-            this.chkJobNotification.Name = "chkJobNotification";
-            this.chkJobNotification.Size = new System.Drawing.Size(276, 18);
-            this.chkJobNotification.TabIndex = 25;
-            this.chkJobNotification.Text = "Schedule Job Completion Notification to Email";
-            this.chkJobNotification.UseVisualStyleBackColor = true;
-            // 
             // frmOtherConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1157,6 +1157,7 @@
             this.Load += new System.EventHandler(this.frmOtherConfig_Load);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDeleteEmpTime.Properties)).EndInit();
@@ -1200,7 +1201,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -337,11 +337,13 @@ namespace Attendance.Classes
                     .WithIdentity(jobid2, "Job_DEL_LeftEmp")
                     .Build();
 
+                DayOfWeek[] onSunday = new DayOfWeek[] { DayOfWeek.Sunday};
+
                 // Trigger the job to run 
                 ITrigger trigger2 = TriggerBuilder.Create()
                     .WithIdentity(triggerid2, "TRG_DEL_LeftEmp")
                     .StartNow()
-                    .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes))
+                    .WithSchedule(CronScheduleBuilder.AtHourAndMinuteOnGivenDaysOfWeek(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes, onSunday))
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
