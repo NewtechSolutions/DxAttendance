@@ -54,13 +54,13 @@ namespace Attendance.Forms
                 Emp.EmpUnqID = Emp.EmpUnqID;
                 Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
 
-                //'added on 27/06/2016 using new security module
-                if (!Globals.GetWrkGrpRights(MeFormID, Emp.WrkGrp, Emp.EmpUnqID))
-                {
-                    //Emp = new clsEmp();
-                    MessageBox.Show("You are not Authorised to sanction,Please Contact System Administrator", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //return;
-                }
+                ////'added on 27/06/2016 using new security module
+                //if (!Globals.GetWrkGrpRights(MeFormID, Emp.WrkGrp, Emp.EmpUnqID))
+                //{
+                //    //Emp = new clsEmp();
+                //    MessageBox.Show("You are not Authorised to sanction,Please Contact System Administrator", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    //return;
+                //}
                 
                 LoadGrid();
                 SetRights();

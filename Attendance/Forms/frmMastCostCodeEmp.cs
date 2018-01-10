@@ -318,11 +318,6 @@ namespace Attendance.Forms
             }
 
 
-            MessageBox.Show("Not Allowed....", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            mode = "NEW";
-            ResetCtrl();
-            return;
-
             if (string.IsNullOrEmpty(err))
             {
 
@@ -339,7 +334,7 @@ namespace Attendance.Forms
                         try
                         {
                             cn.Open();
-                            string sql = "Delete From MastCostCodeEmp where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "' and  CostCode = '" + txtCostCode.Text.Trim() + "' ";
+                            string sql = "Delete From MastCostCodeEmp where EmpUnqID ='" + ctrlEmp1.cEmp.EmpUnqID + "' and  CostCode = '" + txtCostCode.Text.Trim() + "' and ValidFrom ='" + txtValidFrom.DateTime.ToString("yyyy-MM-dd") + "'";
                                 
                             cmd.CommandType = CommandType.Text;
                             cmd.CommandText = sql;

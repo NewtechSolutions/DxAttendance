@@ -46,8 +46,9 @@ namespace Attendance.Classes
         private bool GetMachineInfoFromDb()
         {
             bool ret = false;
+            string selerr = string.Empty;
 
-            DataSet ds = Utils.Helper.GetData("Select * from ReaderConfig Where MachineIP ='" + _ip + "'", Utils.Helper.constr);
+            DataSet ds = Utils.Helper.GetData("Select * from ReaderConfig Where MachineIP ='" + _ip + "'", Utils.Helper.constr,out selerr);
             bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             if (hasrows)
             {
@@ -544,13 +545,15 @@ namespace Attendance.Classes
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = cn;
-                        cmd.CommandText = "Delete From MastMachineUsers Where MachineIP ='" + _ip + "' and EmpUnqID ='" + tEmpUnqID + "'";
-                        cmd.ExecuteNonQuery();
-
+                       
                         if (reg)
                         {
                             cmd.CommandText = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddDt,AddId) Values (" +
                               "'" + _ip + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
+                        }
+                        else
+                        {
+                            cmd.CommandText = "Delete From MastMachineUsers Where MachineIP ='" + _ip + "' and EmpUnqID ='" + tEmpUnqID + "'";
                         }                       
                         
                         cmd.ExecuteNonQuery();
@@ -579,8 +582,7 @@ namespace Attendance.Classes
 
                     using (SqlCommand cmd = new SqlCommand())
                     {
-                        cmd.Connection = cn;
-                        
+                        cmd.Connection = cn;                        
 
                         if (reg)
                         {
@@ -1424,18 +1426,20 @@ namespace Attendance.Classes
 
             UserBioInfo emp = new UserBioInfo();
             emp.SetUserInfoForMachine(tEmpUnqID);
-            
-            //check user rights for the wrkgrp
-            //'if not move next emp
-            if (Utils.User.GUserID != "SERVER")
+
+            if (!string.IsNullOrEmpty(emp.WrkGrp))
             {
-                if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
+                //check user rights for the wrkgrp
+                //'if not move next emp
+                if (Utils.User.GUserID != "SERVER")
                 {
-                    err = "You are not Authorised...";
-                    return;
+                    if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
+                    {
+                        err = "You are not Authorised...";
+                        return;
+                    }
                 }
             }
-            
 
             //this.CZKEM1.EnableDevice(_machineno, false);
            
@@ -1448,9 +1452,7 @@ namespace Attendance.Classes
             {
                 this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
-                this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
-                
-                
+                this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);                
             }
 
             this.StoreHistoryinDB(tEmpUnqID, false);        
@@ -1580,7 +1582,7 @@ namespace Attendance.Classes
 
             UserBioInfo tmpuser = new UserBioInfo();
 
-            string _userid, _username, _password, _cardno;
+            string _userid, _username, _password, _cardno , selerr;
             int _prev,  _useridInt;
             bool _enabled = false;
 
@@ -1605,10 +1607,10 @@ namespace Attendance.Classes
                         continue;
                     }
                     int tActive = 0;
-                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr,out selerr);
                     if (cnt != "0")
                     {
-                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
+                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr, out selerr);
                         tActive = Convert.ToInt32(cnt);
                     }
 
@@ -1644,12 +1646,16 @@ namespace Attendance.Classes
                         continue;
                     }
                     int tActive = 0;
-                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                    if (cnt != "0")
-                    {
-                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                        tActive = Convert.ToInt32(cnt);
-                    }
+                   
+                    string sql = "select case when (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{0}' and CompCode = '01') is null then 0 " +
+                        " else (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{1}' and CompCode = '01') end";
+                    sql = string.Format(sql, tmpuser.UserID, tmpuser.UserID);
+
+                    string cnt = Utils.Helper.GetDescription(sql, Utils.Helper.constr, out selerr);
+                    if (string.IsNullOrEmpty(cnt))
+                        cnt = "0";
+
+                    tActive = Convert.ToInt32(cnt);
 
                     if(tActive == 0)
                     {
@@ -1659,7 +1665,7 @@ namespace Attendance.Classes
                         {
                             err += tmpuser.UserID + ":" + terr;
                             //check if Empunqid id Exists in MastMachineUsers if not insert it...
-                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr,out selerr);
                             if (cnt != "0")
                             {
                                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
@@ -1747,23 +1753,29 @@ namespace Attendance.Classes
                         continue;
                     }
                     int tActive = 0;
-                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                    if (cnt != "0")
-                    {
-                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                        tActive = Convert.ToInt32(cnt);
-                    }
+                    string selerr = string.Empty;
+                    string sql = "select case when (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{0}' and CompCode = '01') is null then 0 " +
+                        " else (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{1}' and CompCode = '01') end";
+                    sql = string.Format(sql, tmpuser.UserID, tmpuser.UserID);
 
+                    string cnt = Utils.Helper.GetDescription(sql, Utils.Helper.constr,out selerr);
+                    if (string.IsNullOrEmpty(cnt))
+                        cnt = "0";
+                    
+                    tActive = Convert.ToInt32(cnt);
+                    
                     if (tActive == 0)
                     {
                         string terr = string.Empty;
                         this.DeleteUser(tmpuser.UserID, out terr);
+
+                        //if any error reinsert
                         if (!string.IsNullOrEmpty(terr))
                         {
-                            err += tmpuser.UserID + ":" + terr;
                             //check if Empunqid id Exists in MastMachineUsers if not insert it...
-                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
-                            if (cnt != "0")
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+
+                            if (cnt == "0")
                             {
                                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                 {
@@ -1771,7 +1783,7 @@ namespace Attendance.Classes
                                     {
                                         cn.Open();
                                         string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
-                                            "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                            "('" + tmpuser.UserID + "','" + _ip + "', GetDate(),'" + Utils.User.GUserID + "')";
 
                                         using (SqlCommand cmd = new SqlCommand(tsql, cn))
                                         {
@@ -1786,12 +1798,16 @@ namespace Attendance.Classes
                                 }
                             }
                         }
-                        
+
                     }
                     else
                     {
                         //check if Empunqid id Exists in MastMachineUsers if not insert it...
-                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr,out selerr);
+
+                        if (string.IsNullOrEmpty(cnt))
+                            cnt = "0";
+
                         if (cnt == "0")
                         {
                             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
@@ -1838,23 +1854,30 @@ namespace Attendance.Classes
                         continue;
                     }
                     int tActive = 0;
-                    string cnt = Utils.Helper.GetDescription("Select count(*) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                    if (cnt != "0")
-                    {
-                        cnt = Utils.Helper.GetDescription("Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID ='" + tmpuser.UserID + "' and CompCode = '01' ", Utils.Helper.constr);
-                        tActive = Convert.ToInt32(cnt);
-                    }
 
+                    string sql = "select case when (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{0}' and CompCode = '01') is null then 0 " +
+                        " else (Select convert(int,isnull(Active,0)) from MastEmp Where EmpUnqID = '{1}' and CompCode = '01') end";
+                    sql = string.Format(sql, tmpuser.UserID, tmpuser.UserID);
+
+                    string selerr= string.Empty;
+                    string cnt = Utils.Helper.GetDescription(sql, Utils.Helper.constr,out selerr);
+                    if (string.IsNullOrEmpty(cnt))
+                        cnt = "0";
+                    
+                    tActive = Convert.ToInt32(cnt);
+                    
                     if (tActive == 0)
                     {
                         string terr = string.Empty;
                         this.DeleteUser(tmpuser.UserID, out terr);
+                        //if any error reinsert
                         if (!string.IsNullOrEmpty(terr))
                         {
-                            err += tmpuser.UserID + ":" + terr;
-
                             //check if Empunqid id Exists in MastMachineUsers if not insert it...
-                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                            cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+                            if (string.IsNullOrEmpty(cnt))
+                                cnt = "0";
+
                             if (cnt == "0")
                             {
                                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
@@ -1863,7 +1886,7 @@ namespace Attendance.Classes
                                     {
                                         cn.Open();
                                         string tsql = "Insert into MastMachineUsers (EmpUnqID,MachineIP,AddDt,AddID) Values " +
-                                            "('" + tmpuser.UserID + "','" + _ip + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                            "('" + tmpuser.UserID + "','" + _ip + "', GetDate(),'" + Utils.User.GUserID + "')";
 
                                         using (SqlCommand cmd = new SqlCommand(tsql, cn))
                                         {
@@ -1877,13 +1900,19 @@ namespace Attendance.Classes
                                     }
                                 }
                             }
-
                         }
                     }
                     else
                     {
+                        //if active
+                        
                         //check if Empunqid id Exists in MastMachineUsers if not insert it...
-                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr);
+                        cnt = Utils.Helper.GetDescription("Select count(*) from MastMachineUsers Where EmpUnqID ='" + tmpuser.UserID + "' and MachineIP = '" + _ip + "'", Utils.Helper.constr, out selerr);
+                        if (string.IsNullOrEmpty(cnt))
+                        {
+                            cnt = "0";
+                        }
+                        
                         if (cnt == "0")
                         {
                             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
