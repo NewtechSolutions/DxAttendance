@@ -85,9 +85,12 @@ namespace Attendance.Forms
                 err = err + "Please Enter EmpUnqID..." + Environment.NewLine;
             }
 
-            if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid )
+            if (!Globals.GetWrkGrpRights(685, "", ctrlEmp1.cEmp.EmpUnqID))
             {
-                err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+                if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid)
+                {
+                    err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+                }
             }
 
             if (Emp.UnitCode == "")

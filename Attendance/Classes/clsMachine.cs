@@ -1650,9 +1650,6 @@ namespace Attendance.Classes
                                     }
                                 }
                             }
-
-
-
                         }
                     }
                     else
