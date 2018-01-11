@@ -174,7 +174,7 @@ namespace Attendance.Forms
 
                     StartDt = Convert.ToDateTime(stdt);
                     EndDt = Convert.ToDateTime(endt);
-                    
+                   
                     foreach (DataRow dr in sortedDT.Rows)
                     {
 
@@ -182,6 +182,8 @@ namespace Attendance.Forms
                         {
                             cn.Close();
                         }
+
+                        bool ProcessFlg = chkProcessFlg.Checked;
 
                         cn.Open();
 
@@ -208,7 +210,7 @@ namespace Attendance.Forms
                         for (int i = 1; i <= EndDt.Day; i++)
                         {
                             string fldnm = "D" + i.ToString("00");
-                            string fldval = dr[fldnm].ToString().Trim();
+                            string fldval = dr[fldnm].ToString().Trim().ToUpper();
 
                             if(fldval != "WO")
                             {
@@ -615,17 +617,19 @@ namespace Attendance.Forms
                             dr["Remarks"] = "Uploded";
 
                             //process data
-
-                            clsProcess pro = new clsProcess();
-                            int result = 0;
-                            string proerr = string.Empty;
-                            pro.AttdProcess(Emp.EmpUnqID, StartDt, EndDt, out result, out proerr);
-
-                            if (result > 0)
+                            if (ProcessFlg)
                             {
-                                pro.LunchInOutProcess(Emp.EmpUnqID, StartDt, EndDt, out result);
-                                //dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
-                            }
+                                clsProcess pro = new clsProcess();
+                                int result = 0;
+                                string proerr = string.Empty;
+                                pro.AttdProcess(Emp.EmpUnqID, StartDt, EndDt, out result, out proerr);
+
+                                if (result > 0)
+                                {
+                                    pro.LunchInOutProcess(Emp.EmpUnqID, StartDt, EndDt, out result);
+                                    //dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
+                                }
+                            }                            
 
                         }
                         catch (Exception ex)

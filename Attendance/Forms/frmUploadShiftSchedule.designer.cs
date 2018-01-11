@@ -33,6 +33,7 @@
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnReset = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtYearMT = new DevExpress.XtraEditors.DateEdit();
@@ -41,7 +42,7 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
-            this.btnReset = new System.Windows.Forms.Button();
+            this.chkProcessFlg = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -128,6 +129,7 @@
             // 
             this.groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupControl1.Appearance.Options.UseFont = true;
+            this.groupControl1.Controls.Add(this.chkProcessFlg);
             this.groupControl1.Controls.Add(this.btnReset);
             this.groupControl1.Controls.Add(this.label2);
             this.groupControl1.Controls.Add(this.label1);
@@ -143,6 +145,16 @@
             this.groupControl1.Size = new System.Drawing.Size(939, 92);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "Import File";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(827, 60);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(103, 23);
+            this.btnReset.TabIndex = 8;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // label2
             // 
@@ -233,15 +245,15 @@
             this.txtBrowse.Size = new System.Drawing.Size(349, 23);
             this.txtBrowse.TabIndex = 1;
             // 
-            // btnReset
+            // chkProcessFlg
             // 
-            this.btnReset.Location = new System.Drawing.Point(827, 60);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(103, 23);
-            this.btnReset.TabIndex = 8;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.chkProcessFlg.AutoSize = true;
+            this.chkProcessFlg.Location = new System.Drawing.Point(203, 64);
+            this.chkProcessFlg.Name = "chkProcessFlg";
+            this.chkProcessFlg.Size = new System.Drawing.Size(184, 20);
+            this.chkProcessFlg.TabIndex = 9;
+            this.chkProcessFlg.Text = "Process Data ? (takes time)";
+            this.chkProcessFlg.UseVisualStyleBackColor = true;
             // 
             // frmUploadShiftSchedule
             // 
@@ -285,5 +297,6 @@
         private DevExpress.XtraEditors.DateEdit txtYearMT;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.CheckBox chkProcessFlg;
     }
 }

@@ -1340,10 +1340,10 @@ namespace Attendance.Forms
 
             LockCtrl();
 
-            this.Cursor = Cursors.WaitCursor;
+            //this.Cursor = Cursors.WaitCursor;
 
-            
-            m.DeleteLeftEmp(out err);
+            Application.DoEvents();
+            m.DeleteLeftEmp_NEW(out err);
             if (!string.IsNullOrEmpty(err))
             {
                 MessageBox.Show(err , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1355,7 +1355,7 @@ namespace Attendance.Forms
             
 
             UnLockCtrl();
-            this.Cursor = Cursors.Default;
+            //this.Cursor = Cursors.Default;
             
 
         }

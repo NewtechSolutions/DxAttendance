@@ -501,7 +501,7 @@ namespace Attendance.Classes
                                 }
                                 err = string.Empty;
 
-                                m.GetReFreshUsers(out err);
+                                m.DeleteLeftEmp_NEW(out err);
 
                                 if (!string.IsNullOrEmpty(err))
                                 {

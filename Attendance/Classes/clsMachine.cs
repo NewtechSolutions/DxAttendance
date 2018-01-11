@@ -1048,14 +1048,15 @@ namespace Attendance.Classes
                     {
                         string allerr = string.Empty;
                         string terr = string.Empty;
-
-                        tmp.GetBioInfoFromDB(tmp.UserID);
+                        string stcard = tmp.CardNumber;
+                        //tmp.GetBioInfoFromDB(tmp.UserID);
                         if (!string.IsNullOrEmpty(tmp.CardNumber))
                         {
                             tmp.StoreToDb(1, out terr);
                             allerr += terr;
                             terr = string.Empty;
                         }
+                        
 
 
                         if (!string.IsNullOrEmpty(tmp.FaceTemp))
@@ -2078,6 +2079,154 @@ namespace Attendance.Classes
             return status;
         }
 
+
+
+        public void DeleteLeftEmp_NEW(out string err)
+        {
+            err = string.Empty;
+
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+
+            List<UserBioInfo> tUserList = new List<UserBioInfo>();
+            UserBioInfo tmpuser = new UserBioInfo();
+            string _userid, _username, _password, _cardno;
+            int _prev, _useridInt;
+            bool _enabled = false;
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            #region collectusers
+
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _useridInt = 0; _prev = 0; _enabled = false;
+
+            if (_istft)
+            {
+                while (this.CZKEM1.SSR_GetAllUserInfo(_machineno, out _userid, out _username, out _password, out _prev, out _enabled))
+                {
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _userid.ToString();                    
+                    tmpuser.MessCode = _ip;
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+
+                    tUserList.Add(tmpuser);
+                    
+                }//end while
+
+            }//end if new machine
+            else
+            {
+                //old machines
+                while (this.CZKEM1.GetAllUserInfo(_machineno, ref _useridInt, ref _username, ref _password, ref _prev, ref _enabled))
+                {
+
+                    tmpuser = new UserBioInfo();
+                    tmpuser.UserID = _useridInt.ToString();
+                    tmpuser.UserName = _username;
+                    tmpuser.MessCode = _ip;
+
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+
+                    tUserList.Add(tmpuser);                   
+                   
+                }
+            }
+            
+            #endregion 
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                string sql = string.Empty;
+                SqlCommand cmd = new SqlCommand();
+                try
+                {
+                    cn.Open();
+                    sql = "truncate  table t1 ";
+                    cmd = new SqlCommand(sql,cn);
+                    cmd.ExecuteNonQuery();
+                    
+                    foreach (UserBioInfo t in tUserList)
+                    {
+                        sql = "Insert into t1 (EmpUnqID,MachineIP,t1Date,Flg) values ('" + t.UserID + "','" + t.MessCode + "','2018-01-01',0);";
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sql = "Update a Set a.Flg = b.Active " +
+                        " From t1 a, MastEmp b Where a.EmpUnqID = b.EmpUnqID ";
+                    cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
+
+                    sql = "Delete From MastMachineUsers Where MachineIP='" + _ip + "'  ";
+                    cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
+
+                    sql = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddID,AddDt) " +
+                        " Select MachineIP,EmpUnqID,'" + Utils.User.GUserID + "',GetDate() From t1 Where MachineIP='" + _ip + "' and Flg = 1";
+                    cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
+
+                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID From t1 where Flg = 0", Utils.Helper.constr, out err);
+                    bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                    if (hasrows)
+                    {
+                        
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            string tEmpUnqID = dr["EmpUnqID"].ToString();
+                            
+                            if (!_istft)
+                            {
+                                this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                            }
+                            else
+                            {
+                                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);                                
+                                this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
+                            }             
+                            
+                        }
+                    }
+
+                    sql = "truncate  table t1 ";
+                    cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    err = ex.ToString();
+                   
+                }
+
+            }// using connection
+
+            this.CZKEM1.EnableDevice(_machineno, true);
+
+        }
 
     }
 }
