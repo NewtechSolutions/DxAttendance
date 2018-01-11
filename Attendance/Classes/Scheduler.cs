@@ -142,9 +142,12 @@ namespace Attendance.Classes
 
         public Scheduler()
         {   
-           scheduler = StdSchedulerFactory.GetDefaultScheduler();
+           var properties = new System.Collections.Specialized.NameValueCollection();
+            properties["quartz.threadPool.threadCount"] = "20";
+
+            StdSchedulerFactory schedulerFactory = new StdSchedulerFactory(properties); //getting the scheduler factory
+            scheduler = schedulerFactory.GetScheduler();//getting the instance
            
-         
            StartMQTTServer();
            StartMQTTClient();
         }
@@ -724,11 +727,8 @@ namespace Attendance.Classes
                     return;
                 }
                 
-                _StatusAutoProcess = true;
                 JobKey key = context.JobDetail.Key;
-
                 JobDataMap dataMap = context.JobDetail.JobDataMap;
-
                 string tWrkGrp = dataMap.GetString("WrkGrp");
                 
                 
@@ -736,17 +736,27 @@ namespace Attendance.Classes
                 DateTime ToDt = Globals.GetSystemDateTime();
                 
                 if(ToDt == DateTime.MinValue){
-                    return;
+                    ToDt = DateTime.Now.Date;                    
                 }
+
                 DateTime FromDt = ToDt.AddDays(-1);
                 string cnerr = string.Empty;
 
                 DataSet DsEmp = Utils.Helper.GetData(tsql, Utils.Helper.constr,out cnerr);
+                
                 if (!string.IsNullOrEmpty(cnerr))
                 {
                     _StatusAutoProcess = false;
+                    string filenminfo = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    string fullpath2 = Path.Combine(Errfilepath, filenminfo);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Error-" + tWrkGrp + " : " + cnerr);
+                        file.WriteLine("SQL : " + tsql);
+                    }
                     return;
                 }
+                
 
                 bool hasRows = DsEmp.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasRows)
@@ -766,7 +776,8 @@ namespace Attendance.Classes
                         {
                             return;
                         }
-                        
+
+                        _StatusAutoProcess = true;
                         
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
                         
@@ -806,6 +817,16 @@ namespace Attendance.Classes
                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Completed-" + tWrkGrp);
                     }
 
+                }
+                else
+                {
+                    string filenminfo = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                    string fullpath2 = Path.Combine(Errfilepath, filenminfo);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-Error-" + tWrkGrp + " : " + "No Records Found..");
+                    }
+                    
                 }
 
                 _StatusAutoProcess = false;
