@@ -204,6 +204,7 @@ namespace Attendance.Forms
                         List<int> woidx = new List<int>();
 
                         #region Chk_ValidShift
+                        
                         for (int i = 1; i <= EndDt.Day; i++)
                         {
                             string fldnm = "D" + i.ToString("00");
@@ -242,27 +243,31 @@ namespace Attendance.Forms
                             continue;
                         }
 
-                        int firstWOon = woidx.First();
 
-                        int tchk = 0;
-                        for (int i = 1; i <= woidx.Count - 1; i++)
-                        {
-                            tchk = (7 * i) + firstWOon;
-                            if(woidx.ElementAt(i) != tchk)
-                            {
-                                dr["Remarks"] = dr["Remarks"].ToString() + string.Format("{0} WeekOff is not in correct order..",i);
-                                //brkflg = true;
-                                break;
-                            }
-                        }
+                        #region Check_WO_Order
 
-                        if (brkflg)
-                        {
-                            continue;
-                        }
+                        //int firstWOon = woidx.First();
 
+                        //int tchk = 0;
+                        //for (int i = 1; i <= woidx.Count - 1; i++)
+                        //{
+                        //    tchk = (7 * i) + firstWOon;
+                        //    if(woidx.ElementAt(i) != tchk)
+                        //    {
+                        //        dr["Remarks"] = dr["Remarks"].ToString() + string.Format("{0} WeekOff is not in correct order..",i);
+                        //        //brkflg = true;
+                        //        break;
+                        //    }
+                        //}
+
+                        //if (brkflg)
+                        //{
+                        //    continue;
+                        //}
                         #endregion
                         
+                        #endregion
+
                         SqlTransaction trn = cn.BeginTransaction("ShiftSch-" + Emp.EmpUnqID);
                         SqlCommand cmd = new SqlCommand();
                         
@@ -295,6 +300,7 @@ namespace Attendance.Forms
                         {
                             trn.Rollback();
                             cn.Close();
+                            trn.Dispose();
                             continue;
                         }
 
@@ -362,6 +368,7 @@ namespace Attendance.Forms
                         {
                             trn.Rollback();
                             cn.Close();
+                            trn.Dispose();
                             continue;
                         }
 
@@ -380,6 +387,8 @@ namespace Attendance.Forms
                         if (brkflg)
                         {
                             trn.Rollback();
+                            cn.Close();
+                            trn.Dispose();
                             continue;
                         }
 
@@ -411,6 +420,7 @@ namespace Attendance.Forms
                             {
                                 trn.Rollback();
                                 cn.Close();
+                                trn.Dispose();
                                 continue;
                             }
 
@@ -445,6 +455,7 @@ namespace Attendance.Forms
                             {
                                 trn.Rollback();
                                 cn.Close();
+                                trn.Dispose();
                                 continue;
                             }
                             #endregion
@@ -562,6 +573,7 @@ namespace Attendance.Forms
                             {
                                 trn.Rollback();
                                 cn.Close();
+                                trn.Dispose();
                                 continue;
                             }
 
@@ -591,6 +603,7 @@ namespace Attendance.Forms
                         {
                             trn.Rollback();
                             cn.Close();
+                            trn.Dispose();
                             continue;
                         }
 
@@ -618,10 +631,11 @@ namespace Attendance.Forms
                         catch (Exception ex)
                         {
                             trn.Rollback();
+                            
                             dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
                             brkflg = true;                            
                         }
-
+                        trn.Dispose();
                         cn.Close();
                         
                     }//using foreach of all employee
