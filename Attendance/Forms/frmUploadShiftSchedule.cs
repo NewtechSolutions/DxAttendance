@@ -174,19 +174,18 @@ namespace Attendance.Forms
 
                     StartDt = Convert.ToDateTime(stdt);
                     EndDt = Convert.ToDateTime(endt);
-
                     
-                    cn.Open();
-                    
-                  
-
                     foreach (DataRow dr in sortedDT.Rows)
                     {
-                        bool brkflg = false;
-                       
-                        SqlTransaction trn = cn.BeginTransaction();
-                        SqlCommand cmd = new SqlCommand();
 
+                        if (cn.State == ConnectionState.Open)
+                        {
+                            cn.Close();
+                        }
+
+                        cn.Open();
+
+                        bool brkflg = false;
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
                         string tCompCode = Utils.Helper.GetDescription("Select CompCode From MastEmp where EmpUnqID ='" + tEmpUnqID + "'", Utils.Helper.constr);
                         clsEmp Emp = new clsEmp();
@@ -202,7 +201,6 @@ namespace Attendance.Forms
                             dr["Remarks"] = "you are not authorised..";
                             continue;
                         }
-
                         List<int> woidx = new List<int>();
 
                         #region Chk_ValidShift
@@ -264,40 +262,44 @@ namespace Attendance.Forms
                         }
 
                         #endregion
+                        
+                        SqlTransaction trn = cn.BeginTransaction("ShiftSch-" + Emp.EmpUnqID);
+                        SqlCommand cmd = new SqlCommand();
+                        
 
                         #region Chk_ShiftSchedule_Rec
-                            try
+                        try
+                        {
+                            int cnt = Convert.ToInt32(Utils.Helper.GetDescription("Select Count(*) from MastShiftSchedule where EmpUnqID = '" + tEmpUnqID + "' And YearMt ='" + tYearMt + "'", Utils.Helper.constr));
+                            if (cnt == 0)
                             {
+                                sql = "Insert into MastShiftSchedule (YearMt,EmpUnqID,AddDt,AddId) Values ('" + tYearMt + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                cmd = new SqlCommand(sql,cn,trn);
+                                cmd.ExecuteNonQuery();
 
-
-                                int cnt = Convert.ToInt32(Utils.Helper.GetDescription("Select Count(*) from MastShiftSchedule where EmpUnqID = '" + tEmpUnqID + "' And YearMt ='" + tYearMt + "'", Utils.Helper.constr));
-                                if (cnt == 0)
-                                {
-                                    sql = "Insert into MastShiftSchedule (YearMt,EmpUnqID,AddDt,AddId) Values ('" + tYearMt + "','" + tEmpUnqID + "',GetDate(),'" + Utils.User.GUserID + "')";
-                                    cmd = new SqlCommand(sql,cn,trn);
-                                    cmd.ExecuteNonQuery();
-
-                                }
-                                else
-                                {
-                                    sql = "Update MastShiftSchedule Set UpdDt = GetDate() , UpdID = '" + Utils.User.GUserID + "' Where YearMt = '" + tYearMt + "' And EmpUnqID ='" + tEmpUnqID + "'";
-                                    cmd = new SqlCommand(sql, cn, trn);
-                                    cmd.ExecuteNonQuery();
-                                }
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                brkflg = true;
-                                dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
+                                sql = "Update MastShiftSchedule Set UpdDt = GetDate() , UpdID = '" + Utils.User.GUserID + "' Where YearMt = '" + tYearMt + "' And EmpUnqID ='" + tEmpUnqID + "'";
+                                cmd = new SqlCommand(sql, cn, trn);
+                                cmd.ExecuteNonQuery();
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            brkflg = true;
+                            dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
+                        }
+                        
                         if (brkflg)
                         {
+                            trn.Rollback();
+                            cn.Close();
                             continue;
                         }
 
                         #endregion
-
-
+                        
                         #region Get_IFAnyLeavePosted
 
                         sql = "Select * from LeaveEntry Where " +
@@ -358,6 +360,8 @@ namespace Attendance.Forms
 
                         if (brkflg)
                         {
+                            trn.Rollback();
+                            cn.Close();
                             continue;
                         }
 
@@ -375,6 +379,7 @@ namespace Attendance.Forms
                         }
                         if (brkflg)
                         {
+                            trn.Rollback();
                             continue;
                         }
 
@@ -404,6 +409,8 @@ namespace Attendance.Forms
 
                             if (brkflg)
                             {
+                                trn.Rollback();
+                                cn.Close();
                                 continue;
                             }
 
@@ -436,6 +443,8 @@ namespace Attendance.Forms
 
                             if (brkflg)
                             {
+                                trn.Rollback();
+                                cn.Close();
                                 continue;
                             }
                             #endregion
@@ -474,8 +483,6 @@ namespace Attendance.Forms
                                     //'if there is no leave posted on tdate
                                     if (!LeavPos)
                                     {
-                                        
-                                        
                                         if (LastWO != DateTime.MinValue)
                                         {
                                             try
@@ -548,15 +555,13 @@ namespace Attendance.Forms
                                         brkflg = true;
                                         break;
                                     }
-                                    
-                                    
                                 }
-
-
 
                             } //end of eachday
                             if (brkflg)
                             {
+                                trn.Rollback();
+                                cn.Close();
                                 continue;
                             }
 
@@ -584,6 +589,8 @@ namespace Attendance.Forms
 
                         if (brkflg)
                         {
+                            trn.Rollback();
+                            cn.Close();
                             continue;
                         }
 
@@ -614,10 +621,11 @@ namespace Attendance.Forms
                             dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
                             brkflg = true;                            
                         }
+
+                        cn.Close();
                         
                     }//using foreach of all employee
 
-                    cn.Close();
                 }//using connection
 
                 Cursor.Current = Cursors.Default;
