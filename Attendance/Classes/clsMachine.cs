@@ -691,7 +691,7 @@ namespace Attendance.Classes
                         {
                             if (!string.IsNullOrEmpty(emp.FaceTemp))
                             {
-                                this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                                bool x = this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
                             }
                         }
 
@@ -979,7 +979,7 @@ namespace Attendance.Classes
                     //make sure to check version there are difference in get fingerprint
                     if(this._finger)
                     {
-                        if(Convert.ToDouble(_version) > 6.6)
+                        if(Convert.ToDouble(_version) >= 6.6)
                         {
                             if(CZKEM1.GetUserTmpExStr(_machineno, _userid, 0,out _fingerflg,out _fingertemp,out _fingerlength))
                             {

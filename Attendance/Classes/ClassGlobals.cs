@@ -727,7 +727,7 @@ namespace Attendance.Classes
                                 " ,'" + this.UserName + "' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
-                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + ((this.Enabled)?"0":"1") + "'" +
                                 " ,'" + this.CardNumber +  "',GetDate(),'" + Utils.User.GUserID + "')";
                         delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'RFID' and MachineNo = 9999 ";
 
@@ -741,7 +741,7 @@ namespace Attendance.Classes
                                 " ,'" + this.UserName + "' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
-                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + ((this.Enabled)?"0":"1") + "'" +
                                 " ,'" + this.CardNumber + "','" + this.FaceTemp + "','" + this.FaceLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
 
                         delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FACE' and MachineNo = 9999 ";
@@ -756,7 +756,7 @@ namespace Attendance.Classes
                                 " ,'" + this.UserName + "' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
-                                " ,'" + ((this.Enabled)?"1":"0") + "'" +
+                                " ,'" + ((this.Enabled)?"0":"1") + "'" +
                                 " ,'" + this.CardNumber + "','" + this.FingerIndex + "','" + this.FingerLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
 
                          delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FINGER' and MachineNo = 9999 ";
