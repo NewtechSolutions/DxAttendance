@@ -442,7 +442,6 @@ namespace Attendance.Classes
             return err;
         }
 
-
         /// <summary>
         /// clear the attendance records
         /// </summary>
@@ -714,7 +713,6 @@ namespace Attendance.Classes
 
         }
 
-
         /// <summary>
         /// this function will help to register as per supplied UserBioInfo
         /// </summary>
@@ -839,8 +837,6 @@ namespace Attendance.Classes
                 }
 
             }
-
-           
             
             foreach (UserBioInfo emp in tUserList)
             {
@@ -1056,8 +1052,6 @@ namespace Attendance.Classes
                             allerr += terr;
                             terr = string.Empty;
                         }
-                        
-
 
                         if (!string.IsNullOrEmpty(tmp.FaceTemp))
                         {
@@ -1078,8 +1072,6 @@ namespace Attendance.Classes
                     }
                 }
             }
-           
-            
 
         }
 
@@ -1128,7 +1120,7 @@ namespace Attendance.Classes
                         emp.Password = _password;
                         emp.Enabled = _enabled;
                         emp.Previlege = _prev;
-                        emp.Enabled = _enabled;
+                        
                     }
 
                     this.CZKEM1.GetStrCardNumber(out _cardno);
@@ -2058,7 +2050,7 @@ namespace Attendance.Classes
             try
             {
                 Ping myPing = new Ping();
-                PingReply reply = myPing.Send(_ip, 1000);
+                PingReply reply = myPing.Send(_ip, 2000);
 
                 if (reply.Status == IPStatus.Success)
                 {
@@ -2078,8 +2070,6 @@ namespace Attendance.Classes
 
             return status;
         }
-
-
 
         public void DeleteLeftEmp_NEW(out string err)
         {

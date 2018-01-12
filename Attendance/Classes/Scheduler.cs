@@ -456,7 +456,7 @@ namespace Attendance.Classes
                     {
                        
 
-                        string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                        string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                         foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
                         {
 
