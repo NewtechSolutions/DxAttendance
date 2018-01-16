@@ -41,31 +41,50 @@ namespace Attendance.Forms
 
         private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
         {
-            if (!ctrlEmp1.cEmp.Active)
+            //if (!ctrlEmp1.cEmp.Active)
+            //{
+            //    //grid.DataSource = null;
+            //    Emp = new clsEmp();
+            //    ResetCtrl();
+            //}
+            //else
+            //{
+            //    Emp = ctrlEmp1.cEmp;
+            //    Emp.CompCode = Emp.CompCode;
+            //    Emp.EmpUnqID = Emp.EmpUnqID;
+            //    Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
+
+            //    ////'added on 27/06/2016 using new security module
+            //    //if (!Globals.GetWrkGrpRights(MeFormID, Emp.WrkGrp, Emp.EmpUnqID))
+            //    //{
+            //    //    //Emp = new clsEmp();
+            //    //    MessageBox.Show("You are not Authorised to sanction,Please Contact System Administrator", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    //    //return;
+            //    //}
+                
+            //    LoadGrid();
+            //    SetRights();
+            //    txtSanDt.Focus();
+            //} 
+
+            if(string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID))
             {
-                //grid.DataSource = null;
                 Emp = new clsEmp();
                 ResetCtrl();
             }
             else
             {
                 Emp = ctrlEmp1.cEmp;
-                Emp.CompCode = Emp.CompCode;
-                Emp.EmpUnqID = Emp.EmpUnqID;
-                Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
+            }
 
-                ////'added on 27/06/2016 using new security module
-                //if (!Globals.GetWrkGrpRights(MeFormID, Emp.WrkGrp, Emp.EmpUnqID))
-                //{
-                //    //Emp = new clsEmp();
-                //    MessageBox.Show("You are not Authorised to sanction,Please Contact System Administrator", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    //return;
-                //}
-                
-                LoadGrid();
-                SetRights();
-                txtSanDt.Focus();
-            } 
+            
+            Emp.CompCode = Emp.CompCode;
+            Emp.EmpUnqID = Emp.EmpUnqID;
+            Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID);
+            LoadGrid();
+            SetRights();
+            txtSanDt.Focus();
+
         }
 
         
