@@ -114,8 +114,7 @@
             // 
             this.txtDescription.Location = new System.Drawing.Point(102, 70);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Properties.Mask.EditMask = "\\w{3,50}";
-            this.txtDescription.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDescription.Properties.Mask.EditMask = "\\p{Lu}+";
             this.txtDescription.Properties.Mask.ShowPlaceHolders = false;
             this.txtDescription.Size = new System.Drawing.Size(228, 20);
             this.txtDescription.TabIndex = 3;

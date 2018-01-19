@@ -305,7 +305,7 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastWrkGrp Set WrkGrpDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' Where CompCode = '{2}' and WrkGrp = '{3}' ";
+                        string sql = "Update MastWorkGrp Set WrkGrpDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' Where CompCode = '{2}' and WrkGrp = '{3}' ";
 
                         sql = string.Format(sql, txtDescription.Text.Trim(),
                              Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim()
