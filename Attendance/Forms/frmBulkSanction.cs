@@ -264,8 +264,8 @@ namespace Attendance.Forms
 
                         #region Chk_OverTime
                         if (dr["TPAHours"].ToString() != ""){
-                            int t = 0;
-                            if(int.TryParse(dr["TPAHours"].ToString(),out t))
+                            double t = 0;
+                            if(double.TryParse(dr["TPAHours"].ToString(),out t))
                             {
                                 if(t > 24){
                                     dr["TPAHours"] = "";

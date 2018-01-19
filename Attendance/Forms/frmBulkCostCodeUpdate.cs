@@ -186,7 +186,7 @@ namespace Attendance.Forms
                             {
                                 
                                 cmd.Connection = con;
-                                string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
+                                string sql = "Insert into MastCostCodeEmp (EmpUnqID,CostCode,ValidFrom,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}','{3}')";
                                 sql = string.Format(sql, tEmpUnqID, tCostCode.ToUpper(),
                                     tdt.ToString("yyyy-MM-dd"),
                                     Utils.User.GUserID);
@@ -201,8 +201,6 @@ namespace Attendance.Forms
                                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 continue;
                             }
-                            
-                            
                         }
                     }
 
