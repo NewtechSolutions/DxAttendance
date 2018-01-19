@@ -74,7 +74,7 @@ namespace Attendance.Forms
                         cn.Open();
                         cmd.Connection = cn;
                         string sql = "Insert into MastWrkGrp (CompCode,WrkGrp,WrkGrpDesc,AddDt,AddID) Values ('{0}','{1}','{2}',GetDate(),'{3}')";
-                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),
+                        sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),txtDescription.Text.Trim(),
                             Utils.User.GUserID);
 
                         cmd.CommandText = sql;
