@@ -938,15 +938,6 @@ namespace Attendance.Classes
                 tMsg.Message = "HeartBeat";
                 Scheduler.Publish(tMsg);
 
-                
-                if (_StatusAutoArrival == false && 
-                    _StatusAutoDownload == false && 
-                    _StatusAutoProcess == false && 
-                    _StatusAutoTimeSet == false && 
-                    _StatusWorker == false)
-                {
-
-
 
                     string cnerr = string.Empty;
                     string sql = "Select top 100 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
@@ -1031,12 +1022,7 @@ namespace Attendance.Classes
 
                     }
 
-                }
-                else
-                {
-                    _StatusWorker = false;
-                   
-                }
+                
             }
         }
 

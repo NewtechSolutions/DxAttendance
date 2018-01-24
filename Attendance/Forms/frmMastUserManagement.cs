@@ -708,7 +708,7 @@ namespace Attendance.Forms
                 lblDownAll.Update();
 
                 this.Cursor = Cursors.Default;
-                MessageBox.Show("Download Complete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Download Complete", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             
         }

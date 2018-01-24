@@ -425,7 +425,7 @@ namespace Attendance.Forms
                 return;
             }
 
-            txtEmpTypeCode.Text = txtEmpTypeCode.Text.Trim().ToString().PadLeft(3, '0');
+            txtEmpTypeCode.Text = txtEmpTypeCode.Text.Trim().ToString().PadLeft(2, '0');
 
             DataSet ds = new DataSet();
             string sql = "select * From MastEmpType where CompCode ='" + txtCompCode.Text.Trim() + "' " +

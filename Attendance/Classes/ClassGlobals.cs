@@ -670,6 +670,7 @@ namespace Attendance.Classes
                 err = "UserID is Required...";
                 return;
             }
+
             if (string.IsNullOrEmpty(this.CardNumber))
             {
                 err = "RFID Card Number is Required...";
@@ -757,9 +758,9 @@ namespace Attendance.Classes
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
                                 " ,'" + ((this.Enabled)?"0":"1") + "'" +
-                                " ,'" + this.CardNumber + "','" + this.FingerIndex + "','" + this.FingerLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
+                                " ,'" + this.CardNumber + "','" + this.FingerTemp + "','" + this.FingerLength.ToString() + "',GetDate(),'" + Utils.User.GUserID + "' )";
 
-                         delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FINGER' and MachineNo = 9999 ";
+                         delsql = "Delete From EmpBioData Where EmpUnqID = '" + this.UserID + "' And Type = 'FINGER' and MachineNo = 9999 and idx ='" + this.FingerIndex.ToString() + "'" ;
 
                                 break;
 
