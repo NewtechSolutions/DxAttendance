@@ -456,7 +456,7 @@ namespace Attendance.Forms
             catch (Exception ex)
             {
                 oledbconn.Close();
-                MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please Check upload template.." + Environment.NewLine + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
                 btnImport.Enabled = false;
                 oledbconn.Close();

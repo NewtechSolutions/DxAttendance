@@ -33,18 +33,18 @@
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnPreview = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnBrowse = new System.Windows.Forms.Button();
-            this.txtBrowse = new System.Windows.Forms.TextBox();
             this.SanDate = new DevExpress.XtraGrid.Columns.GridColumn();
             this.InTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.OutTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ShiftCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TPAHours = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.btnPreview = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.txtBrowse = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -141,9 +141,88 @@
             this.EmpUnqID.OptionsColumn.AllowEdit = false;
             this.EmpUnqID.OptionsColumn.AllowMove = false;
             this.EmpUnqID.OptionsColumn.ReadOnly = true;
+            this.EmpUnqID.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.EmpUnqID.Visible = true;
             this.EmpUnqID.VisibleIndex = 0;
             this.EmpUnqID.Width = 97;
+            // 
+            // SanDate
+            // 
+            this.SanDate.Caption = "SanDate";
+            this.SanDate.FieldName = "SanDate";
+            this.SanDate.Name = "SanDate";
+            this.SanDate.OptionsColumn.AllowEdit = false;
+            this.SanDate.OptionsColumn.AllowMove = false;
+            this.SanDate.OptionsColumn.ReadOnly = true;
+            this.SanDate.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
+            this.SanDate.Visible = true;
+            this.SanDate.VisibleIndex = 1;
+            this.SanDate.Width = 136;
+            // 
+            // InTime
+            // 
+            this.InTime.Caption = "InTime";
+            this.InTime.FieldName = "InTime";
+            this.InTime.Name = "InTime";
+            this.InTime.OptionsColumn.AllowEdit = false;
+            this.InTime.OptionsColumn.AllowMove = false;
+            this.InTime.OptionsColumn.ReadOnly = true;
+            this.InTime.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.InTime.Visible = true;
+            this.InTime.VisibleIndex = 2;
+            this.InTime.Width = 136;
+            // 
+            // OutTime
+            // 
+            this.OutTime.Caption = "OutTime";
+            this.OutTime.FieldName = "OutTime";
+            this.OutTime.Name = "OutTime";
+            this.OutTime.OptionsColumn.AllowEdit = false;
+            this.OutTime.OptionsColumn.AllowMove = false;
+            this.OutTime.OptionsColumn.ReadOnly = true;
+            this.OutTime.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.OutTime.Visible = true;
+            this.OutTime.VisibleIndex = 3;
+            this.OutTime.Width = 136;
+            // 
+            // ShiftCode
+            // 
+            this.ShiftCode.Caption = "ShiftCode";
+            this.ShiftCode.FieldName = "ShiftCode";
+            this.ShiftCode.Name = "ShiftCode";
+            this.ShiftCode.OptionsColumn.AllowEdit = false;
+            this.ShiftCode.OptionsColumn.AllowMove = false;
+            this.ShiftCode.OptionsColumn.ReadOnly = true;
+            this.ShiftCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.ShiftCode.Visible = true;
+            this.ShiftCode.VisibleIndex = 4;
+            this.ShiftCode.Width = 64;
+            // 
+            // TPAHours
+            // 
+            this.TPAHours.Caption = "TPAHours";
+            this.TPAHours.FieldName = "TPAHours";
+            this.TPAHours.Name = "TPAHours";
+            this.TPAHours.OptionsColumn.AllowEdit = false;
+            this.TPAHours.OptionsColumn.AllowMove = false;
+            this.TPAHours.OptionsColumn.ReadOnly = true;
+            this.TPAHours.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.TPAHours.Visible = true;
+            this.TPAHours.VisibleIndex = 5;
+            this.TPAHours.Width = 80;
+            // 
+            // Remarks
+            // 
+            this.Remarks.Caption = "Remarks";
+            this.Remarks.FieldName = "Remarks";
+            this.Remarks.Name = "Remarks";
+            this.Remarks.OptionsColumn.AllowEdit = false;
+            this.Remarks.OptionsColumn.AllowMove = false;
+            this.Remarks.OptionsColumn.ReadOnly = true;
+            this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.Remarks.Visible = true;
+            this.Remarks.VisibleIndex = 6;
+            this.Remarks.Width = 270;
             // 
             // groupControl1
             // 
@@ -207,81 +286,6 @@
             this.txtBrowse.Name = "txtBrowse";
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
-            // 
-            // SanDate
-            // 
-            this.SanDate.Caption = "SanDate";
-            this.SanDate.FieldName = "SanDate";
-            this.SanDate.Name = "SanDate";
-            this.SanDate.OptionsColumn.AllowEdit = false;
-            this.SanDate.OptionsColumn.AllowMove = false;
-            this.SanDate.OptionsColumn.ReadOnly = true;
-            this.SanDate.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.SanDate.Visible = true;
-            this.SanDate.VisibleIndex = 1;
-            this.SanDate.Width = 136;
-            // 
-            // InTime
-            // 
-            this.InTime.Caption = "InTime";
-            this.InTime.FieldName = "InTime";
-            this.InTime.Name = "InTime";
-            this.InTime.OptionsColumn.AllowEdit = false;
-            this.InTime.OptionsColumn.AllowMove = false;
-            this.InTime.OptionsColumn.ReadOnly = true;
-            this.InTime.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.InTime.Visible = true;
-            this.InTime.VisibleIndex = 2;
-            this.InTime.Width = 136;
-            // 
-            // OutTime
-            // 
-            this.OutTime.Caption = "OutTime";
-            this.OutTime.FieldName = "OutTime";
-            this.OutTime.Name = "OutTime";
-            this.OutTime.OptionsColumn.AllowEdit = false;
-            this.OutTime.OptionsColumn.AllowMove = false;
-            this.OutTime.OptionsColumn.ReadOnly = true;
-            this.OutTime.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.OutTime.Visible = true;
-            this.OutTime.VisibleIndex = 3;
-            this.OutTime.Width = 136;
-            // 
-            // ShiftCode
-            // 
-            this.ShiftCode.Caption = "ShiftCode";
-            this.ShiftCode.FieldName = "ShiftCode";
-            this.ShiftCode.Name = "ShiftCode";
-            this.ShiftCode.OptionsColumn.AllowEdit = false;
-            this.ShiftCode.OptionsColumn.AllowMove = false;
-            this.ShiftCode.OptionsColumn.ReadOnly = true;
-            this.ShiftCode.Visible = true;
-            this.ShiftCode.VisibleIndex = 4;
-            this.ShiftCode.Width = 64;
-            // 
-            // TPAHours
-            // 
-            this.TPAHours.Caption = "TPAHours";
-            this.TPAHours.FieldName = "TPAHours";
-            this.TPAHours.Name = "TPAHours";
-            this.TPAHours.OptionsColumn.AllowEdit = false;
-            this.TPAHours.OptionsColumn.AllowMove = false;
-            this.TPAHours.OptionsColumn.ReadOnly = true;
-            this.TPAHours.Visible = true;
-            this.TPAHours.VisibleIndex = 5;
-            this.TPAHours.Width = 80;
-            // 
-            // Remarks
-            // 
-            this.Remarks.Caption = "Remarks";
-            this.Remarks.FieldName = "Remarks";
-            this.Remarks.Name = "Remarks";
-            this.Remarks.OptionsColumn.AllowEdit = false;
-            this.Remarks.OptionsColumn.AllowMove = false;
-            this.Remarks.OptionsColumn.ReadOnly = true;
-            this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 6;
-            this.Remarks.Width = 270;
             // 
             // frmBulkSanction
             // 
