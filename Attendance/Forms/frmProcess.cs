@@ -93,6 +93,7 @@ namespace Attendance.Forms
                 if (dt.Rows.Count > 0)
                 {
                     gridSelf.DataSource = dt;
+                    gridSelf.Refresh();
                     grpApp.Text = string.Format("Currently Running Process : {0} At Application Side", dt.Rows.Count);
                 }
                 else
@@ -838,9 +839,10 @@ namespace Attendance.Forms
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
+                        
                         ProcessList.ImportRow(dr);
                     }
-
+                    RefreshAppGrid(sender, e);
                     ProcessDATA(sender, e, "APP", "WRKGRP");
                 }
             }
@@ -851,7 +853,7 @@ namespace Attendance.Forms
                 string sWrkGrp = txtWrkGrpCode.Text.Trim().ToString();
 
                 string sql = "Select Distinct l.EmpUnqID,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate," +
-                    " '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate " +
+                    " '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate, Convert(bit,0) as IsDone " +
                     " From ATTDLOG l Left join MastEmp m on l.EmpUnqID = m.EmpunqID where LunchFLG = 1 " +
                     " and l.ioflg = 'B' and l.PunchDate between '" + startdt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     " and '" + enddt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
@@ -867,9 +869,10 @@ namespace Attendance.Forms
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
+                        
                         ProcessList.ImportRow(dr);
                     }
-
+                    RefreshAppGrid(sender, e);
                     ProcessDATA(sender, e, "APP", "WRKGRP");
                 }
                 
@@ -881,7 +884,7 @@ namespace Attendance.Forms
                 DateTime enddt = txtWrkToDate.DateTime.AddHours(23).AddMinutes(59);
                 string sWrkGrp = txtWrkGrpCode.Text.Trim().ToString();
 
-                string sql = " select EmpUnqId,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate, '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate " +
+                string sql = " select EmpUnqId,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate, '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate,Convert(bit,0) as IsDone " +
                     " from MastEmp where Compcode = '01' and WrkGrp = '" + sWrkGrp + "' and Active = 1 " +
                     " and Empunqid in ( " +
                     " select distinct EmpUnqId from attdlog where lunchflg = 1 and ioflg = 'b' and " +
@@ -889,7 +892,7 @@ namespace Attendance.Forms
                     " and machineip in (Select Lunchmachine from LunchMachine ) " +
                     " and EmpUnqID in (Select EmpUnqID from MastEmp where WrkGrp = '" + sWrkGrp + "' and Active = 1 and CompCode = '01')) " +
                     " Union " +
-                    " select distinct EmpUnqiD,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate, '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate " +
+                    " select distinct EmpUnqiD,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate, '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate,Convert(bit,0) as IsDone " +
                     " from AttdLunchGate where lunchflg = 0 and ioflg in ('I','O') " +
                     " and PunchDate Between '" + startdt.ToString("yyyy-MM-dd HH:mm:ss") + "' and '" + enddt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                     " and EmpUnqID in (Select EmpUnqID from MastEmp where WrkGrp = '" + sWrkGrp + "' and Active = 1 and CompCode = '01') ";
@@ -903,6 +906,7 @@ namespace Attendance.Forms
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
+                        
                         ProcessList.ImportRow(dr);
                     }
 
@@ -989,7 +993,7 @@ namespace Attendance.Forms
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
                         pr.LunchProcess(tEmpUnqID, tFromDt, tToDt, out res);
-
+                        Application.DoEvents();
                         //update processed status
                         if (res > 0)
                         {
@@ -1012,7 +1016,7 @@ namespace Attendance.Forms
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
                         pr.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out res);
-
+                        Application.DoEvents();
                         //update processed status
                         if (res > 0)
                         {

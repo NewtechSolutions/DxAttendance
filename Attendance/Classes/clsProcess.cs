@@ -1088,6 +1088,11 @@ namespace Attendance
                                     drAttd["GracePeriod"] = "";
                                 }
 
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["GracePeriod"] = "";
+                                }
+
                                 #endregion grace
 
                                 if (tDiff.TotalSeconds >= Globals.G_LateComeSec)
@@ -1218,7 +1223,14 @@ namespace Attendance
                                     {
                                         drAttd["GracePeriod"] = "";
                                     }
+
                                 }
+
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["GracePeriod"] = "";
+                                }
+
                                 #endregion
                                 
                                 if (ts.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && ts.TotalSeconds < 0)
@@ -1462,6 +1474,12 @@ namespace Attendance
                                 drAttd["GracePeriod"] = "";
 
                             }//new development for dynamic halfday
+
+                            if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                            {
+                                drAttd["GracePeriod"] = "";
+                            }
+
                             #endregion grace
 
                             if (tDiff.TotalSeconds >= Globals.G_LateComeSec)
@@ -1608,6 +1626,11 @@ namespace Attendance
 
                                 }//new development for dynamic halfday
 
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["GracePeriod"] = "";
+                                }
+
                                 #endregion
 
                                 if (t5.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && t5.TotalSeconds < 0)
@@ -1741,6 +1764,12 @@ namespace Attendance
                                     drAttd["GracePeriod"] = "";
 
                                 }//new development for dynamic halfday
+
+                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                {
+                                    drAttd["GracePeriod"] = "";
+                                }
+
                                 #endregion
                                 
                                 if (t5.TotalSeconds > (Globals.G_EarlyGoingSec) )
