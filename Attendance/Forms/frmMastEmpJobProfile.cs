@@ -504,7 +504,10 @@ namespace Attendance.Forms
             txtCatCode.Text = temp.CatCode;
             txtCatDesc.Text = temp.CatDesc;
 
-
+            txtSecCode.Text = Utils.Helper.GetDescription("Select SecCode from MastEmp Where EmpUnqID = '" + temp.EmpUnqID + "'", Utils.Helper.constr);
+            object s = new object();
+            EventArgs e = new EventArgs();
+            txtSecCode_Validated(s, e);
             
 
             if(temp.LeftDt.HasValue){
