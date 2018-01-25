@@ -58,6 +58,19 @@ namespace Attendance.Forms
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             SetRights();
+
+            DataSet ds = Utils.Helper.GetData("Select IDDesc From MastIDProof Order By ID", Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtIDPrf1.Properties.Items.Add(dr["IDDesc"].ToString());
+                    txtIDPrf2.Properties.Items.Add(dr["IDDesc"].ToString());
+                    txtIDPrf3.Properties.Items.Add(dr["IDDesc"].ToString());
+                }
+            }
         }
 
         private string DataValidate()
