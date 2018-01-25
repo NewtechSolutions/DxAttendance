@@ -665,12 +665,23 @@ namespace Attendance.Forms
             Cursor.Current = Cursors.WaitCursor;
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
-                SqlTransaction tr = cn.BeginTransaction("DeleteEmp");
                 try
                 {
                     cn.Open();
-
-
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                
+                SqlTransaction tr = cn.BeginTransaction("DeleteEmp");
+                
+                
+                try
+                {
+                   
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = cn;
