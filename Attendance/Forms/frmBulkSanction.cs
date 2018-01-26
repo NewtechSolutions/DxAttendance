@@ -162,7 +162,7 @@ namespace Attendance.Forms
                             DateTime tAddDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select GetDate()", Utils.Helper.constr));
             
                             //added on 02-12-2014 full rights skip the validation
-                            if (GIsAdmin == false) 
+                            if (Utils.User.IsAdmin == false) 
                             {
                
                                 //'check does not allow morethan 2 days blank intime and outtime
