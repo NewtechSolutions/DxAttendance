@@ -162,8 +162,8 @@ namespace Attendance.Forms
                         string tLeaveTyp = dr["LeaveType"].ToString();
                         string OpnBal = dr["OpnBal"].ToString();
                         
-                        int tBal = 0;
-                        if(!int.TryParse(OpnBal,out tBal))                        
+                        double tBal = 0;
+                        if(!double.TryParse(OpnBal,out tBal))                        
                         {
                             dr["Remarks"] = "Bal Conversion Failed...";
                             continue; 
