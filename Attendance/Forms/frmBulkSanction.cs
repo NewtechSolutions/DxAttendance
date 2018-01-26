@@ -177,17 +177,22 @@ namespace Attendance.Forms
                                     
                                     dr["Remarks"] =  "Did not consider In/Out time (Limit Exceed)" ;
                                 }
+
+
+                                //'added on 30/06/2016
+                                if (Globals.GetWrkGrpRights(GFormID, "", tEmpUnqID) == false)
+                                {
+                                    //dr["InTime"] = DBNull.Value;
+                                    //dr["OutTime"] = DBNull.Value;
+                                    //dr["ShiftCode"] = DBNull.Value;
+                                    //dr["TPAHours"] = DBNull.Value;
+                                    dr["Remarks"] = "Unauthorised..";
+                                    continue;
+                                }
+
                             }
-            
-                            //'added on 30/06/2016
-                            if(Globals.GetWrkGrpRights(GFormID,"",tEmpUnqID) == false){
-                                //dr["InTime"] = DBNull.Value;
-                                //dr["OutTime"] = DBNull.Value;
-                                //dr["ShiftCode"] = DBNull.Value;
-                                //dr["TPAHours"] = DBNull.Value;
-                                dr["Remarks"] = "Unauthorised..";
-                                continue;
-                            }
+                            
+                            
                             
                             Emp.CompCode = "01";
                             Emp.EmpUnqID = tEmpUnqID;

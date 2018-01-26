@@ -62,7 +62,7 @@ namespace Attendance
                 {
                     Utils.User.GUserID = txtUserName.Text.Trim();
                     Utils.User.GUserPass = txtPassword.Text.Trim();
-                    Utils.User.IsAdmin = (ds.Tables[0].Rows[0]["IsAdmin"].ToString()== "Y") ? true : false;
+                    Utils.User.IsAdmin = (Convert.ToBoolean(ds.Tables[0].Rows[0]["IsAdmin"])) ? true : false;
                     Utils.User.GUserName = ds.Tables[0].Rows[0]["UserName"].ToString();
                    
                     this.Hide();
