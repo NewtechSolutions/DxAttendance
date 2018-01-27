@@ -249,16 +249,29 @@ namespace Attendance.Forms
             //string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + filePath + ";extended properties=" + "\"excel 8.0;hdr=yes;IMEX=1;\"";
 
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
-            oledbconn.Open();
-            string str = oledbconn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-            string sheetname = "[" + str.Replace("'", "") + "]";
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
 
+            try
+            {
+                oledbconn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
             try
             {
                 string myexceldataquery = "select EmpUnqID,CostCode,ValidFrom,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (string.IsNullOrEmpty(row["EmpUnqID"].ToString().Trim()))
+                        row.Delete();
+                }
                 oledbconn.Close();
             }
             catch (Exception ex)
