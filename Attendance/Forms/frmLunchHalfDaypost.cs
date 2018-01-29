@@ -561,7 +561,7 @@ namespace Attendance.Forms
                                                 {
                                                 
                                                     sql = "Update AttdLunchHistory Set Posted = 1, PostedBy ='" + Utils.User.GUserID + "' " +
-                                                        " where tDate '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "' And " +
+                                                        " where tDate = '" + Convert.ToDateTime(trs["tDate"]).ToString("yyyy-MM-dd") + "' And " +
                                                         " EmpUnqID = '" + trs["EmpUnqID"].ToString() + "' ";
                                                     cmd = new SqlCommand(sql, cn, tr);
                                                     cmd.CommandType = CommandType.Text;

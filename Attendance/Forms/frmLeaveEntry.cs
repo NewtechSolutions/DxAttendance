@@ -1291,7 +1291,7 @@ namespace Attendance.Forms
 
                 #region Add_Update_HL
 
-                tr = cn.BeginTransaction();
+               
 
                 sql = " Select '" + Emp.EmpUnqID + "' as EmpUnqID ,WrkGrp,tDate,PublicHLTyp,GetDate() as AddDt,'HLCal' as AddId " +
                  " From HoliDayMast " +
@@ -1316,7 +1316,7 @@ namespace Attendance.Forms
                                 " ( EmpUnqID,WrkGrp,tDate,SchLeave,Adddt,AddId )" +
                                 " Values ('" + Emp.EmpUnqID + "','" + Emp.WrkGrp + "','" + tDate.ToString("yyyy-MM-dd") + "','" + r["PublicHLTyp"].ToString() + "','GetDate()','HLCal')";
 
-                        SqlCommand cmd = new SqlCommand(sql, cn, tr);
+                        SqlCommand cmd = new SqlCommand(sql, cn);
                         cmd.ExecuteNonQuery();
 
                     }
@@ -1326,7 +1326,7 @@ namespace Attendance.Forms
                                " Set SchLeave ='" + r["PublicHLTyp"].ToString() + "', Upddt = GetDate(),UpdId = 'HLCal' Where " +
                                " EmpUnqID = '" + Emp.EmpUnqID + "' And WrkGrp = '" + Emp.WrkGrp + "' And tDate = '" + tDate.ToString("yyyy-MM-dd") + "' and tYear ='" + tDate.Year + "'";
 
-                        SqlCommand cmd = new SqlCommand(sql, cn, tr);
+                        SqlCommand cmd = new SqlCommand(sql, cn);
                         cmd.ExecuteNonQuery();
                     }
 
@@ -1339,7 +1339,7 @@ namespace Attendance.Forms
                 try
                 {
 
-                    tr.Commit();
+                    //tr.Commit();
 
                     #region ProcessData
                     clsProcess pro = new clsProcess();
@@ -1357,7 +1357,7 @@ namespace Attendance.Forms
                 }
                 catch (Exception ex)
                 {
-                    tr.Rollback();
+                    //tr.Rollback();
                     MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Cursor.Current = Cursors.Default;
                     return;
