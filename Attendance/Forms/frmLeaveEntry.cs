@@ -1219,7 +1219,7 @@ namespace Attendance.Forms
 
                     #region Delete_LeaveEntry
 
-                   
+                    
                     try
                     {
                         //delete from leave_entry
@@ -1284,9 +1284,14 @@ namespace Attendance.Forms
                     }
 
                 }
+
+                tr.Commit();
+
                 #endregion
 
                 #region Add_Update_HL
+
+                tr = cn.BeginTransaction();
 
                 sql = " Select '" + Emp.EmpUnqID + "' as EmpUnqID ,WrkGrp,tDate,PublicHLTyp,GetDate() as AddDt,'HLCal' as AddId " +
                  " From HoliDayMast " +
@@ -1296,6 +1301,8 @@ namespace Attendance.Forms
                 foreach(DataRow r in ds.Tables[0].Rows)
                 {
                     
+                   
+
                     DateTime tDate = Convert.ToDateTime(r["tDate"]);
 
                     sql = "Select Count(*) from MastLeaveSchedule Where EmpUnqID ='" + Emp.EmpUnqID + "' And " +
@@ -1324,6 +1331,7 @@ namespace Attendance.Forms
                     }
 
                 }
+
                 #endregion
 
                 #region Commit_ProcessData
