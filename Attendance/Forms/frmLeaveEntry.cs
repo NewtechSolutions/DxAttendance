@@ -250,8 +250,8 @@ namespace Attendance.Forms
             SqlSanc = "Select Top 40 " +
                       " SanID,tDate,ConsInTime,ConsOutTime,ConsOverTime,ConsShift,SchLeave,AddID,AddDT,Remarks " +
                       " From MastLeaveSchedule " +
-                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + txtFromDt2.DateTime.ToString("yyyy-MM-dd") + "'  " +
-                      " And isnull(SchLeave,'') <> '' Order By SanID Desc ";
+                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + txtFromDt2.DateTime.ToString("yyyy-MM-dd") + "' and WrkGrp = '" + Emp.WrkGrp + "' " +
+                      " And isnull(SchLeave,'') <> '' and tYear = '" + FromDt.Year + "' Order By SanID Desc ";
 
             SqlPunch = "Select Top 100 " +
                       " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
@@ -1150,6 +1150,7 @@ namespace Attendance.Forms
 
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
+
                 try
                 {
                     cn.Open();
@@ -1168,23 +1169,25 @@ namespace Attendance.Forms
                        " And EmpUnqID ='" + Emp.EmpUnqID + "' " +
                        " And LeaveTyp='" + LeaveTyp + "'" +
                        " And FromDT ='" + FromDt.ToString("yyyy-MM-dd") + "'" +
-                       " And ToDt ='" + ToDt.ToString("yyyy-MM-dd") + "'";
+                       " And ToDt ='" + ToDt.ToString("yyyy-MM-dd") + "'" +
+                       " And tYear ='" + FromDt.Year + "'";
 
                 DataSet LeaveDs = Utils.Helper.GetData(sql, Utils.Helper.constr);
                 bool hasRows = LeaveDs.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasRows)
                 {
-
+                    
+                    
                     #region Delete_LeaveSchedule
                     foreach (DataRow r in LeaveDs.Tables[0].Rows)
                     {
-
+                        
                         try
                         {
                             string tsql = "Delete From MastLeaveSchedule Where " +
                              " EmpUnqID='" + Emp.EmpUnqID + "' " +
                              " And tDate Between '" + FromDt.ToString("yyyy-MM-dd") + "' And '" + ToDt.ToString("yyyy-MM-dd") + "'" +
-                             " And SchLeave='" + LeaveTyp + "'";
+                             " And SchLeave='" + LeaveTyp + "' and WrkGrp ='" + Emp.WrkGrp + "' ";
 
                             SqlCommand cmd = new SqlCommand(tsql, cn, tr);
                             cmd.ExecuteNonQuery();
@@ -1215,8 +1218,8 @@ namespace Attendance.Forms
                     #endregion
 
                     #region Delete_LeaveEntry
-                    
 
+                   
                     try
                     {
                         //delete from leave_entry
@@ -1227,7 +1230,8 @@ namespace Attendance.Forms
                            " And LeaveTyp='" + LeaveTyp + "'" +
                            " And FromDT ='" + FromDt.ToString("yyyy-MM-dd") + "'" +
                            " And ToDt ='" + ToDt.ToString("yyyy-MM-dd") + "'";
-
+                        
+                        
                         SqlCommand cmd1 = new SqlCommand(sql, cn, tr);
                         cmd1.ExecuteNonQuery();
 
@@ -1235,7 +1239,7 @@ namespace Attendance.Forms
 
                         sql = "Delete from MastLeaveSchedule where EmpUnqID ='" + Emp.EmpUnqID + "' " +
                             " and WrkGrp ='" + Emp.WrkGrp + "' and tDate between '" + FromDt.ToString("yyyy-MM-dd") + "' And " +
-                            " '" + ToDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO' " +
+                            " '" + ToDt.ToString("yyyy-MM-dd") + "' and SchLeave = 'WO'  and WrkGrp ='" + Emp.WrkGrp + "' " +
                             " and ConsInTime is null and ConsOutTime is null And ConsOverTime is null And ConsShift is null And SchShift is null ";
 
                         cmd1 = new SqlCommand(sql, cn, tr);
@@ -1261,7 +1265,7 @@ namespace Attendance.Forms
                 foreach(DataRow r in ds.Tables[0].Rows)
                 {
                     DateTime tDate = Convert.ToDateTime(r["tDate"]);
-
+                    
                     try
                     {
                         sql = " Insert into MastLeaveSchedule " +
@@ -1278,8 +1282,6 @@ namespace Attendance.Forms
                         Cursor.Current = Cursors.Default;
                         return;
                     }
-                    
-                    
 
                 }
                 #endregion
@@ -1293,12 +1295,13 @@ namespace Attendance.Forms
                 ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
                 foreach(DataRow r in ds.Tables[0].Rows)
                 {
+                    
                     DateTime tDate = Convert.ToDateTime(r["tDate"]);
 
                     sql = "Select Count(*) from MastLeaveSchedule Where EmpUnqID ='" + Emp.EmpUnqID + "' And " +
-                            " tDate = '" + tDate.ToString("yyyy-MM-dd") + "' And SchLeave is not null";
-
-                    int t = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
+                            " tDate = '" + tDate.ToString("yyyy-MM-dd") + "' And isnull(SchLeave,'') <> '' and WrkGrp = '" + Emp.WrkGrp + "' and tYear ='" + tDate.Year + "'" ;
+                    string err = string.Empty;
+                    int t = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr,out err));
 
                     if (t == 0)
                     {
@@ -1314,7 +1317,7 @@ namespace Attendance.Forms
                     {
                         sql = " Update MastLeaveSchedule " +
                                " Set SchLeave ='" + r["PublicHLTyp"].ToString() + "', Upddt = GetDate(),UpdId = 'HLCal' Where " +
-                               " EmpUnqID = '" + Emp.EmpUnqID + "' And WrkGrp = '" + Emp.WrkGrp + "' And tDate = '" + tDate.ToString("yyyy-MM-dd") + "'";
+                               " EmpUnqID = '" + Emp.EmpUnqID + "' And WrkGrp = '" + Emp.WrkGrp + "' And tDate = '" + tDate.ToString("yyyy-MM-dd") + "' and tYear ='" + tDate.Year + "'";
 
                         SqlCommand cmd = new SqlCommand(sql, cn, tr);
                         cmd.ExecuteNonQuery();
@@ -1324,9 +1327,12 @@ namespace Attendance.Forms
                 #endregion
 
                 #region Commit_ProcessData
+                
                 try
                 {
+
                     tr.Commit();
+
                     #region ProcessData
                     clsProcess pro = new clsProcess();
 

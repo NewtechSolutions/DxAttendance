@@ -938,7 +938,8 @@ namespace Attendance.Classes
                 tMsg.Message = "HeartBeat";
                 Scheduler.Publish(tMsg);
 
-
+                if(_StatusWorker == false)
+                { 
                     string cnerr = string.Empty;
                     string sql = "Select top 100 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
                     DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr,out cnerr);
@@ -1021,6 +1022,12 @@ namespace Attendance.Classes
                         _StatusWorker = false;
 
                     }
+                }
+                else
+                {
+                    _StatusWorker = false;
+
+                }
 
                 
             }

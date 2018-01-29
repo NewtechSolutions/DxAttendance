@@ -396,7 +396,9 @@ namespace Utils
             try
             {
                 conn.Open();
+                command.CommandTimeout = 1500;
                 result = command.ExecuteScalar();
+                
                 if (result != null)
                     returndesc = Convert.ToString(result);
 
