@@ -843,15 +843,7 @@ namespace Attendance.Forms
 
         private void txtSanDt_EditValueChanged(object sender, EventArgs e)
         {
-            txtInTime.Time = txtSanDt.DateTime;
-            txtOutTime.Time = txtSanDt.DateTime;
-
             
-
-            if (txtSanDt.OldEditValue != txtSanDt.EditValue)
-            {
-                LoadGrid();
-            }
         }
 
         private void txtInOut_SelectedIndexChanged(object sender, EventArgs e)
@@ -1780,6 +1772,17 @@ namespace Attendance.Forms
             if ((e.KeyData == Keys.Enter))
             {
                 SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
+        private void txtSanDt_Validated(object sender, EventArgs e)
+        {
+            txtInTime.Time = txtSanDt.DateTime;
+            txtOutTime.Time = txtSanDt.DateTime;
+
+            if (txtSanDt.OldEditValue != txtSanDt.EditValue)
+            {
+                LoadGrid();
             }
         }
 

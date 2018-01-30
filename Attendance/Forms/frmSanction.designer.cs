@@ -486,6 +486,7 @@
             this.txtSanDt.Size = new System.Drawing.Size(100, 20);
             this.txtSanDt.TabIndex = 0;
             this.txtSanDt.EditValueChanged += new System.EventHandler(this.txtSanDt_EditValueChanged);
+            this.txtSanDt.Validated += new System.EventHandler(this.txtSanDt_Validated);
             // 
             // label1
             // 

@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLeaveEntry));
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.tblp_Home = new System.Windows.Forms.TableLayoutPanel();
             this.xTabCtrl = new DevExpress.XtraTab.XtraTabControl();
             this.tb_LeaveEntry = new DevExpress.XtraTab.XtraTabPage();
@@ -242,7 +242,7 @@
             this.txtLeaveDays.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtLeaveDays.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtLeaveDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, null, true)});
             this.txtLeaveDays.Properties.ReadOnly = true;
             this.txtLeaveDays.Size = new System.Drawing.Size(66, 20);
             this.txtLeaveDays.TabIndex = 16;
@@ -265,7 +265,7 @@
             this.txtHolidays.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtHolidays.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtHolidays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
             this.txtHolidays.Properties.ReadOnly = true;
             this.txtHolidays.Size = new System.Drawing.Size(66, 20);
             this.txtHolidays.TabIndex = 14;
@@ -288,7 +288,7 @@
             this.txtWODays.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtWODays.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtWODays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.txtWODays.Properties.ReadOnly = true;
             this.txtWODays.Size = new System.Drawing.Size(66, 20);
             this.txtWODays.TabIndex = 12;
@@ -311,7 +311,7 @@
             this.txtTotDays.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtTotDays.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtTotDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject4, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
             this.txtTotDays.Properties.ReadOnly = true;
             this.txtTotDays.Size = new System.Drawing.Size(66, 20);
             this.txtTotDays.TabIndex = 10;
@@ -393,6 +393,7 @@
             this.txtToDt.Size = new System.Drawing.Size(100, 20);
             this.txtToDt.TabIndex = 1;
             this.txtToDt.EditValueChanged += new System.EventHandler(this.txtToDt_EditValueChanged);
+            this.txtToDt.Validated += new System.EventHandler(this.txtToDt_Validated);
             // 
             // txtFromDt
             // 
@@ -411,6 +412,7 @@
             this.txtFromDt.Size = new System.Drawing.Size(100, 20);
             this.txtFromDt.TabIndex = 0;
             this.txtFromDt.EditValueChanged += new System.EventHandler(this.txtFromDt_EditValueChanged);
+            this.txtFromDt.Validated += new System.EventHandler(this.txtFromDt_Validated);
             // 
             // grp_LeaveBal
             // 
@@ -485,7 +487,7 @@
             // 
             this.tb_LeaveList.Controls.Add(this.tableLayoutPanel2);
             this.tb_LeaveList.Name = "tb_LeaveList";
-            this.tb_LeaveList.Size = new System.Drawing.Size(1042, 393);
+            this.tb_LeaveList.Size = new System.Drawing.Size(1042, 385);
             this.tb_LeaveList.Text = "Leave List";
             // 
             // tableLayoutPanel2
@@ -501,7 +503,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1042, 393);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1042, 385);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
             // grd_LeaveList
@@ -589,7 +591,7 @@
             // 
             this.tb_Attd.Controls.Add(this.tblp_Attd);
             this.tb_Attd.Name = "tb_Attd";
-            this.tb_Attd.Size = new System.Drawing.Size(1042, 393);
+            this.tb_Attd.Size = new System.Drawing.Size(1042, 385);
             this.tb_Attd.Text = "Attendance";
             // 
             // tblp_Attd
@@ -605,7 +607,7 @@
             this.tblp_Attd.RowCount = 2;
             this.tblp_Attd.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_Attd.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_Attd.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_Attd.Size = new System.Drawing.Size(1042, 385);
             this.tblp_Attd.TabIndex = 6;
             // 
             // grd_Attd
@@ -701,7 +703,7 @@
             // 
             this.tb_Sanction.Controls.Add(this.tblp_Sanction);
             this.tb_Sanction.Name = "tb_Sanction";
-            this.tb_Sanction.Size = new System.Drawing.Size(1042, 393);
+            this.tb_Sanction.Size = new System.Drawing.Size(1042, 385);
             this.tb_Sanction.Text = "Sanction List";
             // 
             // tblp_Sanction
@@ -716,7 +718,7 @@
             this.tblp_Sanction.RowCount = 2;
             this.tblp_Sanction.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_Sanction.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_Sanction.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_Sanction.Size = new System.Drawing.Size(1042, 385);
             this.tblp_Sanction.TabIndex = 7;
             // 
             // grd_Sanction
@@ -797,7 +799,7 @@
             // 
             this.tb_InOut.Controls.Add(this.tblp_InOut);
             this.tb_InOut.Name = "tb_InOut";
-            this.tb_InOut.Size = new System.Drawing.Size(1042, 393);
+            this.tb_InOut.Size = new System.Drawing.Size(1042, 385);
             this.tb_InOut.Text = "Punch Details";
             // 
             // tblp_InOut
@@ -812,7 +814,7 @@
             this.tblp_InOut.RowCount = 2;
             this.tblp_InOut.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tblp_InOut.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp_InOut.Size = new System.Drawing.Size(1042, 393);
+            this.tblp_InOut.Size = new System.Drawing.Size(1042, 385);
             this.tblp_InOut.TabIndex = 7;
             // 
             // grd_InOut

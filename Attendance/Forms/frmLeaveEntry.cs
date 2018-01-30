@@ -260,7 +260,7 @@ namespace Attendance.Forms
                       " and LunchFlg = 0 and IOFLG in ('I','O') Order by PunchDate";
 
 
-            SqlLeave = "Select FromDt,ToDt,LeaveTyp,TotDay,WODay,PublicHL,LeaveDed,LeaveAdv,LeaveHalf,Remark,AddDt,AddID " +
+            SqlLeave = "Select CONVERT(VARCHAR(10), FromDt, 103) as FromDt ,CONVERT(VARCHAR(10), ToDt, 103) as ToDt,LeaveTyp,TotDay,WODay,PublicHL,LeaveDed,LeaveAdv,LeaveHalf,Remark,AddDt,AddID " +
                     " From LeaveEntry Where " +
                     " CompCode ='" + Emp.CompCode + "' " +
                     " And WrkGrp ='" + Emp.WrkGrp + "' " +
@@ -423,11 +423,7 @@ namespace Attendance.Forms
 
         private void txtFromDt_EditValueChanged(object sender, EventArgs e)
         {
-            txtToDt.EditValue = null;
-            txtToDt.Properties.MinValue = txtFromDt.DateTime;
-            LoadLeaveBalGrid();
-            LoadLeaveDetails();
-            LoadGrid();
+            
         }
 
         private void LoadLeaveBalGrid()
@@ -516,8 +512,7 @@ namespace Attendance.Forms
         private void txtToDt_EditValueChanged(object sender, EventArgs e)
         {
             
-             LoadLeaveDetails();
-             LoadGrid();
+            
         }
 
         /// <summary>
@@ -1143,8 +1138,14 @@ namespace Attendance.Forms
                 return;
             }
 
-            DateTime FromDt = Convert.ToDateTime(cellFromDt);
-            DateTime ToDt = Convert.ToDateTime(cellToDt);
+            string sfromdt = cellFromDt.Substring(0, 10);
+            string stodt = cellToDt.Substring(0, 10);
+
+            DateTime FromDt = DateTime.ParseExact(sfromdt, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDt = DateTime.ParseExact(stodt, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            //DateTime FromDt = Convert.ToDateTime(cellFromDt);
+            //DateTime ToDt = Convert.ToDateTime(cellToDt);
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -1473,6 +1474,21 @@ namespace Attendance.Forms
 
         private void txtFromDt2_Validated(object sender, EventArgs e)
         {
+            LoadGrid();
+        }
+
+        private void txtFromDt_Validated(object sender, EventArgs e)
+        {
+            txtToDt.EditValue = null;
+            txtToDt.Properties.MinValue = txtFromDt.DateTime;
+            LoadLeaveBalGrid();
+            LoadLeaveDetails();
+            LoadGrid();
+        }
+
+        private void txtToDt_Validated(object sender, EventArgs e)
+        {
+            LoadLeaveDetails();
             LoadGrid();
         }
 
