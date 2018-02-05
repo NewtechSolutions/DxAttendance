@@ -839,11 +839,11 @@ namespace Attendance.Classes
 
                 //check user rights for the wrkgrp
                 //'if not move next emp
-                if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
-                {
-                    emp.err += "You are not Authorised...";
+                //if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
+                //{
+                //    emp.err += "You are not Authorised...";
                     
-                }
+                //}
 
                 if (string.IsNullOrEmpty(emp.CardNumber))
                 {
@@ -1498,22 +1498,22 @@ namespace Attendance.Classes
                 return;
             }
 
-            UserBioInfo emp = new UserBioInfo();
-            emp.SetUserInfoForMachine(tEmpUnqID);
+            //UserBioInfo emp = new UserBioInfo();
+            //emp.SetUserInfoForMachine(tEmpUnqID);
 
-            if (!string.IsNullOrEmpty(emp.WrkGrp))
-            {
-                //check user rights for the wrkgrp
-                //'if not move next emp
-                if (Utils.User.GUserID != "SERVER")
-                {
-                    if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
-                    {
-                        err = "You are not Authorised...";
-                        return;
-                    }
-                }
-            }
+            //if (!string.IsNullOrEmpty(emp.WrkGrp))
+            //{
+            //    //check user rights for the wrkgrp
+            //    //'if not move next emp
+            //    if (Utils.User.GUserID != "SERVER")
+            //    {
+            //        if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
+            //        {
+            //            err = "You are not Authorised...";
+            //            return;
+            //        }
+            //    }
+            //}
 
             //this.CZKEM1.EnableDevice(_machineno, false);
            
@@ -1549,20 +1549,20 @@ namespace Attendance.Classes
                 return;
             }
 
-            if (Utils.User.GUserID != "SERVER")
-            {
-                foreach (UserBioInfo emp in tUserList)
-                {
-                    emp.SetUserInfoForMachine(emp.UserID);
+            //if (Utils.User.GUserID != "SERVER")
+            //{
+            //    foreach (UserBioInfo emp in tUserList)
+            //    {
+            //        emp.SetUserInfoForMachine(emp.UserID);
 
-                    //check user rights for the wrkgrp
-                    //'if not move next emp
-                    if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
-                    {
-                        emp.err += "You are not Authorised...";
-                    }
-                }
-            }
+            //        //check user rights for the wrkgrp
+            //        //'if not move next emp
+            //        if (!Globals.GetWrkGrpRights(630, emp.WrkGrp, emp.UserID))
+            //        {
+            //            emp.err += "You are not Authorised...";
+            //        }
+            //    }
+            //}
 
             //this.CZKEM1.EnableDevice(_machineno, false);
 
@@ -2264,10 +2264,11 @@ namespace Attendance.Classes
                     bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     if (hasrows)
                     {
-                        
+                        this.CZKEM1.BeginBatchUpdate(_machineno, 0);
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
                             string tEmpUnqID = dr["EmpUnqID"].ToString();
+                            StoreHistoryinDB(tEmpUnqID, false);
                             
                             if (!_istft)
                             {
@@ -2275,12 +2276,16 @@ namespace Attendance.Classes
                             }
                             else
                             {
-                                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);                                
+                                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+                                this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
                                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
-                            }             
+
+                            }           
                             
                         }
+                        this.CZKEM1.BatchUpdate(_machineno);
                     }
+                    this.RefreshData();
 
                     sql = "truncate  table t1 ";
                     cmd = new SqlCommand(sql, cn);

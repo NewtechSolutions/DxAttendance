@@ -191,9 +191,18 @@ namespace Attendance.Forms
                                     tdt.ToString("yyyy-MM-dd"),
                                     Utils.User.GUserID);
 
+
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
+
+                                sql = "Update MastEmp Set CostCode = '{0}', UpdDt = GetDate(), UPDID = '{1}' Where EmpUnqID = '{2}'";
+                                sql = string.Format(sql, tCostCode.ToUpper(), Utils.User.GUserID, tEmpUnqID);
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+
+
                                 dr["remarks"] = "Record saved...";
+
 
                             }
                             catch (Exception ex)

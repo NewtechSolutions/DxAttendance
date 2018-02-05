@@ -1024,7 +1024,7 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-                m.RefreshData();
+                //m.RefreshData();
                 m.DisConnect(out err);
                 //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
@@ -1085,7 +1085,7 @@ namespace Attendance.Forms
                 {
                     gv_avbl.SetRowCellValue(i, "Remarks", allerr);
                 }
-                m.RefreshData();
+                //m.RefreshData();
                 m.DisConnect(out err);
                 //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
@@ -1580,9 +1580,10 @@ namespace Attendance.Forms
 
                     m.DeleteUser(tEmpUnqID, out err);
                     dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Deleted");
-
+                    Application.DoEvents();
                 }
-                m.RefreshData();
+
+                //m.RefreshData();
                 m.DisConnect(out err);
                 //Cursor.Current = Cursors.Default;
                 MessageBox.Show("file processed Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);

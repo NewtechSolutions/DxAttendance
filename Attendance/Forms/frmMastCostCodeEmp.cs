@@ -246,6 +246,13 @@ namespace Attendance.Forms
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
+
+                        sql = "Update MastEmp Set CostCode = '{0}', UpdDt = GetDate(), UPDID = '{1}' Where EmpUnqID = '{2}'";
+                        sql = string.Format(sql, txtCostCode.Text.Trim().ToString().ToUpper(), Utils.User.GUserID,ctrlEmp1.txtEmpUnqID.Text.Trim());
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        
                         MessageBox.Show("Record saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ResetCtrl();
                         LoadGrid();
