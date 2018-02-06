@@ -806,33 +806,33 @@ namespace Attendance
             {
                 try
                 {
-                    clsEmp Emp = new clsEmp();
-                    Emp.CompCode = "01";
-                    Emp.EmpUnqID = tEmpUnqID;
+                    //clsEmp Emp = new clsEmp();
+                    //Emp.CompCode = "01";
+                    //Emp.EmpUnqID = tEmpUnqID;
 
                     //check employee status
-                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
-                    {
-                        return;
+                    //if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    //{
+                    //    return;
 
-                    }
-                    else
-                    {
-                        //if not active 
-                        if (!Emp.Active)
-                            return;
-                    }
+                    //}
+                    //else
+                    //{
+                    //    //if not active 
+                    //    if (!Emp.Active)
+                    //        return;
+                    //}
 
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = cn;
-                        cmd.CommandType = CommandType.Text;
-                        string sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
-                            " GetDate(),'" + Utils.User.GUserID + "','MessProcess','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
-                            " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
-                        cmd.CommandText = sql;
-                        cmd.ExecuteNonQuery();
+                        //cmd.CommandType = CommandType.Text;
+                        //string sql = "Insert into ProcessLog (AddDt,AddId,ProcessType,FromDt,ToDt,EmpUnqID ) Values (" +
+                        //    " GetDate(),'" + Utils.User.GUserID + "','MessProcess','" + tFromDt.ToString("yyyy-MM-dd") + "'," +
+                        //    " '" + tToDate.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "')";
+                        //cmd.CommandText = sql;
+                        //cmd.ExecuteNonQuery();
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandText = "Mess_Process";
@@ -847,7 +847,7 @@ namespace Attendance
                         tFromDt = tFromDt.AddHours(0).AddMinutes(1);
                         tToDate = tToDate.AddHours(23).AddMinutes(59);
 
-                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", tEmpUnqID);
                         cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
                         cmd.Parameters.AddWithValue("@pToDt", tToDate);
                         cmd.Parameters.Add(spout);

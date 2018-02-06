@@ -1523,8 +1523,7 @@ namespace Attendance.Classes
                 this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);                
             }
             else
-            {
-                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+            { 
                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);                
             }
@@ -1578,7 +1577,7 @@ namespace Attendance.Classes
                     }
                     else
                     {
-                        this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
+                        
                         this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                         this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
                         
@@ -2191,12 +2190,7 @@ namespace Attendance.Classes
                     tmpuser = new UserBioInfo();
                     tmpuser.UserID = _userid.ToString();                    
                     tmpuser.MessCode = _ip;
-
-                    //3 : superadmin , 0 : normal
-                    if (tmpuser.Previlege == 3)
-                    {
-                        continue;
-                    }
+                    tmpuser.Previlege = _prev;
 
                     tUserList.Add(tmpuser);
                     
@@ -2213,14 +2207,9 @@ namespace Attendance.Classes
                     tmpuser.UserID = _useridInt.ToString();
                     tmpuser.UserName = _username;
                     tmpuser.MessCode = _ip;
+                    tmpuser.Previlege = _prev;
 
-
-                    //3 : superadmin , 0 : normal
-                    if (tmpuser.Previlege == 3)
-                    {
-                        continue;
-                    }
-
+                    
                     tUserList.Add(tmpuser);                   
                    
                 }
@@ -2241,9 +2230,16 @@ namespace Attendance.Classes
                     
                     foreach (UserBioInfo t in tUserList)
                     {
-                        sql = "Insert into t1 (EmpUnqID,MachineIP,t1Date,Flg) values ('" + t.UserID + "','" + t.MessCode + "','2018-01-01',0);";
-                        cmd = new SqlCommand(sql, cn);
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            sql = "Insert into t1 (EmpUnqID,MachineIP,t1Date,Flg,previlage) values ('" + t.UserID + "','" + t.MessCode + "','2018-01-01',0,'" + t.Previlege.ToString() + "');";
+                            cmd = new SqlCommand(sql, cn);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }                       
                     }
 
                     sql = "Update a Set a.Flg = b.Active " +
@@ -2256,19 +2252,20 @@ namespace Attendance.Classes
                     cmd.ExecuteNonQuery();
 
                     sql = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddID,AddDt) " +
-                        " Select MachineIP,EmpUnqID,'" + Utils.User.GUserID + "',GetDate() From t1 Where MachineIP='" + _ip + "' and Flg = 1";
+                        " Select MachineIP,EmpUnqID,'" + Utils.User.GUserID + "',GetDate() From t1 Where MachineIP='" + _ip + "' and Flg = 1  ";
                     cmd = new SqlCommand(sql, cn);
                     cmd.ExecuteNonQuery();
 
-                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID From t1 where Flg = 0", Utils.Helper.constr, out err);
+                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID From t1 where Flg = 0 and previlage = 0", Utils.Helper.constr, out err);
                     bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     if (hasrows)
                     {
-                        this.CZKEM1.BeginBatchUpdate(_machineno, 0);
+                        //this.CZKEM1.BeginBatchUpdate(_machineno,1);
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
+                           
                             string tEmpUnqID = dr["EmpUnqID"].ToString();
-                            StoreHistoryinDB(tEmpUnqID, false);
+                            //StoreHistoryinDB(tEmpUnqID, false);
                             
                             if (!_istft)
                             {
@@ -2276,16 +2273,17 @@ namespace Attendance.Classes
                             }
                             else
                             {
-                                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+                               // this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 12);
                                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
                                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
 
                             }           
                             
                         }
-                        this.CZKEM1.BatchUpdate(_machineno);
+                        //this.CZKEM1.BatchUpdate(_machineno);
+                        this.RefreshData();
                     }
-                    this.RefreshData();
+                    
 
                     sql = "truncate  table t1 ";
                     cmd = new SqlCommand(sql, cn);
@@ -2295,7 +2293,9 @@ namespace Attendance.Classes
                 catch (Exception ex)
                 {
                     err = ex.ToString();
-                   
+                    sql = "truncate  table t1 ";
+                    cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
                 }
 
             }// using connection
