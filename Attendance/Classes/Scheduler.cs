@@ -733,13 +733,8 @@ namespace Attendance.Classes
                 
                 
                 string tsql = "Select EmpUnqID from MastEmp where CompCode = '01' and WrkGrp = '" + tWrkGrp + "' And Active = 1";
-                DateTime ToDt = Globals.GetSystemDateTime();
-                
-                if(ToDt == DateTime.MinValue){
-                    ToDt = DateTime.Now.Date;                    
-                }
-
-                DateTime FromDt = ToDt.AddDays(-1);
+                DateTime ToDt = DateTime.Now.Date;
+                DateTime FromDt = DateTime.Now.Date.AddDays(-1);
                 string cnerr = string.Empty;
 
                 DataSet DsEmp = Utils.Helper.GetData(tsql, Utils.Helper.constr,out cnerr);
@@ -761,7 +756,7 @@ namespace Attendance.Classes
                 bool hasRows = DsEmp.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                 if (hasRows)
                 {
-                    clsProcess pro = new clsProcess();
+                    
 
                     string filenminfo = "AutoProcess_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                     string fullpath2 = Path.Combine(Loginfopath, filenminfo);
@@ -789,12 +784,11 @@ namespace Attendance.Classes
                         
                         string err = string.Empty;
                         int tres = 0;
+                        clsProcess pro = new clsProcess();
                         pro.AttdProcess(tEmpUnqID,FromDt,ToDt,out tres,out err);
 
                         if (!string.IsNullOrEmpty(err))
                         {
-                            
-
                             string filenm = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                             string fullpath = Path.Combine(Errfilepath, filenm);
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
@@ -941,7 +935,7 @@ namespace Attendance.Classes
                 if(_StatusWorker == false)
                 { 
                     string cnerr = string.Empty;
-                    string sql = "Select top 100 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
+                    string sql = "Select top 200 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
                     DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr,out cnerr);
                     if (!string.IsNullOrEmpty(cnerr))
                     {
@@ -953,7 +947,7 @@ namespace Attendance.Classes
                     if (hasRows)
                     {
 
-                        clsProcess pro = new clsProcess();
+                        
 
                         foreach (DataRow dr in DsEmp.Tables[0].Rows)
                         {
@@ -981,6 +975,7 @@ namespace Attendance.Classes
 
                             string err = string.Empty;
                             int tres = 0;
+                            clsProcess pro = new clsProcess();
                             pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
 
                             if (!string.IsNullOrEmpty(err))

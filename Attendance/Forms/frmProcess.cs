@@ -953,7 +953,7 @@ namespace Attendance.Forms
 
             Cursor.Current = Cursors.WaitCursor;
 
-            clsProcess pr = new clsProcess();
+            
                 if (ProcessName == "ATTD")
                 {
                     foreach (DataRow dr in ProcessList.Rows)
@@ -963,6 +963,7 @@ namespace Attendance.Forms
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
                         string proerr = string.Empty;
+                        clsProcess pr = new clsProcess();
                         pr.AttdProcess(tEmpUnqID, tFromDt,tToDt,out res,out proerr);
 
                         //update processed status
@@ -992,6 +993,7 @@ namespace Attendance.Forms
                         DateTime tFromDt = Convert.ToDateTime(dr["FromDate"]);
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
+                        clsProcess pr = new clsProcess();
                         pr.LunchProcess(tEmpUnqID, tFromDt, tToDt, out res);
                         Application.DoEvents();
                         //update processed status
@@ -1015,6 +1017,7 @@ namespace Attendance.Forms
                         DateTime tFromDt = Convert.ToDateTime(dr["FromDate"]);
                         DateTime tToDt = Convert.ToDateTime(dr["ToDate"]);
                         int res;
+                        clsProcess pr = new clsProcess();
                         pr.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out res);
                         Application.DoEvents();
                         //update processed status
