@@ -982,15 +982,15 @@ namespace Attendance.Classes
                             " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active," +
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
-                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode " +                            
+                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode, " +                            
                             " AddDt,AddID,isHod) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
                             " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
-                            " '{30}','{31}',{32}, " +
-                            " GetDate(),'{33}',0,'{34}')";
+                            " '{30}','{31}',{32} ," +
+                            " '{33}',GetDate(),'{34}', 0)";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
@@ -1008,7 +1008,7 @@ namespace Attendance.Classes
                             (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), 
                             (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
                             (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
-                            Utils.User.GUserID,this.CostCode);
+                            this.CostCode,Utils.User.GUserID);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
