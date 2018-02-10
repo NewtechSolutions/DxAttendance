@@ -1005,8 +1005,8 @@ namespace Attendance
                     {
 
                         #region Set_shiftvars
-                        ShiftHrs = Convert.ToInt32(drShift["ShiftHrs"].ToString());
-                        ShiftBreak = Convert.ToInt32(drShift["BreakHrs"].ToString());
+                        ShiftHrs = Convert.ToDouble(drShift["ShiftHrs"].ToString());
+                        ShiftBreak = Convert.ToDouble(drShift["BreakHrs"].ToString());
 
                         ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Hour)
                             .AddMinutes(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Minute);
@@ -1184,9 +1184,9 @@ namespace Attendance
                                         DataRow[] drs = Globals.dtShift.Select("ShiftCode = 'GI'");
                                         foreach (DataRow tdr in drs)
                                         {
-                                            ShiftHrs = Convert.ToInt32(tdr["Shifthrs"]);
+                                            ShiftHrs = Convert.ToDouble(tdr["Shifthrs"]);
                                             ShiftEnd = ShiftStart.AddHours(ShiftHrs);
-                                            ShiftBreak = Convert.ToInt32(tdr["BreakHrs"]);
+                                            ShiftBreak = Convert.ToDouble(tdr["BreakHrs"]);
                                         }
                                         daAttdData.Update(dsAttdData, "AttdData");
                                     }
@@ -1395,8 +1395,8 @@ namespace Attendance
                     #region Set_shiftvars
                     foreach (DataRow drShift in drShiftC)
                     {
-                        ShiftHrs = Convert.ToInt32(drShift["ShiftHrs"].ToString());
-                        ShiftBreak = Convert.ToInt32(drShift["BreakHrs"].ToString());
+                        ShiftHrs = Convert.ToDouble(drShift["ShiftHrs"].ToString());
+                        ShiftBreak = Convert.ToDouble(drShift["BreakHrs"].ToString());
 
                         ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Hour)
                             .AddMinutes(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Minute);

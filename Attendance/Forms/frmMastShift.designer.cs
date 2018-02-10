@@ -266,7 +266,7 @@
             // 
             this.txtShiftHrs.Location = new System.Drawing.Point(284, 71);
             this.txtShiftHrs.Name = "txtShiftHrs";
-            this.txtShiftHrs.Properties.Mask.EditMask = "n0";
+            this.txtShiftHrs.Properties.Mask.EditMask = "f";
             this.txtShiftHrs.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtShiftHrs.Size = new System.Drawing.Size(42, 20);
             this.txtShiftHrs.TabIndex = 5;

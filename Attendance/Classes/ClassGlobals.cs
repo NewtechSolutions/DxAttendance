@@ -478,8 +478,8 @@ namespace Attendance.Classes
         public TimeSpan ShiftOutFrom;
         public TimeSpan ShiftOutTo;
         public bool NightFLG;
-        public int BreakHrs;
-        public int ShiftHrs;
+        public double BreakHrs;
+        public double ShiftHrs;
 
     }
 
