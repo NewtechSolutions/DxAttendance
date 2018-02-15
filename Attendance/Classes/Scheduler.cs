@@ -285,7 +285,10 @@ namespace Attendance.Classes
                     ITrigger trigger = TriggerBuilder.Create()
                         .WithIdentity(triggerid, "TRG_AutoProcess")
                         .StartNow()
-                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
+                        .WithSchedule(
+                            CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes)
+                            .WithMisfireHandlingInstructionFireAndProceed()
+                            )
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
