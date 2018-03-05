@@ -111,7 +111,8 @@
     <Reference Include="DevExpress.XtraPrinting.v13.1, Version=13.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Help_F1F2">
+    <Reference Include="Help_F1F2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Help_F1F2.dll</HintPath>
     </Reference>
     <Reference Include="Interop.zkemkeeper">

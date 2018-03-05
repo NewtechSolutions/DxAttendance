@@ -76,6 +76,8 @@
             this.txtDeptCode = new DevExpress.XtraEditors.TextEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLeftDt = new DevExpress.XtraEditors.DateEdit();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtESINo = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights.SuspendLayout();
             this.GrpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSecDesc.Properties)).BeginInit();
@@ -105,6 +107,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // grpUserRights
@@ -185,6 +188,8 @@
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.label6);
+            this.GrpMain.Controls.Add(this.txtESINo);
             this.GrpMain.Controls.Add(this.label3);
             this.GrpMain.Controls.Add(this.label2);
             this.GrpMain.Controls.Add(this.txtSecDesc);
@@ -277,12 +282,10 @@
             // 
             // chkIsHOD
             // 
-            this.chkIsHOD.Location = new System.Drawing.Point(6, 153);
+            this.chkIsHOD.Location = new System.Drawing.Point(8, 153);
             this.chkIsHOD.Name = "chkIsHOD";
             this.chkIsHOD.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIsHOD.Properties.Appearance.Options.UseFont = true;
-            this.chkIsHOD.Properties.Appearance.Options.UseTextOptions = true;
-            this.chkIsHOD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkIsHOD.Properties.AppearanceReadOnly.Options.UseTextOptions = true;
             this.chkIsHOD.Properties.AppearanceReadOnly.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.chkIsHOD.Properties.Caption = "Is Hod (for portal) :";
@@ -337,7 +340,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 77);
+            this.label1.Location = new System.Drawing.Point(8, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 15);
             this.label1.TabIndex = 109;
@@ -380,7 +383,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(27, 49);
+            this.label24.Location = new System.Drawing.Point(8, 49);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(54, 15);
             this.label24.TabIndex = 104;
@@ -398,34 +401,30 @@
             // 
             // chkAutoShift
             // 
-            this.chkAutoShift.Location = new System.Drawing.Point(16, 128);
+            this.chkAutoShift.Location = new System.Drawing.Point(8, 128);
             this.chkAutoShift.Name = "chkAutoShift";
             this.chkAutoShift.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAutoShift.Properties.Appearance.Options.UseFont = true;
-            this.chkAutoShift.Properties.Appearance.Options.UseTextOptions = true;
-            this.chkAutoShift.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkAutoShift.Properties.AppearanceReadOnly.Options.UseTextOptions = true;
             this.chkAutoShift.Properties.AppearanceReadOnly.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.chkAutoShift.Properties.Caption = "Auto Shift ?";
             this.chkAutoShift.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkAutoShift.Properties.ValueGrayed = false;
-            this.chkAutoShift.Size = new System.Drawing.Size(91, 19);
+            this.chkAutoShift.Size = new System.Drawing.Size(101, 19);
             this.chkAutoShift.TabIndex = 6;
             // 
             // chkOTFlg
             // 
-            this.chkOTFlg.Location = new System.Drawing.Point(16, 100);
+            this.chkOTFlg.Location = new System.Drawing.Point(8, 100);
             this.chkOTFlg.Name = "chkOTFlg";
             this.chkOTFlg.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkOTFlg.Properties.Appearance.Options.UseFont = true;
-            this.chkOTFlg.Properties.Appearance.Options.UseTextOptions = true;
-            this.chkOTFlg.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkOTFlg.Properties.AppearanceReadOnly.Options.UseTextOptions = true;
             this.chkOTFlg.Properties.AppearanceReadOnly.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.chkOTFlg.Properties.Caption = "Extra Hrs :";
             this.chkOTFlg.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
             this.chkOTFlg.Properties.ValueGrayed = false;
-            this.chkOTFlg.Size = new System.Drawing.Size(91, 19);
+            this.chkOTFlg.Size = new System.Drawing.Size(102, 19);
             this.chkOTFlg.TabIndex = 5;
             // 
             // label18
@@ -518,7 +517,7 @@
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(13, 21);
+            this.label12.Location = new System.Drawing.Point(8, 21);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(76, 19);
             this.label12.TabIndex = 95;
@@ -700,6 +699,25 @@
             this.txtLeftDt.TabIndex = 4;
             this.txtLeftDt.TabStop = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 180);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 15);
+            this.label6.TabIndex = 120;
+            this.label6.Text = "ESI NO  :";
+            // 
+            // txtESINo
+            // 
+            this.txtESINo.Location = new System.Drawing.Point(90, 178);
+            this.txtESINo.Name = "txtESINo";
+            this.txtESINo.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtESINo.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtESINo.Properties.MaxLength = 100;
+            this.txtESINo.Size = new System.Drawing.Size(276, 20);
+            this.txtESINo.TabIndex = 119;
+            // 
             // frmMastEmpJobProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -745,6 +763,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -799,5 +818,7 @@
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.TextEdit txtSecDesc;
         public DevExpress.XtraEditors.TextEdit txtSecCode;
+        private System.Windows.Forms.Label label6;
+        private DevExpress.XtraEditors.TextEdit txtESINo;
     }
 }

@@ -781,8 +781,8 @@ namespace Attendance.Classes
                              bool  tSafteyFlg, string tEmpCode, string tContCode, 
                                 string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
                                     string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
-                                        string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo, 
-                                            DateTime? tValidFrom , DateTime? tValidTo, out string err)
+                                        string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo,
+                                            DateTime? tValidFrom, DateTime? tValidTo, double cbasic, out string err)
         {
             bool retval = false;
             err = "";
@@ -982,15 +982,15 @@ namespace Attendance.Classes
                             " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active," +
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
-                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode, " +                            
-                            " AddDt,AddID,isHod) Values (" +
+                            " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode, " +
+                            " AddDt,AddID,isHod,Basic) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
                             " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
-                            " '{30}','{31}',{32} ," +
-                            " '{33}',GetDate(),'{34}', 0)";
+                            " '{30}','{31}',{32}, " +
+                            " '{33}',GetDate(),'{34}',0,'{35}')";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
@@ -998,17 +998,17 @@ namespace Attendance.Classes
                             Convert.ToDateTime(this.BirthDt).ToString("yyyy-MM-dd"), Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd"),
                            ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidFrom).ToString("yyyy-MM-dd") + "'"),
                             ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidTo).ToString("yyyy-MM-dd") + "'"),
-                            this.AdharNo, this.AdharNo, (this.Gender?1:0),
-                             (this.ContFlg?1:0), (this.PayrollFlg?1:0), (this.OTFLG?1:0), this.WeekOffDay,
+                            this.AdharNo, this.AdharNo, (this.Gender ? 1 : 0),
+                             (this.ContFlg ? 1 : 0), (this.PayrollFlg ? 1 : 0), (this.OTFLG ? 1 : 0), this.WeekOffDay,
                             (this.ContCode == "" ? "null" : "'" + this.ContCode + "'"), this.EmpCode, this.OLDEmpCode, this.SAPID,
-                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), 
+                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"),
                             (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"),
-                            (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), 
-                            (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), 
-                            (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), 
+                            (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"),
+                            (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"),
+                            (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"),
                             (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
-                            (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
-                            this.CostCode,Utils.User.GUserID);
+                            (this.AutoShift ? 1 : 0), (this.MedChkFlg ? 1 : 0), (this.SafetyTrnFLG ? 1 : 0), (this.AutoShift ? "null" : "'" + this.ShiftCode + "'"),
+                            this.CostCode, Utils.User.GUserID, cbasic);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();

@@ -194,6 +194,18 @@ namespace Attendance.Forms
                         string tAdharNo = tdr["AdharNo"].ToString().Trim().ToUpper();
                         string tShiftCode = tdr["ShiftCode"].ToString().Trim().ToUpper();
 
+                        double tbasic = 0;
+                        try
+                        {
+                            double.TryParse(tdr["Basic"].ToString(), out tbasic);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+
+
                         DateTime? tValidFrom = new DateTime?();
                         DateTime? tValidTo = new DateTime?();
                         
@@ -224,7 +236,7 @@ namespace Attendance.Forms
                                 tEmpTypeCode, tCATCODE, tDeptcode, tStatCode,
                                     tDesgCode, tGradeCode, tMessGrpCode, tMessCode,
                                         tOldEmpCode, tSAPID, tCostCode, tAdharNo,
-                                            tValidFrom, tValidTo, out err);
+                                            tValidFrom, tValidTo, tbasic, out err);
 
                         
                         if (string.IsNullOrEmpty(err))

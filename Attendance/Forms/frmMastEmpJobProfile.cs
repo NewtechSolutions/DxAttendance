@@ -132,6 +132,7 @@ namespace Attendance.Forms
             txtOldEmpCode.Text = "";
             txtSAPID.Text = "";
             txtWeekOff.Text = "";
+            txtESINo.Text = "";
 
             chkAutoShift.Checked = false;
             chkOTFlg.Checked = false;
@@ -265,24 +266,24 @@ namespace Attendance.Forms
                         sql = "Update MastEmp set OTFLG='{0}',Weekoff='{1}', EmpCode='{2}',OldEmpCode='{3}',SAPID='{4}',ShiftType='{5}'," +
                             " LeftDt = {6}  , EmpTypeCode = {7} , CatCode = {8} , DeptCode = {9} , StatCode = {10} , DesgCode = {11} , " +
                             " GradCode = {12} , ContCode = {13} , ShiftCode = {14} , Active = '{15}', " +
-                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}', SecCode = {18} Where " +
-                            " CompCode ='{19}' and EmpUnqID = '{20}'";
+                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}', SecCode = {18} , ESINo= '{19}' Where " +
+                            " CompCode ='{20}' and EmpUnqID = '{21}'";
 
 
                         sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
-                            txtEmpCode.Text.Trim(),txtOldEmpCode.Text.Trim(),txtSAPID.Text.Trim(),((chkAutoShift.Checked) ? 1 : 0),
-                            ((txtLeftDt.EditValue == null)? "null" : "'"+ txtLeftDt.DateTime.ToString("yyyy-MM-dd") + "'"),
-                            ((txtEmpTypeCode.Text.Trim()== "")? "null" : "'"+ txtEmpTypeCode.Text.Trim() + "'"),
-                            ((txtCatCode.Text.Trim()== "")? "null" : "'"+ txtCatCode.Text.Trim() + "'"),
-                            ((txtDeptCode.Text.Trim()== "")? "null" : "'"+ txtDeptCode.Text.Trim() + "'"),
+                            txtEmpCode.Text.Trim(), txtOldEmpCode.Text.Trim(), txtSAPID.Text.Trim(), ((chkAutoShift.Checked) ? 1 : 0),
+                            ((txtLeftDt.EditValue == null) ? "null" : "'" + txtLeftDt.DateTime.ToString("yyyy-MM-dd") + "'"),
+                            ((txtEmpTypeCode.Text.Trim() == "") ? "null" : "'" + txtEmpTypeCode.Text.Trim() + "'"),
+                            ((txtCatCode.Text.Trim() == "") ? "null" : "'" + txtCatCode.Text.Trim() + "'"),
+                            ((txtDeptCode.Text.Trim() == "") ? "null" : "'" + txtDeptCode.Text.Trim() + "'"),
                             ((txtStatCode.Text.Trim() == "") ? "null" : "'" + txtStatCode.Text.Trim() + "'"),
                             ((txtDesgCode.Text.Trim() == "") ? "null" : "'" + txtDesgCode.Text.Trim() + "'"),
                             ((txtGradeCode.Text.Trim() == "") ? "null" : "'" + txtGradeCode.Text.Trim() + "'"),
                             ((txtContCode.Text.Trim() == "") ? "null" : "'" + txtContCode.Text.Trim() + "'"),
                             ((txtShiftCode.Text.Trim() == "") ? "null" : "'" + txtShiftCode.Text.Trim() + "'"),
-                            ((txtLeftDt.EditValue == null)?1:0),
-                            Utils.User.GUserID,((chkIsHOD.Checked) ? 1 : 0),
-                            ((txtSecCode.Text.Trim() == "") ? "null" : "'" + txtSecCode.Text.Trim() + "'"),
+                            ((txtLeftDt.EditValue == null) ? 1 : 0),
+                            Utils.User.GUserID, ((chkIsHOD.Checked) ? 1 : 0),
+                            ((txtSecCode.Text.Trim() == "") ? "null" : "'" + txtSecCode.Text.Trim() + "'"), txtESINo.Text.Trim(),
                             ctrlEmp1.txtCompCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim()
                             );
 
@@ -508,7 +509,8 @@ namespace Attendance.Forms
             object s = new object();
             EventArgs e = new EventArgs();
             txtSecCode_Validated(s, e);
-            
+            txtESINo.Text = Utils.Helper.GetDescription("Select ESINO from MastEmp Where EmpUnqID = '" + temp.EmpUnqID + "'", Utils.Helper.constr);
+
 
             if(temp.LeftDt.HasValue){
                 txtLeftDt.DateTime = Convert.ToDateTime(temp.LeftDt);

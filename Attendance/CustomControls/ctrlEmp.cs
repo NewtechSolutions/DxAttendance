@@ -214,7 +214,7 @@ namespace Attendance
             if (txtCompCode.Text.Trim() == "")
                 return;
 
-            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2 || e.KeyCode == Keys.F3 || e.KeyCode == Keys.F4)
             {
                 List<string> obj = new List<string>();
 
@@ -222,16 +222,27 @@ namespace Attendance
                 string sql = "";
 
 
-                sql = "Select EmpUnqID,EmpName,WrkGrp,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
+                sql = "Select EmpUnqID,EmpName,FatherName,WrkGrp,Active,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
                 if (e.KeyCode == Keys.F1)
                 {
                     obj = (List<string>)hlp.Show(sql, "EmpUnqID", "EmpUnqID", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                     100, 300, 400, 600, 100, 100);
                 }
-                else
+                else if (e.KeyCode == Keys.F2)
                 {
                     obj = (List<string>)hlp.Show(sql, "EmpName", "EmpName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                     100, 300, 400, 600, 100, 100);
+                }
+                else if (e.KeyCode == Keys.F3)
+                {
+                    obj = (List<string>)hlp.Show(sql, "WrkGrp", "WrkGrp", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+                else if (e.KeyCode == Keys.F4)
+                {
+                    sql = "Select EmpUnqID,EmpName,FatherName,WrkGrp,Active,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' and Active = 1 ";
+                    obj = (List<string>)hlp.Show(sql, "EmpName", "EmpName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                  100, 300, 400, 600, 100, 100);
                 }
 
                 if (obj.Count == 0)
@@ -249,7 +260,7 @@ namespace Attendance
                 else
                 {
 
-                    txtCompCode.Text = obj.ElementAt(3).ToString();
+                    txtCompCode.Text = obj.ElementAt(5).ToString();
                     txtEmpUnqID.Text = obj.ElementAt(0).ToString();
                     txtEmpUnqID_Validated(sender, e);
                 }

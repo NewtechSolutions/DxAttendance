@@ -260,13 +260,14 @@ namespace Attendance.Forms
                       " and LunchFlg = 0 and IOFLG in ('I','O') Order by PunchDate";
 
 
-            SqlLeave = "Select CONVERT(VARCHAR(10), FromDt, 103) as FromDt ,CONVERT(VARCHAR(10), ToDt, 103) as ToDt,LeaveTyp,TotDay,WODay,PublicHL,LeaveDed,LeaveAdv,LeaveHalf,Remark,AddDt,AddID " +
+            SqlLeave = "Select CONVERT(VARCHAR(10), FromDt, 103) as FromDt ,CONVERT(VARCHAR(10), ToDt, 103) as ToDt,LeaveTyp,TotDay,WODay,PublicHL,LeaveDed," +
+                    " LeaveAdv,LeaveHalf,Remark,AddDt,AddID,FromDt as srtDate " +
                     " From LeaveEntry Where " +
                     " CompCode ='" + Emp.CompCode + "' " +
                     " And WrkGrp ='" + Emp.WrkGrp + "' " +
                     " And tYear ='" + FromDt.Year + "' " +
                     " And EmpUnqID ='" + Emp.EmpUnqID + "' " +
-                    " Order By FromDt Desc ";
+                    " Order By srtDate ";
 
 
             //'Punch Details
@@ -361,6 +362,11 @@ namespace Attendance.Forms
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
                 colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+
+                colDate = gv_LeaveList.Columns["srtDate"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yy";
 
                 foreach (GridColumn gc in gv_LeaveList.Columns)
                 {

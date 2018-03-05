@@ -77,6 +77,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
+            this.txtBasic = new DevExpress.XtraEditors.TextEdit();
+            this.label13 = new System.Windows.Forms.Label();
             this.GrpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).BeginInit();
@@ -107,10 +109,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             this.grpUserRights.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.label13);
+            this.GrpMain.Controls.Add(this.txtBasic);
             this.GrpMain.Controls.Add(this.txtWeekOff);
             this.GrpMain.Controls.Add(this.lblLeft);
             this.GrpMain.Controls.Add(this.label12);
@@ -155,7 +160,7 @@
             this.GrpMain.Controls.Add(this.txtWrkGrpCode);
             this.GrpMain.Location = new System.Drawing.Point(12, 3);
             this.GrpMain.Name = "GrpMain";
-            this.GrpMain.Size = new System.Drawing.Size(831, 237);
+            this.GrpMain.Size = new System.Drawing.Size(831, 302);
             this.GrpMain.TabIndex = 0;
             this.GrpMain.TabStop = false;
             // 
@@ -402,6 +407,7 @@
             this.chkCont.Size = new System.Drawing.Size(80, 19);
             this.chkCont.TabIndex = 7;
             this.chkCont.TabStop = false;
+            this.chkCont.Validated += new System.EventHandler(this.chkCont_Validated);
             // 
             // chkComp
             // 
@@ -681,7 +687,7 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 246);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 311);
             this.grpUserRights.Name = "grpUserRights";
             this.grpUserRights.Size = new System.Drawing.Size(831, 49);
             this.grpUserRights.TabIndex = 2;
@@ -731,11 +737,29 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // txtBasic
+            // 
+            this.txtBasic.Location = new System.Drawing.Point(110, 240);
+            this.txtBasic.Name = "txtBasic";
+            this.txtBasic.Properties.Mask.EditMask = "[+]?([0-9]*[.])?[0-9]+";
+            this.txtBasic.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBasic.Size = new System.Drawing.Size(100, 20);
+            this.txtBasic.TabIndex = 108;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(15, 242);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(75, 14);
+            this.label13.TabIndex = 109;
+            this.label13.Text = "Cont. Basic :";
+            // 
             // frmMastEmpBasicData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 303);
+            this.ClientSize = new System.Drawing.Size(853, 372);
             this.Controls.Add(this.grpUserRights);
             this.Controls.Add(this.GrpMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -776,6 +800,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             this.grpUserRights.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -831,5 +856,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblLeft;
         private DevExpress.XtraEditors.ComboBoxEdit txtWeekOff;
+        private System.Windows.Forms.Label label13;
+        private DevExpress.XtraEditors.TextEdit txtBasic;
     }
 }
