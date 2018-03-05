@@ -839,7 +839,7 @@ namespace Attendance.Forms
                 else
                 {
 
-                    txtCompCode.Text = obj.ElementAt(3).ToString();
+                    txtCompCode.Text = obj.ElementAt(5).ToString();
                     txtEmpUnqID.Text = obj.ElementAt(0).ToString();
                     txtEmpUnqID_Validated(sender, e);
                 }
