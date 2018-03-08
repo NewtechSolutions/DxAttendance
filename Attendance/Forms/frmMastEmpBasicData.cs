@@ -87,9 +87,7 @@ namespace Attendance.Forms
             }
 
 
-            if(txtAdharNo.Text.Trim().ToString().Length < 12) {
-                err = err + "Please Enter 12 digit Adhar No" + Environment.NewLine;
-            }
+            
         
 
             if(txtJoinDt.EditValue == null){
@@ -98,6 +96,11 @@ namespace Attendance.Forms
 
             if(txtBirthDT.EditValue == null){
                 err = err + "Please Enter BirthDate" + Environment.NewLine;
+            }
+
+            if (txtAdharNo.Text.Trim().ToString().Length < 12)
+            {
+                err = err + "Please Enter 12 digit Adhar No" + Environment.NewLine;
             }
 
             if (txtWrkGrpCode.Text.Trim() != "COMP")
@@ -204,6 +207,13 @@ namespace Attendance.Forms
             {
                 dupadhar = false;
                 dupadharemp = string.Empty;
+            }
+
+            //check for blacklisted adharcard
+            string blackadhar = Utils.Helper.GetDescription("Select AdharNo From MastEmpBlackList where AdharNo ='" + txtAdharNo.Text.Trim() + "' And BlackList = 1", Utils.Helper.constr);
+            if (!string.IsNullOrEmpty(blackadhar))
+            {
+                err = err + "Supplied Adhar Card is Black Listed...";
             }
 
             if (chkCont.Checked == true)

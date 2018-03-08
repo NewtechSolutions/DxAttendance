@@ -1085,6 +1085,18 @@ namespace Attendance
             
             
         }
+
+        private void mnuBlackListAdhar_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpBlackList"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpBlackList m = new Attendance.Forms.frmMastEmpBlackList();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
         
 
     }

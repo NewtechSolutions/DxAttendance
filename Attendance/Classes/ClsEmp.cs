@@ -797,6 +797,18 @@ namespace Attendance.Classes
                 return retval;
 
             }
+
+
+            //check for blacklisted adharcard
+            string blackadhar = Utils.Helper.GetDescription("Select AdharNo From MastEmpBlackList where AdharNo ='" + tAdharNo + "' And BlackList = 1", Utils.Helper.constr);
+            if (!string.IsNullOrEmpty(blackadhar))
+            {
+                err = err + "Supplied Adhar Card is Black Listed...";
+                retval = false;
+                return retval;
+            }
+
+
             err = string.Empty;
 
             this.EmpName = tEmpName;

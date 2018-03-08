@@ -62,6 +62,7 @@
             this.mnuMastGrade = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastCont = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastHoliday = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastHolidayOpt = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAutoMail = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreateMuster = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastRules = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,7 +117,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuMastHolidayOpt = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBlackListAdhar = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -297,7 +298,8 @@
             this.mnuUserEmpRights,
             this.mnuProfile,
             this.mnuEmployee,
-            this.mnuMess});
+            this.mnuMess,
+            this.mnuBlackListAdhar});
             this.mnuMast.Name = "mnuMast";
             this.mnuMast.Size = new System.Drawing.Size(60, 20);
             this.mnuMast.Text = "&Masters";
@@ -405,6 +407,13 @@
             this.mnuMastHoliday.Size = new System.Drawing.Size(208, 22);
             this.mnuMastHoliday.Text = "Holiday Calander";
             this.mnuMastHoliday.Click += new System.EventHandler(this.mnuMastHoliday_Click);
+            // 
+            // mnuMastHolidayOpt
+            // 
+            this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
+            this.mnuMastHolidayOpt.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastHolidayOpt.Text = "Optional Holidy Calander";
+            this.mnuMastHolidayOpt.Click += new System.EventHandler(this.mnuMastHolidayOpt_Click);
             // 
             // mnuAutoMail
             // 
@@ -822,12 +831,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuMastHolidayOpt
+            // mnuBlackListAdhar
             // 
-            this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
-            this.mnuMastHolidayOpt.Size = new System.Drawing.Size(208, 22);
-            this.mnuMastHolidayOpt.Text = "Optional Holidy Calander";
-            this.mnuMastHolidayOpt.Click += new System.EventHandler(this.mnuMastHolidayOpt_Click);
+            this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
+            this.mnuBlackListAdhar.Size = new System.Drawing.Size(205, 22);
+            this.mnuBlackListAdhar.Text = "BlackList AdharCard";
+            this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
             // 
             // frmMain
             // 
@@ -943,6 +952,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private System.Windows.Forms.ToolStripMenuItem mnuMastStatSec;
         private System.Windows.Forms.ToolStripMenuItem mnuMastHolidayOpt;
+        private System.Windows.Forms.ToolStripMenuItem mnuBlackListAdhar;
 
 
     }
