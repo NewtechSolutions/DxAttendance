@@ -153,8 +153,8 @@
             this.chkActive.Name = "chkActive";
             this.chkActive.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkActive.Properties.Appearance.Options.UseFont = true;
-            this.chkActive.Properties.Caption = "Active";
-            this.chkActive.Size = new System.Drawing.Size(80, 19);
+            this.chkActive.Properties.Caption = "Balck Listed";
+            this.chkActive.Size = new System.Drawing.Size(105, 19);
             this.chkActive.TabIndex = 95;
             this.chkActive.TabStop = false;
             // 
