@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Attendance.Classes;
 using System.Data.OleDb;
 using System.Data.SqlClient;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace Attendance.Forms
 {
@@ -1052,6 +1054,23 @@ namespace Attendance.Forms
             if ((e.KeyData == Keys.Enter))
             {
                 SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
+        private void gv_app_DoubleClick(object sender, EventArgs e)
+        {
+            GridView view = (GridView)sender;
+            Point pt = view.GridControl.PointToClient(Control.MousePosition);
+            DoRowDoubleClick(view, pt);
+        }
+
+        private void DoRowDoubleClick(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                ctrlEmp1.txtEmpUnqID.EditValue = gv_app.GetRowCellValue(info.RowHandle, "EmpUnqID").ToString();
+
             }
         }
 

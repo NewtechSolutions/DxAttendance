@@ -294,9 +294,9 @@ namespace Attendance.Forms
                         sql = string.Format(sql,txtMisConDt.DateTime.ToString("yyyy-MM-dd") ,txtMisConDesc.Text.Trim().ToString(),
                             ctrlEmp1.txtEmpCode.Text.Trim(),ctrlEmp1.txtEmpUnqID.Text.Trim(),ctrlEmp1.txtWrkGrpCode.Text.Trim(),
 
-                            ((txtActionDt.EditValue == null)?"null":Convert.ToDateTime(txtActionDt.EditValue).ToString("yyyy-MM-dd")),
+                            ((txtActionDt.EditValue == null)?"null":"'" + txtActionDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                             txtActionDesc.Text.Trim().ToString(),
-                            ((txtFinActionDt.EditValue == null)?"null":Convert.ToDateTime(txtFinActionDt.EditValue).ToString("yyyy-MM-dd")),
+                            ((txtFinActionDt.EditValue == null)?"null":"'" + txtFinActionDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                             txtFinActionDesc.Text.Trim().ToString(),txtRemarks.Text.Trim().ToString(),
                             Utils.User.GUserID,
                             ctrlEmp1.txtEmpUnqID.Text.Trim(), txtID.Text.Trim()
@@ -566,5 +566,23 @@ namespace Attendance.Forms
             }
         }
 
+        private void gridview_DoubleClick(object sender, EventArgs e)
+        {
+            GridView view = (GridView)sender;
+            Point pt = view.GridControl.PointToClient(Control.MousePosition);
+            DoRowDoubleClick(view, pt);
+        }
+
+        private void DoRowDoubleClick(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                txtID.EditValue = gridview.GetRowCellValue(info.RowHandle, "ID").ToString();
+                object sender = new object();
+                EventArgs e = new EventArgs();
+                txtID_Validated(sender, e);
+            }
+        }
     }
 }

@@ -207,6 +207,7 @@
             this.gridview.OptionsView.ShowDetailButtons = false;
             this.gridview.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gridview.OptionsView.ShowGroupPanel = false;
+            this.gridview.DoubleClick += new System.EventHandler(this.gridview_DoubleClick);
             // 
             // label1
             // 
@@ -272,6 +273,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtFinActionDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtFinActionDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtFinActionDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtFinActionDt.Size = new System.Drawing.Size(100, 20);
             this.txtFinActionDt.TabIndex = 5;
             // 
@@ -286,6 +288,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtActionDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtActionDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtActionDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtActionDt.Size = new System.Drawing.Size(100, 20);
             this.txtActionDt.TabIndex = 3;
             // 
@@ -300,6 +303,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtMisConDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtMisConDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtMisConDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtMisConDt.Size = new System.Drawing.Size(100, 20);
             this.txtMisConDt.TabIndex = 1;
             // 

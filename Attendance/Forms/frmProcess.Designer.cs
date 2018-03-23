@@ -234,6 +234,7 @@
             this.gv_app.OptionsView.ShowDetailButtons = false;
             this.gv_app.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_app.OptionsView.ShowGroupPanel = false;
+            this.gv_app.DoubleClick += new System.EventHandler(this.gv_app_DoubleClick);
             // 
             // EmpUnqID
             // 
@@ -439,6 +440,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtAppToDate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtAppToDate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtAppToDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtAppToDate.Size = new System.Drawing.Size(100, 20);
             this.txtAppToDate.TabIndex = 1;
             // 
@@ -453,6 +455,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtAppFromDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtAppFromDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtAppFromDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtAppFromDt.Size = new System.Drawing.Size(100, 20);
             this.txtAppFromDt.TabIndex = 0;
             // 
@@ -833,6 +836,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtWrkToDate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtWrkToDate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtWrkToDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtWrkToDate.Size = new System.Drawing.Size(100, 20);
             this.txtWrkToDate.TabIndex = 5;
             // 
@@ -847,6 +851,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtWrkFromDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtWrkFromDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtWrkFromDt.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtWrkFromDt.Size = new System.Drawing.Size(100, 20);
             this.txtWrkFromDt.TabIndex = 4;
             // 
