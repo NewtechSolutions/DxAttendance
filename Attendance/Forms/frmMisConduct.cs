@@ -225,9 +225,9 @@ namespace Attendance.Forms
                         sql = string.Format(sql, txtMisConDt.DateTime.ToString("yyyy-MM-dd"), txtMisConDesc.Text.Trim().ToString(),
                             ctrlEmp1.txtEmpCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim(), ctrlEmp1.txtWrkGrpCode.Text.Trim(),
 
-                            ((txtActionDt.EditValue == null) ? "null" : Convert.ToDateTime(txtActionDt.EditValue).ToString("yyyy-MM-dd")),
+                            ((txtActionDt.EditValue == null) ? "null" : "'" + txtActionDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                             txtActionDesc.Text.Trim().ToString(),
-                            ((txtFinActionDt.EditValue == null) ? "null" : Convert.ToDateTime(txtFinActionDt.EditValue).ToString("yyyy-MM-dd")),
+                            ((txtFinActionDt.EditValue == null) ? "null" : "'" + txtFinActionDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                             txtFinActionDesc.Text.Trim().ToString(), txtRemarks.Text.Trim().ToString(),
                             Utils.User.GUserID                            
                             );
