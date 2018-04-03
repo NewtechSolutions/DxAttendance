@@ -1885,6 +1885,12 @@ namespace Attendance
                     #endregion SchShiftCalc
                 }
 
+                //remove grace_period if status = 'A'
+                if (drAttd["Status"].ToString() == "A")
+                {
+                    drAttd["GracePeriod"] = "";
+                }
+
 
                 #region OTCalc
             OTCalc:
