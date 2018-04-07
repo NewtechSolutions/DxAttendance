@@ -732,6 +732,13 @@ namespace Attendance
                                     {
                                         drAttd["ActualStatus"] = "P";
                                     }
+									
+									//bugfix : 07/04/2018
+                                    if (drAttd["Status"].ToString() == "A")
+                                    {
+                                        drAttd["ConsOverTime"] = 0;
+                                        drAttd["GracePeriod"] = "";
+                                    }
 
                                     daAttdData.Update(dsAttdData, "AttdData");
 
@@ -1885,11 +1892,7 @@ namespace Attendance
                     #endregion SchShiftCalc
                 }
 
-                //remove grace_period if status = 'A'
-                if (drAttd["Status"].ToString() == "A")
-                {
-                    drAttd["GracePeriod"] = "";
-                }
+                
 
 
                 #region OTCalc

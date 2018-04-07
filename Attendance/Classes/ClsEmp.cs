@@ -112,7 +112,7 @@ namespace Attendance.Classes
 
                 if (IsNew)
                 {
-                    string err = this.BasicValidation();
+                    string err = this.BasicValidation(false);
                     if (string.IsNullOrEmpty(err))
                     {
                         return true;
@@ -247,7 +247,12 @@ namespace Attendance.Classes
             GetContDesc(this.CompCode, this.WrkGrp, this.UnitCode, this.ContCode);
         }
         
-        public string BasicValidation()
+        /// <summary>
+        /// while using import module set : true else false
+        /// </summary>
+        /// <param name="importflg"></param>
+        /// <returns></returns>
+        public string BasicValidation(bool importflg)
         {
             string err = string.Empty;
 
@@ -377,23 +382,26 @@ namespace Attendance.Classes
                 err += "Please Enter 12 digit Adhar No" + Environment.NewLine;
             }
 
-
-            //check for duplicate adharno..
-            DataSet ds = new DataSet();
-            string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
-                " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
+            if (importflg == false)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                //check for duplicate adharno..
+                DataSet ds = new DataSet();
+                string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
+                    " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
+
+                ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                bool hasRows = ds.Tables.Cast<DataTable>()
+                               .Any(table => table.Rows.Count != 0);
+
+                if (hasRows)
                 {
-                    err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
+                    }
                 }
             }
+            
 
 
             return err;
@@ -822,7 +830,7 @@ namespace Attendance.Classes
             this.ValidTo = tValidTo;
             
 
-            err = this.BasicValidation();
+            err = this.BasicValidation(true);
             if (!string.IsNullOrEmpty(err))
             {
                 retval = false;
@@ -944,20 +952,28 @@ namespace Attendance.Classes
                 this.CatCode = "";
             }
 
-            this.GetMessDesc(this.CompCode, this.UnitCode, this.MessCode);
-            if (this.MessDesc.Trim() == "")
+
+            if (!string.IsNullOrEmpty(this.MessCode))
             {
-                err += "Invalid Mess Code..."  + Environment.NewLine;
-                this.MessCode = "";
+                this.GetMessDesc(this.CompCode, this.UnitCode, this.MessCode);
+                if (this.MessDesc.Trim() == "")
+                {
+                    err += "Invalid Mess Code..." + Environment.NewLine;
+                    this.MessCode = "";
+                }
             }
 
 
-            this.GetMessGrpDesc(this.CompCode, this.UnitCode, this.MessGrpCode);
-            if (this.MessGrpDesc.Trim() == "")
+            if (!string.IsNullOrEmpty(this.MessGrpCode))
             {
-                err += "Invalid MessGrp Code..." + Environment.NewLine;
-                this.MessGrpCode = "";
+                this.GetMessGrpDesc(this.CompCode, this.UnitCode, this.MessGrpCode);
+                if (this.MessGrpDesc.Trim() == "")
+                {
+                    err += "Invalid MessGrp Code..." + Environment.NewLine;
+                    this.MessGrpCode = "";
+                }
             }
+            
 
             if (this.PayrollFlg && this.ContCode != "")
             {
