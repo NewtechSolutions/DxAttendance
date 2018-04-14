@@ -147,7 +147,7 @@ namespace Attendance.Forms
 
 
                 sql = "Select LeaveTyp,LeaveDesc from MastLeave Where "
-                   + " CompCode ='" + txtCompCode.Text.Trim() + "' "
+                   + " CompCode ='" + txtCompCode.Text.Trim() + "' and "
                    + " WrkGrp ='" + txtWrkGrpCode.Text.Trim() + "' ";
                    
                 if (e.KeyCode == Keys.F1)
