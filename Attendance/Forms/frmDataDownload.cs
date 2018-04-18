@@ -65,6 +65,12 @@ namespace Attendance.Forms
 
         private void SetRights()
         {
+            if (Utils.User.GUserID == "SERVER")
+            {
+                GRights = "AUDV";
+            }
+            
+            
             if (GRights.Contains("AUDV"))
             {
                 
@@ -418,6 +424,75 @@ namespace Attendance.Forms
                     gv_avbl.SetRowCellValue(i, "Remarks",  err);
                 }
 
+                m.DisConnect(out nerr);
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+        }
+
+        private void btnClearMach_Click(object sender, EventArgs e)
+        {
+            string msg = "Make Sure to Download all data in multiple application if running with common machines" + Environment.NewLine +
+                "However Application will download data first, which only accounted in running application. " + Environment.NewLine + 
+                "Are You Sure to Clear selected machine ?";
+
+
+            DialogResult dr = MessageBox.Show(msg, "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if(dr != DialogResult.Yes)
+            {
+                return;
+            }
+           
+            ResetRemarks();
+            btnDownload_Click(sender, e);
+            ResetRemarks();
+            LockCtrl(); 
+            
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                //check if selected...
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+                
+
+                //try to connect
+                m.Connect(out err);
+
+                gv_avbl.SetRowCellValue(i, "Records", 0);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+
+                string nerr = string.Empty;
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    m.DisConnect(out nerr);
+                    gv_avbl.SetRowCellValue(i, "Remarks", err + ";" + nerr);
+                    continue;
+                }
+
+                //Clear Machine
+                m.AttdLogClear(out err);
+                if (string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Log Clear...");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                }
                 m.DisConnect(out nerr);
 
             }

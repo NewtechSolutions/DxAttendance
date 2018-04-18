@@ -43,6 +43,7 @@
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
             this.grpButtons = new System.Windows.Forms.GroupBox();
+            this.btnClearMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.btnUnockMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnRestartMach = new DevExpress.XtraEditors.SimpleButton();
@@ -272,6 +273,7 @@
             // 
             // grpButtons
             // 
+            this.grpButtons.Controls.Add(this.btnClearMach);
             this.grpButtons.Controls.Add(this.btnExport);
             this.grpButtons.Controls.Add(this.btnUnockMach);
             this.grpButtons.Controls.Add(this.btnRestartMach);
@@ -285,11 +287,22 @@
             this.grpButtons.TabIndex = 4;
             this.grpButtons.TabStop = false;
             // 
+            // btnClearMach
+            // 
+            this.btnClearMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearMach.Appearance.Options.UseFont = true;
+            this.btnClearMach.Location = new System.Drawing.Point(642, 23);
+            this.btnClearMach.Name = "btnClearMach";
+            this.btnClearMach.Size = new System.Drawing.Size(120, 27);
+            this.btnClearMach.TabIndex = 7;
+            this.btnClearMach.Text = "&Clear Machine";
+            this.btnClearMach.Click += new System.EventHandler(this.btnClearMach_Click);
+            // 
             // btnExport
             // 
             this.btnExport.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExport.Appearance.Options.UseFont = true;
-            this.btnExport.Location = new System.Drawing.Point(768, 23);
+            this.btnExport.Location = new System.Drawing.Point(816, 23);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(120, 27);
             this.btnExport.TabIndex = 6;
@@ -359,7 +372,7 @@
             this.Controls.Add(this.tblp);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmDataDownload";
-            this.Text = "Data Download : Auto Clear is not implemented for testing";
+            this.Text = "Data Download";
             this.Load += new System.EventHandler(this.frmDataDownload_Load);
             this.tblp.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -394,5 +407,6 @@
         private DevExpress.XtraEditors.SimpleButton btnSelAll;
         private DevExpress.XtraEditors.SimpleButton btnUnockMach;
         private DevExpress.XtraEditors.SimpleButton btnExport;
+        private DevExpress.XtraEditors.SimpleButton btnClearMach;
     }
 }

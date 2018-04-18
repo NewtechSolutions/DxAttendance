@@ -370,6 +370,12 @@ namespace Attendance.Classes
             }
 
             this.CZKEM1.EnableDevice(_machineno, true);//enable the device
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+            {
+                file.WriteLine("");
+            }
+
+            string write_err = string.Empty;
 
             //write text file and also store in db
             foreach (AttdLog t in AttdLogRec)
@@ -378,7 +384,7 @@ namespace Attendance.Classes
                 if (!string.IsNullOrEmpty(dberr))
                 {
                     t.Error = dberr;
-
+                    write_err += dberr;
                     err += "Error while store to db : " + t.EmpUnqID + " : " + dberr + Environment.NewLine;
                 }
 
@@ -388,12 +394,17 @@ namespace Attendance.Classes
                 }
             }
 
-            if (this._autoclear)
+            if (string.IsNullOrEmpty(write_err))
             {
-                string terr = string.Empty;
-                AttdLogClear(out terr);
-                err += terr;
+                if (this._autoclear)
+                {
+                    string terr = string.Empty;
+                    AttdLogClear(out terr);
+                    err += terr;
+                }
             }
+
+            
         }
 
         /// <summary>
@@ -428,12 +439,12 @@ namespace Attendance.Classes
                         using (SqlCommand cmd = new SqlCommand(sql, cn))
                         {
                             cmd.ExecuteNonQuery();
-                            err = "Duplicate Data Found..";
+                            //err = "Duplicate Data Found..";
                         }
 
                     }catch(Exception ex1)
                     {
-                        err = ex1.ToString();
+                        err += ex1.ToString();
                     }
                     
                 }
@@ -718,7 +729,7 @@ namespace Attendance.Classes
                             
                         }
 
-                        this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                        //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                     }
                 }
 
@@ -749,11 +760,11 @@ namespace Attendance.Classes
                 return;
             }
 
-            if(string.IsNullOrEmpty(emp.CardNumber))
-            {
-                err = "RFID Card No. is Required...";
-                return;
-            }
+            //if(string.IsNullOrEmpty(emp.CardNumber))
+            //{
+            //    err = "RFID Card No. is Required...";
+            //    return;
+            //}
             
             //store registration info in db....
             StoreHistoryinDB(emp.UserID, true);
@@ -785,13 +796,27 @@ namespace Attendance.Classes
 
                     if (_finger)
                     {
-                        if (!string.IsNullOrEmpty(emp.FingerTemp))
+                        string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
+                              " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
+                              " and EmpUnqID = '" + emp.UserID + "'";
+
+                        DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasrows)
                         {
-                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
+
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+                                if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
+                                {
+                                    //'upload templates information to the device
+                                    this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  
+                                }
+                            }
                         }
                     }
-
-                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                    
+                    //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                 }
 
             }
@@ -837,19 +862,19 @@ namespace Attendance.Classes
                 emp.SetUserInfoForMachine(emp.UserID);
                 emp.GetBioInfoFromDB(emp.UserID);
 
-                //check user rights for the wrkgrp
-                //'if not move next emp
+                ////check user rights for the wrkgrp
+                ////'if not move next emp
                 //if (!Globals.GetWrkGrpRights(635, emp.WrkGrp, emp.UserID))
                 //{
                 //    emp.err += "You are not Authorised...";
                     
                 //}
 
-                if (string.IsNullOrEmpty(emp.CardNumber))
-                {
-                    emp.err += ",RFID Card Number not found...";
+                //if (string.IsNullOrEmpty(emp.CardNumber))
+                //{
+                //    emp.err += ",RFID Card Number not found...";
                     
-                }
+                //}
 
             }
             
@@ -888,16 +913,33 @@ namespace Attendance.Classes
 
                                 if (_finger)
                                 {
-                                    if (!string.IsNullOrEmpty(emp.FingerTemp))
+                                   //'upload templates information to the device
+                                    string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
+                                      " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
+                                      " and EmpUnqID = '" + emp.UserID + "'";
+
+                                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                                    bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                    if (hasrows)
                                     {
-                                        this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, 0, 0, emp.FingerTemp);  //'upload templates information to the device
-                                        emp.err += "Finger Registered";
+
+                                        foreach (DataRow dr in ds.Tables[0].Rows)
+                                        {
+                                            if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
+                                            {
+                                                //'upload templates information to the device
+                                                this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());
+                                            }
+                                        }
                                     }
+                                    
+                                    
                                 }
 
                                 //make sure to access method rfid+face
-                                this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
-                                emp.err += "RFID+FACE Access Given";
+                                //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                                
+                              
                             }
                             else
                             {
@@ -990,7 +1032,8 @@ namespace Attendance.Classes
                             tmpuser.FaceLength = _facelength;
                         }
                     }
-
+                    this.StoreHistoryinDB(tmpuser.UserID,true);
+                    
                     tUsers.Add(tmpuser);
     
                     //make sure to check version there are difference in get fingerprint
@@ -1136,9 +1179,12 @@ namespace Attendance.Classes
                 err = "UserID is required..";
                 return;
             }
-
+            
             this.CZKEM1.EnableDevice(_machineno, false);
             UserBioInfo emp = new UserBioInfo();
+            List<UserBioInfo> emplist = new List<UserBioInfo>();
+
+            
             emp.SetUserInfoForMachine(tEmpUnqID);
             
             _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
@@ -1152,6 +1198,8 @@ namespace Attendance.Classes
                 if (_istft)
                 {
                     this.CZKEM1.GetAllUserID(_machineno,Convert.ToInt32(emp.UserID), _machineno, 0, 0, 1);
+                    this.CZKEM1.ReadAllTemplate(_machineno);
+
                     if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
                     {
                         emp.Password = _password;
@@ -1188,17 +1236,36 @@ namespace Attendance.Classes
                     {
                         double fpversion = 0;
                         double.TryParse(_fingerprintversion,out fpversion);
-                        if(fpversion>= 10 )
-                        {
-                            this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
 
-                        }else if(fpversion == 9)
+                        emplist.Add(emp);
+                        for (int i = 0; i <= 9; i++)
                         {
-                            this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
-                        }
+                            UserBioInfo tmpuser2 = new UserBioInfo();
+                            tmpuser2.CardNumber = emp.CardNumber;
+                            tmpuser2.UserID = emp.UserID;
+                            tmpuser2.Password = _password;
+                            tmpuser2.Previlege = _prev;
+                            tmpuser2.Enabled = _enabled;
+                            if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
+                            {
+                                tmpuser2.FingerIndex = i;
+                                tmpuser2.FingerLength = _fingerlength;
+                                tmpuser2.FingerTemp = _fingertemp;
+                                emplist.Add(tmpuser2);
+                            }
+                        }      
+                        
+                        //if(fpversion>= 10 )
+                        //{
+                        //    this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
 
-                        emp.FingerTemp = _fingertemp;
-                        emp.FingerLength = _fingerlength;
+                        //}else if(fpversion == 9)
+                        //{
+                        //    this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
+                        //}
+
+                        //emp.FingerTemp = _fingertemp;
+                        //emp.FingerLength = _fingerlength;
                     }
 
                 }
@@ -1230,27 +1297,33 @@ namespace Attendance.Classes
 
             string allerr =  emp.err;
 
-            if(_rfid)
+            foreach (UserBioInfo t in emplist)
             {
-                if(!string.IsNullOrEmpty(emp.CardNumber))
+                if (_rfid)
                 {
-                        emp.StoreToDb(1,out err);
-                    allerr +=  err + Environment.NewLine;
+                    if (!string.IsNullOrEmpty(t.CardNumber))
+                    {
+                        t.StoreToDb(1, out err);
+                        allerr += err + Environment.NewLine;
+                    }
                 }
-            }
-            
-            if(_face)
-            {
-                if(!string.IsNullOrEmpty(emp.FaceTemp)){
-                    emp.StoreToDb(2,out err);
-                    allerr +=  err + Environment.NewLine;
-                }
-            }
 
-            if(_finger){
-                if(!string.IsNullOrEmpty(emp.FingerTemp)){
-                    emp.StoreToDb(3,out err);
-                    allerr +=  err + Environment.NewLine;
+                if (_face)
+                {
+                    if (!string.IsNullOrEmpty(t.FaceTemp))
+                    {
+                        t.StoreToDb(2, out err);
+                        allerr += err + Environment.NewLine;
+                    }
+                }
+
+                if (_finger)
+                {
+                    if (!string.IsNullOrEmpty(t.FingerTemp))
+                    {
+                        t.StoreToDb(3, out err);
+                        allerr += err + Environment.NewLine;
+                    }
                 }
             }
 
@@ -1312,6 +1385,8 @@ namespace Attendance.Classes
                     foreach (UserBioInfo emp in tUserList)
                     {
                         this.CZKEM1.GetAllUserID(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0, 0, 1);
+                        
+                        this.StoreHistoryinDB(emp.UserID, true);
 
                         if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
                         {
@@ -1498,8 +1573,8 @@ namespace Attendance.Classes
                 return;
             }
 
-            //UserBioInfo emp = new UserBioInfo();
-            //emp.SetUserInfoForMachine(tEmpUnqID);
+            UserBioInfo emp = new UserBioInfo();
+            emp.SetUserInfoForMachine(tEmpUnqID);
 
             //if (!string.IsNullOrEmpty(emp.WrkGrp))
             //{
@@ -1523,7 +1598,8 @@ namespace Attendance.Classes
                 this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);                
             }
             else
-            { 
+            {
+                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
                 this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno,tEmpUnqID, 12);
                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);                
             }
@@ -1577,7 +1653,7 @@ namespace Attendance.Classes
                     }
                     else
                     {
-                        
+                        this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
                         this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                         this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
                         
@@ -2190,7 +2266,12 @@ namespace Attendance.Classes
                     tmpuser = new UserBioInfo();
                     tmpuser.UserID = _userid.ToString();                    
                     tmpuser.MessCode = _ip;
-                    tmpuser.Previlege = _prev;
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
 
                     tUserList.Add(tmpuser);
                     
@@ -2207,9 +2288,14 @@ namespace Attendance.Classes
                     tmpuser.UserID = _useridInt.ToString();
                     tmpuser.UserName = _username;
                     tmpuser.MessCode = _ip;
-                    tmpuser.Previlege = _prev;
 
-                    
+
+                    //3 : superadmin , 0 : normal
+                    if (tmpuser.Previlege == 3)
+                    {
+                        continue;
+                    }
+
                     tUserList.Add(tmpuser);                   
                    
                 }
@@ -2230,16 +2316,9 @@ namespace Attendance.Classes
                     
                     foreach (UserBioInfo t in tUserList)
                     {
-                        try
-                        {
-                            sql = "Insert into t1 (EmpUnqID,MachineIP,t1Date,Flg,previlage) values ('" + t.UserID + "','" + t.MessCode + "','2018-01-01',0,'" + t.Previlege.ToString() + "');";
-                            cmd = new SqlCommand(sql, cn);
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }                       
+                        sql = "Insert into t1 (EmpUnqID,MachineIP,t1Date,Flg) values ('" + t.UserID + "','" + t.MessCode + "','2018-01-01',0);";
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.ExecuteNonQuery();
                     }
 
                     sql = "Update a Set a.Flg = b.Active " +
@@ -2252,20 +2331,18 @@ namespace Attendance.Classes
                     cmd.ExecuteNonQuery();
 
                     sql = "Insert into MastMachineUsers (MachineIP,EmpUnqID,AddID,AddDt) " +
-                        " Select MachineIP,EmpUnqID,'" + Utils.User.GUserID + "',GetDate() From t1 Where MachineIP='" + _ip + "' and Flg = 1  ";
+                        " Select MachineIP,EmpUnqID,'" + Utils.User.GUserID + "',GetDate() From t1 Where MachineIP='" + _ip + "' and Flg = 1";
                     cmd = new SqlCommand(sql, cn);
                     cmd.ExecuteNonQuery();
 
-                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID From t1 where Flg = 0 and previlage = 0", Utils.Helper.constr, out err);
+                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID From t1 where Flg = 0", Utils.Helper.constr, out err);
                     bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     if (hasrows)
                     {
-                        //this.CZKEM1.BeginBatchUpdate(_machineno,1);
+                        
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
-                           
                             string tEmpUnqID = dr["EmpUnqID"].ToString();
-                            //StoreHistoryinDB(tEmpUnqID, false);
                             
                             if (!_istft)
                             {
@@ -2273,17 +2350,13 @@ namespace Attendance.Classes
                             }
                             else
                             {
-                               // this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 12);
-                                this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
+                                this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);                                
                                 this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
-
-                            }           
+                                this.CZKEM1.SSR_DelUserTmpExt(_machineno, tEmpUnqID, 13);
+                            }             
                             
                         }
-                        //this.CZKEM1.BatchUpdate(_machineno);
-                        this.RefreshData();
                     }
-                    
 
                     sql = "truncate  table t1 ";
                     cmd = new SqlCommand(sql, cn);
@@ -2293,9 +2366,7 @@ namespace Attendance.Classes
                 catch (Exception ex)
                 {
                     err = ex.ToString();
-                    sql = "truncate  table t1 ";
-                    cmd = new SqlCommand(sql, cn);
-                    cmd.ExecuteNonQuery();
+                   
                 }
 
             }// using connection
