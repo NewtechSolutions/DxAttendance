@@ -950,7 +950,7 @@ namespace Attendance.Classes
 
                 if (mailbcc.Count() <= 0 && bcc.Trim().Length > 0)
                 {
-                    mail.Bcc.Add(new MailAddress(to));
+                    mail.Bcc.Add(new MailAddress(bcc));
                 }
 
                 mail.From = new MailAddress(fromAddress, fromDisplay, Encoding.UTF8);

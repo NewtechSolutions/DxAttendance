@@ -430,7 +430,14 @@ namespace Attendance.Classes
                 }
                 catch (Exception ex)
                 {
-                    err = ex.ToString();
+                    if (ex.ToString().Contains("System.Data.SqlClient.SqlException (0x80131904): Violation of PRIMARY KEY"))
+                    {
+
+                    }
+                    else
+                    {
+                        err = ex.ToString();
+                    }
 
                     try
                     {
