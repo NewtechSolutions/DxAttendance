@@ -941,11 +941,12 @@ namespace Attendance.Forms
                     continue;
                 }
 
-                
+                m.EnableDevice(false);
                 //user bulk method
                 List<UserBioInfo> tempusers = new List<UserBioInfo>();
                 m.DeleteUser(tUserList, out err, out tempusers);
-
+                m.RefreshData();
+                m.EnableDevice(true);
                 //string allerr = "";
                 //foreach (UserBioInfo emp in tempusers)
                 //{
