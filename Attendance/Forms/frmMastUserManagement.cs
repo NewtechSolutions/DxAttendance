@@ -941,27 +941,31 @@ namespace Attendance.Forms
                     continue;
                 }
 
+                
                 //user bulk method
                 List<UserBioInfo> tempusers = new List<UserBioInfo>();
                 m.DeleteUser(tUserList, out err, out tempusers);
 
-                string allerr = "";
-                foreach (UserBioInfo emp in tempusers)
-                {
-                    allerr += (emp.err.Length > 0 ? emp.UserID + emp.err : "");
-                }
+                //string allerr = "";
+                //foreach (UserBioInfo emp in tempusers)
+                //{
+                //    allerr += (emp.err.Length > 0 ? emp.UserID + emp.err : "");
+                //}
 
-                if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
-                {
+                //if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
+                //{
                     gv_avbl.SetRowCellValue(i, "Remarks", "Deleted..");
-                }
-                else
-                {
-                    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
-                }
-                m.RefreshData();
+                //}
+                //else
+                //{
+                //    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
+                //}
+                //m.RefreshData();
                 m.DisConnect(out err);
-                grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
+                
+                Application.DoEvents();
+
+                //grd_Emp.DataSource = tempusers.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
 
             }
 
@@ -1661,6 +1665,29 @@ namespace Attendance.Forms
             if ((e.KeyData == Keys.Enter))
             {
                 SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
+        private void grd_Emp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string s = Clipboard.GetText();
+                string[] lines = s.Split('\n');
+
+                foreach (string line in lines)
+                {
+                    string cells = line.Replace("\r", "");
+                    cells = cells.Replace("\t", "");
+
+                    if (!string.IsNullOrEmpty(cells.ToString()))
+                    {
+                        txtEmpUnqID.Text = cells.Substring(0, 8).Trim();
+                        txtEmpUnqID_Validated(sender, e);
+                        btnAddEmp_Click(sender, e);
+                    }
+                }
+
             }
         }
         

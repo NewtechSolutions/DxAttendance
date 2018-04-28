@@ -582,6 +582,7 @@
             this.grd_Emp.TabIndex = 4;
             this.grd_Emp.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Emp});
+            this.grd_Emp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.grd_Emp_KeyDown);
             // 
             // gv_Emp
             // 

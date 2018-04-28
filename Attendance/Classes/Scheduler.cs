@@ -683,6 +683,7 @@ namespace Attendance.Classes
                             {
                                 file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-" + err);
                             }
+
                             tMsg.MsgTime = DateTime.Now;
                             tMsg.MsgType = "Auto Time Set";
                             tMsg.Message = ip + "->Error :" + err;
@@ -700,10 +701,18 @@ namespace Attendance.Classes
                             {
                                 file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-" + err);
                             }
+                            tMsg.MsgTime = DateTime.Now;
+                            tMsg.MsgType = "Auto Time Set";
+                            tMsg.Message = ip + "->Error :" + err;
+                            Scheduler.Publish(tMsg);
                             continue;
                         }
 
                         m.DisConnect(out err);
+                        tMsg.MsgTime = DateTime.Now;
+                        tMsg.MsgType = "Auto Time Set";
+                        tMsg.Message = ip + "->Completed";
+                        Scheduler.Publish(tMsg);
 
                         filenm = "AutoTimeSet_Log_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
                         fullpath = Path.Combine(Loginfopath, filenm);
@@ -1123,7 +1132,7 @@ namespace Attendance.Classes
                                         }
 
                                         tMsg.MsgTime = DateTime.Now;
-                                        tMsg.MsgType = "Auto Delete Left Employee";
+                                        tMsg.MsgType = "Auto Delete Expired Employee ->Error->";
                                         tMsg.Message = ip;
                                         Scheduler.Publish(tMsg);
                                         continue;
@@ -1141,6 +1150,10 @@ namespace Attendance.Classes
                                     }
                                     m.RefreshData();
                                     m.DisConnect(out err);
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Auto Delete Expired Employee ->Completed->";
+                                    tMsg.Message = ip;
+                                    Scheduler.Publish(tMsg);
                                     
                                 }
                                 catch (Exception ex)
