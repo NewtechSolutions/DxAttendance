@@ -732,12 +732,32 @@ namespace Attendance
                                     {
                                         drAttd["ActualStatus"] = "P";
                                     }
-									
-									//bugfix : 07/04/2018
+
+                                    //bugfix : 07/04/2018 : Reset Sanction ot if status is absent and makesure to round it
                                     if (drAttd["Status"].ToString() == "A")
                                     {
                                         drAttd["ConsOverTime"] = 0;
                                         drAttd["GracePeriod"] = "";
+                                    }
+                                    else
+                                    {
+                                        //bugfix : 02/05/2018 : Sanction Ot on WO also considered if employee did not come.
+                                        if (!string.IsNullOrEmpty(drAttd["ConsIn"].ToString()) && !string.IsNullOrEmpty(drAttd["ConsOut"].ToString()))
+                                        {
+                                            double Overtime = 0;
+                                            Overtime = Convert.ToDouble(drAttd["ConsOverTime"]);
+
+                                            if (Overtime >= 1)
+                                            {
+                                                drAttd["ConsOverTime"] = Math.Truncate(Overtime);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            drAttd["ConsOverTime"] = 0;
+                                        }
+                                        //02/05/2018
+
                                     }
 
                                     daAttdData.Update(dsAttdData, "AttdData");
