@@ -114,12 +114,12 @@ namespace Attendance.Forms
             txtCompName.Text = "";
             txtCompCode_Validated(s, e);
            
-            txtWrkGrpCode.Text = "";
-            txtWrkGrpDesc.Text = "";
-            txtUnitCode.Text = "";
-            txtUnitDesc.Text = "";
-            txtDeptCode.Text = "";
-            txtDeptDesc.Text = "";
+            //txtWrkGrpCode.Text = "";
+            //txtWrkGrpDesc.Text = "";
+            //txtUnitCode.Text = "";
+            //txtUnitDesc.Text = "";
+            //txtDeptCode.Text = "";
+            //txtDeptDesc.Text = "";
             txtStatCode.Text = "";
             txtStatDesc.Text = "";
 
@@ -565,8 +565,48 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                    
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
 
-            MessageBox.Show("Not Implemented...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        string sql = "Delete From MastStatManPower Where CompCode='{0}' and WrkGrp='{1}' and UnitCode='{2}' and DeptCode = '{3}' and StatCode = '{4}'";
+                        sql = string.Format(sql, txtCompCode.Text.Trim(), txtWrkGrpCode.Text.Trim(), txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim(), txtStatCode.Text.Trim());
+                        cmd.CommandText = sql;
+                        cmd.Connection = cn;
+                        cmd.ExecuteNonQuery();
+
+                        sql = "Delete From MastStat Where CompCode='{0}' and WrkGrp='{1}' and UnitCode='{2}' and DeptCode = '{3}' and StatCode = '{4}'";
+                        sql = string.Format(sql, txtCompCode.Text.Trim(), txtWrkGrpCode.Text.Trim(), txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim(), txtStatCode.Text.Trim());
+                        cmd.CommandText = sql;
+                        cmd.Connection = cn;
+                        cmd.ExecuteNonQuery();
+
+
+                        cn.Close();
+                        MessageBox.Show("Station Deleted Successfully...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ResetCtrl();
+                        return;
+
+                    }
+
+                }
+                catch (SqlException sex)
+                {
+                    MessageBox.Show(sex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+           // MessageBox.Show("Not Implemented...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

@@ -357,7 +357,39 @@ namespace Attendance.Forms
                 return;
             }
 
-            MessageBox.Show("Not Implemented...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                    string sql = "Delete From MastEmpType Where CompCode='{0}' and WrkGrp='{1}' and EmpTypeCode='{2}' ";
+                    sql = string.Format(sql, txtCompCode.Text.Trim(), txtWrkGrpCode.Text.Trim(), txtEmpTypeCode.Text.Trim());
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandText = sql;
+                        cmd.Connection = cn;
+                        cmd.ExecuteNonQuery();
+                        cn.Close();
+                        MessageBox.Show("Deleted Successfully...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ResetCtrl();
+                        return;
+
+                    }
+
+                }
+                catch (SqlException sex)
+                {
+                    MessageBox.Show(sex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+            }
+            //MessageBox.Show("Not Implemented...", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

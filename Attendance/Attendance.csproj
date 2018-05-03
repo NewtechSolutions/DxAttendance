@@ -222,6 +222,12 @@
     <Compile Include="Forms\frmMastUserManagement.Designer.cs">
       <DependentUpon>frmMastUserManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastWrkGrpCopy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastWrkGrpCopy.designer.cs">
+      <DependentUpon>frmMastWrkGrpCopy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMessInOutMachine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -576,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastUserManagement.resx">
       <DependentUpon>frmMastUserManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastWrkGrpCopy.resx">
+      <DependentUpon>frmMastWrkGrpCopy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMessInOutMachine.resx">
       <DependentUpon>frmMessInOutMachine.cs</DependentUpon>

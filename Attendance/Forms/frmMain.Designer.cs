@@ -78,6 +78,7 @@
             this.mnuMastFood = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastTime = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastRate = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBlackListAdhar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCostCent = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCostCodeMast = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmpCostCode = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,7 +118,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuBlackListAdhar = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCopyWrkGrpToOther = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -177,6 +178,7 @@
             // 
             this.mnuConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuMastComp,
+            this.mnuCopyWrkGrpToOther,
             this.mnuMastWrkGrp,
             this.mnuMastUnit,
             this.mnuMessConfig,
@@ -530,6 +532,13 @@
             this.mnuMastRate.Text = "Rate Master";
             this.mnuMastRate.Click += new System.EventHandler(this.mnuMastRate_Click);
             // 
+            // mnuBlackListAdhar
+            // 
+            this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
+            this.mnuBlackListAdhar.Size = new System.Drawing.Size(205, 22);
+            this.mnuBlackListAdhar.Text = "BlackList AdharCard";
+            this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
+            // 
             // mnuCostCent
             // 
             this.mnuCostCent.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -831,12 +840,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuBlackListAdhar
+            // mnuCopyWrkGrpToOther
             // 
-            this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
-            this.mnuBlackListAdhar.Size = new System.Drawing.Size(205, 22);
-            this.mnuBlackListAdhar.Text = "BlackList AdharCard";
-            this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
+            this.mnuCopyWrkGrpToOther.Name = "mnuCopyWrkGrpToOther";
+            this.mnuCopyWrkGrpToOther.Size = new System.Drawing.Size(269, 22);
+            this.mnuCopyWrkGrpToOther.Text = "Create WrkGrp ->Copy From Other";
+            this.mnuCopyWrkGrpToOther.Click += new System.EventHandler(this.mnuCopyWrkGrpToOther_Click);
             // 
             // frmMain
             // 
@@ -953,6 +962,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMastStatSec;
         private System.Windows.Forms.ToolStripMenuItem mnuMastHolidayOpt;
         private System.Windows.Forms.ToolStripMenuItem mnuBlackListAdhar;
+        private System.Windows.Forms.ToolStripMenuItem mnuCopyWrkGrpToOther;
 
 
     }
