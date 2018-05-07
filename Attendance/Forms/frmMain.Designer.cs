@@ -35,6 +35,7 @@
             this.mnuUserRights = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastComp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCopyWrkGrpToOther = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastWrkGrp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastUnit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMessConfig = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +119,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuCopyWrkGrpToOther = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPunchingBlock = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -198,6 +199,13 @@
             this.mnuMastComp.Size = new System.Drawing.Size(269, 22);
             this.mnuMastComp.Text = "Company Master";
             this.mnuMastComp.Click += new System.EventHandler(this.mnuMastComp_Click);
+            // 
+            // mnuCopyWrkGrpToOther
+            // 
+            this.mnuCopyWrkGrpToOther.Name = "mnuCopyWrkGrpToOther";
+            this.mnuCopyWrkGrpToOther.Size = new System.Drawing.Size(269, 22);
+            this.mnuCopyWrkGrpToOther.Text = "Create WrkGrp ->Copy From Other";
+            this.mnuCopyWrkGrpToOther.Click += new System.EventHandler(this.mnuCopyWrkGrpToOther_Click);
             // 
             // mnuMastWrkGrp
             // 
@@ -301,7 +309,8 @@
             this.mnuProfile,
             this.mnuEmployee,
             this.mnuMess,
-            this.mnuBlackListAdhar});
+            this.mnuBlackListAdhar,
+            this.mnuPunchingBlock});
             this.mnuMast.Name = "mnuMast";
             this.mnuMast.Size = new System.Drawing.Size(60, 20);
             this.mnuMast.Text = "&Masters";
@@ -309,21 +318,21 @@
             // mnuUserSpRights
             // 
             this.mnuUserSpRights.Name = "mnuUserSpRights";
-            this.mnuUserSpRights.Size = new System.Drawing.Size(205, 22);
+            this.mnuUserSpRights.Size = new System.Drawing.Size(209, 22);
             this.mnuUserSpRights.Text = "User WorkGrp Rights";
             this.mnuUserSpRights.Click += new System.EventHandler(this.mnuUserSpRights_Click);
             // 
             // mnuUserDSRights
             // 
             this.mnuUserDSRights.Name = "mnuUserDSRights";
-            this.mnuUserDSRights.Size = new System.Drawing.Size(205, 22);
+            this.mnuUserDSRights.Size = new System.Drawing.Size(209, 22);
             this.mnuUserDSRights.Text = "User Dept/Section Rights";
             this.mnuUserDSRights.Click += new System.EventHandler(this.mnuUserDSRights_Click);
             // 
             // mnuUserEmpRights
             // 
             this.mnuUserEmpRights.Name = "mnuUserEmpRights";
-            this.mnuUserEmpRights.Size = new System.Drawing.Size(205, 22);
+            this.mnuUserEmpRights.Size = new System.Drawing.Size(209, 22);
             this.mnuUserEmpRights.Text = "User Emp Rights";
             this.mnuUserEmpRights.Click += new System.EventHandler(this.mnuUserEmpRights_Click);
             // 
@@ -344,7 +353,7 @@
             this.mnuCreateMuster,
             this.mnuMastRules});
             this.mnuProfile.Name = "mnuProfile";
-            this.mnuProfile.Size = new System.Drawing.Size(205, 22);
+            this.mnuProfile.Size = new System.Drawing.Size(209, 22);
             this.mnuProfile.Text = "Profile Master";
             // 
             // mnuMastEmpType
@@ -448,7 +457,7 @@
             this.mnuValidityMass,
             this.mnuMisConduct});
             this.mnuEmployee.Name = "mnuEmployee";
-            this.mnuEmployee.Size = new System.Drawing.Size(205, 22);
+            this.mnuEmployee.Size = new System.Drawing.Size(209, 22);
             this.mnuEmployee.Text = "Employee";
             // 
             // mnuMastEmp
@@ -501,7 +510,7 @@
             this.mnuMastTime,
             this.mnuMastRate});
             this.mnuMess.Name = "mnuMess";
-            this.mnuMess.Size = new System.Drawing.Size(205, 22);
+            this.mnuMess.Size = new System.Drawing.Size(209, 22);
             this.mnuMess.Text = "Mess";
             // 
             // mnuMastMessGrp
@@ -535,7 +544,7 @@
             // mnuBlackListAdhar
             // 
             this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
-            this.mnuBlackListAdhar.Size = new System.Drawing.Size(205, 22);
+            this.mnuBlackListAdhar.Size = new System.Drawing.Size(209, 22);
             this.mnuBlackListAdhar.Text = "BlackList AdharCard";
             this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
             // 
@@ -840,12 +849,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuCopyWrkGrpToOther
+            // mnuPunchingBlock
             // 
-            this.mnuCopyWrkGrpToOther.Name = "mnuCopyWrkGrpToOther";
-            this.mnuCopyWrkGrpToOther.Size = new System.Drawing.Size(269, 22);
-            this.mnuCopyWrkGrpToOther.Text = "Create WrkGrp ->Copy From Other";
-            this.mnuCopyWrkGrpToOther.Click += new System.EventHandler(this.mnuCopyWrkGrpToOther_Click);
+            this.mnuPunchingBlock.Name = "mnuPunchingBlock";
+            this.mnuPunchingBlock.Size = new System.Drawing.Size(209, 22);
+            this.mnuPunchingBlock.Text = "Punching  Block/UnBlock";
+            this.mnuPunchingBlock.Click += new System.EventHandler(this.mnuPunchingBlock_Click);
             // 
             // frmMain
             // 
@@ -963,6 +972,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMastHolidayOpt;
         private System.Windows.Forms.ToolStripMenuItem mnuBlackListAdhar;
         private System.Windows.Forms.ToolStripMenuItem mnuCopyWrkGrpToOther;
+        private System.Windows.Forms.ToolStripMenuItem mnuPunchingBlock;
 
 
     }

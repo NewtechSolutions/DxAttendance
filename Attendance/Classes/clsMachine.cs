@@ -605,14 +605,17 @@ namespace Attendance.Classes
                         {
                             cmd.CommandText = "Insert into EmpBlocked (EmpUnqID,IPAdd,Blocked,BlockedDate,BlockedBy) Values (" +
                               "'" + tEmpUnqID + "','" + _ip + "',1,GetDate(),'" + Utils.User.GUserID + "')";
+                           
                         }
                         else
                         {
                             cmd.CommandText = "Update EmpBlocked Set Unblockeddt = GetDate(), UnblockedBy = '" + Utils.User.GUserID + "'" +
                               " Where EmpUnqID ='" + tEmpUnqID + "' And IPAdd = '" + _ip + "' And Unblockeddt is null " ;
                         }
-
+                        
+                        
                         cmd.ExecuteNonQuery();
+
                     }
 
                 }
@@ -691,7 +694,7 @@ namespace Attendance.Classes
             {
                 //this.CZKEM1.set_STR_CardNumber(0, emp.UserID);
                 this.CZKEM1.set_CardNumber(0,Convert.ToInt32(emp.CardNumber));
-                bool x = this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,true);
+                bool x = this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0,emp.Enabled);
                 //this.CZKEM1.RefreshData(_machineno);
                 //this.CZKEM1.EnableDevice(_machineno, true);
                 return;
@@ -699,7 +702,7 @@ namespace Attendance.Classes
             
             if(this.CZKEM1.SetStrCardNumber(emp.CardNumber))
             {
-                if (this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, true))
+                if (this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, emp.Enabled))
                 {
 
                     //if it not used in Mess set user face and finger
@@ -896,7 +899,7 @@ namespace Attendance.Classes
                     if (!_istft)
                     {
                         this.CZKEM1.set_CardNumber(0, Convert.ToInt32(emp.CardNumber));
-                        this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0, true);
+                        this.CZKEM1.SetUserInfo(_machineno, Convert.ToInt32(emp.UserID), "", "", 0, emp.Enabled);
                         emp.err += "RFID Registered";
                     }
                     else
@@ -904,7 +907,7 @@ namespace Attendance.Classes
                         if (this.CZKEM1.SetStrCardNumber(emp.CardNumber))
                         {
                             emp.err += "RFID Registered,";
-                            this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, true);
+                            this.CZKEM1.SSR_SetUserInfo(_machineno, emp.UserID, "", "", 0, emp.Enabled);
 
                             //if it not used in Mess set user face and finger
                             if (_messflg == false)
@@ -1132,6 +1135,24 @@ namespace Attendance.Classes
                         string allerr = string.Empty;
                         string terr = string.Empty;
                         string stcard = tmp.CardNumber;
+
+                        ////get if already blocked or not
+                        string sql = "SELECT  CASE WHEN EXISTS (Select * from MastEmp where EmpUnqID ='" + tmp.UserID + "')" +
+                                     "  THEN (select PunchingBlocked from MastEmp Where EmpUnqID = '" + tmp.UserID  + "') " +
+                                     "  ELSE 0  END AS PunchingBlocked ";
+
+                        bool isBlocked = Convert.ToBoolean(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
+
+                        if (isBlocked)
+                        {
+                            tmp.Enabled = false;
+                        }
+                        else
+                        {
+                            tmp.Enabled = true;
+                        }
+
+
                         //tmp.GetBioInfoFromDB(tmp.UserID);
                         if (!string.IsNullOrEmpty(tmp.CardNumber))
                         {
@@ -1597,7 +1618,7 @@ namespace Attendance.Classes
             //    }
             //}
 
-            //this.CZKEM1.EnableDevice(_machineno, false);
+            this.CZKEM1.EnableDevice(_machineno, false);
 
             string tmpuser = string.Empty, tmppass = string.Empty;
             int tmppre = 0;
@@ -1720,6 +1741,21 @@ namespace Attendance.Classes
                 return;
             }
 
+            if (Utils.User.GUserID != "SERVER")
+            {
+                UserBioInfo emp = new UserBioInfo() ;
+                
+                emp.SetUserInfoForMachine(tEmpUnqID);
+
+                //check user rights for the wrkgrp
+                //'if not move next emp
+                if (!Globals.GetWrkGrpRights(625, emp.WrkGrp, emp.UserID))
+                {
+                    err = "you are not authorised..";
+                    return;
+                }                
+            }
+            
             //simply call delete
             this.DeleteUser(tEmpUnqID, out err);
             this.StoreBlockHistory(tEmpUnqID,true);
@@ -1739,6 +1775,22 @@ namespace Attendance.Classes
                 err = "UserID is required..";
                 return;
             }
+
+            //if (Utils.User.GUserID != "SERVER")
+            //{
+            //    UserBioInfo emp = new UserBioInfo();
+
+            //    emp.SetUserInfoForMachine(tEmpUnqID);
+
+            //    //check user rights for the wrkgrp
+            //    //'if not move next emp
+            //    if (!Globals.GetWrkGrpRights(670, emp.WrkGrp, emp.UserID))
+            //    {
+            //        err = "you are not authorised..";
+            //        return;
+            //    }
+            //}
+
 
             //simply call register
             this.Register(tEmpUnqID, out err);

@@ -548,7 +548,7 @@ namespace Attendance.Classes
 
                 try
                 {
-                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
+                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode,PunchingBlocked from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
                     DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                     bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
 
@@ -561,10 +561,11 @@ namespace Attendance.Classes
                             this.MessGrpCode = dr["MessGrpCode"].ToString();
                             this.UserID = dr["EmpUnqID"].ToString();
                             this.UserName = dr["EmpName"].ToString();
+                            this.Enabled = !Convert.ToBoolean(dr["PunchingBlocked"]);
                         }
                     }
 
-                    sql = "Select [EmpUnqID],[MachineIP],[Type],[RFIDNO],[TmpData],[Length] " +
+                    sql = "Select [EmpUnqID],[MachineIP],[Type],[RFIDNO],[TmpData],[Length],[Blocked] " +
                           " FROM [EmpBioData] " +
                           " where EmpUnqID = '" + tEmpUnqID + "' and [Type] in ('RFID','FACE','FINGER') " +
                           " and MachineNo = 9999 ";
@@ -578,7 +579,11 @@ namespace Attendance.Classes
                             while (sdr.Read())
                             {
                                 if (sdr["Type"].ToString() == "RFID")
+                                {
                                     this.CardNumber = sdr["RFIDNO"].ToString();
+                                    this.Enabled = !Convert.ToBoolean(sdr["Blocked"]);
+                                }
+                                    
                                 if (sdr["Type"].ToString() == "FACE")
                                 {
                                     this.FaceTemp = sdr["TmpData"].ToString();
@@ -627,7 +632,7 @@ namespace Attendance.Classes
 
                 try
                 {
-                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
+                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode,PunchingBlocked from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
                     DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                     bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
 
@@ -640,6 +645,7 @@ namespace Attendance.Classes
                             this.MessGrpCode = dr["MessGrpCode"].ToString();
                             this.UserID = dr["EmpUnqID"].ToString();
                             this.UserName = dr["EmpName"].ToString();
+                            this.Enabled = !Convert.ToBoolean(dr["PunchingBlocked"]);
                         }
                     }
 

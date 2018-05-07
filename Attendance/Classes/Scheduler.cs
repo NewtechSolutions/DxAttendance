@@ -1029,6 +1029,122 @@ namespace Attendance.Classes
                         _StatusWorker = false;
 
                     }
+                    else
+                    {
+                        //check if any pending machine operation if yes do it....
+                        #region newmachinejob
+                        DataSet ds = Utils.Helper.GetData("Select  * from MastMachineUserOperation where DoneFlg = 0", Utils.Helper.constr);
+                        hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasRows)
+                        {
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+
+                                if (_ShutDown)
+                                {
+                                    _StatusWorker = false;
+                                    return;
+                                }
+
+                                _StatusWorker = true;
+
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Machine Operation->";
+                                tMsg.Message = "Performing : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString();
+                                Scheduler.Publish(tMsg);
+
+                                string err = string.Empty;
+                                clsMachine m = new clsMachine(dr["MachineIP"].ToString(), dr["IOFLG"].ToString());
+                                m.Connect(out err);
+                                if (string.IsNullOrEmpty(err))
+                                {
+                                    
+                                    m.EnableDevice(false);
+                                    #region machineoperation
+                                    switch (dr["Operation"].ToString())
+                                    {
+                                        case "BLOCK" :
+                                            m.BlockUser(dr["EmpUnqID"].ToString(), out err);
+                                            break;
+                                        case "UNBLOCK" :
+                                            m.UnBlockUser(dr["EmpUnqID"].ToString(), out err);
+                                            break;
+                                        case "DELETE" :
+                                            m.DeleteUser(dr["EmpUnqID"].ToString(), out err);
+                                            break;
+                                        case "REGISTER":
+                                            m.Register(dr["EmpUnqID"].ToString(), out err);
+                                            break;
+                                        case "DOWNLOADTEMP":
+                                            m.DownloadTemplate(dr["EmpUnqID"].ToString(), out err);
+                                            break;
+                                        case "SETTIME":
+                                            m.SetTime(out err);
+                                            break;
+                                        default:
+                                            err = "undefined activity";
+                                            break;
+                                    }
+                                    #endregion
+
+                                    #region setsts
+                                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                    {
+                                        try
+                                        {
+                                            cn.Open();
+                                            using (SqlCommand cmd = new SqlCommand())
+                                            {
+                                                cmd.Connection = cn;
+                                                if(string.IsNullOrEmpty(err))
+                                                {                                                           
+                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastErr = 'Completed' , UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "';";
+                                                }
+                                                else
+                                                {
+                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), lasterr = '" + err + "' where ID ='" + dr["ID"].ToString() + "';";
+                                                }
+                                                cmd.ExecuteNonQuery();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }//using
+                                    #endregion
+
+                                    m.EnableDevice(true);
+                                }
+                                else
+                                {
+                                    #region setsts
+                                    //record errs
+                                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                    {
+                                        try
+                                        {
+                                            cn.Open();
+                                            using (SqlCommand cmd = new SqlCommand())
+                                            {
+                                                cmd.Connection = cn;
+                                                sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), lasterr = '" + err + "' where ID ='" + dr["ID"].ToString() + "';";
+                                                cmd.ExecuteNonQuery();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }//using
+                                    #endregion
+                                }
+                            }//foreach
+
+                            
+                        }
+                        #endregion
+                    }
                 }
                 else
                 {
@@ -1036,7 +1152,7 @@ namespace Attendance.Classes
 
                 }
 
-                
+                _StatusWorker = false;
             }
         }
 

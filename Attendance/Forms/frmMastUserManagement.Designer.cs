@@ -715,6 +715,7 @@
             this.btnUnBlock.Size = new System.Drawing.Size(120, 27);
             this.btnUnBlock.TabIndex = 10;
             this.btnUnBlock.Text = "&Unblock";
+            this.btnUnBlock.Visible = false;
             this.btnUnBlock.Click += new System.EventHandler(this.btnUnBlock_Click);
             // 
             // btnBlock
@@ -726,6 +727,7 @@
             this.btnBlock.Size = new System.Drawing.Size(120, 27);
             this.btnBlock.TabIndex = 9;
             this.btnBlock.Text = "Block";
+            this.btnBlock.Visible = false;
             this.btnBlock.Click += new System.EventHandler(this.btnBlock_Click);
             // 
             // btnDelete

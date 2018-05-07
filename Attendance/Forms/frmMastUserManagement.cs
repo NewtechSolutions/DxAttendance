@@ -254,7 +254,7 @@ namespace Attendance.Forms
             }
 
             DataSet ds = new DataSet();
-            string sql = "select EmpUnqID,EmpName,WrkGrp,UnitCode,MessCode,MessGrpCode,PayrollFlg,ContractFlg,Active From MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And Active = 1";
+            string sql = "select EmpUnqID,EmpName,WrkGrp,UnitCode,MessCode,MessGrpCode,PayrollFlg,ContractFlg,Active,PunchingBlocked From MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And Active = 1";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -273,6 +273,14 @@ namespace Attendance.Forms
                     chkActive.Checked = Convert.ToBoolean(dr["Active"]);
                     chkComp.Checked = Convert.ToBoolean(dr["PayrollFlg"]);
                     chkCont.Checked = Convert.ToBoolean(dr["ContractFlg"]);
+
+                    bool isBlocked = Convert.ToBoolean(dr["PunchingBlocked"]);
+                    if (isBlocked)
+                    {
+                        chkActive.Checked = false;
+                        MessageBox.Show("This Employee is Blocked...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                     
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);
@@ -377,6 +385,34 @@ namespace Attendance.Forms
                     err = string.Empty;
                     Application.DoEvents();
                     m.Register(tEmpUnqID,out err);
+
+                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    {
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            try
+                            {
+                                cn.Open();
+                                cmd.Connection = cn;
+
+                                int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+
+                                string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                    tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKREGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
+
+
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }//using command
+                    }//using connection
+                    
+
                     dr["Remarks"] = (!string.IsNullOrEmpty(err)?err:"Registered");
                         
                 }
@@ -613,7 +649,7 @@ namespace Attendance.Forms
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-            if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty)
+            if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty || chkActive.Checked == false )
             {
                 //MessageBox.Show("Invalid Employee...","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
@@ -626,6 +662,7 @@ namespace Attendance.Forms
             user.MessGrpCode = txtMessGrpCode.Text.Trim();
             user.WrkGrp = txtWrkGrpCode.Text.Trim();
 
+            
             if (user.UserID == tEmpUnqID)
             {
                 tUserList.RemoveAll(tmpuser => tmpuser.UserID == tEmpUnqID);
@@ -759,6 +796,35 @@ namespace Attendance.Forms
                     if (!string.IsNullOrEmpty(err))
                     {
                         allerr += err + Environment.NewLine;
+                    }
+                    else
+                    {
+                       
+                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                        {
+                            using (SqlCommand cmd = new SqlCommand())
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    cmd.Connection = cn;
+
+                                    int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+                                    string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                        emp.UserID + "','" + ip + "','" + ioflg + "','REGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
+
+
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }//using command
+                        }//using connection
+                   
                     }
                 }
 
@@ -948,10 +1014,35 @@ namespace Attendance.Forms
                 m.RefreshData();
                 m.EnableDevice(true);
                 //string allerr = "";
-                //foreach (UserBioInfo emp in tempusers)
-                //{
-                //    allerr += (emp.err.Length > 0 ? emp.UserID + emp.err : "");
-                //}
+                foreach (UserBioInfo emp in tempusers)
+                {
+                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    {
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            try
+                            {
+                                cn.Open();
+                                cmd.Connection = cn;
+
+                                int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+
+                                string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                    emp.UserID + "','" + ip + "','" + ioflg + "','DELETE',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
+
+
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }//using command
+                    }//using connection
+                                   
+                }
 
                 //if (string.IsNullOrEmpty(allerr.Replace(Environment.NewLine, "")))
                 //{
@@ -1584,6 +1675,33 @@ namespace Attendance.Forms
                     err = string.Empty;
 
                     m.DeleteUser(tEmpUnqID, out err);
+
+                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    {
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            try
+                            {
+                                cn.Open();
+                                cmd.Connection = cn;
+
+                                int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+
+                                string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                    tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKDELETE',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
+
+
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }//using command
+                    }//using connection
+
                     dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Deleted");
                     Application.DoEvents();
                 }

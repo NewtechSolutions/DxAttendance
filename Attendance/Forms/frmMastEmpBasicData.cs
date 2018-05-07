@@ -730,7 +730,7 @@ namespace Attendance.Forms
                         cmd.CommandText = "Delete from AttdData where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = "Delete from MastEmpBio where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.CommandText = "Delete from EmpBioData where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
 
                         cmd.CommandText = "Delete from LeaveEntry where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
