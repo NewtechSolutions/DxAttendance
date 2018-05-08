@@ -320,13 +320,13 @@ namespace Attendance.Forms
 
             if (mailtype == "BLOCK")
             {
-                tsubject = "Notification : Card Has been Blocked for  " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
+                tsubject = "Notification : Card Blocked for  " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
             }
             string tblokeddt = string.Empty;
 
             if (mailtype == "UNBLOCK")
             {
-                tsubject = "Notification : Card has been Un-Blocked for " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
+                tsubject = "Notification : Card Un-Blocked for " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
             
                 //get last blocked date
                 string tsql = "Select Max(ReqDt) From MastMachineUserOperation where EmpUnqID = '" + tEmpUnqID + "' and Operation = 'BLOCK' ";
@@ -377,6 +377,16 @@ namespace Attendance.Forms
                         Globals.G_DefaultMailID, "", "");
             
             MessageBox.Show(mailtype + " : Notification : Status : " + err,"Information",MessageBoxButtons.OK,MessageBoxIcon.Information );
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadGrid();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
 

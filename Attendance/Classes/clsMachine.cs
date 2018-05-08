@@ -1138,12 +1138,12 @@ namespace Attendance.Classes
 
                         ////get if already blocked or not
                         string sql = "SELECT  CASE WHEN EXISTS (Select * from MastEmp where EmpUnqID ='" + tmp.UserID + "')" +
-                                     "  THEN (select PunchingBlocked from MastEmp Where EmpUnqID = '" + tmp.UserID  + "') " +
+                                     "  THEN (select PunchingBlocked from MastEmp Where EmpUnqID = '" + tmp.UserID  + "' and compcode = '01') " +
                                      "  ELSE 0  END AS PunchingBlocked ";
 
-                        bool isBlocked = Convert.ToBoolean(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
+                        int isBlocked = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr));
 
-                        if (isBlocked)
+                        if (isBlocked == 1)
                         {
                             tmp.Enabled = false;
                         }

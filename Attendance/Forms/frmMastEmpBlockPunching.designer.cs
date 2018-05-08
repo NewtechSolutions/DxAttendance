@@ -32,24 +32,27 @@
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.grpUserRights = new System.Windows.Forms.GroupBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.grpUserRights.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Group2
             // 
             this.Group2.Controls.Add(this.grid);
-            this.Group2.Location = new System.Drawing.Point(134, 190);
+            this.Group2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Group2.Location = new System.Drawing.Point(3, 237);
             this.Group2.Name = "Group2";
-            this.Group2.Size = new System.Drawing.Size(811, 295);
+            this.Group2.Size = new System.Drawing.Size(990, 295);
             this.Group2.TabIndex = 4;
             this.Group2.TabStop = false;
             // 
@@ -59,7 +62,7 @@
             this.grid.Location = new System.Drawing.Point(3, 17);
             this.grid.MainView = this.gridView1;
             this.grid.Name = "grid";
-            this.grid.Size = new System.Drawing.Size(805, 275);
+            this.grid.Size = new System.Drawing.Size(984, 275);
             this.grid.TabIndex = 0;
             this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -96,21 +99,33 @@
             // 
             // grpUserRights
             // 
-            this.grpUserRights.Controls.Add(this.button1);
+            this.grpUserRights.Controls.Add(this.btnRefresh);
             this.grpUserRights.Controls.Add(this.btnClose);
             this.grpUserRights.Controls.Add(this.btnCancel);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 190);
+            this.grpUserRights.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpUserRights.Location = new System.Drawing.Point(3, 177);
             this.grpUserRights.Name = "grpUserRights";
-            this.grpUserRights.Size = new System.Drawing.Size(116, 292);
+            this.grpUserRights.Size = new System.Drawing.Size(990, 54);
             this.grpUserRights.TabIndex = 23;
             this.grpUserRights.TabStop = false;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnRefresh.Location = new System.Drawing.Point(450, 14);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(105, 32);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh&Status";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnClose.Location = new System.Drawing.Point(6, 128);
+            this.btnClose.Location = new System.Drawing.Point(339, 14);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(105, 32);
             this.btnClose.TabIndex = 5;
@@ -121,7 +136,7 @@
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnCancel.Location = new System.Drawing.Point(6, 90);
+            this.btnCancel.Location = new System.Drawing.Point(228, 14);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(105, 32);
             this.btnCancel.TabIndex = 4;
@@ -132,7 +147,7 @@
             // btnUpdate
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnUpdate.Location = new System.Drawing.Point(6, 52);
+            this.btnUpdate.Location = new System.Drawing.Point(117, 14);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(105, 32);
             this.btnUpdate.TabIndex = 2;
@@ -154,31 +169,36 @@
             // ctrlEmp1
             // 
             this.ctrlEmp1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrlEmp1.Location = new System.Drawing.Point(12, 13);
+            this.ctrlEmp1.Location = new System.Drawing.Point(3, 3);
             this.ctrlEmp1.Name = "ctrlEmp1";
-            this.ctrlEmp1.Size = new System.Drawing.Size(933, 171);
+            this.ctrlEmp1.Size = new System.Drawing.Size(933, 168);
             this.ctrlEmp1.TabIndex = 24;
             // 
-            // button1
+            // tableLayoutPanel1
             // 
-            this.button1.BackColor = System.Drawing.Color.Cornsilk;
-            this.button1.Location = new System.Drawing.Point(6, 166);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 32);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Refresh&Status";
-            this.button1.UseVisualStyleBackColor = false;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.ctrlEmp1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.grpUserRights, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Group2, 0, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 174F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(996, 488);
+            this.tableLayoutPanel1.TabIndex = 25;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // frmMastEmpBlockPunching
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 488);
-            this.Controls.Add(this.ctrlEmp1);
-            this.Controls.Add(this.grpUserRights);
-            this.Controls.Add(this.Group2);
+            this.ClientSize = new System.Drawing.Size(996, 488);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "frmMastEmpBlockPunching";
             this.Text = "Employee Punching Block/Unblock";
@@ -187,6 +207,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.grpUserRights.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -202,6 +223,7 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnAdd;
         private ctrlEmp ctrlEmp1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

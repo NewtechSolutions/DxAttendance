@@ -1048,17 +1048,19 @@ namespace Attendance.Classes
 
                                 _StatusWorker = true;
 
-                                tMsg.MsgTime = DateTime.Now;
-                                tMsg.MsgType = "Machine Operation->";
-                                tMsg.Message = "Performing : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString();
-                                Scheduler.Publish(tMsg);
+                               
 
                                 string err = string.Empty;
                                 clsMachine m = new clsMachine(dr["MachineIP"].ToString(), dr["IOFLG"].ToString());
                                 m.Connect(out err);
                                 if (string.IsNullOrEmpty(err))
                                 {
-                                    
+
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Machine Operation->";
+                                    tMsg.Message = "Performing : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() ;
+                                    Scheduler.Publish(tMsg);
+
                                     m.EnableDevice(false);
                                     #region machineoperation
                                     switch (dr["Operation"].ToString())
@@ -1097,19 +1099,26 @@ namespace Attendance.Classes
                                             {
                                                 cmd.Connection = cn;
                                                 if(string.IsNullOrEmpty(err))
-                                                {                                                           
-                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastErr = 'Completed' , UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "';";
+                                                {
+                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
+                                                        " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString()  + "';";
                                                 }
                                                 else
                                                 {
-                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), lasterr = '" + err + "' where ID ='" + dr["ID"].ToString() + "';";
+                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
+                                                        " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "';";
                                                 }
+                                                cmd.CommandText = sql;
                                                 cmd.ExecuteNonQuery();
                                             }
                                         }
                                         catch (Exception ex)
                                         {
-
+                                            tMsg.MsgTime = DateTime.Now;
+                                            tMsg.MsgType = "Machine Operation->";
+                                            tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + ex.ToString();
+                                            Scheduler.Publish(tMsg);
+                                           
                                         }
                                     }//using
                                     #endregion
@@ -1119,6 +1128,11 @@ namespace Attendance.Classes
                                 else
                                 {
                                     #region setsts
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Machine Operation->";
+                                    tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + err.ToString();
+                                    Scheduler.Publish(tMsg);
+                                    
                                     //record errs
                                     using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                     {
@@ -1128,13 +1142,19 @@ namespace Attendance.Classes
                                             using (SqlCommand cmd = new SqlCommand())
                                             {
                                                 cmd.Connection = cn;
-                                                sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), lasterr = '" + err + "' where ID ='" + dr["ID"].ToString() + "';";
+                                                sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
+                                                    " where ID ='" + dr["ID"].ToString() +  "' and MachineIP = '" + dr["MachineIP"].ToString() + "' " +
+                                                    " and Operation = '" + dr["Operation"].ToString() + "';";
+                                                cmd.CommandText = sql;
                                                 cmd.ExecuteNonQuery();
                                             }
                                         }
                                         catch (Exception ex)
                                         {
-
+                                            tMsg.MsgTime = DateTime.Now;
+                                            tMsg.MsgType = "Machine Operation->";
+                                            tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + ex.ToString();
+                                            Scheduler.Publish(tMsg);
                                         }
                                     }//using
                                     #endregion
