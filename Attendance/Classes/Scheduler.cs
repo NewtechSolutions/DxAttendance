@@ -1123,7 +1123,9 @@ namespace Attendance.Classes
                                     }//using
                                     #endregion
 
+                                    m.RefreshData();
                                     m.EnableDevice(true);
+                                    m.DisConnect(out err);
                                 }
                                 else
                                 {

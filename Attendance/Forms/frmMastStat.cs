@@ -450,8 +450,8 @@ namespace Attendance.Forms
                         cn.Open();
                         cmd.Connection = cn;
                         string sql = "Delete From MastStatManPower Where "
-                            + "CompCode = '{0}',WrkGrp = '{1}', UnitCode = '{2}', "
-                            + " DeptCode = '{3}',StatCode = '{4}',CatCode = '{5}', Shift = '{6}' ";
+                            + "CompCode = '{0}' and WrkGrp = '{1}' and UnitCode = '{2}' "
+                            + " DeptCode = '{3}' and StatCode = '{4}' and CatCode = '{5}' and Shift = '{6}' ";
                             
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(),
                             txtWrkGrpCode.Text.Trim().ToString(),
