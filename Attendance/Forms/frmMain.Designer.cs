@@ -80,6 +80,7 @@
             this.mnuMastTime = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastRate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBlackListAdhar = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPunchingBlock = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCostCent = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCostCodeMast = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmpCostCode = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +120,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuPunchingBlock = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -545,8 +545,15 @@
             // 
             this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
             this.mnuBlackListAdhar.Size = new System.Drawing.Size(209, 22);
-            this.mnuBlackListAdhar.Text = "BlackList AdharCard";
+            this.mnuBlackListAdhar.Text = "BlackList Aadhaar Card";
             this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
+            // 
+            // mnuPunchingBlock
+            // 
+            this.mnuPunchingBlock.Name = "mnuPunchingBlock";
+            this.mnuPunchingBlock.Size = new System.Drawing.Size(209, 22);
+            this.mnuPunchingBlock.Text = "Punching  Block/UnBlock";
+            this.mnuPunchingBlock.Click += new System.EventHandler(this.mnuPunchingBlock_Click);
             // 
             // mnuCostCent
             // 
@@ -848,13 +855,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuPunchingBlock
-            // 
-            this.mnuPunchingBlock.Name = "mnuPunchingBlock";
-            this.mnuPunchingBlock.Size = new System.Drawing.Size(209, 22);
-            this.mnuPunchingBlock.Text = "Punching  Block/UnBlock";
-            this.mnuPunchingBlock.Click += new System.EventHandler(this.mnuPunchingBlock_Click);
             // 
             // frmMain
             // 

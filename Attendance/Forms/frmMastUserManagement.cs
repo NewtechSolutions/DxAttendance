@@ -649,11 +649,12 @@ namespace Attendance.Forms
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-            if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty || chkActive.Checked == false )
+            if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty  )
             {
                 //MessageBox.Show("Invalid Employee...","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
+
             string tEmpUnqID = txtEmpUnqID.Text.Trim();
             UserBioInfo user = new UserBioInfo();   
            

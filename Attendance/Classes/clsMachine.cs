@@ -713,6 +713,8 @@ namespace Attendance.Classes
                             if (!string.IsNullOrEmpty(emp.FaceTemp))
                             {
                                 bool x = this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                                //user must set authenticate d type as face+RF
+
                             }
                         }
 
@@ -739,7 +741,7 @@ namespace Attendance.Classes
                             
                         }
 
-                        //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                        this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                     }
                 }
 
@@ -826,7 +828,7 @@ namespace Attendance.Classes
                         }
                     }
                     
-                    //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                 }
 
             }
@@ -1631,19 +1633,23 @@ namespace Attendance.Classes
                 if (this.CZKEM1.GetUserInfo(_machineno, Convert.ToInt32(tEmpUnqID), ref tmpuser, ref tmppass, ref tmppre, ref tmpenable))
                 {
                     this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                    StoreHistoryinDB(tEmpUnqID, false);
                 }          
             }
             else
             {
-                if (this.CZKEM1.GetUserInfo(_machineno, Convert.ToInt32(tEmpUnqID), ref tmpuser, ref tmppass, ref tmppre, ref tmpenable))
+                if (this.CZKEM1.SSR_GetUserInfo(_machineno, tEmpUnqID, out tmpuser, out tmppass, out tmppre, out tmpenable))
                 {
-                    this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                    this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
+                    //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
                     this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
                     this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
+
+                    StoreHistoryinDB(tEmpUnqID, false);
                 }
             }
 
-            this.StoreHistoryinDB(tEmpUnqID, false);        
+                 
             //this.CZKEM1.RefreshData(_machineno);
             //this.CZKEM1.EnableDevice(_machineno, true); 
         }
@@ -1685,7 +1691,7 @@ namespace Attendance.Classes
                 //store registration info in db....
                 if (string.IsNullOrEmpty(emp.err))
                 {
-                    StoreHistoryinDB(emp.UserID, false);
+                    
                     if (!_istft)
                     {
                         string tmpuser = string.Empty, tmppass = string.Empty;
@@ -1695,6 +1701,7 @@ namespace Attendance.Classes
                         if (this.CZKEM1.GetUserInfo(_machineno, Convert.ToInt32(emp.UserID), ref tmpuser, ref tmppass, ref tmppre, ref tmpenable))
                         {
                             this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
+                            StoreHistoryinDB(emp.UserID, false);
                         }
                     }
                     else
@@ -1704,12 +1711,13 @@ namespace Attendance.Classes
                         int tmppre = 0 ;
                         bool tmpenable = false;
 
-                        if(this.CZKEM1.GetUserInfo(_machineno,Convert.ToInt32(emp.UserID),ref tmpuser, ref tmppass, ref tmppre, ref tmpenable))
+                        if(this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID,out tmpuser, out tmppass, out tmppre, out tmpenable))
                         {
-                            //this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
-                            this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
+                            this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
+                            //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
                             this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                             this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
+                            StoreHistoryinDB(emp.UserID, false);
                         }
                         
                     }

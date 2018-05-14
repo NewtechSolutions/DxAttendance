@@ -185,6 +185,9 @@ namespace Attendance.Forms
                         cmd.CommandText = "Update EmpBioData Set Blocked = 1 where EmpUnqID = '" + tEmpUnqID + "'";
                         cmd.ExecuteNonQuery();
 
+                        //string tEmpAdharNo = Utils.Helper.GetDescription("Select AdharNo from MastEmp Where EmpUnqID ='" + tEmpUnqID + "'",Utils.Helper.constr);
+                        //cmd.CommandText = "Insert into MastEmpBlackList (Adharno,ISBlock,AddDt,AddID) values ('" + tEmpAdharNo + "',1,GetDate(),'" + Utils.User.GUserID + "')";
+                        //cmd.ExecuteNonQuery();
 
                         sendmail("BLOCK", tEmpUnqID);
 

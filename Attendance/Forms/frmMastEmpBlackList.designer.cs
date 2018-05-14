@@ -160,11 +160,11 @@
             // 
             // label20
             // 
-            this.label20.Location = new System.Drawing.Point(29, 17);
+            this.label20.Location = new System.Drawing.Point(6, 22);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(70, 18);
+            this.label20.Size = new System.Drawing.Size(93, 18);
             this.label20.TabIndex = 94;
-            this.label20.Text = "Adhar No :";
+            this.label20.Text = "Aadhaar No :";
             // 
             // txtAdharNo
             // 
