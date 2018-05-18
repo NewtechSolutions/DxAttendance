@@ -16,13 +16,15 @@ using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-    public partial class frmEmployeeImport : DevExpress.XtraEditors.XtraForm
+    public partial class frmMastEmpBulkChange : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
+       
+
 
         DataTable dt = new DataTable();
 
-        public frmEmployeeImport()
+        public frmMastEmpBulkChange()
         {
             InitializeComponent();
             
@@ -74,44 +76,16 @@ namespace Attendance.Forms
             return;
         }
 
-        private string DataValidate(string tEmpUnqID,string tCostCode,DateTime tValidFrom)
+        private string DataValidate(DataRow tdr)
         {
             string err = string.Empty;
             clsEmp t = new clsEmp();
             t.CompCode = "01";
-            t.EmpUnqID = tEmpUnqID;
+            t.EmpUnqID = tdr["EmpUnqID"].ToString();
             if (!t.GetEmpDetails(t.CompCode,t.EmpUnqID))
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
             }
-
-            t.CostCode = tCostCode;
-            t.GetCostDesc(tCostCode);
-            if (string.IsNullOrEmpty(t.CostDesc))
-            {
-                err = err + "Invalid CostCode..." + Environment.NewLine;
-            }
-
-            
-
-            if (tValidFrom == DateTime.MinValue)
-            {
-                err = err + "Please Enter Valid From Date..." + Environment.NewLine;
-                return err;
-            }
-
-
-            string sql = "Select max(ValidFrom) From MastCostCodeEmp where EmpUnqId = '" + t.EmpUnqID + "' " +
-                " and ValidFrom > '" + tValidFrom.ToString("yyyy-MM-dd") + "'";
-
-            string tMaxDt = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
-            if (!string.IsNullOrEmpty(tMaxDt))
-            {
-                err = err + "System Does not Allow to insert/update/delete between...." + Environment.NewLine;
-            }
-
-
             return err;
         }
 
@@ -125,7 +99,6 @@ namespace Attendance.Forms
             DataTable sortedDT = new DataTable();
             try
             {
-                
 
                 foreach (GridColumn column in grd_view1.VisibleColumns)
                 {
@@ -150,104 +123,95 @@ namespace Attendance.Forms
                 sortedDT = dv.ToTable();
 
                 using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
-                {   
+                {
+                    
                     con.Open();
-                    foreach (DataRow tdr in sortedDT.Rows)
+                    foreach (DataRow dr in sortedDT.Rows)
                     {
+                        string tEmpUnqID = dr["EmpUnqID"].ToString();
                         
-                        
-                        string tEmpUnqID = tdr["EmpUnqID"].ToString();
-                        if (string.IsNullOrEmpty(tEmpUnqID))
+                        string err = DataValidate(dr);
+
+                        if (!string.IsNullOrEmpty(err))
                         {
-                            tdr["Remarks"] = "EmpUnqID is blank...";
+                            dr["Remarks"] = err;
+                            continue; 
+                        }
+                        
+                        #region Chk_AllVals
+                        //check all values if all empty skip
+                        if(dr["CatCode"].ToString() == "" && dr["DesgCode"].ToString() == ""
+                            && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == "" )
+                        {
+                            dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
                             continue;
                         }
+                        #endregion
+                        string tCatCode = dr["CatCode"].ToString();
+                        string tDesgCode = dr["DesgCode"].ToString();
+                        string tGradeCode = dr["GradeCode"].ToString();
+                        double tBasic = 0;
+                        try
+                        {
+                            double.TryParse(dr["Basic"].ToString(), out tBasic);
+                        }catch(Exception ex)
+                        {
+
+                        }
                             
-                        
-                        string tWrkGrp = tdr["WrkGrp"].ToString();
-                        string tUnitCode = tdr["UnitCode"].ToString();
-                        string tEmpName = tdr["EmpName"].ToString();
-                        string tFatherName = tdr["FatherName"].ToString();
-                        
-                        bool tSex = (tdr["Gender"].ToString() == "M" ? true : false);
-                        bool tActive = (tdr["Active"].ToString() == "Y" ? true : false);
-                        bool tPayrollFLG = (tdr["PayrollFlg"].ToString().Trim() == "Y"?true:false);
-                        bool tContractFlg = (tdr["ContractFlg"].ToString().Trim() == "Y"?true:false);
-                        bool tShiftType = (tdr["AutoShift"].ToString().Trim() == "Y"?true:false);
-                        bool tOTFLG = (tdr["OTFLG"].ToString().Trim() == "Y"?true:false);
-                        
+                        #region Final_Update
 
-                        string tEmpCode = tdr["EmpCode"].ToString().Trim().ToUpper();
-                        string tContCode = tdr["ContCode"].ToString().Trim().ToUpper();
-                        string tWeekoff = tdr["WeekOff"].ToString().Trim().ToUpper();
-                        string tEmpTypeCode = tdr["EmpTypeCode"].ToString().Trim();
-                        string tCATCODE = tdr["CatCode"].ToString().Trim().ToUpper();
-                        string tDeptcode = tdr["DeptCode"].ToString().Trim().ToUpper();
-                        string tStatCode = tdr["StatCode"].ToString().Trim().ToUpper();
-                        string tDesgCode = tdr["DesgCode"].ToString().Trim().ToUpper();
-                        string tGradeCode = tdr["GradCode"].ToString().Trim().ToUpper();
-                        string tMessGrpCode = tdr["MessGrpCode"].ToString().Trim().ToUpper();
-                        string tMessCode = tdr["MessCode"].ToString().Trim().ToUpper();
-                        string tOldEmpCode = tdr["OldEmpCode"].ToString().Trim().ToUpper();
-                        string tSAPID = tdr["SAPID"].ToString().Trim().ToUpper();
-                        string tCostCode = tdr["CostCode"].ToString().Trim().ToUpper();
-                        string tAdharNo = tdr["AdharNo"].ToString().Trim().ToUpper();
-                        string tShiftCode = tdr["ShiftCode"].ToString().Trim().ToUpper();
+                        using (SqlCommand cmd = new SqlCommand())
+                        {                            
+                            try
+                            {
+                                
+                                cmd.Connection = con;
+                                cmd.CommandType = CommandType.Text;
 
-                        double tbasic = 0;
-                        try
-                        {
-                            double.TryParse(tdr["Basic"].ToString(), out tbasic);
-                        }
-                        catch (Exception ex)
-                        {
+                                string sql = "Update MastEmp SET ";
 
-                        }
+                                if (!String.IsNullOrEmpty(tCatCode.Trim()))
+                                {
+                                    sql += " CatCode = '" + tCatCode.Trim() + "', ";
+                                }
+
+                                if (!string.IsNullOrEmpty(tDesgCode.Trim()))
+                                {
+                                    sql += " DesgCode = '" + tDesgCode.Trim() + "', ";
+                                }
+
+                                if (!string.IsNullOrEmpty(tGradeCode.Trim()))
+                                {
+                                    sql += " GradCode = '" + tDesgCode.Trim() + "' ";
+                                }
+
+                                if (tBasic > 0)
+                                {
+                                    sql += " , Basic = '" + tBasic.ToString() + "' ";
+                                }
+
+                                sql += " , UpdDt=GetDate(), UpdID = '" + Utils.User.GUserID + "' Where CompCode = '01' and EmpUnqID = '" + tEmpUnqID + "'";
 
 
+                                cmd.CommandText = sql;
+                                cmd.CommandTimeout = 0;
+                                cmd.ExecuteNonQuery();
 
-                        DateTime? tValidFrom = new DateTime?();
-                        DateTime? tValidTo = new DateTime?();
-                        
-                        try
-                        {
-                            tValidFrom = Convert.ToDateTime(tdr["ValidFrom"]);
-                            tValidTo = Convert.ToDateTime(tdr["ValidTo"]);
-                        }
-                        catch (Exception ex)
-                        {
 
-                        }
+                            }
+                            catch (Exception ex)
+                            {
+                                dr["remarks"] = dr["remarks"].ToString() + ex.ToString();
+                                continue;
+                            }
 
-                        
-                        
-                        DateTime tBirthDt = Convert.ToDateTime(tdr["BirthDt"]);
-                        DateTime tJoinDt = Convert.ToDateTime(tdr["JoinDt"]);
-
-                        clsEmp emp = new clsEmp();
-                        string err = string.Empty;
-                        
-                        bool iscreated = emp.CreateEmployee(tEmpUnqID, tWrkGrp,
-                            tUnitCode, tEmpName, tFatherName,
-                            tSex, tActive, tBirthDt, tJoinDt,
-                            tWeekoff, tPayrollFLG, tContractFlg,
-                            tShiftType, tOTFLG, false,
-                            false, tEmpCode, tContCode,
-                                tEmpTypeCode, tCATCODE, tDeptcode, tStatCode,
-                                    tDesgCode, tGradeCode, tMessGrpCode, tMessCode,
-                                        tOldEmpCode, tSAPID, tCostCode, tAdharNo,
-                                            tValidFrom, tValidTo, tbasic, out err);
-                        
-                        
-                        if (string.IsNullOrEmpty(err))
-                            tdr["Remarks"] = "Employee Created...";
-                        else
-                            tdr["Remarks"] = err;
-                        
-                    }
+                        }//using sqlcommand
+                        #endregion
+                    }//using foreach
 
                     con.Close();
-                }
+                }//using connection
 
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show("file uploaded Successfully, please check the remarks for indivisual record status...", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -290,30 +254,29 @@ namespace Attendance.Forms
             string sexcelconnectionstring = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1;\"";
             //string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + filePath + ";extended properties=" + "\"excel 8.0;hdr=yes;IMEX=1;\"";
 
-            
             OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
-            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);          
+            List<SheetName> sheets = ExcelHelper.GetSheetNames(oledbconn);
             string sheetname = "[" + sheets[0].sheetName.Replace("'", "") + "]";
 
             try
             {
                 oledbconn.Open();
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             
+
+
             try
             {
-                string myexceldataquery = "select EmpUnqID,WrkGrp,UnitCode,EmpName,FatherName,Gender,Active," +
-                    " BirthDt,JoinDt,WeekOff,PayrollFlg,ContractFlg,AutoShift,OTFLG,ShiftCode," +
-                    " EmpCode,ContCode,EmpTypeCode,CatCode,DeptCode,StatCode,DesgCode,GradCode,MessGrpCode,MessCode," +
-                    " OldEmpCode,SapID,CostCode,AdharNo,ValidFrom,ValidTo,BASIC,'' as Remarks from " + sheetname;
-
+                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
-                dt = new DataTable();
+                dt.Clear();
                 oledbda.Fill(dt);
+                
                 dt.AcceptChanges();
                 foreach (DataRow row in dt.Rows)
                 {
@@ -323,23 +286,23 @@ namespace Attendance.Forms
                 dt.AcceptChanges();
 
                 oledbconn.Close();
-                
             }
             catch (Exception ex)
             {
                 oledbconn.Close();
-                MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please Check upload template.." + Environment.NewLine + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
                 btnImport.Enabled = false;
-                grd_view.DataSource = null;
+                oledbconn.Close();
                 return;
             }
-
             
 
             DataView dv = dt.DefaultView;
             dv.Sort = "EmpUnqID asc";
             DataTable sortedDT = dv.ToTable();
+
+
 
 
             grd_view.DataSource = sortedDT;
@@ -412,9 +375,10 @@ namespace Attendance.Forms
             }
         }
 
-        private void frmEmployeeImport_Load(object sender, EventArgs e)
+        private void frmMastEmpBulkChange_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
+                
             grd_view.DataSource = null;
             btnImport.Enabled = false;
         }
