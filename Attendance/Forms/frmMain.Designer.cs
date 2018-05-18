@@ -120,6 +120,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuEmpBulkChange = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -455,7 +456,8 @@
             this.mnuMastJob,
             this.mnuImportEmp,
             this.mnuValidityMass,
-            this.mnuMisConduct});
+            this.mnuMisConduct,
+            this.mnuEmpBulkChange});
             this.mnuEmployee.Name = "mnuEmployee";
             this.mnuEmployee.Size = new System.Drawing.Size(209, 22);
             this.mnuEmployee.Text = "Employee";
@@ -463,42 +465,42 @@
             // mnuMastEmp
             // 
             this.mnuMastEmp.Name = "mnuMastEmp";
-            this.mnuMastEmp.Size = new System.Drawing.Size(184, 22);
+            this.mnuMastEmp.Size = new System.Drawing.Size(196, 22);
             this.mnuMastEmp.Text = "Employee Master";
             this.mnuMastEmp.Click += new System.EventHandler(this.mnuMastEmp_Click);
             // 
             // mnuMastEmpPer
             // 
             this.mnuMastEmpPer.Name = "mnuMastEmpPer";
-            this.mnuMastEmpPer.Size = new System.Drawing.Size(184, 22);
+            this.mnuMastEmpPer.Size = new System.Drawing.Size(196, 22);
             this.mnuMastEmpPer.Text = "Personal Info";
             this.mnuMastEmpPer.Click += new System.EventHandler(this.mnuMastEmpPer_Click);
             // 
             // mnuMastJob
             // 
             this.mnuMastJob.Name = "mnuMastJob";
-            this.mnuMastJob.Size = new System.Drawing.Size(184, 22);
+            this.mnuMastJob.Size = new System.Drawing.Size(196, 22);
             this.mnuMastJob.Text = "Job Profile";
             this.mnuMastJob.Click += new System.EventHandler(this.mnuMastJob_Click);
             // 
             // mnuImportEmp
             // 
             this.mnuImportEmp.Name = "mnuImportEmp";
-            this.mnuImportEmp.Size = new System.Drawing.Size(184, 22);
+            this.mnuImportEmp.Size = new System.Drawing.Size(196, 22);
             this.mnuImportEmp.Text = "Import Employee";
             this.mnuImportEmp.Click += new System.EventHandler(this.mnuImportEmp_Click);
             // 
             // mnuValidityMass
             // 
             this.mnuValidityMass.Name = "mnuValidityMass";
-            this.mnuValidityMass.Size = new System.Drawing.Size(184, 22);
+            this.mnuValidityMass.Size = new System.Drawing.Size(196, 22);
             this.mnuValidityMass.Text = "Mass Validity Update";
             this.mnuValidityMass.Click += new System.EventHandler(this.mnuValidityMass_Click);
             // 
             // mnuMisConduct
             // 
             this.mnuMisConduct.Name = "mnuMisConduct";
-            this.mnuMisConduct.Size = new System.Drawing.Size(184, 22);
+            this.mnuMisConduct.Size = new System.Drawing.Size(196, 22);
             this.mnuMisConduct.Text = "MisConduct Register";
             this.mnuMisConduct.Click += new System.EventHandler(this.mnuMisConduct_Click);
             // 
@@ -856,6 +858,13 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
+            // mnuEmpBulkChange
+            // 
+            this.mnuEmpBulkChange.Name = "mnuEmpBulkChange";
+            this.mnuEmpBulkChange.Size = new System.Drawing.Size(196, 22);
+            this.mnuEmpBulkChange.Text = "Bulk Employee Change";
+            this.mnuEmpBulkChange.Click += new System.EventHandler(this.mnuEmpBulkChange_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -973,6 +982,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuBlackListAdhar;
         private System.Windows.Forms.ToolStripMenuItem mnuCopyWrkGrpToOther;
         private System.Windows.Forms.ToolStripMenuItem mnuPunchingBlock;
+        private System.Windows.Forms.ToolStripMenuItem mnuEmpBulkChange;
 
 
     }

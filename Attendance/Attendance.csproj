@@ -180,6 +180,12 @@
     <Compile Include="Forms\frmAutoMailSubScription.designer.cs">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastEmpBulkChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpBulkChange.designer.cs">
+      <DependentUpon>frmMastEmpBulkChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBulkWOChange.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -567,6 +573,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastEmpBulkChange.resx">
+      <DependentUpon>frmMastEmpBulkChange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkWOChange.resx">
       <DependentUpon>frmBulkWOChange.cs</DependentUpon>

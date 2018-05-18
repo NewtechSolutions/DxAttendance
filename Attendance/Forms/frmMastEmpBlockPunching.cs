@@ -166,7 +166,7 @@ namespace Attendance.Forms
 
                         int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
                             
-                        string sql = "select * from readerconfig where canteenflg = 0 and lunchinout = 0 and [master] = 0 and compcode = '01'";                        
+                        string sql = "select * from readerconfig where canteenflg = 0  and [master] = 0 and compcode = '01'";                        
                         DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
                         foreach(DataRow dr in ds.Tables[0].Rows){
 

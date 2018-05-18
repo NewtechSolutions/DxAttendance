@@ -1122,6 +1122,18 @@ namespace Attendance
             }
         }
 
+        private void mnuEmpBulkChange_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastEmpBulkChange"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastEmpBulkChange m = new Attendance.Forms.frmMastEmpBulkChange();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
         
 

@@ -1033,7 +1033,7 @@ namespace Attendance.Classes
                     {
                         //check if any pending machine operation if yes do it....
                         #region newmachinejob
-                        DataSet ds = Utils.Helper.GetData("Select  * from MastMachineUserOperation where DoneFlg = 0", Utils.Helper.constr);
+                        DataSet ds = Utils.Helper.GetData("Select top 10 * from MastMachineUserOperation where DoneFlg = 0 order by MachineIP ", Utils.Helper.constr);
                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if (hasRows)
                         {
@@ -1048,30 +1048,29 @@ namespace Attendance.Classes
 
                                 _StatusWorker = true;
 
-                               
-
+                                string ip = dr["MachineIP"].ToString();
                                 string err = string.Empty;
-                                clsMachine m = new clsMachine(dr["MachineIP"].ToString(), dr["IOFLG"].ToString());
+                                clsMachine m = new clsMachine(ip, dr["IOFLG"].ToString());
                                 m.Connect(out err);
                                 if (string.IsNullOrEmpty(err))
                                 {
 
                                     tMsg.MsgTime = DateTime.Now;
                                     tMsg.MsgType = "Machine Operation->";
-                                    tMsg.Message = "Performing : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() ;
+                                    tMsg.Message = "Performing : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString();
                                     Scheduler.Publish(tMsg);
 
                                     m.EnableDevice(false);
                                     #region machineoperation
                                     switch (dr["Operation"].ToString())
                                     {
-                                        case "BLOCK" :
+                                        case "BLOCK":
                                             m.BlockUser(dr["EmpUnqID"].ToString(), out err);
                                             break;
-                                        case "UNBLOCK" :
+                                        case "UNBLOCK":
                                             m.UnBlockUser(dr["EmpUnqID"].ToString(), out err);
                                             break;
-                                        case "DELETE" :
+                                        case "DELETE":
                                             m.DeleteUser(dr["EmpUnqID"].ToString(), out err);
                                             break;
                                         case "REGISTER":
@@ -1098,10 +1097,10 @@ namespace Attendance.Classes
                                             using (SqlCommand cmd = new SqlCommand())
                                             {
                                                 cmd.Connection = cn;
-                                                if(string.IsNullOrEmpty(err))
+                                                if (string.IsNullOrEmpty(err))
                                                 {
                                                     sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
-                                                        " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString()  + "';";
+                                                        " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "';";
                                                 }
                                                 else
                                                 {
@@ -1118,7 +1117,7 @@ namespace Attendance.Classes
                                             tMsg.MsgType = "Machine Operation->";
                                             tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + ex.ToString();
                                             Scheduler.Publish(tMsg);
-                                           
+
                                         }
                                     }//using
                                     #endregion
@@ -1134,7 +1133,7 @@ namespace Attendance.Classes
                                     tMsg.MsgType = "Machine Operation->";
                                     tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + err.ToString();
                                     Scheduler.Publish(tMsg);
-                                    
+
                                     //record errs
                                     using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                     {
@@ -1145,7 +1144,7 @@ namespace Attendance.Classes
                                             {
                                                 cmd.Connection = cn;
                                                 sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
-                                                    " where ID ='" + dr["ID"].ToString() +  "' and MachineIP = '" + dr["MachineIP"].ToString() + "' " +
+                                                    " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' " +
                                                     " and Operation = '" + dr["Operation"].ToString() + "';";
                                                 cmd.CommandText = sql;
                                                 cmd.ExecuteNonQuery();
@@ -1161,6 +1160,7 @@ namespace Attendance.Classes
                                     }//using
                                     #endregion
                                 }
+                               
                             }//foreach
 
                             
