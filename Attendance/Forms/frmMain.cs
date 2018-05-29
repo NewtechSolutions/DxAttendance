@@ -1134,6 +1134,18 @@ namespace Attendance
             }
         }
 
+        private void mnuBulkGateInOutSanction_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkGateInOutSanction"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkGateInOutSanction m = new Attendance.Forms.frmBulkGateInOutSanction();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
         
 
