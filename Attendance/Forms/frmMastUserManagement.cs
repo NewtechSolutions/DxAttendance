@@ -1365,7 +1365,7 @@ namespace Attendance.Forms
             this.Cursor = Cursors.WaitCursor;
 
             List<UserBioInfo> tmpuser = new List<UserBioInfo>();
-            m.DownloadALLUsers(false, out err, out tmpuser);
+            m.DownloadAllUsers_QuickReport(out err, out tmpuser);
 
             if (tmpuser.Count > 0)
             {

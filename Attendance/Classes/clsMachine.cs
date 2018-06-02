@@ -1185,6 +1185,67 @@ namespace Attendance.Classes
 
         }
 
+        public void DownloadAllUsers_QuickReport(out string err , out List<UserBioInfo> tUsers)
+        {
+            err = string.Empty;
+            tUsers = new List<UserBioInfo>();
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            int _prev=0, _useridInt=0, _bkpno=0, _isenable=0, _machineno=0;
+            string sUserID, sName, sPassword, sCardNumber;
+            bool bEnabled = false;
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            if (istft)
+            {
+                while(this.CZKEM1.SSR_GetAllUserInfo(_machineno,out sUserID, out sName, out sPassword,out _prev,out bEnabled))
+                {
+                    vRet = CZKEM1.GetStrCardNumber(out sCardNumber);
+                    
+                    UserBioInfo t = new UserBioInfo();
+                    t.UserID = sUserID;
+                    t.UserName = sName;
+                    t.CardNumber = sCardNumber;
+                    t.Previlege = _prev;
+                    t.Enabled = bEnabled;
+                    tUsers.Add(t);
+                }
+            }
+            else
+            {
+                while (this.CZKEM1.GetAllUserID(_machineno, ref _useridInt, ref _machineno, ref _bkpno, ref _prev, ref _isenable))
+                {
+                    UserBioInfo t = new UserBioInfo();
+                    vRet = CZKEM1.GetStrCardNumber(out sCardNumber);
+                    
+                    t.UserID = Convert.ToString(_useridInt);
+                    t.Previlege = _prev;
+                    t.CardNumber = sCardNumber;
+                    t.Enabled = (_isenable == 1 ? true : false);
+                    tUsers.Add(t);
+                }
+            }
+    
+
+
+            
+            
+
+        }
+
+
         /// <summary>
         /// this function help to download bio details from machine and store to master data
         /// </summary>
