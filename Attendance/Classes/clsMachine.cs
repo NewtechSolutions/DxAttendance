@@ -1185,6 +1185,7 @@ namespace Attendance.Classes
 
         }
 
+        
         public void DownloadAllUsers_QuickReport(out string err , out List<UserBioInfo> tUsers)
         {
             err = string.Empty;
@@ -1242,6 +1243,64 @@ namespace Attendance.Classes
 
             
             
+
+        }
+
+        public void Get_StatusInfo_Users(out int usercount,out int usercapacity, out string err)
+        {
+            err = string.Empty;
+            usercount = 0;
+            usercapacity = 0;
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno );
+            this.CZKEM1.GetDeviceStatus(_machineno,2,ref usercount);
+            this.CZKEM1.GetDeviceStatus(_machineno, 8, ref usercapacity);
+        }
+
+        public void Get_StatusInfo_Face(out int facecount, out int facecapacity, out string err)
+        {
+            err = string.Empty;
+            facecount = 0;
+            facecapacity = 0;
+            
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            if (istft)
+            {
+                this.CZKEM1.GetDeviceStatus(_machineno, 21, ref facecount);
+                this.CZKEM1.GetDeviceStatus(_machineno, 22, ref facecapacity);
+            }
+            
+        }
+
+        public void Get_StatusInfo_Finger(out int fingercount, out int fingercapacity, out string err)
+        {
+            err = string.Empty;
+            fingercount = 0;
+            fingercapacity = 0;
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            if (istft)
+            {
+                this.CZKEM1.GetDeviceStatus(_machineno, 3, ref fingercount);
+                this.CZKEM1.GetDeviceStatus(_machineno, 7, ref fingercapacity);
+            }
 
         }
 
