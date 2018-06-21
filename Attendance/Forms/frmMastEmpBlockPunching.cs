@@ -318,7 +318,7 @@ namespace Attendance.Forms
             string tbody = string.Empty;
             string to = "anil.singh@jindalsaw.com";
             //to = "anand.acharya@jindalsaw.com";
-            string cc = "vallabh.r@jindalsaw.com;bikash.chadranath@jindalsaw.com;pchandra.soni@jindalsaw.com";
+            string cc = "vallabh.r@jindalsaw.com;pchandra.soni@jindalsaw.com";
             string bcc = "anand.acharya@jindalsaw.com";
 
             if (mailtype == "BLOCK")

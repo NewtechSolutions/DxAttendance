@@ -798,35 +798,40 @@ namespace Attendance.Classes
                 //if it not used in Mess set user face and finger
                 if (_messflg == false)
                 {
-                    if (_face)
-                    {
+                    //if (_face)
+                    //{
                         if (!string.IsNullOrEmpty(emp.FaceTemp))
                         {
                             this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
                         }
-                    }
+                    //}
 
-                    if (_finger)
-                    {
-                        string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
-                              " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
-                              " and EmpUnqID = '" + emp.UserID + "'";
-
-                        DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-                        bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                        if (hasrows)
+                        if (!string.IsNullOrEmpty(emp.FingerTemp))
                         {
-
-                            foreach (DataRow dr in ds.Tables[0].Rows)
-                            {
-                                if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
-                                {
-                                    //'upload templates information to the device
-                                    this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  
-                                }
-                            }
+                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(emp.FingerIndex), 1, emp.FingerTemp);  
                         }
-                    }
+
+                    //if (_finger)
+                    //{
+                        //string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
+                        //      " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
+                        //      " and EmpUnqID = '" + emp.UserID + "'";
+
+                        //DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        //bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        //if (hasrows)
+                        //{
+
+                        //    foreach (DataRow dr in ds.Tables[0].Rows)
+                        //    {
+                        //        if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
+                        //        {
+                        //            'upload templates information to the device
+                        //            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  
+                        //        }
+                        //    }
+                        //}
+                    //}
                     
                     this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                 }
