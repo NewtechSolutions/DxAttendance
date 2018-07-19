@@ -639,6 +639,171 @@ namespace Attendance.Classes
             }
         }
 
+
+        public class AutoDownLoadTask : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+                if (_ShutDown)
+                {
+                    return;
+                }
+
+                bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                if (hasrow)
+                {
+                    string filenm = "AutoErrLogTask_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                    string fullpath = Path.Combine(Errfilepath, filenm);
+
+                    _StatusAutoDownload = true;
+
+                    // Define the cancellation token.
+                    CancellationTokenSource source = new CancellationTokenSource();
+                    CancellationToken token = source.Token;
+                    List<Task> tasks = new List<Task>();
+                    TaskFactory factory = new TaskFactory(token);
+                    foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
+                    {
+                        string ip = dr["MachineIP"].ToString();
+                        string ioflg = dr["IOFLG"].ToString();
+
+                        tasks.Add(factory.StartNew(() => download(ip, ioflg,token)));
+                        Thread.Sleep(100);
+                    }
+
+                    try
+                    {
+                        Task.WaitAll(tasks.ToArray());
+                                                
+                    }
+                    catch (AggregateException ae)
+                    {
+                       
+                        foreach (Exception e in ae.InnerExceptions)
+                        {
+                            if (e is TaskCanceledException)
+                            {
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-" + ((TaskCanceledException)e).Message );
+                                }   
+ 
+                            }else
+                            {
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-" + e.GetType().Name );
+                                }
+                            }                             
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                        {
+                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-" + ex.ToString());
+                        }
+                    }
+                    finally
+                    {
+                        source.Cancel();
+                        source.Dispose();
+                    }
+
+
+                    _StatusAutoDownload = false;
+                }
+            }
+
+            private static void download(string ip, string ioflg,CancellationToken token)
+            {
+                try
+                {
+
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "Auto Download";
+                    tMsg.Message = ip;
+                    Scheduler.Publish(tMsg);
+
+
+                    string err = string.Empty;
+                    string filenm = "AutoErrLog_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + "_" + ip + ".txt";
+                    string fullpath = Path.Combine(Errfilepath, filenm);
+
+                    clsMachine m = new clsMachine(ip, ioflg);
+                    m.Connect(out err);
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        //write primary errors
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                        {
+                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                        }
+
+                        tMsg.MsgTime = DateTime.Now;
+                        tMsg.MsgType = "Auto Download";
+                        tMsg.Message = ip;
+                        Scheduler.Publish(tMsg);
+                        return;
+                    }
+                    err = string.Empty;
+
+                    //if (token.IsCancellationRequested)
+                    //{
+                    //    m.DisConnect(out err);
+                    //    //token.ThrowIfCancellationRequested();
+                    //    return;
+                    //}
+
+                    List<AttdLog> tempattd = new List<AttdLog>();
+                    m.GetAttdRec(out tempattd, out err);
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        //write errlog
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                        {
+                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                        }
+
+                        tMsg.MsgTime = DateTime.Now;
+                        tMsg.MsgType = "Auto Download";
+                        tMsg.Message = ip + "->Error :" + err;
+                        Scheduler.Publish(tMsg);
+                        if (err.Contains("ErrorCode=-2"))
+                            m.Restart(out err);
+
+
+                        return;
+                    }
+
+
+                    filenm = "AutoDownload_Log_" + DateTime.Now.ToString("yyyyMMdd") + "_" + ip + ".txt";
+                    fullpath = Path.Combine(Loginfopath, filenm);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-Completed");
+                    }
+
+                    m.DisConnect(out err);
+                }
+                catch (Exception ex)
+                {
+                    string filenm = "AutoErrLog_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + "_" + ip + ".txt";
+                    string fullpath = Path.Combine(Errfilepath, filenm);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                    {
+                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + ex.ToString());
+                    }
+                }
+
+            }
+
+        }
+
+
+        
+
         public class AutoTimeSet : IJob
         {
             public void Execute(IJobExecutionContext context)

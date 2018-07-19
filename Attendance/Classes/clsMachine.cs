@@ -201,6 +201,83 @@ namespace Attendance.Classes
             }
         }
 
+        /// <summary>
+        /// Get Data File from device
+        /// Type of the data file to be obtained 
+        /// 1. Attendance record data file 
+        /// 2. Fingerprint template data file 
+        /// 3. None 
+        /// 4. Operation record data file 
+        /// 5. User information data file 
+        /// 6. SMS data file 
+        /// 7. SMS and user relationship data file 
+        /// 8. Extended user information data file 
+        /// 9. Work code data file
+        /// FileName Name of the obtained data file 
+        /// </summary>
+        /// <param name="DataFlag"></param>
+        /// <param name="FileName"></param>
+
+
+        public bool GetDataFile(int DataFlag,string FileName,out string err)
+        {
+            err = string.Empty;
+            bool ret = false;
+            if(this._connected){
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetDataFile(this.CZKEM1.MachineNumber, DataFlag, FileName);
+            return ret;
+
+        }
+
+        public bool ReadDataFile(int DataFlag, string FileName, string FilePath, out string err)
+        {
+            err = string.Empty;
+            bool ret = false;
+            if (this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+            //pending
+            ret = this.CZKEM1.ReadFile(this.CZKEM1.MachineNumber,FileName,FilePath);
+            return ret;
+        }
+
+        public bool GetSDKVersion(out string version, out string err)
+        {
+            err = string.Empty;
+            version = string.Empty;
+            bool ret = false;
+            if (this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetSDKVersion(ref version);
+            return ret;
+        }
+
+        public bool GetSerialNumber(out string strSerialNo, out string err)
+        {
+            err = string.Empty;
+            strSerialNo = string.Empty;
+            bool ret = false;
+            if (this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetSerialNumber(this.CZKEM1.MachineNumber, out strSerialNo);
+            return ret;
+        }
+
+
         public void DisConnect (out string err)
         {
             err = string.Empty;
@@ -1309,6 +1386,26 @@ namespace Attendance.Classes
 
         }
 
+        public bool Set_MachineIP(string currentip , string newip, out string err)
+        {
+            err = string.Empty;
+            bool result = false;
+
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return false;
+            }
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            if (istft)
+            {
+                result = this.CZKEM1.SetDeviceIP(_machineno, newip);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// this function help to download bio details from machine and store to master data

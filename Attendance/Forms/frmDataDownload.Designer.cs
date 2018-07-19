@@ -43,6 +43,7 @@
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Mess = new DevExpress.XtraGrid.Columns.GridColumn();
             this.grpButtons = new System.Windows.Forms.GroupBox();
+            this.btnGetRegCount = new DevExpress.XtraEditors.SimpleButton();
             this.btnClearMach = new DevExpress.XtraEditors.SimpleButton();
             this.btnExport = new DevExpress.XtraEditors.SimpleButton();
             this.btnUnockMach = new DevExpress.XtraEditors.SimpleButton();
@@ -50,7 +51,6 @@
             this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
             this.btnDownload = new DevExpress.XtraEditors.SimpleButton();
             this.btnSelAll = new DevExpress.XtraEditors.SimpleButton();
-            this.btnGetRegCount = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpGrid)).BeginInit();
@@ -289,6 +289,17 @@
             this.grpButtons.TabIndex = 4;
             this.grpButtons.TabStop = false;
             // 
+            // btnGetRegCount
+            // 
+            this.btnGetRegCount.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetRegCount.Appearance.Options.UseFont = true;
+            this.btnGetRegCount.Location = new System.Drawing.Point(768, 23);
+            this.btnGetRegCount.Name = "btnGetRegCount";
+            this.btnGetRegCount.Size = new System.Drawing.Size(120, 27);
+            this.btnGetRegCount.TabIndex = 8;
+            this.btnGetRegCount.Text = "&Get Reg. Count";
+            this.btnGetRegCount.Click += new System.EventHandler(this.btnGetRegCount_Click);
+            // 
             // btnClearMach
             // 
             this.btnClearMach.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -365,17 +376,6 @@
             this.btnSelAll.TabIndex = 0;
             this.btnSelAll.Text = "Select &All/None";
             this.btnSelAll.Click += new System.EventHandler(this.btnSelAll_Click);
-            // 
-            // btnGetRegCount
-            // 
-            this.btnGetRegCount.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetRegCount.Appearance.Options.UseFont = true;
-            this.btnGetRegCount.Location = new System.Drawing.Point(768, 23);
-            this.btnGetRegCount.Name = "btnGetRegCount";
-            this.btnGetRegCount.Size = new System.Drawing.Size(120, 27);
-            this.btnGetRegCount.TabIndex = 8;
-            this.btnGetRegCount.Text = "&Get Reg. Count";
-            this.btnGetRegCount.Click += new System.EventHandler(this.btnGetRegCount_Click);
             // 
             // frmDataDownload
             // 
