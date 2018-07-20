@@ -802,9 +802,9 @@ namespace Attendance.Forms
                         cn.Open();
                         string sql1 = string.Empty;
 
-                        sql1 = "Insert into AttdWorker  ( EmpUnqId,FromDt,ToDt,WorkerId,DoneFlg,PushFlg,addid ) " +
+                        sql1 = "Insert into AttdWorker  ( EmpUnqId,FromDt,ToDt,WorkerId,DoneFlg,PushFlg,addid,ProcessType ) " +
                         " select EmpUnqId ,'" + txtWrkFromDt.DateTime.ToString("yyyy-MM-dd") + "','" + txtWrkToDate.DateTime.ToString("yyyy-MM-dd") + "'," +
-                        " '" + Utils.User.GUserID + "',0,0,'" + Utils.User.GUserID + "' " +
+                        " '" + Utils.User.GUserID + "',0,0,'" + Utils.User.GUserID + "','ATTD' " +
                         " From MastEmp Where WrkGrp='" + txtWrkGrpCode.Text.Trim().ToString().ToUpper() + "' " +
                         " and CompCode ='" + txtCompCode.Text.Trim().ToString() + "' and active = 1 Order By EmpUnqID";
 

@@ -1153,42 +1153,55 @@ namespace Attendance.Classes
                             string err = string.Empty;
                             int tres = 0;
                             clsProcess pro = new clsProcess();
-                            pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
 
-                            if (!string.IsNullOrEmpty(err))
-                            {
-                                
+                            string ProType = dr["ProcessType"].ToString();
 
-                                string filenm = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-                                string fullpath = Path.Combine(Errfilepath, filenm);
-                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
-                                {
-                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-[" + tEmpUnqID + "]-" + err);
-                                }
-
-                                tMsg.MsgTime = DateTime.Now;
-                                tMsg.MsgType = "Auto Process";
-                                tMsg.Message = tEmpUnqID + ": Error=>" + err;
-                                Scheduler.Publish(tMsg);
-                            }
+                            if (ProType == "ATTD")
+                                pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
+                            else if (ProType == "LUNCHINOUT")
+                                pro.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out tres);
+                            else if (ProType == "MESS")
+                                pro.LunchProcess(tEmpUnqID, tFromDt, tToDt, out tres);
                             else
-                            {
-                                using(SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-                                {
-                                    try{
-                                        cn.Open();
-                                        using(SqlCommand cmd = new SqlCommand())
-                                        {
-                                            cmd.Connection = cn;
-                                            string upsql = "Update AttdWorker set doneflg = 1 , pushflg = 1,workerid ='Server' where msgid = '" + MsgID +"'";
-                                            cmd.CommandText = upsql;
-                                            cmd.ExecuteNonQuery();
-                                        }
-                                    }catch{
+                                pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
 
+                                if (!string.IsNullOrEmpty(err))
+                                {
+
+
+                                    string filenm = "AutoProcess_Error_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                                    string fullpath = Path.Combine(Errfilepath, filenm);
+                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                    {
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoProcess-[" + tEmpUnqID + "]-" + err);
+                                    }
+
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "Auto Process";
+                                    tMsg.Message = tEmpUnqID + ": Error=>" + err;
+                                    Scheduler.Publish(tMsg);
+                                }
+                                else
+                                {
+                                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                    {
+                                        try
+                                        {
+                                            cn.Open();
+                                            using (SqlCommand cmd = new SqlCommand())
+                                            {
+                                                cmd.Connection = cn;
+                                                string upsql = "Update AttdWorker set doneflg = 1 , pushflg = 1,workerid ='Server' where msgid = '" + MsgID + "'";
+                                                cmd.CommandText = upsql;
+                                                cmd.ExecuteNonQuery();
+                                            }
+                                        }
+                                        catch
+                                        {
+
+                                        }
                                     }
                                 }
-                            }
                         }
 
                         _StatusWorker = false;
