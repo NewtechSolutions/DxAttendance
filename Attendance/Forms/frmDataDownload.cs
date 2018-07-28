@@ -202,13 +202,69 @@ namespace Attendance.Forms
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
+            ResetRemarks();
 
+
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                //check if selected...
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+                List<AttdLog> records = new List<AttdLog>();
+
+                //try to connect
+                m.Connect(out err);
+
+                gv_avbl.SetRowCellValue(i, "Records", 0);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+
+                string nerr = string.Empty;
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    m.DisConnect(out nerr);
+                    gv_avbl.SetRowCellValue(i, "Remarks", err + ";" + nerr);
+                    continue;
+                }
+
+                //get records
+                m.GetAttdRec(out records, out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                gv_avbl.SetRowCellValue(i, "Records", records.Count());
+
+
+                if (string.IsNullOrEmpty(err))
+                {
+
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Download Completed...");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                }
+                m.DisConnect(out nerr);
+
+
+
+            }
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
         }
 
-        private void btnDownload_Click_1(object sender, EventArgs e)
-        {
-
-        }
+        
 
         
 

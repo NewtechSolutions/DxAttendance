@@ -87,7 +87,9 @@ namespace Attendance.Forms
             }
 
 
-            
+            if(txtAdharNo.Text.Trim().ToString().Length < 12) {
+                err = err + "Please Enter 12 digit Adhar No" + Environment.NewLine;
+            }
         
 
             if(txtJoinDt.EditValue == null){
@@ -96,11 +98,6 @@ namespace Attendance.Forms
 
             if(txtBirthDT.EditValue == null){
                 err = err + "Please Enter BirthDate" + Environment.NewLine;
-            }
-
-            if (txtAdharNo.Text.Trim().ToString().Length < 12)
-            {
-                err = err + "Please Enter 12 digit Adhar No" + Environment.NewLine;
             }
 
             if (txtWrkGrpCode.Text.Trim() != "COMP")
@@ -209,13 +206,6 @@ namespace Attendance.Forms
                 dupadharemp = string.Empty;
             }
 
-            //check for blacklisted adharcard
-            string blackadhar = Utils.Helper.GetDescription("Select AdharNo From MastEmpBlackList where AdharNo ='" + txtAdharNo.Text.Trim() + "' And BlackList = 1", Utils.Helper.constr);
-            if (!string.IsNullOrEmpty(blackadhar))
-            {
-                err = err + "Supplied Adhar Card is Black Listed...";
-            }
-
             if (chkCont.Checked == true)
             {
                 if (String.IsNullOrEmpty(txtBasic.Text))
@@ -269,10 +259,10 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Insert into MastEmp (CompCode,WrkGrp,EmpUnqID,EmpName,FatherName," +
                             " UnitCode,MessCode,MessGrpCode,BirthDt,JoinDt,ValidFrom,ValidTo," +
-                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic) Values (" +
+                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
-                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}')";
+                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}')";
  
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),txtEmpUnqID.Text.Trim().ToString(),txtEmpName.Text.Trim().ToString(),txtFatherName.Text.Trim(),
                             txtUnitCode.Text.ToString(),((txtMessCode.Text.Trim() == "")? "null" :"'"+txtMessCode.Text.Trim()+"'"),
@@ -282,7 +272,7 @@ namespace Attendance.Forms
                              ((txtWrkGrpCode.Text.Trim() == "COMP") ? "null" : "'" + txtValidTo.DateTime.ToString("yyyy-MM-dd") + "'"),
                              txtAdharNo.Text.Trim(),txtAdharNo.Text.Trim(),((Convert.ToBoolean(txtGender.EditValue))?1:0),
                             ((chkCont.Checked)?1:0),((chkComp.Checked)?1:0),((chkOTFlg.Checked)?1:0),txtWeekOff.Text.Trim(),
-                            Utils.User.GUserID,txtBasic.Text.Trim());
+                            Utils.User.GUserID,txtBasic.Text.Trim(),0);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -422,8 +412,9 @@ namespace Attendance.Forms
 
                         sql = "Update MastEmp set WrkGrp ='{0}',EmpName='{1}',FatherName = '{2}'," +
                             " UnitCode = '{3}',MessCode={4},MessGrpCode = {5},BirthDt ='{6}',JoinDt ='{7}',ValidFrom = {8},ValidTo = {9}," +
-                            " ADHARNO = '{10}',IDPRF3No = '{11}',Sex='{12}',ContractFlg='{13}',PayrollFlg='{14}',OTFLG='{15}',Weekoff='{16}',UpdDt=GetDate(),UpdID ='{17}', Basic='{18}' Where " +
-                            " CompCode ='{19}' and EmpUnqID = '{20}'";
+                            " ADHARNO = '{10}',IDPRF3No = '{11}',Sex='{12}',ContractFlg='{13}',PayrollFlg='{14}',OTFLG='{15}',Weekoff='{16}',UpdDt=GetDate(),UpdID ='{17}'," +
+                            " Basic='{18}' , ValidityExpired = '{19}' Where " +
+                            " CompCode ='{20}' and EmpUnqID = '{21}'";
 
 
                         sql = string.Format(sql,  txtWrkGrpCode.Text.Trim().ToString(), txtEmpName.Text.Trim().ToString(), txtFatherName.Text.Trim(),
@@ -436,6 +427,7 @@ namespace Attendance.Forms
                             ((chkCont.Checked) ? 1 : 0), ((chkComp.Checked) ? 1 : 0), ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
                             Utils.User.GUserID,
                             txtBasic.Text.Trim(),
+                            ((txtWrkGrpCode.Text.Trim() == "COMP") ? "0" : (txtValidTo.DateTime > DateTime.Now?"0":"1")),
                             txtCompCode.Text.Trim(),txtEmpUnqID.Text.Trim()
                             
                             );
@@ -730,7 +722,7 @@ namespace Attendance.Forms
                         cmd.CommandText = "Delete from AttdData where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = "Delete from EmpBioData where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
+                        cmd.CommandText = "Delete from MastEmpBio where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
                         cmd.ExecuteNonQuery();
 
                         cmd.CommandText = "Delete from LeaveEntry where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
@@ -803,7 +795,7 @@ namespace Attendance.Forms
             if (txtCompCode.Text.Trim() == "")
                 return;
 
-            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2 || e.KeyCode == Keys.F3 || e.KeyCode == Keys.F4)
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
             {
                 List<string> obj = new List<string>();
 
@@ -811,27 +803,16 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select EmpUnqID,EmpName,FatherName,WrkGrp,Active,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
+                sql = "Select EmpUnqID,EmpName,WrkGrp,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' ";
                 if (e.KeyCode == Keys.F1)
                 {
                     obj = (List<string>)hlp.Show(sql, "EmpUnqID", "EmpUnqID", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                     100, 300, 400, 600, 100, 100);
                 }
-                else if (e.KeyCode == Keys.F2)
+                else
                 {
                     obj = (List<string>)hlp.Show(sql, "EmpName", "EmpName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                     100, 300, 400, 600, 100, 100);
-                }
-                else if (e.KeyCode == Keys.F3)
-                {
-                    obj = (List<string>)hlp.Show(sql, "WrkGrp", "WrkGrp", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
-                else if (e.KeyCode == Keys.F4)
-                {
-                    sql = "Select EmpUnqID,EmpName,FatherName,WrkGrp,Active,CompCode From MastEmp Where CompCode ='" + txtCompCode.Text.Trim() + "' and Active = 1 ";
-                    obj = (List<string>)hlp.Show(sql, "EmpName", "EmpName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                  100, 300, 400, 600, 100, 100);
                 }
 
                 if (obj.Count == 0)
@@ -849,7 +830,7 @@ namespace Attendance.Forms
                 else
                 {
 
-                    txtCompCode.Text = obj.ElementAt(5).ToString();
+                    txtCompCode.Text = obj.ElementAt(3).ToString();
                     txtEmpUnqID.Text = obj.ElementAt(0).ToString();
                     txtEmpUnqID_Validated(sender, e);
                 }

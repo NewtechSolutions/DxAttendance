@@ -112,7 +112,7 @@ namespace Attendance.Classes
 
                 if (IsNew)
                 {
-                    string err = this.BasicValidation(false);
+                    string err = this.BasicValidation();
                     if (string.IsNullOrEmpty(err))
                     {
                         return true;
@@ -247,12 +247,7 @@ namespace Attendance.Classes
             GetContDesc(this.CompCode, this.WrkGrp, this.UnitCode, this.ContCode);
         }
         
-        /// <summary>
-        /// while using import module set : true else false
-        /// </summary>
-        /// <param name="importflg"></param>
-        /// <returns></returns>
-        public string BasicValidation(bool importflg)
+        public string BasicValidation()
         {
             string err = string.Empty;
 
@@ -382,26 +377,23 @@ namespace Attendance.Classes
                 err += "Please Enter 12 digit Adhar No" + Environment.NewLine;
             }
 
-            if (importflg == false)
+
+            //check for duplicate adharno..
+            DataSet ds = new DataSet();
+            string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
+                " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
             {
-                //check for duplicate adharno..
-                DataSet ds = new DataSet();
-                string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
-                    " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
-
-                ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-                bool hasRows = ds.Tables.Cast<DataTable>()
-                               .Any(table => table.Rows.Count != 0);
-
-                if (hasRows)
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
-                    }
+                    err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
                 }
             }
-            
 
 
             return err;
@@ -789,8 +781,8 @@ namespace Attendance.Classes
                              bool  tSafteyFlg, string tEmpCode, string tContCode, 
                                 string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
                                     string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
-                                        string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo,
-                                            DateTime? tValidFrom, DateTime? tValidTo, double cbasic, out string err)
+                                        string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo, 
+                                            DateTime? tValidFrom , DateTime? tValidTo, double cbasic, out string err)
         {
             bool retval = false;
             err = "";
@@ -805,19 +797,11 @@ namespace Attendance.Classes
                 return retval;
 
             }
-
-
-            //check for blacklisted adharcard
-            string blackadhar = Utils.Helper.GetDescription("Select AdharNo From MastEmpBlackList where AdharNo ='" + tAdharNo + "' And BlackList = 1", Utils.Helper.constr);
-            if (!string.IsNullOrEmpty(blackadhar))
-            {
-                err = err + "Supplied Adhar Card is Black Listed...";
-                retval = false;
-                return retval;
-            }
-
-
             err = string.Empty;
+
+            bool tValidityExp = false;
+
+            //((txtWrkGrpCode.Text.Trim() == "COMP") ? "0" : (txtValidTo.DateTime > DateTime.Now?"0":"1")),
 
             this.EmpName = tEmpName;
             this.FatherName = tFatherName;
@@ -830,7 +814,7 @@ namespace Attendance.Classes
             this.ValidTo = tValidTo;
             
 
-            err = this.BasicValidation(true);
+            err = this.BasicValidation();
             if (!string.IsNullOrEmpty(err))
             {
                 retval = false;
@@ -952,28 +936,20 @@ namespace Attendance.Classes
                 this.CatCode = "";
             }
 
-
-            if (!string.IsNullOrEmpty(this.MessCode))
+            this.GetMessDesc(this.CompCode, this.UnitCode, this.MessCode);
+            if (this.MessDesc.Trim() == "")
             {
-                this.GetMessDesc(this.CompCode, this.UnitCode, this.MessCode);
-                if (this.MessDesc.Trim() == "")
-                {
-                    err += "Invalid Mess Code..." + Environment.NewLine;
-                    this.MessCode = "";
-                }
+                err += "Invalid Mess Code..."  + Environment.NewLine;
+                this.MessCode = "";
             }
 
 
-            if (!string.IsNullOrEmpty(this.MessGrpCode))
+            this.GetMessGrpDesc(this.CompCode, this.UnitCode, this.MessGrpCode);
+            if (this.MessGrpDesc.Trim() == "")
             {
-                this.GetMessGrpDesc(this.CompCode, this.UnitCode, this.MessGrpCode);
-                if (this.MessGrpDesc.Trim() == "")
-                {
-                    err += "Invalid MessGrp Code..." + Environment.NewLine;
-                    this.MessGrpCode = "";
-                }
+                err += "Invalid MessGrp Code..." + Environment.NewLine;
+                this.MessGrpCode = "";
             }
-            
 
             if (this.PayrollFlg && this.ContCode != "")
             {
@@ -984,6 +960,18 @@ namespace Attendance.Classes
             {
                 this.ValidFrom = new DateTime?();
                 this.ValidTo = new DateTime?();
+                tValidityExp = false;
+            }
+            else
+            {
+                if (this.ValidTo > DateTime.Now)
+                {
+                    tValidityExp = false;
+                }
+                else
+                {
+                    tValidityExp = true;
+                }
             }
 
             this.MedChkFlg = tMedChkFlg;
@@ -1011,14 +999,14 @@ namespace Attendance.Classes
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
                             " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode, " +
-                            " AddDt,AddID,isHod,Basic) Values (" +
+                            " AddDt,AddID,isHod,Basic,ValidityExpired) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
                             " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
                             " '{30}','{31}',{32}, " +
-                            " '{33}',GetDate(),'{34}',0,'{35}')";
+                            " '{33}',GetDate(),'{34}',0,'{35}','{36}')";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
@@ -1026,17 +1014,20 @@ namespace Attendance.Classes
                             Convert.ToDateTime(this.BirthDt).ToString("yyyy-MM-dd"), Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd"),
                            ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidFrom).ToString("yyyy-MM-dd") + "'"),
                             ((this.WrkGrp.Trim() == "COMP") ? "null" : "'" + Convert.ToDateTime(this.ValidTo).ToString("yyyy-MM-dd") + "'"),
-                            this.AdharNo, this.AdharNo, (this.Gender ? 1 : 0),
-                             (this.ContFlg ? 1 : 0), (this.PayrollFlg ? 1 : 0), (this.OTFLG ? 1 : 0), this.WeekOffDay,
+                            this.AdharNo, this.AdharNo, (this.Gender?1:0),
+                             (this.ContFlg?1:0), (this.PayrollFlg?1:0), (this.OTFLG?1:0), this.WeekOffDay,
                             (this.ContCode == "" ? "null" : "'" + this.ContCode + "'"), this.EmpCode, this.OLDEmpCode, this.SAPID,
-                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"),
+                            (this.EmpTypeCode == "" ? "null" : "'" + this.EmpTypeCode + "'"), 
                             (this.DeptCode == "" ? "null" : "'" + this.DeptCode + "'"),
-                            (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"),
-                            (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"),
-                            (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"),
+                            (this.StatCode == "" ? "null" : "'" + this.StatCode + "'"), 
+                            (this.DesgCode == "" ? "null" : "'" + this.DesgCode + "'"), 
+                            (this.GradeCode == "" ? "null" : "'" + this.GradeCode + "'"), 
                             (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
-                            (this.AutoShift ? 1 : 0), (this.MedChkFlg ? 1 : 0), (this.SafetyTrnFLG ? 1 : 0), (this.AutoShift ? "null" : "'" + this.ShiftCode + "'"),
-                            this.CostCode, Utils.User.GUserID, cbasic);
+                            (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
+                            this.CostCode,Utils.User.GUserID,cbasic,
+                            (tValidityExp?1:0)
+                            
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
