@@ -141,7 +141,8 @@ namespace Attendance.Forms
                         #region Chk_AllVals
                         //check all values if all empty skip
                         if(dr["CatCode"].ToString() == "" && dr["DesgCode"].ToString() == ""
-                            && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == "" )
+                            && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == "" 
+                            && dr["SPLALL"].ToString() == "" && dr["BAALL"].ToString() == "" )
                         {
                             dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
                             continue;
@@ -150,15 +151,29 @@ namespace Attendance.Forms
                         string tCatCode = dr["CatCode"].ToString();
                         string tDesgCode = dr["DesgCode"].ToString();
                         string tGradeCode = dr["GradeCode"].ToString();
+                        double tSplAll = 0;
+                        double tBAAll = 0;
+
                         double tBasic = 0;
                         try
                         {
                             double.TryParse(dr["Basic"].ToString(), out tBasic);
-                        }catch(Exception ex)
-                        {
+                        }catch(Exception ex){}
 
+                        try
+                        {
+                            double.TryParse(dr["SPLALL"].ToString(), out tSplAll);
                         }
-                            
+                        catch (Exception ex) { }
+
+                        try
+                        {
+                            double.TryParse(dr["BAALL"].ToString(), out tBAAll);
+                        }
+                        catch (Exception ex) { }
+
+
+
                         #region Final_Update
 
                         using (SqlCommand cmd = new SqlCommand())
@@ -190,6 +205,17 @@ namespace Attendance.Forms
                                 {
                                     sql += " , Basic = '" + tBasic.ToString() + "' ";
                                 }
+
+                                if (tSplAll > 0)
+                                {
+                                    sql += " , SPLALL = '" + tSplAll.ToString() + "' ";
+                                }
+
+                                if (tBAAll > 0)
+                                {
+                                    sql += " , BAALL = '" + tBAAll.ToString() + "' ";
+                                }
+
 
                                 sql += " , UpdDt=GetDate(), UpdID = '" + Utils.User.GUserID + "' Where CompCode = '01' and EmpUnqID = '" + tEmpUnqID + "'";
 
@@ -272,7 +298,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,'' as Remarks from " + sheetname;
+                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL, '' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);

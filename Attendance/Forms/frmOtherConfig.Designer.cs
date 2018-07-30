@@ -109,6 +109,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtGlobalExclude = new DevExpress.XtraEditors.SpinEdit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
@@ -150,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGlobalExclude.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -930,6 +933,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label22);
+            this.groupBox1.Controls.Add(this.txtGlobalExclude);
             this.groupBox1.Controls.Add(this.chkGraceHalfDayFlg);
             this.groupBox1.Controls.Add(this.chkEarlyGoingHalfDayFlg);
             this.groupBox1.Controls.Add(this.txtEarlyGoingHalfDaySec);
@@ -1074,7 +1079,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(506, 77);
+            this.label15.Location = new System.Drawing.Point(492, 77);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(98, 14);
             this.label15.TabIndex = 4;
@@ -1087,7 +1092,7 @@
             0,
             0,
             0});
-            this.txtLateComeSec.Location = new System.Drawing.Point(628, 74);
+            this.txtLateComeSec.Location = new System.Drawing.Point(724, 74);
             this.txtLateComeSec.Name = "txtLateComeSec";
             this.txtLateComeSec.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1099,7 +1104,7 @@
             this.btnUpdateSan.Location = new System.Drawing.Point(724, 147);
             this.btnUpdateSan.Name = "btnUpdateSan";
             this.btnUpdateSan.Size = new System.Drawing.Size(99, 34);
-            this.btnUpdateSan.TabIndex = 1;
+            this.btnUpdateSan.TabIndex = 11;
             this.btnUpdateSan.Text = "UpDate";
             this.btnUpdateSan.UseVisualStyleBackColor = true;
             this.btnUpdateSan.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -1144,6 +1149,29 @@
             this.xtraTabPage2.Name = "xtraTabPage2";
             this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
             this.xtraTabPage2.Text = "Schedular";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(488, 110);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(230, 14);
+            this.label22.TabIndex = 18;
+            this.label22.Text = "Global GradeCode (Comp) Exclude Rules:";
+            // 
+            // txtGlobalExclude
+            // 
+            this.txtGlobalExclude.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtGlobalExclude.Location = new System.Drawing.Point(724, 107);
+            this.txtGlobalExclude.Name = "txtGlobalExclude";
+            this.txtGlobalExclude.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtGlobalExclude.Size = new System.Drawing.Size(96, 20);
+            this.txtGlobalExclude.TabIndex = 10;
             // 
             // frmOtherConfig
             // 
@@ -1201,6 +1229,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtGlobalExclude.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1288,5 +1317,7 @@
         private DevExpress.XtraEditors.TextEdit txtUpdateChkPath;
         private DevExpress.XtraEditors.TextEdit txtJobNotificationEmail;
         private System.Windows.Forms.CheckBox chkJobNotification;
+        private System.Windows.Forms.Label label22;
+        private DevExpress.XtraEditors.SpinEdit txtGlobalExclude;
     }
 }

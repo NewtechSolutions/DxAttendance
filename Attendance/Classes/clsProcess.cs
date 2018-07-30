@@ -1151,7 +1151,7 @@ namespace Attendance
                                             drAttd["GracePeriod"] = "";
 
                                         }
-                                        else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                        else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["Latecome"] = "";
@@ -1159,14 +1159,14 @@ namespace Attendance
                                             drAttd["GracePeriod"] = "";
 
                                         }
-                                        else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == ""))
+                                        else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == ""))
                                         {
                                             drAttd["Halfday"] = 1;
                                             drAttd["Latecome"] = "";
                                             drAttd["GracePeriod"] = "";
 
                                         }
-                                        else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                        else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["Status"] = "A";
@@ -1283,24 +1283,24 @@ namespace Attendance
                                     //
                                     if (Globals.G_HFFLG_EarlyGoing)
                                     {
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                        if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["GracePeriod"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
                                         {
                                             drAttd["Halfday"] = 1;
                                             drAttd["GracePeriod"] = "";
                                             drAttd["EarlyGoing"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
@@ -1332,19 +1332,19 @@ namespace Attendance
 
                                 drAttd["EarlyCome"] = sminearly;
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["Halfday"] = 0;
                                     drAttd["Latecome"] = "";
                                     drAttd["EarlyCome"] = "";
                                 }
-                                else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                 {
                                     drAttd["Halfday"] = 0;
                                     drAttd["Latecome"] = "";
                                     drAttd["EarlyCome"] = "";
                                 }
-                                else if (secearly > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                else if (secearly > 5400 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "")
                                 {
                                     drAttd["Halfday"] = 0;
                                     drAttd["Status"] = "A";
@@ -1529,27 +1529,27 @@ namespace Attendance
                                 if (Globals.G_HFFLG_LateCome)
                                 {
                                     //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
-                                    if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                    if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                     {
                                         drAttd["Halfday"] = 0;
                                         drAttd["Latecome"] = "";
                                         drAttd["EarlyCome"] = "";
                                         drAttd["GracePeriod"] = "";
                                     }
-                                    else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                    else if (seclate > Globals.G_HFSEC_LateCome && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                     {
                                         drAttd["Halfday"] = 0;
                                         drAttd["Latecome"] = "";
                                         drAttd["EarlyCome"] = "";
                                         drAttd["GracePeriod"] = "";
                                     }
-                                    else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == ""))
+                                    else if ((seclate > Globals.G_HFSEC_LateCome && seclate < 5400 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == ""))
                                     {
                                         drAttd["Halfday"] = 1;
                                         drAttd["GracePeriod"] = "";
                                         drAttd["LateCome"] = "";
                                     }
-                                    else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "")
+                                    else if (seclate > 5400 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "")
                                     {
                                         drAttd["Halfday"] = 0;
                                         drAttd["Status"] = "A";
@@ -1597,7 +1597,7 @@ namespace Attendance
                                     drAttd["EarlyCome"] = "";
                                     drAttd["GracePeriod"] = "";
                                 }
-                                else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                else if (secearly > 1800 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                 {
                                     drAttd["Halfday"] = 0;
                                     drAttd["Latecome"] = "";
@@ -1684,19 +1684,19 @@ namespace Attendance
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["GracePeriod"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["GracePeriod"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
                                         {
                                             drAttd["Halfday"] = 1;
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["GracePeriod"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
@@ -1734,13 +1734,13 @@ namespace Attendance
                         sminearly = string.Format("{0:00}:{1:00}", Math.Abs(hurearly), Math.Abs(minearly));
                         drAttd["EarlyCome"] = sminearly;
 
-                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                        if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                         {
                             drAttd["Halfday"] = 0;
                             drAttd["Latecome"] = "";
                             drAttd["EarlyCome"] = "";
                         }
-                        else if (secearly > (-1 * Globals.G_EarlyComeSec) && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                        else if (secearly > (-1 * Globals.G_EarlyComeSec) && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                         {
                             drAttd["Halfday"] = 0;
                             drAttd["Latecome"] = "";
@@ -1817,23 +1817,23 @@ namespace Attendance
 
                                     if (Globals.G_HFFLG_EarlyGoing)
                                     {
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                        if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() != "")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() != "")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "P")
                                         {
                                             drAttd["Halfday"] = 1;
                                             drAttd["EarlyGoing"] = "";
 
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > 15 && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone <= 7200 && eWrkGrp == "COMP" && eGradeCode > Globals.G_GlobalGradeExclude && drAttd["LeaveTyp"].ToString() == "" && drAttd["Status"].ToString() == "A")
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";

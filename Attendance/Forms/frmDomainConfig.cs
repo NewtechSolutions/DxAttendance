@@ -78,6 +78,8 @@ namespace Attendance.Forms
                     try
                     {
                         cn.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = cn;
 
                         string sql = "Select top 1 * from MastNetwork Where 1 = 1";
                         DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);

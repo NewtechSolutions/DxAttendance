@@ -782,7 +782,7 @@ namespace Attendance.Classes
                                 string tEmpTypeCode, string tCATCODE, string tDeptcode, string tStatCode , 
                                     string tDesgCode, string tGradeCode , string tMessGrpCode, string tMessCode, 
                                         string tOldEmpCode, string tSAPID, string tCostCode ,string tAdharNo, 
-                                            DateTime? tValidFrom , DateTime? tValidTo, double cbasic, out string err)
+                                            DateTime? tValidFrom , DateTime? tValidTo, double cbasic, double csplall, double cbaall, out string err)
         {
             bool retval = false;
             err = "";
@@ -961,6 +961,8 @@ namespace Attendance.Classes
                 this.ValidFrom = new DateTime?();
                 this.ValidTo = new DateTime?();
                 tValidityExp = false;
+                csplall = 0;
+                cbaall = 0;
             }
             else
             {
@@ -999,14 +1001,14 @@ namespace Attendance.Classes
                             " ContCode,EmpCode,OldEmpCode,SAPID," +
                             " EmpTypeCode,DeptCode,StatCode,DesgCode,GradCode,CatCode, " +
                             " ShiftType,MedChkFlg,SafetyTrnFLG,ShiftCode,CostCode, " +
-                            " AddDt,AddID,isHod,Basic,ValidityExpired) Values (" +
+                            " AddDt,AddID,isHod,Basic,ValidityExpired,SPLALL,BAALL) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
                             " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1'," +
                             " {19},'{20}','{21}','{22}'," +
                             " {23},{24},{25},{26},{27},{28},{29}," +
                             " '{30}','{31}',{32}, " +
-                            " '{33}',GetDate(),'{34}',0,'{35}','{36}')";
+                            " '{33}',GetDate(),'{34}',0,'{35}','{36}','{37}','{38}')";
 
                         sql = string.Format(sql, this.CompCode, this.WrkGrp, this.EmpUnqID, this.EmpName, this.FatherName,
                             this.UnitCode, ((this.MessCode.Trim() == "") ? "null" : "'" + this.MessCode.Trim() + "'"),
@@ -1025,7 +1027,8 @@ namespace Attendance.Classes
                             (this.CatCode == "" ? "null" : "'" + this.CatCode + "'"),
                             (this.AutoShift?1:0), (this.MedChkFlg?1:0),(this.SafetyTrnFLG?1:0),(this.AutoShift? "null": "'" + this.ShiftCode+"'"),
                             this.CostCode,Utils.User.GUserID,cbasic,
-                            (tValidityExp?1:0)
+                            (tValidityExp?1:0),
+                            csplall,cbaall
                             
                             );
 

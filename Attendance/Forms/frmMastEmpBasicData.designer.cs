@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.GrpMain = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtBasic = new DevExpress.XtraEditors.TextEdit();
             this.txtWeekOff = new DevExpress.XtraEditors.ComboBoxEdit();
             this.lblLeft = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -77,9 +79,12 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.txtBasic = new DevExpress.XtraEditors.TextEdit();
-            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtSplALL = new DevExpress.XtraEditors.TextEdit();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtBAAll = new DevExpress.XtraEditors.TextEdit();
             this.GrpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkOTFlg.Properties)).BeginInit();
@@ -109,11 +114,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             this.grpUserRights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSplALL.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBAAll.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.label15);
+            this.GrpMain.Controls.Add(this.txtBAAll);
+            this.GrpMain.Controls.Add(this.label14);
+            this.GrpMain.Controls.Add(this.txtSplALL);
             this.GrpMain.Controls.Add(this.label13);
             this.GrpMain.Controls.Add(this.txtBasic);
             this.GrpMain.Controls.Add(this.txtWeekOff);
@@ -160,9 +170,27 @@
             this.GrpMain.Controls.Add(this.txtWrkGrpCode);
             this.GrpMain.Location = new System.Drawing.Point(12, 3);
             this.GrpMain.Name = "GrpMain";
-            this.GrpMain.Size = new System.Drawing.Size(831, 302);
+            this.GrpMain.Size = new System.Drawing.Size(831, 363);
             this.GrpMain.TabIndex = 0;
             this.GrpMain.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 242);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(75, 14);
+            this.label13.TabIndex = 109;
+            this.label13.Text = "Cont. Basic :";
+            // 
+            // txtBasic
+            // 
+            this.txtBasic.Location = new System.Drawing.Point(110, 240);
+            this.txtBasic.Name = "txtBasic";
+            this.txtBasic.Properties.Mask.EditMask = "[+]?([0-9]*[.])?[0-9]+";
+            this.txtBasic.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBasic.Size = new System.Drawing.Size(100, 20);
+            this.txtBasic.TabIndex = 108;
             // 
             // txtWeekOff
             // 
@@ -687,7 +715,7 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 311);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 372);
             this.grpUserRights.Name = "grpUserRights";
             this.grpUserRights.Size = new System.Drawing.Size(831, 49);
             this.grpUserRights.TabIndex = 2;
@@ -737,29 +765,47 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // txtBasic
+            // label14
             // 
-            this.txtBasic.Location = new System.Drawing.Point(110, 240);
-            this.txtBasic.Name = "txtBasic";
-            this.txtBasic.Properties.Mask.EditMask = "[+]?([0-9]*[.])?[0-9]+";
-            this.txtBasic.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtBasic.Size = new System.Drawing.Size(100, 20);
-            this.txtBasic.TabIndex = 108;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(10, 268);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(93, 14);
+            this.label14.TabIndex = 111;
+            this.label14.Text = "Cont. Spl ALL. :";
             // 
-            // label13
+            // txtSplALL
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(15, 242);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(75, 14);
-            this.label13.TabIndex = 109;
-            this.label13.Text = "Cont. Basic :";
+            this.txtSplALL.Location = new System.Drawing.Point(110, 266);
+            this.txtSplALL.Name = "txtSplALL";
+            this.txtSplALL.Properties.Mask.EditMask = "[+]?([0-9]*[.])?[0-9]+";
+            this.txtSplALL.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSplALL.Size = new System.Drawing.Size(100, 20);
+            this.txtSplALL.TabIndex = 110;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(10, 294);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(92, 14);
+            this.label15.TabIndex = 113;
+            this.label15.Text = "Cont. BA ALL. :";
+            // 
+            // txtBAAll
+            // 
+            this.txtBAAll.Location = new System.Drawing.Point(110, 292);
+            this.txtBAAll.Name = "txtBAAll";
+            this.txtBAAll.Properties.Mask.EditMask = "[+]?([0-9]*[.])?[0-9]+";
+            this.txtBAAll.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBAAll.Size = new System.Drawing.Size(100, 20);
+            this.txtBAAll.TabIndex = 112;
             // 
             // frmMastEmpBasicData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 372);
+            this.ClientSize = new System.Drawing.Size(853, 433);
             this.Controls.Add(this.grpUserRights);
             this.Controls.Add(this.GrpMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -771,6 +817,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMastEmpBasicData_KeyDown);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWeekOff.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkOTFlg.Properties)).EndInit();
@@ -800,7 +847,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             this.grpUserRights.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtBasic.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSplALL.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBAAll.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -858,5 +906,9 @@
         private DevExpress.XtraEditors.ComboBoxEdit txtWeekOff;
         private System.Windows.Forms.Label label13;
         private DevExpress.XtraEditors.TextEdit txtBasic;
+        private System.Windows.Forms.Label label15;
+        private DevExpress.XtraEditors.TextEdit txtBAAll;
+        private System.Windows.Forms.Label label14;
+        private DevExpress.XtraEditors.TextEdit txtSplALL;
     }
 }

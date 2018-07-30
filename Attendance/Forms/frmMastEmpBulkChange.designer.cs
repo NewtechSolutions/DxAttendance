@@ -44,6 +44,8 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
+            this.SPLALL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.BAALL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -100,6 +102,8 @@
             this.GradeCode,
             this.DesgCode,
             this.Basic,
+            this.SPLALL,
+            this.BAALL,
             this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
@@ -206,7 +210,7 @@
             this.Remarks.OptionsColumn.ReadOnly = true;
             this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 5;
+            this.Remarks.VisibleIndex = 7;
             this.Remarks.Width = 270;
             // 
             // groupControl1
@@ -272,6 +276,22 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
+            // SPLALL
+            // 
+            this.SPLALL.Caption = "SPLALL";
+            this.SPLALL.FieldName = "SPLALL";
+            this.SPLALL.Name = "SPLALL";
+            this.SPLALL.Visible = true;
+            this.SPLALL.VisibleIndex = 5;
+            // 
+            // BAALL
+            // 
+            this.BAALL.Caption = "BAALL";
+            this.BAALL.FieldName = "BAALL";
+            this.BAALL.Name = "BAALL";
+            this.BAALL.Visible = true;
+            this.BAALL.VisibleIndex = 6;
+            // 
             // frmMastEmpBulkChange
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -314,5 +334,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn DesgCode;
         private DevExpress.XtraGrid.Columns.GridColumn Basic;
         private DevExpress.XtraGrid.Columns.GridColumn Remarks;
+        private DevExpress.XtraGrid.Columns.GridColumn SPLALL;
+        private DevExpress.XtraGrid.Columns.GridColumn BAALL;
     }
 }

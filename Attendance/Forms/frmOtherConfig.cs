@@ -82,12 +82,13 @@ namespace Attendance.Forms
                                 " LateHalfDayFlg = '" + ((chkLateHalfDayFlg.Checked) ? "1" : "0") + "'," +
                                 " EarlyGoingHalfDayFlg ='" + ((chkEarlyGoingHalfDayFlg.Checked) ? "1" : "0") + "'," +
                                 " EarlyGoingHalfDaySec ='" + txtEarlyGoingHalfDaySec.Value.ToString() + "'," +
-                                " LateHalfDaySec ='" + txtLateHalfDaySec.Value.ToString() + "'";
+                                " LateHalfDaySec ='" + txtLateHalfDaySec.Value.ToString() + "'," +
+                                " GlobalGradeExclude ='" + txtGlobalExclude.Value.ToString() + "'";
 
                         }else{
 
                             sql = "Insert into MastBCFlg (SanDayLimit,LateComeSec,EarlyComeSec,EarlyGoingSec,GracePeriodSec" +
-                            "  GraceHalfDayFlg, LateHalfDayFlg,EarlyGoingHalfDayFlg,EarlyGoingHalfDaySec,LateHalfDaySec ) values (" +
+                            "  GraceHalfDayFlg, LateHalfDayFlg,EarlyGoingHalfDayFlg,EarlyGoingHalfDaySec,LateHalfDaySec,GlobalGradeExclude ) values (" +
                                 "'" + txtSanDayLimit.Value.ToString() + "'," +
                                 "'" + txtLateComeSec.Value.ToString() + "'," +
                                 "'" + txtEarlyComeSec.Value.ToString() + "'," +
@@ -97,7 +98,8 @@ namespace Attendance.Forms
                                 "'" + ((chkLateHalfDayFlg.Checked) ? "1" : "0") + "'," +
                                 "'" + ((chkEarlyGoingHalfDayFlg.Checked) ? "1" : "0") + "'," +
                                 "'" + txtEarlyGoingHalfDaySec.Value.ToString() + "'," +
-                                "'" + txtLateHalfDaySec.Value.ToString() + "')";
+                                "'" + txtLateHalfDaySec.Value.ToString() + "'," + 
+                                "'" + txtGlobalExclude.Value.ToString() + "')";
                         }
                         cmd.Connection = cn;
                         cmd.CommandText = sql;
@@ -482,7 +484,7 @@ namespace Attendance.Forms
         
         private void btnTimeAdd_Click(object sender, EventArgs e)
         {
-            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null || txtAutoProccessTime.Time.ToString("HH:mm") == "00:00")
+            if (txtTime.Time == DateTime.MinValue || txtTime.Time == null || txtTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -566,7 +568,7 @@ namespace Attendance.Forms
         
         private void btnTimeAdd_Log_Click(object sender, EventArgs e)
         {
-            if (txtTime.Time == DateTime.MinValue || txtAutoProccessTime.Time == null || txtAutoProccessTime.Time.ToString("HH:mm") == "00:00")
+            if (txtLogTime.Time == DateTime.MinValue || txtLogTime.Time == null || txtLogTime.Time.ToString("HH:mm") == "00:00")
             {
                 string msg = "Please Specify Time...";
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -259,10 +259,10 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Insert into MastEmp (CompCode,WrkGrp,EmpUnqID,EmpName,FatherName," +
                             " UnitCode,MessCode,MessGrpCode,BirthDt,JoinDt,ValidFrom,ValidTo," +
-                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired) Values (" +
+                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired,SPLALL,BAALL) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
-                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}')";
+                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}','{23}','{24}')";
  
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),txtEmpUnqID.Text.Trim().ToString(),txtEmpName.Text.Trim().ToString(),txtFatherName.Text.Trim(),
                             txtUnitCode.Text.ToString(),((txtMessCode.Text.Trim() == "")? "null" :"'"+txtMessCode.Text.Trim()+"'"),
@@ -272,7 +272,9 @@ namespace Attendance.Forms
                              ((txtWrkGrpCode.Text.Trim() == "COMP") ? "null" : "'" + txtValidTo.DateTime.ToString("yyyy-MM-dd") + "'"),
                              txtAdharNo.Text.Trim(),txtAdharNo.Text.Trim(),((Convert.ToBoolean(txtGender.EditValue))?1:0),
                             ((chkCont.Checked)?1:0),((chkComp.Checked)?1:0),((chkOTFlg.Checked)?1:0),txtWeekOff.Text.Trim(),
-                            Utils.User.GUserID,txtBasic.Text.Trim(),0);
+                            Utils.User.GUserID, txtBasic.Text.Trim().ToString(), 0,
+                            txtSplALL.Text.Trim().ToString(), txtBAAll.Text.Trim().ToString()
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -413,8 +415,8 @@ namespace Attendance.Forms
                         sql = "Update MastEmp set WrkGrp ='{0}',EmpName='{1}',FatherName = '{2}'," +
                             " UnitCode = '{3}',MessCode={4},MessGrpCode = {5},BirthDt ='{6}',JoinDt ='{7}',ValidFrom = {8},ValidTo = {9}," +
                             " ADHARNO = '{10}',IDPRF3No = '{11}',Sex='{12}',ContractFlg='{13}',PayrollFlg='{14}',OTFLG='{15}',Weekoff='{16}',UpdDt=GetDate(),UpdID ='{17}'," +
-                            " Basic='{18}' , ValidityExpired = '{19}' Where " +
-                            " CompCode ='{20}' and EmpUnqID = '{21}'";
+                            " Basic='{18}' , ValidityExpired = '{19}' , SPLALL = '{20}', BAALL = '{21}' Where " +
+                            " CompCode ='{22}' and EmpUnqID = '{23}'";
 
 
                         sql = string.Format(sql,  txtWrkGrpCode.Text.Trim().ToString(), txtEmpName.Text.Trim().ToString(), txtFatherName.Text.Trim(),
@@ -426,8 +428,10 @@ namespace Attendance.Forms
                              txtAdharNo.Text.Trim(), txtAdharNo.Text.Trim(), ((Convert.ToBoolean(txtGender.EditValue))?1:0),
                             ((chkCont.Checked) ? 1 : 0), ((chkComp.Checked) ? 1 : 0), ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
                             Utils.User.GUserID,
-                            txtBasic.Text.Trim(),
+                            txtBasic.Text.Trim(),                            
                             ((txtWrkGrpCode.Text.Trim() == "COMP") ? "0" : (txtValidTo.DateTime > DateTime.Now?"0":"1")),
+                            txtSplALL.Text.Trim().ToString(),
+                            txtBAAll.Text.Trim().ToString(),
                             txtCompCode.Text.Trim(),txtEmpUnqID.Text.Trim()
                             
                             );
@@ -489,7 +493,11 @@ namespace Attendance.Forms
             txtJoinDt.EditValue = null;
             txtValidFrom.EditValue = null;
             txtValidTo.EditValue = null;
+            
             txtBasic.Text = "";
+            txtBAAll.Text = "";
+            txtSplALL.Text = "";
+
 
             txtGender.EditValue = true;
             chkActive.Checked = false;

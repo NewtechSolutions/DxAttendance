@@ -69,7 +69,7 @@ namespace Attendance.Classes
         public static bool G_HFFLG_LateCome;
         public static int G_HFSEC_EarlyGoing;
         public static int G_HFSEC_LateCome;
-
+        public static int G_GlobalGradeExclude;
 
         public static bool GetGlobalVars()
         {
@@ -96,7 +96,7 @@ namespace Attendance.Classes
                     G_HFFLG_EarlyGoing = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
                     G_HFSEC_EarlyGoing = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
                     G_HFSEC_LateCome = Convert.ToInt32(dr["LateHalfDaySec"].ToString());
-
+                    G_GlobalGradeExclude = Convert.ToInt32(dr["GlobalGradeExclude"].ToString());
                 }
             }
 
