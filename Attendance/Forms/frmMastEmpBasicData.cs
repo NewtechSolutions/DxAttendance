@@ -254,7 +254,17 @@ namespace Attendance.Forms
                         {
                             txtBasic.Text = "0";
                         }
-                        
+
+                        if (string.IsNullOrEmpty(txtBAAll.Text.Trim()))
+                        {
+                            txtBAAll.Text = "0";
+                        }
+
+                        if (string.IsNullOrEmpty(txtSplALL.Text.Trim()))
+                        {
+                            txtSplALL.Text = "0";
+                        }
+
                         cn.Open();
                         cmd.Connection = cn;
                         string sql = "Insert into MastEmp (CompCode,WrkGrp,EmpUnqID,EmpName,FatherName," +
@@ -262,7 +272,7 @@ namespace Attendance.Forms
                             " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired,SPLALL,BAALL) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
-                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}','{23}','{24}')";
+                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}','{22}','{23}')";
  
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),txtEmpUnqID.Text.Trim().ToString(),txtEmpName.Text.Trim().ToString(),txtFatherName.Text.Trim(),
                             txtUnitCode.Text.ToString(),((txtMessCode.Text.Trim() == "")? "null" :"'"+txtMessCode.Text.Trim()+"'"),
@@ -410,6 +420,16 @@ namespace Attendance.Forms
                         if (string.IsNullOrEmpty(txtBasic.Text.Trim()))
                         {
                             txtBasic.Text = "0";
+                        }
+
+                        if (string.IsNullOrEmpty(txtBAAll.Text.Trim()))
+                        {
+                            txtBAAll.Text = "0";
+                        }
+
+                        if (string.IsNullOrEmpty(txtSplALL.Text.Trim()))
+                        {
+                            txtSplALL.Text = "0";
                         }
 
                         sql = "Update MastEmp set WrkGrp ='{0}',EmpName='{1}',FatherName = '{2}'," +
@@ -908,7 +928,9 @@ namespace Attendance.Forms
                 lblLeft.Visible = true;
             }
 
-            txtBasic.Text = Utils.Helper.GetDescription("Select Basic from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "'", Utils.Helper.constr);
+            txtBasic.Text = Utils.Helper.GetDescription("Select Basic from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
+            txtSplALL.Text = Utils.Helper.GetDescription("Select SPLALL from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
+            txtBAAll.Text = Utils.Helper.GetDescription("Select BAALL from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
 
             mode = "OLD";
             oldCode = cEmp.EmpUnqID;
