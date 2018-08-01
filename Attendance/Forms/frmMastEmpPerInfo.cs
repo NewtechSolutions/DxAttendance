@@ -60,7 +60,7 @@ namespace Attendance.Forms
             SetRights();
 
             DataSet ds = Utils.Helper.GetData("Select IDDesc From MastIDProof Order By ID", Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            bool hasRows = ds.Tables.Cast<DataTable>() .Any(table => table.Rows.Count != 0);
 
             if (hasRows)
             {
@@ -71,6 +71,7 @@ namespace Attendance.Forms
                     txtIDPrf3.Properties.Items.Add(dr["IDDesc"].ToString());
                 }
             }
+
         }
 
         private string DataValidate()
@@ -158,7 +159,9 @@ namespace Attendance.Forms
             txtIDPrfNo1.Text = "";
             txtIDPrfNo2.Text = "";
             txtIDPrfNo3.Text = "";
-
+            txtBankACNo.Text = "";
+            txtBankIFSC.Text = "";
+            txtBankName.Text = "";
 
             txtFamBirthDt.EditValue = null;
             txtFamName.Text = "";
@@ -313,7 +316,9 @@ namespace Attendance.Forms
                             " IDPRF3 = '{26}',IDPRF3NO = '{27}', IDPRF3EXPON = {28} ," +   
                             " MedChkFlg = {29},MedChkDt = {30}, MedChkSts = '{31}' ," +
                             " SafetyTrnFlg = {32}, SafetyTrnDt = {33} ," +
-                            " UpdDt = GetDate(),UpdID ='{34}' where CompCode = '{35}' and EmpUnqID = '{36}' ";
+                            " UpdDt = GetDate(),UpdID ='{34}' , " +
+                            " BankAcNo = '{35}' , BankName = '{36}', BankIFSCCode = '{37}' " +
+                            " where CompCode = '{38}' and EmpUnqID = '{39}' ";
 
                         sql = string.Format(sql, 
                             txtAdd1.Text.Trim().ToString(),
@@ -357,6 +362,10 @@ namespace Attendance.Forms
                             ((txtSafetyDt.EditValue == DBNull.Value) ? "null" : "'" + txtSafetyDt.DateTime.ToString("yyyy-MM-dd") + "'"),
 
                             Utils.User.GUserID,
+                            txtBankACNo.Text.Trim().ToString(),
+                            txtBankName.Text.Trim().ToString(),
+                            txtBankIFSC.Text.Trim().ToString(),
+
                             ctrlEmp1.txtCompCode.Text.Trim(),
                             ctrlEmp1.txtEmpUnqID.Text.Trim()
                             
@@ -617,6 +626,10 @@ namespace Attendance.Forms
                 chkSafety.Checked = t;
                 txtSafetyDt.EditValue = dr["SafetyTrnDT"];
                 
+                txtBankACNo.Text = dr["BankAcNo"].ToString();
+                txtBankIFSC.Text = dr["BankIFSCCode"].ToString();
+                txtBankName.Text = dr["BankName"].ToString();
+
 
                 mode = "OLD";
                 oldCode = tEmpUnqID;
@@ -1070,6 +1083,49 @@ namespace Attendance.Forms
             if ((e.KeyData == Keys.Enter))
             {
                 SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
+
+        private void txtBankName_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (txtBankName.Text.Trim() == "")
+            //    return;
+
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+
+                sql = "Select BankName,* From MastBank Where 1=1";
+                if (e.KeyCode == Keys.F1)
+                {
+
+                    obj = (List<string>)hlp.Show(sql, "BankName", "BankName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+
+                    txtBankName.Text = obj.ElementAt(0).ToString();
+
+                }
             }
         }
 

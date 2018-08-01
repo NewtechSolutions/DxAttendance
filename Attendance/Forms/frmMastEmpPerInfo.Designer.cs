@@ -75,6 +75,12 @@
             this.txtpAdd2 = new DevExpress.XtraEditors.TextEdit();
             this.txtpAdd1 = new DevExpress.XtraEditors.TextEdit();
             this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
+            this.txtBankName = new DevExpress.XtraEditors.TextEdit();
+            this.label51 = new System.Windows.Forms.Label();
+            this.txtBankIFSC = new DevExpress.XtraEditors.TextEdit();
+            this.label50 = new System.Windows.Forms.Label();
+            this.txtBankACNo = new DevExpress.XtraEditors.TextEdit();
+            this.label11 = new System.Windows.Forms.Label();
             this.txtSafetyDt = new DevExpress.XtraEditors.DateEdit();
             this.label49 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
@@ -186,6 +192,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtpAdd2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtpAdd1.Properties)).BeginInit();
             this.xtraTabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankIFSC.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankACNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMedRes.Properties)).BeginInit();
@@ -734,6 +743,12 @@
             // 
             // xtraTabPage3
             // 
+            this.xtraTabPage3.Controls.Add(this.txtBankName);
+            this.xtraTabPage3.Controls.Add(this.label51);
+            this.xtraTabPage3.Controls.Add(this.txtBankIFSC);
+            this.xtraTabPage3.Controls.Add(this.label50);
+            this.xtraTabPage3.Controls.Add(this.txtBankACNo);
+            this.xtraTabPage3.Controls.Add(this.label11);
             this.xtraTabPage3.Controls.Add(this.txtSafetyDt);
             this.xtraTabPage3.Controls.Add(this.label49);
             this.xtraTabPage3.Controls.Add(this.label48);
@@ -765,6 +780,65 @@
             this.xtraTabPage3.Size = new System.Drawing.Size(1095, 295);
             this.xtraTabPage3.Text = "Identification";
             // 
+            // txtBankName
+            // 
+            this.txtBankName.Location = new System.Drawing.Point(353, 205);
+            this.txtBankName.Name = "txtBankName";
+            this.txtBankName.Properties.Mask.EditMask = "[A-Z0-9:-()-]+";
+            this.txtBankName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBankName.Properties.MaxLength = 35;
+            this.txtBankName.Properties.ReadOnly = true;
+            this.txtBankName.Size = new System.Drawing.Size(197, 20);
+            this.txtBankName.TabIndex = 42;
+            this.txtBankName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBankName_KeyDown);
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(268, 207);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(76, 14);
+            this.label51.TabIndex = 55;
+            this.label51.Text = "Bank Name :";
+            // 
+            // txtBankIFSC
+            // 
+            this.txtBankIFSC.Location = new System.Drawing.Point(353, 257);
+            this.txtBankIFSC.Name = "txtBankIFSC";
+            this.txtBankIFSC.Properties.Mask.EditMask = "[A-Z0-9:-()-]+";
+            this.txtBankIFSC.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBankIFSC.Properties.MaxLength = 35;
+            this.txtBankIFSC.Size = new System.Drawing.Size(197, 20);
+            this.txtBankIFSC.TabIndex = 45;
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(243, 260);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(101, 14);
+            this.label50.TabIndex = 53;
+            this.label50.Text = "Bank IFSC Code :";
+            // 
+            // txtBankACNo
+            // 
+            this.txtBankACNo.Location = new System.Drawing.Point(353, 231);
+            this.txtBankACNo.Name = "txtBankACNo";
+            this.txtBankACNo.Properties.Mask.EditMask = "[A-Z0-9:-()-]+";
+            this.txtBankACNo.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBankACNo.Properties.MaxLength = 35;
+            this.txtBankACNo.Size = new System.Drawing.Size(197, 20);
+            this.txtBankACNo.TabIndex = 43;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(237, 234);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 14);
+            this.label11.TabIndex = 51;
+            this.label11.Text = "Bank Account No :";
+            // 
             // txtSafetyDt
             // 
             this.txtSafetyDt.EditValue = null;
@@ -777,7 +851,7 @@
             this.txtSafetyDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtSafetyDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtSafetyDt.Size = new System.Drawing.Size(100, 20);
-            this.txtSafetyDt.TabIndex = 49;
+            this.txtSafetyDt.TabIndex = 41;
             // 
             // label49
             // 
@@ -803,7 +877,7 @@
             this.chkSafety.Location = new System.Drawing.Point(184, 160);
             this.chkSafety.Name = "chkSafety";
             this.chkSafety.Size = new System.Drawing.Size(55, 18);
-            this.chkSafety.TabIndex = 47;
+            this.chkSafety.TabIndex = 40;
             this.chkSafety.Text = "Done";
             this.chkSafety.UseVisualStyleBackColor = true;
             // 
@@ -826,7 +900,7 @@
             "FIT",
             "UNFIT"});
             this.txtMedRes.Size = new System.Drawing.Size(72, 20);
-            this.txtMedRes.TabIndex = 44;
+            this.txtMedRes.TabIndex = 39;
             // 
             // chkMed
             // 
@@ -834,7 +908,7 @@
             this.chkMed.Location = new System.Drawing.Point(184, 134);
             this.chkMed.Name = "chkMed";
             this.chkMed.Size = new System.Drawing.Size(55, 18);
-            this.chkMed.TabIndex = 43;
+            this.chkMed.TabIndex = 37;
             this.chkMed.Text = "Done";
             this.chkMed.UseVisualStyleBackColor = true;
             // 
@@ -850,7 +924,7 @@
             this.txtMedChkDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtMedChkDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtMedChkDt.Size = new System.Drawing.Size(100, 20);
-            this.txtMedChkDt.TabIndex = 41;
+            this.txtMedChkDt.TabIndex = 38;
             // 
             // label10
             // 
@@ -1737,6 +1811,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtpAdd1.Properties)).EndInit();
             this.xtraTabPage3.ResumeLayout(false);
             this.xtraTabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankIFSC.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBankACNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSafetyDt.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMedRes.Properties)).EndInit();
@@ -1925,5 +2002,11 @@
         private System.Windows.Forms.CheckBox chkMed;
         private DevExpress.XtraEditors.DateEdit txtMedChkDt;
         private System.Windows.Forms.Label label10;
+        private DevExpress.XtraEditors.TextEdit txtBankName;
+        private System.Windows.Forms.Label label51;
+        private DevExpress.XtraEditors.TextEdit txtBankIFSC;
+        private System.Windows.Forms.Label label50;
+        private DevExpress.XtraEditors.TextEdit txtBankACNo;
+        private System.Windows.Forms.Label label11;
     }
 }
