@@ -17,6 +17,7 @@ using System.IO;
 using System.Net;
 using ConnectUNCWithCredentials;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Attendance
 {
@@ -84,6 +85,7 @@ namespace Attendance
             mnuCostCent.Enabled = true;
             mnuChangePass.Enabled = true;
             mnuLogOff.Enabled = true;
+            mnuReports.Enabled = true;
 
             DataSet ds = new DataSet();
             string sql = "select menuname from  MastFrm where formid in (select FormId from userRights where UserId ='" + Utils.User.GUserID + "' and View1=1) order by seqid";
@@ -1033,7 +1035,7 @@ namespace Attendance
         {
             string msg = "Attedance System" + Environment.NewLine +
                 "Version 2.1 " + Environment.NewLine +
-                "Design & Devloped By : Anand Achraya " + Environment.NewLine;
+                "Design & Devloped By : Anand Acharya " + Environment.NewLine;
 
             MessageBox.Show(msg, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -1143,6 +1145,15 @@ namespace Attendance
                 Attendance.Forms.frmBulkGateInOutSanction m = new Attendance.Forms.frmBulkGateInOutSanction();
                 m.MdiParent = this;
                 m.Show();
+            }
+        }
+
+        private void mnuReports_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Globals.G_ReportServiceURL))
+            {
+                string twrd = Globals.G_ReportServiceURL.Substring(0, Globals.G_ReportServiceURL.IndexOf("ReportService2010.asmx"));
+                Process.Start("IExplore.exe", twrd);
             }
         }
 

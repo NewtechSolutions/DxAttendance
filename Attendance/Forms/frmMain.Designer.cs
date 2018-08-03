@@ -102,6 +102,7 @@
             this.mnuWeekoffSan = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShiftChange = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBulkSan = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBulkGateInOutSanction = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAutoMailSender = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuData = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDataProcess = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,7 +122,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuBulkGateInOutSanction = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -638,7 +639,7 @@
             this.mnuLeaveBalEntry,
             this.mnuLeaveEntryLunch});
             this.mnuLeave.Name = "mnuLeave";
-            this.mnuLeave.Size = new System.Drawing.Size(152, 22);
+            this.mnuLeave.Size = new System.Drawing.Size(136, 22);
             this.mnuLeave.Text = "Leave";
             // 
             // mnuLeaveEntry
@@ -674,7 +675,7 @@
             this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShiftSchUpload});
             this.mnuShift.Name = "mnuShift";
-            this.mnuShift.Size = new System.Drawing.Size(152, 22);
+            this.mnuShift.Size = new System.Drawing.Size(136, 22);
             this.mnuShift.Text = "Shift";
             // 
             // mnuShiftSchUpload
@@ -693,7 +694,7 @@
             this.mnuBulkSan,
             this.mnuBulkGateInOutSanction});
             this.mnuSanction.Name = "mnuSanction";
-            this.mnuSanction.Size = new System.Drawing.Size(152, 22);
+            this.mnuSanction.Size = new System.Drawing.Size(136, 22);
             this.mnuSanction.Text = "Sanction";
             // 
             // mnuManualSan
@@ -724,10 +725,17 @@
             this.mnuBulkSan.Text = "Bulk Sanction";
             this.mnuBulkSan.Click += new System.EventHandler(this.mnuBulkSan_Click);
             // 
+            // mnuBulkGateInOutSanction
+            // 
+            this.mnuBulkGateInOutSanction.Name = "mnuBulkGateInOutSanction";
+            this.mnuBulkGateInOutSanction.Size = new System.Drawing.Size(209, 22);
+            this.mnuBulkGateInOutSanction.Text = "Bulk Gate In Out Sanction";
+            this.mnuBulkGateInOutSanction.Click += new System.EventHandler(this.mnuBulkGateInOutSanction_Click);
+            // 
             // mnuAutoMailSender
             // 
             this.mnuAutoMailSender.Name = "mnuAutoMailSender";
-            this.mnuAutoMailSender.Size = new System.Drawing.Size(152, 22);
+            this.mnuAutoMailSender.Size = new System.Drawing.Size(136, 22);
             this.mnuAutoMailSender.Text = "Mail Sender";
             this.mnuAutoMailSender.Click += new System.EventHandler(this.mnuAutoMailSender_Click);
             // 
@@ -812,7 +820,8 @@
             // mnuHelp
             // 
             this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAbout});
+            this.mnuAbout,
+            this.mnuReports});
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.Size = new System.Drawing.Size(44, 20);
             this.mnuHelp.Text = "Help";
@@ -820,7 +829,7 @@
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(107, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
             this.mnuAbout.Text = "About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
@@ -867,12 +876,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuBulkGateInOutSanction
+            // mnuReports
             // 
-            this.mnuBulkGateInOutSanction.Name = "mnuBulkGateInOutSanction";
-            this.mnuBulkGateInOutSanction.Size = new System.Drawing.Size(209, 22);
-            this.mnuBulkGateInOutSanction.Text = "Bulk Gate In Out Sanction";
-            this.mnuBulkGateInOutSanction.Click += new System.EventHandler(this.mnuBulkGateInOutSanction_Click);
+            this.mnuReports.Name = "mnuReports";
+            this.mnuReports.Size = new System.Drawing.Size(152, 22);
+            this.mnuReports.Text = "Reports";
+            this.mnuReports.Click += new System.EventHandler(this.mnuReports_Click);
             // 
             // frmMain
             // 
@@ -993,6 +1002,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuPunchingBlock;
         private System.Windows.Forms.ToolStripMenuItem mnuEmpBulkChange;
         private System.Windows.Forms.ToolStripMenuItem mnuBulkGateInOutSanction;
+        private System.Windows.Forms.ToolStripMenuItem mnuReports;
 
 
     }

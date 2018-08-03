@@ -236,7 +236,7 @@ namespace Attendance.Forms
                     chkEarlyGoingHalfDayFlg.Checked = Convert.ToBoolean(dr["EarlyGoingHalfDayFlg"]);
                     txtEarlyGoingHalfDaySec.Value = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
                     txtLateHalfDaySec.Value = Convert.ToInt32(dr["LateHalfDaySec"].ToString());
-
+                    txtGlobalExclude.Value = Convert.ToInt32(dr["GlobalGradeExclude"]);
                 }
             }
             else
@@ -246,7 +246,7 @@ namespace Attendance.Forms
                 txtEarlyComeSec.Value = 0;
                 txtEarlyGoingSec.Value = 0;
                 txtGracePeriodSec.Value = 0;
-                
+                txtGlobalExclude.Value = 0;
                 txtLateHalfDaySec.Value = 0;
                 txtEarlyGoingHalfDaySec.Value = 0;
 
@@ -277,6 +277,7 @@ namespace Attendance.Forms
                     {
                         chkAutoProcessFlg.Checked = Convert.ToBoolean(dr["AutoProcessFlg"]);
                         TimeSpan t = new TimeSpan();
+
                         TimeSpan.TryParse(dr["AutoProcessTime"].ToString(), out t);
                         txtAutoProccessTime.EditValue = t;
                     }
@@ -471,6 +472,7 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
+                        bool x = Globals.GetGlobalVars();
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }

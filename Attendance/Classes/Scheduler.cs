@@ -1714,9 +1714,19 @@ namespace Attendance.Classes
                         }
 
                         byte[] filecontent = File.ReadAllBytes(fullpath);
-                        MailAttachment m = new MailAttachment(filecontent, allErrFileName);
-                        string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
-                        Globals.G_DefaultMailID, "", "",m);
+
+                        if (filecontent.Length > 0)
+                        {
+                            MailAttachment m = new MailAttachment(filecontent, allErrFileName);
+                            string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                            Globals.G_DefaultMailID, "", "", m);
+                        }
+                        else
+                        {
+                            string err = EmailHelper.Email(Globals.G_JobNotificationEmail, "", "", body, subject, Globals.G_DefaultMailID,
+                            Globals.G_DefaultMailID, "", "");
+                        }
+
                     }
                     catch {
 
