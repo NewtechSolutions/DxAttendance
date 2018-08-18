@@ -392,7 +392,7 @@ namespace Attendance.Forms
 
                             try
                             {
-                                sql = "Exec ChangeWrkGrp '" + t.EmpUnqID + "','" + txtWrkGrpCode.Text.Trim() + "';";
+                                sql = "Exec ChangeWrkGrp '" + t.EmpUnqID + "','" + txtWrkGrpCode.Text.Trim() + "','" + t.WrkGrp + "';";
                                 cmd.CommandText = sql;
                                 cmd.ExecuteNonQuery();
                                 WrkGrpChange = true;

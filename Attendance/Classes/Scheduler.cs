@@ -169,6 +169,7 @@ namespace Attendance.Classes
             RegSchedule_AutoArrival();
             RegSchedule_AutoProcess();
             RegSchedule_DownloadPunch();
+            RegSchedule_BlockUnBlockProcess();
             _ShutDown = false;  
         }
 
@@ -303,6 +304,38 @@ namespace Attendance.Classes
                 }
             }
         }
+
+
+        public void RegSchedule_BlockUnBlockProcess()
+        {
+            string jobid = "BlockUnBlockProcess";
+            string triggerid = "Trigger_BlockUnBlock";
+
+            // define the job and tie it to our HelloJob class
+            IJobDetail job = JobBuilder.Create<BlockUnBlockOperation>()
+                    .WithDescription("Blocking/UnBlocking of Employee")
+                .WithIdentity(jobid, "BlockUnBlockProcess")
+                .Build();
+
+            // Trigger the job to run every 3 minute
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity(triggerid, "TRG_BlockUnBlock")
+                .StartNow()
+                .WithCronSchedule("0 0/2 * * * ?")
+                .Build();
+
+            // Tell quartz to schedule the job using our trigger
+            scheduler.ScheduleJob(job, trigger);
+
+            ServerMsg tMsg = new ServerMsg();
+            tMsg.MsgType = "Job Building";
+            tMsg.MsgTime = DateTime.Now;
+            tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
+            Scheduler.Publish(tMsg);
+
+           
+        }
+
 
         public void RegSchedule_WorkerProcess()
         {
@@ -1112,7 +1145,7 @@ namespace Attendance.Classes
                 if(_StatusWorker == false)
                 { 
                     string cnerr = string.Empty;
-                    string sql = "Select top 200 w.* from attdworker w where w.doneflg = 0 Order by MsgId desc" ;
+                    string sql = "Select top 200 w.* from attdworker w where w.doneflg = 0  Order by MsgId desc" ;
                     DataSet DsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr,out cnerr);
                     if (!string.IsNullOrEmpty(cnerr))
                     {
@@ -1211,7 +1244,7 @@ namespace Attendance.Classes
                     {
                         //check if any pending machine operation if yes do it....
                         #region newmachinejob
-                        DataSet ds = Utils.Helper.GetData("Select top 10 * from MastMachineUserOperation where DoneFlg = 0 order by MachineIP ", Utils.Helper.constr);
+                        DataSet ds = Utils.Helper.GetData("Select top 10 * from MastMachineUserOperation where DoneFlg = 0 and Operation not in ('BLOCK','UNBLOCK') order by MachineIP ", Utils.Helper.constr);
                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if (hasRows)
                         {
@@ -1242,12 +1275,7 @@ namespace Attendance.Classes
                                     #region machineoperation
                                     switch (dr["Operation"].ToString())
                                     {
-                                        case "BLOCK":
-                                            m.BlockUser(dr["EmpUnqID"].ToString(), out err);
-                                            break;
-                                        case "UNBLOCK":
-                                            m.UnBlockUser(dr["EmpUnqID"].ToString(), out err);
-                                            break;
+                                        
                                         case "DELETE":
                                             m.DeleteUser(dr["EmpUnqID"].ToString(), out err);
                                             break;
@@ -1278,12 +1306,12 @@ namespace Attendance.Classes
                                                 if (string.IsNullOrEmpty(err))
                                                 {
                                                     sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
-                                                        " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "';";
+                                                        " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" +  dr["EmpUnqID"].ToString() + "';";
                                                 }
                                                 else
                                                 {
                                                     sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
-                                                        " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "';";
+                                                        " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" + dr["EmpUnqID"].ToString() + "';";
                                                 }
                                                 cmd.CommandText = sql;
                                                 cmd.ExecuteNonQuery();
@@ -1355,6 +1383,123 @@ namespace Attendance.Classes
                 _StatusWorker = false;
             }
         }
+        
+        public class BlockUnBlockOperation : IJob
+        {
+            async Task Block(string machineip, string EmpUnqID, int id,string optype)
+            {
+                
+                string err = string.Empty;
+                clsMachine m = new clsMachine(machineip, "B");
+                await Task.Run(() =>
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    m.Connect(out err);
+                    if (string.IsNullOrEmpty(err))
+                    {
+                        
+                        tMsg.MsgTime = DateTime.Now;
+                        tMsg.MsgType = "Machine Operation->";
+                        tMsg.Message = "Performing : " + optype + " : EmpUnqID=>" + EmpUnqID + "->" + machineip;
+                        Scheduler.Publish(tMsg);
+                        if (optype == "BOLCK")
+                            m.BlockUser(EmpUnqID, out err);
+                        else if (optype == "UNBLOCK")
+                            m.UnBlockUser(EmpUnqID, out err);
+                        
+                        m.DisConnect(out err);
+                    }
+
+                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    {
+                        try
+                        {
+                            cn.Open();
+                            using (SqlCommand cmd = new SqlCommand())
+                            {
+                                string sql = string.Empty;
+                                cmd.Connection = cn;
+                                if (string.IsNullOrEmpty(err))
+                                {
+                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
+                                        " UpdDt=GetDate() where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
+                                }
+                                else
+                                {
+                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
+                                        " where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
+                                }
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            tMsg.MsgTime = DateTime.Now;
+                            tMsg.MsgType = "Machine Operation->";
+                            tMsg.Message = "Error : " + optype + " : EmpUnqID=>" + EmpUnqID.ToString() + "->" + machineip.ToString() + "->" + ex.Message.ToString();
+                            Scheduler.Publish(tMsg);
+
+                        }
+                    }
+
+                });
+                
+               
+                
+            }
+            
+            public void Execute(IJobExecutionContext context)
+            {
+                if (_ShutDown)
+                {
+                    return;
+                }
+
+                
+                    string cnerr = string.Empty;
+                    string sql = "Select top 10 * from MastMachineUserOperation where DoneFlg = 0 and Operation in('BLOCK','UNBLOCK') order by MachineIP ";
+                    
+                    //check if any pending machine operation if yes do it....
+                    #region newmachinejob
+                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                    bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                    if (hasRows)
+                    {
+                        int cnt = ds.Tables[0].Rows.Count;
+                        List<Task> tasklist = new List<Task>();
+                        
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+
+                            if (_ShutDown)
+                            {
+                                _StatusWorker = false;
+                                return;
+                            }
+                            
+                            string emp = dr["EmpUnqID"].ToString();
+                            string ip = dr["MachineIP"].ToString();
+                            string optyp = dr["Operation"].ToString();
+
+                            string err = string.Empty;
+                            int id = Convert.ToInt32(dr["ID"]);
+                            tasklist.Add(Block(ip, emp, id,optyp));
+                             
+                        }
+
+                        foreach (Task t in tasklist)
+                        {
+                            t.Start();
+                            Thread.Sleep(10);
+                        }
+                        
+                    }
+                    #endregion
+                    
+            }
+        }
+
 
         public class AutoDeleteExpireValidityEmp : IJob
         {

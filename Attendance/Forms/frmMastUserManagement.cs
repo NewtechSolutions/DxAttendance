@@ -373,49 +373,53 @@ namespace Attendance.Forms
                 
                 //Cursor.Current = Cursors.WaitCursor;
                 LockCtrl();
-                
-                foreach (DataRow dr in sortedDT.Rows)
-                {
-                    string tEmpUnqID = dr["EmpUnqID"].ToString();
-                    if(string.IsNullOrEmpty(tEmpUnqID))
-                    {
-                        dr["Remarks"] = "EmpUnqID Required...";
-                        continue;
-                    }    
-                    err = string.Empty;
-                    Application.DoEvents();
-                    m.Register(tEmpUnqID,out err);
+                //if (m.BeginBathUpload())
+                //{
 
-                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    foreach (DataRow dr in sortedDT.Rows)
                     {
-                        using (SqlCommand cmd = new SqlCommand())
+                        string tEmpUnqID = dr["EmpUnqID"].ToString();
+                        if (string.IsNullOrEmpty(tEmpUnqID))
                         {
-                            try
+                            dr["Remarks"] = "EmpUnqID Required...";
+                            continue;
+                        }
+                        err = string.Empty;
+                        Application.DoEvents();
+                        m.Register(tEmpUnqID, out err);
+
+                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                        {
+                            using (SqlCommand cmd = new SqlCommand())
                             {
-                                cn.Open();
-                                cmd.Connection = cn;
+                                try
+                                {
+                                    cn.Open();
+                                    cmd.Connection = cn;
 
-                                int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+                                    int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
 
-                                string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
-                                    tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKREGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
+                                    string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                        tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKREGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
 
 
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
 
-                            }
-                            catch (Exception ex)
-                            {
+                                }
+                                catch (Exception ex)
+                                {
 
-                            }
-                        }//using command
-                    }//using connection
-                    
+                                }
+                            }//using command
+                        }//using connection
 
-                    dr["Remarks"] = (!string.IsNullOrEmpty(err)?err:"Registered");
-                        
-                }
+
+                        dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Registered");
+
+                    }
+                //    m.BathUpload();
+                //}
                 m.RefreshData();
                 m.DisConnect(out err);
                 //Cursor.Current = Cursors.Default;

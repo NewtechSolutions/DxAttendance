@@ -791,7 +791,10 @@ namespace Attendance.Classes
                             {
                                 bool x = this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
                                 //user must set authenticate d type as face+RF
-
+                                if (!x)
+                                {
+                                    err = "Employee face did not registered....";
+                                }
                             }
                         }
 
@@ -921,6 +924,27 @@ namespace Attendance.Classes
         {
             this.CZKEM1.EnableDevice(_machineno, isEnabled);
         }
+
+        public bool  BeginBathUpload()
+        {
+            
+            
+            if (!_connected)
+            {
+                return false;
+            }
+
+            return this.CZKEM1.BeginBatchUpdate(_machineno, 1);
+        }
+
+        public bool BathUpload()
+        {
+            if (!_connected)
+            {
+                return false;
+            }
+            return this.CZKEM1.BatchUpdate(_machineno);
+        } 
 
         public void RefreshData()
         {

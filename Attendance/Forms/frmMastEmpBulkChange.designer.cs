@@ -37,6 +37,8 @@
             this.GradeCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.DesgCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Basic = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPLALL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.BAALL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnExport = new System.Windows.Forms.Button();
@@ -44,8 +46,7 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
-            this.SPLALL = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.BAALL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.LeftDt = new DevExpress.XtraGrid.Columns.GridColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -104,6 +105,7 @@
             this.Basic,
             this.SPLALL,
             this.BAALL,
+            this.LeftDt,
             this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
@@ -146,7 +148,7 @@
             this.EmpUnqID.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.EmpUnqID.Visible = true;
             this.EmpUnqID.VisibleIndex = 0;
-            this.EmpUnqID.Width = 97;
+            this.EmpUnqID.Width = 62;
             // 
             // CatCode
             // 
@@ -159,7 +161,7 @@
             this.CatCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.CatCode.Visible = true;
             this.CatCode.VisibleIndex = 1;
-            this.CatCode.Width = 136;
+            this.CatCode.Width = 58;
             // 
             // GradeCode
             // 
@@ -172,7 +174,7 @@
             this.GradeCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.GradeCode.Visible = true;
             this.GradeCode.VisibleIndex = 2;
-            this.GradeCode.Width = 136;
+            this.GradeCode.Width = 91;
             // 
             // DesgCode
             // 
@@ -185,7 +187,7 @@
             this.DesgCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.DesgCode.Visible = true;
             this.DesgCode.VisibleIndex = 3;
-            this.DesgCode.Width = 136;
+            this.DesgCode.Width = 66;
             // 
             // Basic
             // 
@@ -198,7 +200,25 @@
             this.Basic.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Basic.Visible = true;
             this.Basic.VisibleIndex = 4;
-            this.Basic.Width = 80;
+            this.Basic.Width = 56;
+            // 
+            // SPLALL
+            // 
+            this.SPLALL.Caption = "SPLALL";
+            this.SPLALL.FieldName = "SPLALL";
+            this.SPLALL.Name = "SPLALL";
+            this.SPLALL.Visible = true;
+            this.SPLALL.VisibleIndex = 5;
+            this.SPLALL.Width = 53;
+            // 
+            // BAALL
+            // 
+            this.BAALL.Caption = "BAALL";
+            this.BAALL.FieldName = "BAALL";
+            this.BAALL.Name = "BAALL";
+            this.BAALL.Visible = true;
+            this.BAALL.VisibleIndex = 6;
+            this.BAALL.Width = 53;
             // 
             // Remarks
             // 
@@ -210,8 +230,8 @@
             this.Remarks.OptionsColumn.ReadOnly = true;
             this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 7;
-            this.Remarks.Width = 270;
+            this.Remarks.VisibleIndex = 8;
+            this.Remarks.Width = 170;
             // 
             // groupControl1
             // 
@@ -276,21 +296,14 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
-            // SPLALL
+            // LeftDt
             // 
-            this.SPLALL.Caption = "SPLALL";
-            this.SPLALL.FieldName = "SPLALL";
-            this.SPLALL.Name = "SPLALL";
-            this.SPLALL.Visible = true;
-            this.SPLALL.VisibleIndex = 5;
-            // 
-            // BAALL
-            // 
-            this.BAALL.Caption = "BAALL";
-            this.BAALL.FieldName = "BAALL";
-            this.BAALL.Name = "BAALL";
-            this.BAALL.Visible = true;
-            this.BAALL.VisibleIndex = 6;
+            this.LeftDt.Caption = "LeftDt";
+            this.LeftDt.FieldName = "LeftDt";
+            this.LeftDt.Name = "LeftDt";
+            this.LeftDt.Visible = true;
+            this.LeftDt.VisibleIndex = 7;
+            this.LeftDt.Width = 87;
             // 
             // frmMastEmpBulkChange
             // 
@@ -336,5 +349,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Remarks;
         private DevExpress.XtraGrid.Columns.GridColumn SPLALL;
         private DevExpress.XtraGrid.Columns.GridColumn BAALL;
+        private DevExpress.XtraGrid.Columns.GridColumn LeftDt;
     }
 }

@@ -205,7 +205,7 @@ namespace Attendance.Forms
 
 
                                 cmd.Connection = con;
-                                string sql = "UpDate MastEmp set ValidFrom = '{0}',ValidTo = '{1}',UpdDt = GetDate(),UpdID = '{2}' , ValidityExpired = '{3}' where EmpUnqID = '{3}'";
+                                string sql = "UpDate MastEmp set ValidFrom = '{0}',ValidTo = '{1}',UpdDt = GetDate(),UpdID = '{2}' , ValidityExpired = '{3}' where EmpUnqID = '{4}'";
                                 sql = string.Format(sql, 
                                     fromdt.ToString("yyyy-MM-dd"),
                                     toDt.ToString("yyyy-MM-dd"),
