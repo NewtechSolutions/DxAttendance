@@ -215,6 +215,13 @@ namespace Attendance.Forms
                 }
             }
 
+            string blacklist = Utils.Helper.GetDescription("Select AdharNo from MastEmpBlackList where BlackList = 1 and AdharNo='" + txtAdharNo.Text.Trim() + "'", Utils.Helper.constr);
+            if (!string.IsNullOrEmpty(blacklist))
+            {
+                err = err + "This Adhar Card is Black Listed..." + Environment.NewLine;
+                return err;
+            }
+
             return err;
         }
 

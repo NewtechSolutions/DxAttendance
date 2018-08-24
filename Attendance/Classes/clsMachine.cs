@@ -925,7 +925,7 @@ namespace Attendance.Classes
             this.CZKEM1.EnableDevice(_machineno, isEnabled);
         }
 
-        public bool  BeginBathUpload()
+        public bool BeginBathUpload()
         {
             
             

@@ -148,7 +148,7 @@
             this.EmpUnqID.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.EmpUnqID.Visible = true;
             this.EmpUnqID.VisibleIndex = 0;
-            this.EmpUnqID.Width = 62;
+            this.EmpUnqID.Width = 97;
             // 
             // CatCode
             // 
@@ -161,7 +161,7 @@
             this.CatCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.CatCode.Visible = true;
             this.CatCode.VisibleIndex = 1;
-            this.CatCode.Width = 58;
+            this.CatCode.Width = 136;
             // 
             // GradeCode
             // 
@@ -174,7 +174,7 @@
             this.GradeCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.GradeCode.Visible = true;
             this.GradeCode.VisibleIndex = 2;
-            this.GradeCode.Width = 91;
+            this.GradeCode.Width = 136;
             // 
             // DesgCode
             // 
@@ -187,7 +187,7 @@
             this.DesgCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.DesgCode.Visible = true;
             this.DesgCode.VisibleIndex = 3;
-            this.DesgCode.Width = 66;
+            this.DesgCode.Width = 136;
             // 
             // Basic
             // 
@@ -200,7 +200,7 @@
             this.Basic.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Basic.Visible = true;
             this.Basic.VisibleIndex = 4;
-            this.Basic.Width = 56;
+            this.Basic.Width = 80;
             // 
             // SPLALL
             // 
@@ -209,7 +209,6 @@
             this.SPLALL.Name = "SPLALL";
             this.SPLALL.Visible = true;
             this.SPLALL.VisibleIndex = 5;
-            this.SPLALL.Width = 53;
             // 
             // BAALL
             // 
@@ -218,7 +217,6 @@
             this.BAALL.Name = "BAALL";
             this.BAALL.Visible = true;
             this.BAALL.VisibleIndex = 6;
-            this.BAALL.Width = 53;
             // 
             // Remarks
             // 
@@ -231,7 +229,7 @@
             this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Remarks.Visible = true;
             this.Remarks.VisibleIndex = 8;
-            this.Remarks.Width = 170;
+            this.Remarks.Width = 270;
             // 
             // groupControl1
             // 
@@ -301,9 +299,10 @@
             this.LeftDt.Caption = "LeftDt";
             this.LeftDt.FieldName = "LeftDt";
             this.LeftDt.Name = "LeftDt";
+            this.LeftDt.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.LeftDt.Visible = true;
             this.LeftDt.VisibleIndex = 7;
-            this.LeftDt.Width = 87;
+            this.LeftDt.Width = 97;
             // 
             // frmMastEmpBulkChange
             // 

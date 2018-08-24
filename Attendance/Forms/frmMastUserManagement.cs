@@ -1323,7 +1323,7 @@ namespace Attendance.Forms
                     }
                     else
                     {
-                        sql = "Update EmpBioData Set RFIDNO = '" + txtNewRFID.Text.Trim() + "' where Type = 'RFID' And EmpUnqID ='" + tEmpUnqID + "' and MachineIP='Master'";
+                        sql = "Update EmpBioData Set RFIDNO = '" + txtNewRFID.Text.Trim() + "' where Type in ('RFID','FACE','FINGER') And EmpUnqID ='" + tEmpUnqID + "' and MachineIP='Master' and MachineNo = '9999' ";
                     
                     }
                     

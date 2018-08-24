@@ -201,11 +201,18 @@ namespace Attendance.Forms
                                 {
                                     tValidityExp = true;
                                 }
+
+
+                                string sql = "insert into MastEmpHistory " +
+                               " select 'Before Update Master Data, Action By " + Utils.User.GUserID + "', GetDate(), * from MastEmp " +
+                               " where  EmpUnqID ='" + tEmpUnqID + "'";
+
+                                cmd.CommandType = CommandType.Text;
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
                                 
-
-
-                                cmd.Connection = con;
-                                string sql = "UpDate MastEmp set ValidFrom = '{0}',ValidTo = '{1}',UpdDt = GetDate(),UpdID = '{2}' , ValidityExpired = '{3}' where EmpUnqID = '{4}'";
+                                
+                                sql = "UpDate MastEmp set ValidFrom = '{0}',ValidTo = '{1}',UpdDt = GetDate(),UpdID = '{2}' , ValidityExpired = '{3}' where EmpUnqID = '{4}'";
                                 sql = string.Format(sql, 
                                     fromdt.ToString("yyyy-MM-dd"),
                                     toDt.ToString("yyyy-MM-dd"),

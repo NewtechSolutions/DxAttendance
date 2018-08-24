@@ -1402,46 +1402,50 @@ namespace Attendance.Classes
                         tMsg.MsgType = "Machine Operation->";
                         tMsg.Message = "Performing : " + optype + " : EmpUnqID=>" + EmpUnqID + "->" + machineip;
                         Scheduler.Publish(tMsg);
-                        if (optype == "BOLCK")
+                        if (optype == "BLOCK")
                             m.BlockUser(EmpUnqID, out err);
-                        else if (optype == "UNBLOCK")
-                            m.UnBlockUser(EmpUnqID, out err);
-                        
-                        m.DisConnect(out err);
-                    }
+                        //else if (optype == "UNBLOCK")
+                        //    m.UnBlockUser(EmpUnqID, out err);
+                        string err2 = string.Empty;
+                        m.DisConnect(out err2);
 
-                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-                    {
-                        try
+                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                         {
-                            cn.Open();
-                            using (SqlCommand cmd = new SqlCommand())
+                            try
                             {
-                                string sql = string.Empty;
-                                cmd.Connection = cn;
-                                if (string.IsNullOrEmpty(err))
+                                cn.Open();
+                                using (SqlCommand cmd = new SqlCommand())
                                 {
-                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
-                                        " UpdDt=GetDate() where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
+                                    string sql = string.Empty;
+                                    cmd.Connection = cn;
+                                    if (string.IsNullOrEmpty(err))
+                                    {
+                                        sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
+                                            " UpdDt=GetDate() where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
+                                    }
+                                    else
+                                    {
+                                        sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
+                                            " where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
+                                    }
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
                                 }
-                                else
-                                {
-                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
-                                        " where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = '" + optype + "' and EmpUnqID ='" + EmpUnqID.ToString() + "';";
-                                }
-                                cmd.CommandText = sql;
-                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "Machine Operation->";
+                                tMsg.Message = "Error : " + optype + " : EmpUnqID=>" + EmpUnqID.ToString() + "->" + machineip.ToString() + "->" + ex.Message.ToString();
+                                Scheduler.Publish(tMsg);
+
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            tMsg.MsgTime = DateTime.Now;
-                            tMsg.MsgType = "Machine Operation->";
-                            tMsg.Message = "Error : " + optype + " : EmpUnqID=>" + EmpUnqID.ToString() + "->" + machineip.ToString() + "->" + ex.Message.ToString();
-                            Scheduler.Publish(tMsg);
-
-                        }
+                        
+                       
                     }
+
+                    
 
                 });
                 

@@ -172,6 +172,7 @@ namespace Attendance
                 Globals.G_myscheduler.RegSchedule_AutoArrival();
                 Globals.G_myscheduler.RegSchedule_AutoProcess();
                 Globals.G_myscheduler.RegSchedule_DownloadPunch();
+                Globals.G_myscheduler.RegSchedule_BlockUnBlockProcess();
             }
             else
             {
