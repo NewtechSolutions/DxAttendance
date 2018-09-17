@@ -1703,9 +1703,9 @@
             // 
             this.txtExpYear.Location = new System.Drawing.Point(585, 43);
             this.txtExpYear.Name = "txtExpYear";
-            this.txtExpYear.Properties.Mask.EditMask = "[0-9]+";
-            this.txtExpYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtExpYear.Properties.MaxLength = 2;
+            this.txtExpYear.Properties.Mask.EditMask = "n1";
+            this.txtExpYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.txtExpYear.Properties.MaxLength = 5;
             this.txtExpYear.Size = new System.Drawing.Size(42, 20);
             this.txtExpYear.TabIndex = 56;
             // 

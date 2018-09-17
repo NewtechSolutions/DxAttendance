@@ -705,6 +705,17 @@ namespace Attendance.Classes
                 return;
             }
 
+            string chkenable = Utils.Helper.GetDescription("Select isnull(PunchingBlocked,0) From MastEmp Where EmpUnqID ='" + this.UserID + "'", Utils.Helper.constr, out err);
+
+            if (string.IsNullOrEmpty(chkenable))
+            {
+                this.Enabled = true;
+            }
+            else
+            {
+                this.Enabled = !Convert.ToBoolean(chkenable);
+
+            }
 
             //store to db
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
@@ -731,7 +742,7 @@ namespace Attendance.Classes
                                 " ,'" + "Master" +  "'" +
                                 " ,'RFID',10 " +
                                 " ,'9999'  " +
-                                " ,'" + this.UserName + "' " +
+                                " ,'' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
                                 " ,'" + ((this.Enabled)?"0":"1") + "'" +
@@ -745,7 +756,7 @@ namespace Attendance.Classes
                                 " ,'" + "Master" +  "'" +
                                 " ,'FACE','" + this.FaceIndex.ToString() + "'" +
                                 " ,'9999'  " +
-                                " ,'" + this.UserName + "' " +
+                                " ,'' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
                                 " ,'" + ((this.Enabled)?"0":"1") + "'" +
@@ -760,7 +771,7 @@ namespace Attendance.Classes
                                 " ,'" + "Master" +  "'" +
                                 " ,'FINGER','" + this.FingerIndex.ToString() + "'" +
                                 " ,'9999'  " +
-                                " ,'" + this.UserName + "' " +
+                                " ,'' " +
                                 " ,'" + this.Password + "' " +
                                 " ,'" + this.Previlege.ToString() + "'" +
                                 " ,'" + ((this.Enabled)?"0":"1") + "'" +

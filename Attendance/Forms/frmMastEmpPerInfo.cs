@@ -317,8 +317,9 @@ namespace Attendance.Forms
                             " MedChkFlg = {29},MedChkDt = {30}, MedChkSts = '{31}' ," +
                             " SafetyTrnFlg = {32}, SafetyTrnDt = {33} ," +
                             " UpdDt = GetDate(),UpdID ='{34}' , " +
-                            " BankAcNo = '{35}' , BankName = '{36}', BankIFSCCode = '{37}' " +
-                            " where CompCode = '{38}' and EmpUnqID = '{39}' ";
+                            " BankAcNo = '{35}' , BankName = '{36}', BankIFSCCode = '{37}', " +
+                            " PerPhone = '{38}' " +
+                            " where CompCode = '{39}' and EmpUnqID = '{40}' ";
 
                         sql = string.Format(sql, 
                             txtAdd1.Text.Trim().ToString(),
@@ -365,7 +366,7 @@ namespace Attendance.Forms
                             txtBankACNo.Text.Trim().ToString(),
                             txtBankName.Text.Trim().ToString(),
                             txtBankIFSC.Text.Trim().ToString(),
-
+                            txtpPhone.Text.Trim().ToString(),
                             ctrlEmp1.txtCompCode.Text.Trim(),
                             ctrlEmp1.txtEmpUnqID.Text.Trim()
                             
@@ -601,6 +602,7 @@ namespace Attendance.Forms
                 txtpDistrict.Text = dr["PerDistrict"].ToString();
                 txtpState.Text = dr["PerState"].ToString();
                 txtpPinCode.Text = dr["PerPin"].ToString();
+                txtpPhone.Text = dr["PerPhone"].ToString();
 
                 //IDENTITY1
                 txtIDPrf1.Text = dr["IDPRF1"].ToString();
@@ -932,43 +934,49 @@ namespace Attendance.Forms
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtExpDesg.Text.Trim()))
+            //if (string.IsNullOrEmpty(txtExpDesg.Text.Trim()))
+            //{
+            //    MessageBox.Show("Please Enter Designation/Post Name...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //if (string.IsNullOrEmpty(txtExpResp.Text.Trim()))
+            //{
+            //    MessageBox.Show("Please Enter Job Responcibility...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //if (string.IsNullOrEmpty(txtExpYear.Text.Trim()))
+            //{
+            //    MessageBox.Show("Please Enter Job Exp. Year...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+           
+
+            if (string.IsNullOrEmpty(txtExpYear.Text.Trim().ToString() ))
             {
-                MessageBox.Show("Please Enter Designation/Post Name...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (txtExpFDt.EditValue == null)
+                {
+                    MessageBox.Show("Please Enter From Date ...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (txtExpTDt.EditValue == null)
+                {
+                    MessageBox.Show("Please Enter To Date ...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (txtExpFDt.DateTime > txtExpTDt.DateTime)
+                {
+                    MessageBox.Show("Please Invalid Date Range...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                TimeSpan t = (txtExpFDt.DateTime - txtExpTDt.DateTime);
+                txtExpYear.Text = Convert.ToInt32(Math.Abs(t.TotalDays / 365)).ToString();
             }
 
-            if (string.IsNullOrEmpty(txtExpResp.Text.Trim()))
-            {
-                MessageBox.Show("Please Enter Job Responcibility...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtExpYear.Text.Trim()))
-            {
-                MessageBox.Show("Please Enter Job Exp. Year...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (txtExpFDt.EditValue == null)
-            {
-                MessageBox.Show("Please Enter From Date ...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (txtExpTDt.EditValue == null)
-            {
-                MessageBox.Show("Please Enter To Date ...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (txtExpFDt.DateTime > txtExpTDt.DateTime)
-            {
-                MessageBox.Show("Please Invalid Date Range...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            TimeSpan t = (txtExpFDt.DateTime - txtExpTDt.DateTime);
-            txtExpYear.Text = Convert.ToInt32(Math.Abs(t.TotalDays / 365)).ToString();
+            
 
 
 
@@ -987,15 +995,15 @@ namespace Attendance.Forms
 
 
                         sql = "Insert into MastEmpExp (EmpUnqID,Sr,CompName,Designation,JobResp,FromDt,ToDt,ExpYear,EmpCode,Skill ,AddDt,AddID) Values (" +
-                            " '{0}', '{1}', '{2}','{3}' , '{4}', '{5}','{6}','{7}','{8}','{9}',GetDate(),'{10}')";
+                            " '{0}', '{1}', '{2}','{3}' , '{4}', {5},{6},'{7}','{8}','{9}',GetDate(),'{10}')";
 
 
                         sql = string.Format(sql, sEmpUnqID, srno,
                                  txtExpOrgName.Text.Trim(),
                                  txtExpDesg.Text.Trim(),
                                  txtExpResp.Text.Trim(),
-                                 txtExpFDt.DateTime.ToString("yyyy-MM-dd"),
-                                 txtExpTDt.DateTime.ToString("yyyy-MM-dd"),
+                                 ((txtExpFDt.EditValue == null ||txtExpFDt.DateTime == DateTime.MinValue  )? "null" : "'" + txtExpFDt.DateTime.ToString("yyyy-MM-dd") + "'"),
+                                 ((txtExpTDt.EditValue == null || txtExpTDt.DateTime == DateTime.MinValue) ? "null" : "'" + txtExpTDt.DateTime.ToString("yyyy-MM-dd") + "'"),
                                  txtExpYear.Text.Trim(),
                                  txtExpEmpCode.Text.Trim(),
                                  txtExpSkill.Text.Trim(),

@@ -116,13 +116,14 @@
             this.mnuServerStat = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserID = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastException = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -459,6 +460,7 @@
             this.mnuImportEmp,
             this.mnuValidityMass,
             this.mnuMisConduct,
+            this.mnuMastException,
             this.mnuEmpBulkChange});
             this.mnuEmployee.Name = "mnuEmployee";
             this.mnuEmployee.Size = new System.Drawing.Size(209, 22);
@@ -829,9 +831,16 @@
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(152, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(114, 22);
             this.mnuAbout.Text = "About";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
+            // 
+            // mnuReports
+            // 
+            this.mnuReports.Name = "mnuReports";
+            this.mnuReports.Size = new System.Drawing.Size(114, 22);
+            this.mnuReports.Text = "Reports";
+            this.mnuReports.Click += new System.EventHandler(this.mnuReports_Click);
             // 
             // statusStrip1
             // 
@@ -876,12 +885,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuReports
+            // mnuMastException
             // 
-            this.mnuReports.Name = "mnuReports";
-            this.mnuReports.Size = new System.Drawing.Size(152, 22);
-            this.mnuReports.Text = "Reports";
-            this.mnuReports.Click += new System.EventHandler(this.mnuReports_Click);
+            this.mnuMastException.Name = "mnuMastException";
+            this.mnuMastException.Size = new System.Drawing.Size(196, 22);
+            this.mnuMastException.Text = "Exception Master";
+            this.mnuMastException.Click += new System.EventHandler(this.mnuMastException_Click);
             // 
             // frmMain
             // 
@@ -1003,6 +1012,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuEmpBulkChange;
         private System.Windows.Forms.ToolStripMenuItem mnuBulkGateInOutSanction;
         private System.Windows.Forms.ToolStripMenuItem mnuReports;
+        private System.Windows.Forms.ToolStripMenuItem mnuMastException;
 
 
     }

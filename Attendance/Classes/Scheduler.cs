@@ -143,7 +143,9 @@ namespace Attendance.Classes
         public Scheduler()
         {   
            var properties = new System.Collections.Specialized.NameValueCollection();
-            properties["quartz.threadPool.threadCount"] = "20";
+           properties["quartz.threadPool.threadCount"] = "10";
+           properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
+           properties["quartz.scheduler.instanceName"] = "AttendanceScheduler";
 
             StdSchedulerFactory schedulerFactory = new StdSchedulerFactory(properties); //getting the scheduler factory
             scheduler = schedulerFactory.GetScheduler();//getting the instance
@@ -1524,32 +1526,20 @@ namespace Attendance.Classes
                     string sql = "Select EmpUnqID from MastEmp where Active = 1 and ValidityExpired = 0 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
                     string cnerr = string.Empty;
 
-                    DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr, out cnerr);
+                    DataSet dsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr, out cnerr);
                     if (!string.IsNullOrEmpty(cnerr))
                     {
                         _StatusWorker = false;
                         return;
                     }
 
-                    bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                    bool Emphasrows = dsEmp.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                     string filenm = "AutoDeleteEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
 
-                    if (hasrows)
+                    if (Emphasrows)
                     {
 
-                        #region create_expired_emplist
-                        ////create list of users
-                        //List<UserBioInfo> tUserList = new List<UserBioInfo>();
-                        //foreach (DataRow dr in ds.Tables[0].Rows)
-                        //{
-                        //    UserBioInfo tuser = new UserBioInfo();
-                        //    tuser.UserID = dr["EmpUnqID"].ToString();
-                        //    tUserList.Add(tuser);
-                        //}
-                        #endregion
-
-                        bool hasrow = Globals.G_DsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                        if (hasrow)
+                        foreach (DataRow dr in dsEmp.Tables[0].Rows)
                         {
                             if (_ShutDown)
                             {
@@ -1558,119 +1548,87 @@ namespace Attendance.Classes
                             }
 
                             _StatusWorker = true;
+                            string tsql = "select * from ReaderConFig where canteenflg = 0  and [master] = 0 and compcode = '01' and MachineIP in " +
+                                "( " +
+                                "select Distinct MachineIP from AttdLog where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' and Punchdate between DATEADD(day,-60,getdate()) and DateAdd(day,1,GETDATE()) " +
+                                ")";
 
-                            string err;
-                            string maxid = Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr, out err);
-                            if (!string.IsNullOrEmpty(err))
+                            string err = string.Empty;
+                            DataSet empIPds = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err);
+                            bool hasrow = empIPds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                            if (hasrow)
                             {
-                                _StatusWorker = false;
-                                return;
-                            }
-
-                            //loop all machine
-                            foreach (DataRow dr in Globals.G_DsMachine.Tables[0].Rows)
-                            {
-
-                                if (_ShutDown)
+                                string maxid = Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr, out err);
+                                if (!string.IsNullOrEmpty(err))
                                 {
                                     _StatusWorker = false;
                                     return;
                                 }
-
-                                _StatusWorker = true;
-
-                                string Errfullpath = Path.Combine(Errfilepath, "");
-                                string ip = dr["MachineIP"].ToString();
-
-                                try
+                                
+                                foreach (DataRow tdr in empIPds.Tables[0].Rows)
                                 {
                                     ServerMsg tMsg = new ServerMsg();
                                     tMsg.MsgTime = DateTime.Now;
                                     tMsg.MsgType = "Auto Delete Validity Expired Employee";
-                                    tMsg.Message = ip;
+                                    tMsg.Message = tdr["MachineIP"].ToString();
                                     Scheduler.Publish(tMsg);
-                                    string ioflg = dr["IOFLG"].ToString();
-                                    err = string.Empty;
 
                                     using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                                     {
                                         try
                                         {
                                             cn.Open();
-                                            foreach (DataRow dr2 in ds.Tables[0].Rows)
+                                            using (SqlCommand cmd = new SqlCommand())
                                             {
-                                                using (SqlCommand cmd = new SqlCommand())
+                                                tsql = "Insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,Remarks,AddDt) Values " +
+                                                    "('" + maxid + "','" + dr["EmpUnqID"].ToString() + "','" + tdr["MachineIP"].ToString() + "','" + tdr["IOFLG"].ToString() + "','DELETE',GetDate(),'SERVER','Validity Expired',GetDate())";
+
+                                                cmd.Connection = cn;
+                                                cmd.CommandType = CommandType.Text;
+                                                
+                                                cmd.CommandText = tsql;
+                                                cmd.ExecuteNonQuery();
+
+                                                tsql = "Update MastEmp Set ValidityExpired = 1 Where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' And CompCode = '01'";
+                                                cmd.CommandText = tsql;
+                                                cmd.ExecuteNonQuery();
+
+                                                string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
+                                                string fullpath2 = Path.Combine(Loginfopath, filenm2);
+                                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
                                                 {
-                                                    string tsql = "Insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,Remarks,AddDt) Values " +
-                                                        "('" + maxid + "','" + dr2["EmpUnqID"].ToString() + "','" + ip + "','" + ioflg + "','DELETE',GetDate(),'SERVER','Validity Expired',GetDate())";
-
-                                                    cmd.Connection = cn;
-                                                    cmd.CommandType = CommandType.Text;
-                                                    cmd.CommandText = tsql;
-                                                    cmd.ExecuteNonQuery();
-
-                                                    tsql = "Update MastEmp Set ValidityExpired = 1 Where EmpUnqID = '" + dr2["EmpUnqID"].ToString() + "' And CompCode = '01'";
-                                                    cmd.CommandText = tsql;
-                                                    cmd.ExecuteNonQuery();
-
-                                                    string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
-                                                    string fullpath2 = Path.Combine(Loginfopath, filenm2);
-                                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
-                                                    {
-                                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-Completed");
-                                                    }
-
+                                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee->" + dr["EmpUnqID"].ToString() + "=>[" + tdr["MachineIP"].ToString() + "]-Completed");
                                                 }
                                             }
 
                                         }
                                         catch (Exception ex)
                                         {
-
                                             string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
                                             string fullpath = Path.Combine(Errfilepath, filenm2);
                                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                             {
-                                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-" + ex.ToString());
+                                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee->" + dr["EmpUnqID"].ToString() + "=>[" + tdr["MachineIP"].ToString() + "]-" + ex.Message.ToString());
                                             }
-
                                         }
+                                    }//using connection
 
-                                    }
+                                    _StatusWorker = true;
 
-                                }
-                                catch (Exception ex)
-                                {
-                                    string filenm2 = "AutoDeleteExpEmp_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".txt";
-                                    string fullpath = Path.Combine(Errfilepath, filenm2);
-                                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
-                                    {
-                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Validity Expired Employee-[" + ip + "]-" + ex.ToString());
-                                    }
-                                }
-                            }//foreach loop
+                                }//foreach employee ip
 
-                            _StatusWorker = false;
+                            } //if employees punching ip's found
 
-                        }
-                        else
-                        {
-                            _StatusWorker = false;
-                            return;
-                        }
+                        } //foreach employee
 
-                    }
-                    else
-                    {
                         _StatusWorker = false;
-                        return;
-                    }
 
-                    _StatusWorker = false;
+                    }// if employee found
 
-                }
+                }//if server free
+
+                _StatusWorker = false;
             }
-
         }
 
       class TriggerListenerExample:ITriggerListener

@@ -165,8 +165,9 @@ namespace Attendance.Forms
 
 
                         int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
-                            
-                        string sql = "select * from readerconfig where canteenflg = 0  and [master] = 0 and compcode = '01'";                        
+
+                        string sql = "select * from readerconfig where canteenflg = 0  and [master] = 0 and compcode = '01' and MachineIP in ( " +
+                            " Select Distinct MachineIP from AttdLog where EmpUnqID = '" + tEmpUnqID +"' and Punchdate between DATEADD(day,-60,getdate()) and DateAdd(day,1,GETDATE()) ) ";
                         DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
                         foreach(DataRow dr in ds.Tables[0].Rows){
 

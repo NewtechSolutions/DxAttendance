@@ -759,7 +759,11 @@ namespace Attendance.Classes
                     return;
                 }
             }
-
+            if (!emp.Enabled)
+            {
+                err = "Employee is Blocked....";
+                return;
+            }
             
 
             //store registration info in db....
@@ -849,6 +853,12 @@ namespace Attendance.Classes
             if (string.IsNullOrEmpty(emp.UserID)) 
             {
                 err = "UserID is required...";
+                return;
+            }
+
+            if (!emp.Enabled)
+            {
+                err = "Employee is Blocked....";
                 return;
             }
 
@@ -993,6 +1003,11 @@ namespace Attendance.Classes
                 //    emp.err += ",RFID Card Number not found...";
                     
                 //}
+
+                if (!emp.Enabled)
+                {
+                    emp.err += ",Employee Blocked";
+                }
 
             }
             
@@ -1479,7 +1494,7 @@ namespace Attendance.Classes
                     if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
                     {
                         emp.Password = _password;
-                        emp.Enabled = _enabled;
+                        //emp.Enabled = _enabled;
                         emp.Previlege = _prev;
                         
                     }
@@ -1552,7 +1567,7 @@ namespace Attendance.Classes
                     {
                         _cardno = this.CZKEM1.get_CardNumber(0).ToString();
                         emp.CardNumber = _cardno;
-                        emp.Enabled = _enabled;
+                        //emp.Enabled = _enabled;
                         emp.Previlege = _prev;
                         emp.Password = _password;
 
@@ -1579,6 +1594,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(t.CardNumber))
                     {
+                        t.UserName = "";
                         t.StoreToDb(1, out err);
                         allerr += err + Environment.NewLine;
                     }
@@ -1588,6 +1604,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(t.FaceTemp))
                     {
+                        t.UserName = "";
                         t.StoreToDb(2, out err);
                         allerr += err + Environment.NewLine;
                     }
@@ -1597,6 +1614,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(t.FingerTemp))
                     {
+                        t.UserName = "";
                         t.StoreToDb(3, out err);
                         allerr += err + Environment.NewLine;
                     }
@@ -1667,7 +1685,7 @@ namespace Attendance.Classes
                         if (this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID, out _username, out _password, out _prev, out _enabled))
                         {
                             emp.Password = _password;
-                            emp.Enabled = _enabled;
+                            //emp.Enabled = _enabled;
                             emp.Previlege = _prev;
                         }
 
@@ -1806,6 +1824,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.CardNumber))
                     {
+                        emp.UserName = "";
                         emp.StoreToDb(1, out err);
                         emp.err += err;
                     }
@@ -1815,6 +1834,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.FaceTemp))
                     {
+                        emp.UserName = "";
                         emp.StoreToDb(2, out err);
                         emp.err += err;
                     }
@@ -1824,6 +1844,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.FingerTemp))
                     {
+                        emp.UserName = "";
                         emp.StoreToDb(3, out err);
                         emp.err += err;
                     }

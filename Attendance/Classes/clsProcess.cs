@@ -248,8 +248,10 @@ namespace Attendance
                             err = proerr;
                             return;
                         }
-                            
+
                     }
+
+                   
 
                     cn.Open();
 
@@ -292,6 +294,8 @@ namespace Attendance
                     }
 
                     #endregion Call_SP_Attd_Process
+
+                    
 
                     #region AppProcess
 
@@ -768,6 +772,13 @@ namespace Attendance
 
                                     #endregion Final_Status_Marking
 
+                                    #region TripodDataProcess
+                                        int tRet = 0;
+                                        TripodDataProcess(tEmpUnqID, Convert.ToDateTime(drDate["Date"]), Convert.ToDateTime(drDate["Date"]), out tRet);
+                                        
+                                    #endregion
+
+
                                     #region GateInOutProcess_CONT
                                     if (Emp.WrkGrp == "CONT")
                                     {
@@ -818,6 +829,67 @@ namespace Attendance
             }
         }
 
+        public void TripodDataProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
+        {
+            result = 0;
+
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                return;
+            }
+
+            if (tToDate < tFromDt)
+            {
+                return;
+            }
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                     
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_Tripod_Data_Process";
+
+                        //SqlParameter spout = new SqlParameter();
+                        //spout.Direction = ParameterDirection.Output;
+                        //spout.DbType = DbType.Int32;
+                        //spout.ParameterName = "@result";
+                        //int tout = 0;
+                        //spout.Value = tout;
+
+                        //tFromDt = tFromDt.AddHours(-2).AddMinutes(1);
+                        //tToDate = tFromDt.AddHours(18).AddMinutes(59).AddSeconds(59);
+
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", tEmpUnqID);
+                        cmd.Parameters.AddWithValue("@pDate", tFromDt);
+                        //cmd.Parameters.AddWithValue("@pToDt", tToDate);
+                        //cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+                        result = 1;
+                        //get the output
+                        //result = (int)cmd.Parameters["@result"].Value;
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+
+            }//using connection
+        }
+        
         public void LunchProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
             result = 0;
