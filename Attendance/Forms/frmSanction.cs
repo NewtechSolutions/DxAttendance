@@ -24,6 +24,9 @@ namespace Attendance.Forms
         private static string MeDelPunch = "XXXV" ; //' Allow Delete Punch
         private static string LunchRights = "XXXV" ; //'used for lunch punch prapanch
         private static string GateRights = "XXXV" ; //'used for Gate In/Out Punch prapance
+        private static string LunchInOutConvertRights = "XXXV";
+        private static string GatePassRights = "XXXV";
+        
         private int rSanDayLimit = 0;
 
 
@@ -97,11 +100,14 @@ namespace Attendance.Forms
             MeDelPunch = Attendance.Classes.Globals.GetFormRights("Tran Punch Delete");           
             LunchRights = Attendance.Classes.Globals.GetFormRights("Tran Lunch Punch");
             GateRights = Attendance.Classes.Globals.GetFormRights("Tran Gate Punch");
+            GatePassRights = Attendance.Classes.Globals.GetFormRights("Tran GatePass Punch");
+            LunchInOutConvertRights = Attendance.Classes.Globals.GetFormRights("Tran Convert Lunch InOut Punch To GatePass InOut");
+
             MeFormID = Convert.ToInt32("0" + Utils.Helper.GetDescription("Select FormID from MastFrm Where FormName = 'frmSanction'", Utils.Helper.constr));
 
             #region loadlocations
             //Lunch InOut load locations
-            string sql = "Select Distinct Location From ReaderConfig where LunchInOut = 1 Order By Location";
+            string sql = "Select Distinct Location From ReaderConfig where LunchInOut = 1 Union Select Distinct Location From TripodReaderConfig Order By Location";
             DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             
@@ -116,19 +122,18 @@ namespace Attendance.Forms
 
             }
 
-            sql = "Select Distinct Location From ReaderConfig where GateInOut = 1 Order By Location";
+            sql = "Select Distinct Location From ReaderConfig where GateInOut = 1 Union Select Distinct Location From TripodReaderConfig Order By Location";
             ds =  ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
             hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             
             if(hasRows)
             {
                 txtLocGate.Properties.Items.Clear();
-
+                txtLocGatePass.Properties.Items.Clear();
                 foreach(DataRow dr in ds.Tables[0].Rows){
                     txtLocGate.Properties.Items.Add(dr["Location"].ToString());
-
+                    txtLocGatePass.Properties.Items.Add(dr["Location"].ToString());
                 }
-
             }
 
 
@@ -352,6 +357,58 @@ namespace Attendance.Forms
             return err;
         }
 
+        private string DataValidate_GatePass()
+        {
+            string err = string.Empty;
+
+            if (string.IsNullOrEmpty(ctrlEmp1.txtCompCode.Text.Trim().ToString()))
+            {
+                err = err + "Please Enter CompCode..." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(ctrlEmp1.txtEmpUnqID.Text.Trim().ToString()))
+            {
+                err = err + "Please Enter EmpUnqID..." + Environment.NewLine;
+            }
+
+            if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid)
+            {
+                err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+            }
+
+
+            if (string.IsNullOrEmpty(ctrlEmp1.cEmp.CompDesc.Trim().ToString()))
+            {
+                err = err + "Invalid CompCode..." + Environment.NewLine;
+            }
+
+            if (txtSanDtGatePass.EditValue == null)
+            {
+                err += "Sanction Date Required..." + Environment.NewLine;
+            }
+
+            if (txtInOutGatePass.Text.Trim() == "")
+            {
+                err += "Please Select In/Out.." + Environment.NewLine;
+            }
+
+            if (txtTimeGatePass.Text == "00:00" || txtTimeGatePass.EditValue == null || txtTimeGatePass.Text == "")
+            {
+                err += "Time Required.." + Environment.NewLine;
+            }
+
+            if (txtLocGatePass.Text.Trim() == "")
+            {
+                err += "Please Select Location.." + Environment.NewLine;
+            }
+
+
+
+
+
+            return err;
+        }
+
         private void ResetCtrl()
         {
             ctrlEmp1.ResetCtrl();
@@ -368,6 +425,10 @@ namespace Attendance.Forms
             btnLunch_IO_San.Enabled = false;
 
             btnLunch_Ignore.Enabled = false;
+
+            btnGatePass_IO_Del.Enabled = false;
+            btnGatePass_IO_San.Enabled = false;
+            btnConvertToGatePass.Enabled = false;
 
             //attd
             txtInOut.Text = "";
@@ -391,6 +452,13 @@ namespace Attendance.Forms
             txtInOutGate.Text = "";
             txtLocGate.Text = "";
 
+            //gatepass inout         
+            txtTimeGatePass.Text = "";
+            txtInOutGatePass.Text = "";
+            txtLocGatePass.Text = "";
+
+
+
             //lunch inout
             txtTimeLunch.Text = "";
             txtInOutLunch.Text = "";
@@ -399,10 +467,13 @@ namespace Attendance.Forms
             txtSanDt.DateTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-") + "01");
             txtSanDtGate.DateTime = txtSanDt.DateTime;
             txtSanDtLunch.DateTime = txtSanDt.DateTime;
+            txtSanDtGatePass.DateTime = txtSanDt.DateTime;
+
             txtInTime.Time = txtSanDt.DateTime;
             txtOutTime.Time = txtSanDt.DateTime;
             txtTimeGate.Time = txtSanDt.DateTime;
             txtTimeLunch.Time = txtSanDt.DateTime;
+            txtTimeGatePass.Time = txtSanDt.DateTime;
 
 
             object sender = new object();
@@ -410,7 +481,8 @@ namespace Attendance.Forms
 
             txtInOut_SelectedIndexChanged(sender, e);
             txtInOutGate_SelectedIndexChanged(sender, e);
-            txtInOutGate_SelectedIndexChanged(sender, e);
+            txtInOutGatePass_SelectedIndexChanged(sender, e);
+            txtInOutLunch_SelectedIndexChanged(sender, e);
 
         }
         
@@ -428,6 +500,11 @@ namespace Attendance.Forms
             btnLunch_IO_San.Enabled = false;
 
             btnLunch_Ignore.Enabled = false;
+
+            btnGatePass_IO_Del.Enabled = false;
+            btnGatePass_IO_San.Enabled = false;
+            btnConvertToGatePass.Enabled = false;
+
 
             #region Sanction_Add_Delete_300
             //Sanction
@@ -507,9 +584,44 @@ namespace Attendance.Forms
 
 
             #endregion
-           
 
-            
+            #region GatePass_InOut_Punch_1000
+
+            if (GatePassRights.Contains("A"))
+            {
+                //GatePass In Out Punch
+                if (Globals.GetWrkGrpRights(1000, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+                    btnGatePass_IO_San.Enabled = true;
+                }
+            }
+
+            if (GatePassRights.Contains("D"))
+            {
+                //Gate In Out Punch
+                if (Globals.GetWrkGrpRights(1000, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+                    btnGatePass_IO_Del.Enabled = true;
+                }
+            }   
+
+
+            #endregion
+
+            #region ConvertLunchInOut_To_GatePass_InOut_Punch_1005
+
+            if (LunchInOutConvertRights.Contains("A"))
+            {
+                //GatePass In Out Punch
+                if (Globals.GetWrkGrpRights(1005, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+                    btnConvertToGatePass.Enabled = true;
+                }
+            }
+
+
+            #endregion
+
         }
 
         private void LoadGrid()
@@ -542,8 +654,6 @@ namespace Attendance.Forms
 
             #endregion
 
-
-
             string SqlAttd = string.Empty;
             string SqlPunch = string.Empty;
             string SqlSanc = string.Empty;
@@ -551,6 +661,8 @@ namespace Attendance.Forms
             string SqlGatePass = string.Empty;
             string SqlLunch = string.Empty;
             string sqlLunchDt = string.Empty;
+            
+            string sqlTripod = string.Empty;
 
             string FromDt = string.Empty;
             string ToDt = string.Empty;
@@ -574,6 +686,12 @@ namespace Attendance.Forms
                       " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
                       " From AttdLog " +
                       " Where EmpUnqId ='" + Emp.EmpUnqID + "' And PunchDate >= '" + FromDt + "' and LunchFlg = 0 and IOFLG in ('I','O') Order by PunchDate";
+
+            sqlTripod = "Select Top 200 " +
+                     " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
+                     " From TripodLog " +
+                     " Where EmpUnqId ='" + Emp.EmpUnqID + "' And PunchDate >= '" + FromDt + "' and IOFLG in ('I','O') Order by PunchDate";
+
 
             SqlGatePunch = "Select Top 100 " +
                       " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
@@ -601,11 +719,12 @@ namespace Attendance.Forms
                       " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + FromDt + "' ";
 
 
-            //SqlGatePass = "Select Top 40 tDate," +
-            //          " GateOutTime, GateInTime, " +
-            //          " TotalMinute,ConsHour,SecRemarks,PlaceToVisit,Ignore,ignoreBy,AddDt,AddId " +
-            //          " From AttdGatePassHistory " +
-            //          " Where Delflg = 0 and EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + FromDt + "'  Order by tDate,Srno ";
+            SqlGatePass = "Select Top 100 " +
+                      " PunchDate,IOFLG,MachineIP,AddDt,AddID " +
+                      " From AttdGatePassInOut " +
+                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And PunchDate >= '" + FromDt + "' and LunchFlg = 0 and IOFLG in ('I','O') Order by PunchDate";
+
+           
 
             //'Punch Details
             DataSet ds = Utils.Helper.GetData(SqlAttd,Utils.Helper.constr);
@@ -634,6 +753,18 @@ namespace Attendance.Forms
             hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             if (hasRows) { grd_LunchDt.DataSource = ds.Tables[0]; } else { grd_LunchDt.DataSource = null; }
 
+            //grd_InOutGatePass
+            ds = Utils.Helper.GetData(SqlGatePass, Utils.Helper.constr);
+            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasRows) { grd_InOutGatePass.DataSource = ds.Tables[0]; } else { grd_InOutGatePass.DataSource = null; }
+
+            ds = Utils.Helper.GetData(sqlTripod, Utils.Helper.constr);
+            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasRows) { grd_Tripod.DataSource = ds.Tables[0]; } else { grd_Tripod.DataSource = null; }
+
+
+
+
             GridFormat();
 
         }
@@ -648,6 +779,9 @@ namespace Attendance.Forms
 
             grd_InOutLunch.DataSource = null;
             grd_LunchDt.DataSource = null;
+
+            grd_InOutGatePass.DataSource = null;
+            grd_Tripod.DataSource = null;
         }
 
         private void GridFormat()
@@ -682,6 +816,11 @@ namespace Attendance.Forms
             gv_LunchDt.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             gv_LunchDt.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_Attd.Appearance.ViewCaption.Font, FontStyle.Bold);
 
+            gv_InOutGatePass.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gv_InOutGatePass.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_Attd.Appearance.ViewCaption.Font, FontStyle.Bold);
+
+            gv_Tripod.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gv_Tripod.Appearance.HeaderPanel.Font = new System.Drawing.Font(gv_Tripod.Appearance.ViewCaption.Font, FontStyle.Bold);
 
             GridColumn colDate = new GridColumn();
             
@@ -695,12 +834,12 @@ namespace Attendance.Forms
                 colDate = gv_Attd.Columns["ConsIn"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
                         
                 colDate = gv_Attd.Columns["ConsOut"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_Attd.Columns)
                 {
@@ -715,7 +854,7 @@ namespace Attendance.Forms
                 colDate = gv_Sanction.Columns["ConsInTime"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 colDate = gv_Sanction.Columns["tDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
@@ -725,7 +864,7 @@ namespace Attendance.Forms
                 colDate = gv_Sanction.Columns["ConsOutTime"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_Sanction.Columns)
                 {
@@ -741,7 +880,7 @@ namespace Attendance.Forms
                 colDate = gv_InOut.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOut.Columns)
                 {
@@ -757,12 +896,12 @@ namespace Attendance.Forms
                 colDate = gv_InOutLunch.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 colDate = gv_InOutLunch.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOutLunch.Columns)
                 {
@@ -778,14 +917,57 @@ namespace Attendance.Forms
                 colDate = gv_InOutGate.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 colDate = gv_InOutGate.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm";
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOutGate.Columns)
+                {
+                    gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                }
+
+            }
+
+            if (grd_InOutGatePass.DataSource != null)
+            {
+                //lunch inout
+                colDate = gv_InOutGatePass.Columns["PunchDate"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+
+                colDate = gv_InOutGatePass.Columns["AddDt"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+
+                foreach (GridColumn gc in gv_InOutGatePass.Columns)
+                {
+                    gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                }
+
+            }
+
+
+            if (grd_Tripod.DataSource != null)
+            {
+                //lunch inout
+                colDate = gv_Tripod.Columns["PunchDate"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+
+                colDate = gv_Tripod.Columns["AddDt"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+
+                foreach (GridColumn gc in gv_Tripod.Columns)
                 {
                     gc.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                     gc.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -947,6 +1129,29 @@ namespace Attendance.Forms
                 txtTimeGate.Visible = false;
             }
         }
+
+        private void txtInOutGatePass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtTimeGatePass.EditValue = null;
+
+            if (Emp.EmpUnqID != "")
+            {
+                if (txtInOutGatePass.Text != "")
+                {
+                    txtTimeGatePass.Visible = true;
+                }
+                else
+                {
+                    txtTimeGatePass.Visible = false;
+                }
+
+            }
+            else
+            {
+                txtTimeGatePass.Visible = false;
+            }
+        }
+
 
         private void chkShift_CheckedChanged(object sender, EventArgs e)
         {
@@ -1583,7 +1788,12 @@ namespace Attendance.Forms
 
         private void txtSanDtGate_EditValueChanged(object sender, EventArgs e)
         {
-            txtTimeGate.Time = txtSanDtLunch.DateTime;
+            txtTimeGate.Time = txtSanDtGate.DateTime;
+        }
+
+        private void txtSanDtGatePass_EditValueChanged(object sender, EventArgs e)
+        {
+            txtTimeGatePass.Time = txtSanDtGatePass.DateTime;
         }
 
         private void btnLunch_IO_San_Click(object sender, EventArgs e)
@@ -1620,7 +1830,9 @@ namespace Attendance.Forms
             string ioflg = txtInOutLunch.Text.ToString().Substring(0,1);
             DateTime tSanDt = Convert.ToDateTime(txtSanDtLunch.DateTime.ToString("yyyy-MM-dd") + " " + txtTimeLunch.Time.ToString("HH:mm"));
 
-            sql = "Select MachineIP From Readerconfig Where LunchInOut = 1 and IOFLG = '" + ioflg  +"' and Location ='" + txtLocLunch.Text.Trim()  + "'";
+            sql = "Select MachineIP From Readerconfig Where LunchInOut = 1 and IOFLG = '" + ioflg  +"' and Location ='" + txtLocLunch.Text.Trim()  + "' " +
+                " Union Select MachineIP From TripodReaderconfig Where IOFLG = '" + ioflg  +"' and Location ='" + txtLocLunch.Text.Trim()  + "'" ;
+
             tMachineIP = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
 
             if(tMachineIP == "")
@@ -1709,7 +1921,9 @@ namespace Attendance.Forms
             string ioflg = txtInOutGate.Text.ToString().Substring(0, 1);
             DateTime tSanDt = Convert.ToDateTime(txtSanDtGate.DateTime.ToString("yyyy-MM-dd") + " " + txtTimeGate.Time.ToString("HH:mm"));
 
-            sql = "Select MachineIP From Readerconfig Where GateInOut = 1 and IOFLG = '" + ioflg + "' and Location ='" + txtLocGate.Text.Trim() + "'";
+            sql = "Select MachineIP From Readerconfig Where GateInOut = 1 and IOFLG = '" + ioflg + "' and Location ='" + txtLocGate.Text.Trim() + "'" +
+                " Union Select MachineIP From TripodReaderconfig Where IOFLG = '" + ioflg + "' and Location ='" + txtLocGate.Text.Trim() + "'";
+
             tMachineIP = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
 
             if (tMachineIP == "")
@@ -1790,6 +2004,298 @@ namespace Attendance.Forms
             }
         }
 
+        private void btnConvertToGatePass_Click(object sender, EventArgs e)
+        {
+            if (gv_InOutLunch.SelectedRowsCount == 0)
+            {
+                MessageBox.Show("Please Select a Row First..", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Are you sure to Convert To GatePass Punch selected row ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.No)
+            {
+                return;
+            }
+
+
+            foreach (int i in gv_InOutLunch.GetSelectedRows())
+            {
+                string cellpunch = gv_InOutLunch.GetRowCellValue(i, "PunchDate").ToString().Trim();
+                string cellio = gv_InOutLunch.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                string cellip = gv_InOutLunch.GetRowCellValue(i, "MachineIP").ToString().Trim();
+                string celladddt = gv_InOutLunch.GetRowCellValue(i, "AddDt").ToString().Trim();
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    try
+                    {
+                        cn.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    SqlTransaction tr = cn.BeginTransaction();
+                    try
+                    {
+                        //DateTime tDate = Convert.ToDateTime(cellpunch);
+                        DateTime tDate = DateTime.ParseExact(cellpunch, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        DateTime tAddDt = DateTime.ParseExact(celladddt, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        
+                        string sql = "Insert into AttdLunchIODelete (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt) Values (" +
+                        " '" + Emp.EmpUnqID + "','" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                        " '" + cellio + "','" + cellip + "','" + tAddDt.ToString("yyyy-MM-dd HH:mm:ss")  + "','" + Utils.User.GUserID + "','" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "' )";
+                        SqlCommand cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+
+                        sql = "Delete From AttdLunchGate Where EmpUnqID ='" + Emp.EmpUnqID + "' and PunchDate ='" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                            " And MachineIP ='" + cellip + "' And IOFLG = '" + cellio + "' and tYear ='" + tDate.Year.ToString() + "'";
+
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+                       
+
+                        sql = "Insert into AttdGatePassInOut (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt,t1date) Values (" +
+                        " '" + Emp.EmpUnqID + "','" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                        " '" + cellio + "','" + cellip + "','" + tAddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + "TRIPOD-Conv-" + Utils.User.GUserID + "','" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + tDate.ToString("yyyy-MM-dd") + "' )";
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+
+                        sql = "Delete From TripodLog Where EmpUnqID ='" + Emp.EmpUnqID + "' and PunchDate ='" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                            " And MachineIP ='" + cellip + "' And IOFLG = '" + cellio + "' and tYear ='" + tDate.Year.ToString() + "'";
+
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+                        
+                        tr.Commit();
+
+                        //process attendance
+                        DateTime tempdt = new DateTime(), sFromDt = new DateTime(), sToDate = new DateTime();
+                        tempdt = Convert.ToDateTime(tDate.ToString("yyyy-MM-dd"));
+                        sFromDt = tempdt.AddDays(-1);
+                        sToDate = tempdt.AddDays(1);
+
+                        if (sFromDt != DateTime.MinValue && sToDate != DateTime.MinValue)
+                        {
+                            clsProcess pro = new clsProcess();
+                            int res = 0; string errpro = string.Empty;
+                            pro.LunchInOutProcess(Emp.EmpUnqID, sFromDt, sToDate, out res);
+                            pro.Lunch_HalfDayPost_Process(Emp.EmpUnqID, tempdt, out res);
+                            pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
+                            
+                            if (!string.IsNullOrEmpty(errpro))
+                            {
+                                MessageBox.Show("Data Process Error : " + errpro, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+
+                        //txtSanDtGatePass.EditValue = null;
+                        //txtInOutGatePass.Text = "";
+                        //txtTimeGatePass.Text = "";
+                        //txtLocGatePass.Text = "";
+
+                        LoadGrid();
+
+                        MessageBox.Show("Converted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        tr.Rollback();
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void btnGatePass_IO_Del_Click(object sender, EventArgs e)
+        {
+            if (gv_InOutGatePass.SelectedRowsCount == 0)
+            {
+                MessageBox.Show("Please Select a Row First..", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show("Are you sure to Delete selected row ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.No)
+            {
+                return;
+            }
+
+
+            foreach (int i in gv_InOutGatePass.GetSelectedRows())
+            {
+                string cellpunch = gv_InOutGatePass.GetRowCellValue(i, "PunchDate").ToString().Trim();
+                string cellio = gv_InOutGatePass.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                string cellip = gv_InOutGatePass.GetRowCellValue(i, "MachineIP").ToString().Trim();
+
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    try
+                    {
+                        cn.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    SqlTransaction tr = cn.BeginTransaction();
+                    try
+                    {
+                        DateTime tDate = Convert.ToDateTime(cellpunch);
+
+                        string sql = "Insert into AttdGatePassInOut_Delete (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt) Values (" +
+                        " '" + Emp.EmpUnqID + "','" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                        " '" + cellio + "','" + cellip + "',GetDate(),'" + Utils.User.GUserID + "','" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "' )";
+                        SqlCommand cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+
+                        sql = "Delete From AttdGatePassInOut Where EmpUnqID ='" + Emp.EmpUnqID + "' and PunchDate ='" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                            " And MachineIP ='" + cellip + "' And IOFLG = '" + cellio + "' and tYear ='" + tDate.Year.ToString() + "'";
+
+                        cmd = new SqlCommand(sql, cn);
+                        cmd.Transaction = tr;
+                        cmd.ExecuteNonQuery();
+                        tr.Commit();
+
+                        //process attendance
+                        //DateTime tempdt = new DateTime(), sFromDt = new DateTime(), sToDate = new DateTime();
+                        //tempdt = Convert.ToDateTime(tDate.ToString("yyyy-MM-dd"));
+                        //sFromDt = tempdt.AddDays(-1);
+                        //sToDate = tempdt.AddDays(1);
+
+                        //if (sFromDt != DateTime.MinValue && sToDate != DateTime.MinValue)
+                        //{
+                        //    clsProcess pro = new clsProcess();
+                        //    int res = 0; string errpro = string.Empty;
+                        //    pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
+
+                        //    if (!string.IsNullOrEmpty(errpro))
+                        //    {
+                        //        MessageBox.Show("Data Process Error : " + errpro, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //    }
+                        //}
+
+                        txtSanDtGatePass.EditValue = null;
+                        txtInOutGatePass.Text = "";
+                        txtTimeGatePass.Text = "";
+                        txtLocGatePass.Text = "";
+                        LoadGrid();
+
+                        MessageBox.Show("Deleted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        tr.Rollback();
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void btnGatePass_IO_San_Click(object sender, EventArgs e)
+        {
+            string err = DataValidate_GatePass();
+
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            DateTime curDate, reqDate;
+            curDate = Globals.GetSystemDateTime();
+            reqDate = txtSanDtGate.DateTime;
+
+            string tMachineIP = string.Empty;
+            string sql = string.Empty;
+            string ioflg = txtInOutGatePass.Text.ToString().Substring(0, 1);
+            DateTime tSanDt = Convert.ToDateTime(txtSanDtGatePass.DateTime.ToString("yyyy-MM-dd") + " " + txtTimeGatePass.Time.ToString("HH:mm"));
+
+            sql = "Select MachineIP From Readerconfig Where GateInOut = 1 and IOFLG = '" + ioflg + "' and Location ='" + txtLocGate.Text.Trim() + "'" +
+                " Union Select MachineIP From TripodReaderconfig Where IOFLG = '" + ioflg + "' and Location ='" + txtLocGate.Text.Trim() + "'";
+
+            tMachineIP = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+
+            if (tMachineIP == "")
+            {
+                MessageBox.Show("Invalid Location...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                    sql = "Insert into AttdGatePassInOut (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddId) " +
+                        " Values ('" + tSanDt.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                        " ,'" + Emp.EmpUnqID + "','" + ioflg + "','" + tMachineIP + "','0' " +
+                        " ,'" + tSanDt.ToString("yyyy") + "','" + tSanDt.ToString("yyyyMM") + "'" +
+                        " ,'" + tSanDt.ToString("yyyy-MM-dd") + "',GetDate(),'" + Utils.User.GUserID + "-San')";
+
+                    SqlCommand cmd = new SqlCommand(sql, cn);
+                    cmd.ExecuteNonQuery();
+
+                    ////process Attendance...
+                    //DateTime tempdt = new DateTime(), sFromDt = new DateTime(), sToDate = new DateTime();
+                    //tempdt = Convert.ToDateTime(tSanDt.ToString("yyyy-MM-dd"));
+                    //sFromDt = tempdt.AddDays(-1);
+                    //sToDate = tempdt.AddDays(1);
+
+                    //if (sFromDt != DateTime.MinValue && sToDate != DateTime.MinValue)
+                    //{
+                    //    clsProcess pro = new clsProcess();
+                    //    int res = 0; string errpro = string.Empty;
+                    //    pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
+                    //    pro.AttdProcess(Emp.EmpUnqID, sFromDt, sToDate, out res, out errpro);
+
+                    //    if (!string.IsNullOrEmpty(errpro))
+                    //    {
+                    //        MessageBox.Show("Data Process Error : " + errpro, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    }
+                    //}
+
+                    txtSanDtGatePass.EditValue = null;
+                    txtInOutGatePass.Text = "";
+                    txtTimeGatePass.Text = "";
+                    txtLocGatePass.Text = "";
+                    LoadGrid();
+
+                    MessageBox.Show("Sanctioned...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ctrlEmp1.txtEmpUnqID.Focus();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+            }
+        }
+
+        
+
+        
 
     }
 }

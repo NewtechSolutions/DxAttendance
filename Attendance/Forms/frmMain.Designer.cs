@@ -74,6 +74,7 @@
             this.mnuImportEmp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuValidityMass = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMisConduct = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastException = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmpBulkChange = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMess = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastMessGrp = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,7 +124,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuMastException = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPreMedicalMast = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -310,6 +311,7 @@
             this.mnuUserSpRights,
             this.mnuUserDSRights,
             this.mnuUserEmpRights,
+            this.mnuPreMedicalMast,
             this.mnuProfile,
             this.mnuEmployee,
             this.mnuMess,
@@ -507,6 +509,13 @@
             this.mnuMisConduct.Size = new System.Drawing.Size(196, 22);
             this.mnuMisConduct.Text = "MisConduct Register";
             this.mnuMisConduct.Click += new System.EventHandler(this.mnuMisConduct_Click);
+            // 
+            // mnuMastException
+            // 
+            this.mnuMastException.Name = "mnuMastException";
+            this.mnuMastException.Size = new System.Drawing.Size(196, 22);
+            this.mnuMastException.Text = "Exception Master";
+            this.mnuMastException.Click += new System.EventHandler(this.mnuMastException_Click);
             // 
             // mnuEmpBulkChange
             // 
@@ -885,12 +894,12 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuMastException
+            // mnuPreMedicalMast
             // 
-            this.mnuMastException.Name = "mnuMastException";
-            this.mnuMastException.Size = new System.Drawing.Size(196, 22);
-            this.mnuMastException.Text = "Exception Master";
-            this.mnuMastException.Click += new System.EventHandler(this.mnuMastException_Click);
+            this.mnuPreMedicalMast.Name = "mnuPreMedicalMast";
+            this.mnuPreMedicalMast.Size = new System.Drawing.Size(209, 22);
+            this.mnuPreMedicalMast.Text = "Pre-Medical Master";
+            this.mnuPreMedicalMast.Click += new System.EventHandler(this.mnuPreMedicalMast_Click);
             // 
             // frmMain
             // 
@@ -1013,6 +1022,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuBulkGateInOutSanction;
         private System.Windows.Forms.ToolStripMenuItem mnuReports;
         private System.Windows.Forms.ToolStripMenuItem mnuMastException;
+        private System.Windows.Forms.ToolStripMenuItem mnuPreMedicalMast;
 
 
     }

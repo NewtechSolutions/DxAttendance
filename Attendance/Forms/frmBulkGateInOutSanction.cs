@@ -257,8 +257,15 @@ namespace Attendance.Forms
 
 
                         #region Final_Update
-                        string sInMachine = Utils.Helper.GetDescription("Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'I' and Active = 1", Utils.Helper.constr);
-                        string sOutMachine = Utils.Helper.GetDescription("Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'O' and active = 1", Utils.Helper.constr);
+                        string sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'I' and Active = 1 Union " +
+                            "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
+
+                        string sInMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+
+                        sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'O' and active = 1 Union " +
+                            " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
+                        
+                        string sOutMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
 
                         using (SqlCommand cmd = new SqlCommand())
                         {                            
@@ -266,7 +273,7 @@ namespace Attendance.Forms
                             {
                                 sDate = Convert.ToDateTime(dr["SanDate"]).ToString("yyyy-MM-dd");
                                 tDate = Convert.ToDateTime(dr["SanDate"]);
-                                string sql = string.Empty;
+                                sql = string.Empty;
 
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.Text;
@@ -274,7 +281,7 @@ namespace Attendance.Forms
                                 {
                                     sql = "Insert Into AttdGateInOut " +
                                     " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                    " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
                                 }
                                 
                                 cmd.CommandText = sql;
@@ -286,7 +293,7 @@ namespace Attendance.Forms
                                 {
                                     sql = "Insert Into AttdGateInOut " +
                                     " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    " " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "')";
+                                    " " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
                                 }
 
                                 cmd.CommandText = sql;

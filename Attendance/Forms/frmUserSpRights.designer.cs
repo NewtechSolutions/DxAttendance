@@ -150,7 +150,7 @@
             // 
             this.txtModuleID.Location = new System.Drawing.Point(97, 69);
             this.txtModuleID.Name = "txtModuleID";
-            this.txtModuleID.Properties.Mask.EditMask = "n0";
+            this.txtModuleID.Properties.Mask.EditMask = "f0";
             this.txtModuleID.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtModuleID.Properties.Mask.ShowPlaceHolders = false;
             this.txtModuleID.Size = new System.Drawing.Size(96, 20);

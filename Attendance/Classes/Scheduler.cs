@@ -143,7 +143,7 @@ namespace Attendance.Classes
         public Scheduler()
         {   
            var properties = new System.Collections.Specialized.NameValueCollection();
-           properties["quartz.threadPool.threadCount"] = "10";
+           properties["quartz.threadPool.threadCount"] = "20";
            properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
            properties["quartz.scheduler.instanceName"] = "AttendanceScheduler";
 
@@ -172,6 +172,7 @@ namespace Attendance.Classes
             RegSchedule_AutoProcess();
             RegSchedule_DownloadPunch();
             RegSchedule_BlockUnBlockProcess();
+            RegSchedule_GatePassPunchProcess();
             _ShutDown = false;  
         }
 
@@ -195,7 +196,7 @@ namespace Attendance.Classes
                     ITrigger trigger = TriggerBuilder.Create()
                         .WithIdentity(triggerid, "TRG_AutoDownload")
                         .StartNow()
-                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))
+                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes).WithMisfireHandlingInstructionFireAndProceed())
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
@@ -307,6 +308,36 @@ namespace Attendance.Classes
             }
         }
 
+        public void RegSchedule_GatePassPunchProcess()
+        {
+
+            string jobid = "GatePassPunch_Process";
+            string triggerid = "Trigger_GatePassPunch_Process";
+
+            // define the job and tie it to our HelloJob class
+            IJobDetail job = JobBuilder.Create<AutoGatePassPunch_Process>()
+                    .WithDescription("GatePass Punch Segrigate based on ESS GatePass")
+                .WithIdentity(jobid, "GatePassPunch_Process")
+                .Build();
+
+            // Trigger the job to run every 5 minute
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity(triggerid, "TRG_GatePassPunch_Process")
+                .StartNow()
+                 .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/5 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
+                .Build();
+
+            // Tell quartz to schedule the job using our trigger
+            scheduler.ScheduleJob(job, trigger);
+
+            ServerMsg tMsg = new ServerMsg();
+            tMsg.MsgType = "Job Building";
+            tMsg.MsgTime = DateTime.Now;
+            tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
+            Scheduler.Publish(tMsg);
+
+            
+        }
 
         public void RegSchedule_BlockUnBlockProcess()
         {
@@ -323,7 +354,7 @@ namespace Attendance.Classes
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerid, "TRG_BlockUnBlock")
                 .StartNow()
-                .WithCronSchedule("0 0/2 * * * ?")
+                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/2 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
                 .Build();
 
             // Tell quartz to schedule the job using our trigger
@@ -354,8 +385,10 @@ namespace Attendance.Classes
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerid, "TRG_WorkerProcess")
                 .StartNow()
-                .WithCronSchedule("0 0/2 * * * ?")
+                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/2 * * * ?").WithMisfireHandlingInstructionFireAndProceed())                
                 .Build();
+
+            //.WithMisfireHandlingInstructionFireAndProceed()
 
             // Tell quartz to schedule the job using our trigger
             scheduler.ScheduleJob(job, trigger);
@@ -384,7 +417,7 @@ namespace Attendance.Classes
                 ITrigger trigger2 = TriggerBuilder.Create()
                     .WithIdentity(triggerid2, "TRG_DEL_LeftEmp")
                     .StartNow()
-                    .WithSchedule(CronScheduleBuilder.AtHourAndMinuteOnGivenDaysOfWeek(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes, onSunday))
+                    .WithSchedule(CronScheduleBuilder.AtHourAndMinuteOnGivenDaysOfWeek(Globals.G_AutoDelEmpTime.Hours, Globals.G_AutoDelEmpTime.Minutes, onSunday).WithMisfireHandlingInstructionFireAndProceed())
                     .Build();
 
                 // Tell quartz to schedule the job using our trigger
@@ -456,7 +489,7 @@ namespace Attendance.Classes
                     ITrigger trigger4 = TriggerBuilder.Create()
                         .WithIdentity(triggerid4, "TRG_Arrival")
                         .StartNow()
-                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes))                                          
+                        .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(tTime.Hours, tTime.Minutes).WithMisfireHandlingInstructionFireAndProceed())                                          
                         .Build();
 
                     // Tell quartz to schedule the job using our trigger
@@ -674,6 +707,537 @@ namespace Attendance.Classes
             }
         }
 
+        public class AutoGatePassPunch_Process : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+
+                ServerMsg tMsg = new ServerMsg();
+                tMsg.MsgTime = DateTime.Now;
+                tMsg.MsgType = "GatePass Punch Process";
+                tMsg.Message = "Started" + ":" + _ShutDown.ToString() ;
+                Scheduler.Publish(tMsg);
+                
+                if (_ShutDown)
+                {
+                    return;
+                }
+
+                string err;
+                string essConStr = "Server=172.16.12.14;Database=ESS;User Id=sa;Password=testomonials@123;";
+
+                string sql = "Select Top 20 ID,EmpUnqID,AddDateTime,GateOutDateTime,GateInDateTime,GatePassStatus,Mode,GatePassDate " +
+                    " From GatePasses " +
+                    " Where " +
+                    " GateOutUser is null " +
+                    " Order By ID  " ;
+
+                DataSet dsGPass = Utils.Helper.GetData(sql,essConStr,out err);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "GatePass Punch Process";
+                    tMsg.Message = err;
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                bool hasrow = dsGPass.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                
+                
+                if (hasrow)
+                {
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "GatePass Punch Process";
+                    tMsg.Message = dsGPass.Tables[0].Rows.Count.ToString();
+                    Scheduler.Publish(tMsg);
+
+                    foreach (DataRow dr in dsGPass.Tables[0].Rows)
+                    {
+                        if (_ShutDown)
+                        {
+                            return;
+                        }                       
+
+                        string gpstatus = dr["GatePassStatus"].ToString();
+                        string id = dr["ID"].ToString();
+                        DateTime gpdate = Convert.ToDateTime(dr["AddDateTime"]).AddMinutes(-10);
+                        string EmpUnqID = dr["EmpUnqID"].ToString();
+
+                        if (gpstatus == "F")
+                        {
+                            using (SqlConnection esscn = new SqlConnection(essConStr))
+                            {
+                                try
+                                {
+                                    esscn.Open();
+                                    using (SqlCommand cmd = new SqlCommand())
+                                    {
+                                        cmd.Connection = esscn;
+                                        cmd.CommandText = "Update GatePasses Set GateOutUser = 1 where ID ='" + id + "'";
+                                        cmd.ExecuteNonQuery();
+
+                                        tMsg = new ServerMsg();
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "GatePass Punch Process";
+                                        tMsg.Message = "Forced Out : " + id;
+                                        Scheduler.Publish(tMsg);
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+                                    tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "GatePass Punch Process";
+                                    tMsg.Message = id + " : " + ex.Message;
+                                    Scheduler.Publish(tMsg);
+
+                                }
+                                
+                            }
+
+                            //skip further process
+                            continue;
+                        }
+
+                        if (gpstatus == "N")
+                        {
+                            continue;
+                        }
+
+                        bool outprocess = false;
+                        bool inprocess = false;
+
+
+                        
+                        if (dr["GateOutDateTime"] != DBNull.Value)
+                        {
+
+                            DateTime outtime = Convert.ToDateTime(dr["GateOutDateTime"]).AddMinutes(30);
+
+                            //find the nearby punch from tripod log if found, Addinto GatePassInOut and Remove from lunchinout also TripodLog 
+
+                            string tsql = "Select top 1 * From TripodLog where EmpUnqID ='" + EmpUnqID + "' " +
+                                " And PunchDate BETWEEN '" + gpdate.ToString("yyyy-MM-dd HH:mm:ss") + "' And '" + outtime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                " And IOFLG = 'O' and tYear = '" + gpdate.ToString("yyyy") + "' " +
+                                " And tYearMt = '" + gpdate.ToString("yyyyMM") + "' Order by PunchDate ";
+
+                            DataSet ds = Utils.Helper.GetData(tsql, Utils.Helper.constr);
+                            hasrow = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+
+                            tMsg = new ServerMsg();
+                            tMsg.MsgTime = DateTime.Now;
+                            tMsg.MsgType = "GatePass Punch Process";
+                            tMsg.Message = id + ":" + dr["EmpUnqID"].ToString();
+                            Scheduler.Publish(tMsg);
+
+
+                            if (hasrow)
+                            {
+                                DataRow row = ds.Tables[0].Rows[0];
+                                string PunchDate = Convert.ToDateTime(row["PunchDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                                string IOFLG = row["IOFLG"].ToString();
+                                string t1Date = Convert.ToDateTime(row["t1Date"]).ToString("yyyy-MM-dd");
+                                string tYearmt = row["tYearMt"].ToString();
+                                string tYear = row["tYear"].ToString();
+                                string MachineIP = row["MachineIP"].ToString();
+
+                                #region convert_out_punch
+                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                {
+                                    try
+                                    {
+                                        cn.Open();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        tMsg = new ServerMsg();
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "GatePass Punch Process";
+                                        tMsg.Message = id + " : " + ex.Message;
+                                        Scheduler.Publish(tMsg);
+                                        
+                                        
+                                        continue;
+                                    }
+
+                                    SqlTransaction tr = cn.BeginTransaction();
+                                    try
+                                    {
+                                        DateTime tDate = Convert.ToDateTime(PunchDate);
+
+                                        sql = "Delete From AttdLunchGate Where EmpUnqID ='" + EmpUnqID + "' and PunchDate between '" + PunchDate + "' And '" + Convert.ToDateTime(row["PunchDate"]).AddMinutes(3).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                            " And MachineIP ='" + MachineIP + "' And IOFLG = '" + IOFLG + "' " +
+                                            " And tYear ='" + tYear + "' And tYearMt = '" + tYearmt + "' and t1date = '" + t1Date + "'";
+                                        SqlCommand cmd = new SqlCommand(sql, cn);
+                                        cmd.Transaction = tr;
+                                        int t = (int)cmd.ExecuteNonQuery();
+
+                                        if (t > 0)
+                                        {
+                                            sql = "Insert into AttdLunchIODelete (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt,t1date) Values (" +
+                                            " '" + EmpUnqID + "','" + PunchDate + "'," +
+                                            " '" + IOFLG + "','" + MachineIP + "',GetDate(),'Conv-Server','" + tYear + "','" + tYearmt + "','" + t1Date + "' )";
+
+                                            cmd = new SqlCommand(sql, cn);
+                                            cmd.Transaction = tr;
+                                            cmd.ExecuteNonQuery();
+                                        }
+
+
+                                        sql = "Insert into AttdGatePassInOut (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt,t1date) Values (" +
+                                        " '" + EmpUnqID + "','" + PunchDate + "'," +
+                                        " '" + IOFLG + "','" + MachineIP + "',GetDate(),'TRIPOD-Conv-Server','" + tYear + "','" + tYearmt + "','" + t1Date + "' )";
+                                        cmd = new SqlCommand(sql, cn);
+                                        cmd.Transaction = tr;
+                                        cmd.ExecuteNonQuery();
+
+                                        sql = "Delete From TripodLog Where EmpUnqID ='" + EmpUnqID + "' and PunchDate between '" + PunchDate + "' And '" + Convert.ToDateTime(row["PunchDate"]).AddMinutes(3).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                            " And MachineIP ='" + MachineIP + "' And IOFLG = '" + IOFLG + "' and tYear ='" + tYear + "' and tYearMt = '" + tYearmt + "'";
+
+                                        cmd = new SqlCommand(sql, cn);
+                                        cmd.Transaction = tr;
+                                        cmd.ExecuteNonQuery();
+
+                                        tr.Commit();
+
+                                        outprocess = true;
+                                        outtime = Convert.ToDateTime(row["PunchDate"]);
+
+                                        
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        tr.Rollback();
+
+                                        tMsg = new ServerMsg();
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "GatePass Punch Process";
+                                        tMsg.Message = id + " : " + ex.Message;
+                                        Scheduler.Publish(tMsg);
+
+                                        continue;
+                                    }
+                                }//using localcn 
+
+
+
+
+                                #endregion
+                            }//if tripod out punch found...
+                            else
+                            {
+                                //check if already converted by manually
+                                tsql = "Select top 1 * From AttdGatePassInOut where EmpUnqID ='" + EmpUnqID + "' " +
+                                " And PunchDate BETWEEN '" + gpdate.ToString("yyyy-MM-dd HH:mm:ss") + "' And '" + outtime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                " And IOFLG = 'O' and tYear = '" + gpdate.ToString("yyyy") + "' " +
+                                " And tYearMt = '" + gpdate.ToString("yyyyMM") + "' and AddId <> 'TRIPOD-Conv-Server' Order by PunchDate  ";
+
+                                DataSet tds = Utils.Helper.GetData(tsql, Utils.Helper.constr);
+                                hasrow = tds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                
+                                bool manualin = false;
+                                bool manualout = false;
+
+                                DateTime manualouttime, manualintime ;
+                                
+                                if (hasrow)
+                                {
+                                    manualout = true;
+                                    manualouttime = Convert.ToDateTime(tds.Tables[0].Rows[0]["PunchDate"]);
+                                    
+                                    //check if already converted by manually
+                                    tsql = "Select top 1 * From AttdGatePassInOut where EmpUnqID ='" + EmpUnqID + "' " +
+                                    " And PunchDate >= '" + manualouttime.ToString("yyyy-MM-dd HH:mm:ss") + "'  " +
+                                    " And IOFLG = 'I' and tYear = '" + gpdate.ToString("yyyy") + "' " +
+                                    " And tYearMt = '" + gpdate.ToString("yyyyMM") + "' and AddId <> 'TRIPOD-Conv-Server'  Order by PunchDate  ";
+
+                                    tds = Utils.Helper.GetData(tsql, Utils.Helper.constr);
+                                    hasrow = tds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                    if (hasrow)
+                                    {
+                                        manualin = true;
+                                        manualintime = Convert.ToDateTime(tds.Tables[0].Rows[0]["PunchDate"]);
+                                    }
+
+                                    if (manualin && manualout)
+                                    {
+
+                                        using (SqlConnection esscn = new SqlConnection(essConStr))
+                                        {
+                                            try
+                                            {
+                                                esscn.Open();
+                                                using (SqlCommand cmd = new SqlCommand())
+                                                {
+                                                    cmd.Connection = esscn;
+                                                    cmd.CommandText = "Update GatePasses Set GateOutUser = 1 where ID ='" + id + "'";
+                                                    cmd.ExecuteNonQuery();
+
+                                                    tMsg = new ServerMsg();
+                                                    tMsg.MsgTime = DateTime.Now;
+                                                    tMsg.MsgType = "GatePass Punch Process";
+                                                    tMsg.Message = "Manual Out/In : " + id;
+                                                    Scheduler.Publish(tMsg);
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                tMsg = new ServerMsg();
+                                                tMsg.MsgTime = DateTime.Now;
+                                                tMsg.MsgType = "GatePass Punch Process";
+                                                tMsg.Message = id + " : " + ex.Message;
+                                                Scheduler.Publish(tMsg);
+
+                                            }
+
+                                        }
+                                       
+                                    }
+                                }
+                            }
+
+                            //if mode == "D"->"Duty Off"
+                            if (dr["Mode"].ToString() == "D")
+                            {
+                                using (SqlConnection esscn = new SqlConnection(essConStr))
+                                {
+                                    try
+                                    {
+                                        esscn.Open();
+                                        using (SqlCommand cmd = new SqlCommand())
+                                        {
+                                            cmd.Connection = esscn;
+                                            cmd.CommandText = "Update GatePasses Set GateOutUser = 1 where ID ='" + id + "'";
+                                            cmd.ExecuteNonQuery();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        tMsg = new ServerMsg();
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "GatePass Punch Process";
+                                        tMsg.Message = id.ToString() + ":" + ex.Message;
+                                        Scheduler.Publish(tMsg);
+                                    }
+
+                                }//using essconnection
+
+                                continue;
+                            }
+                            
+
+
+                            #region essgp_inpunch
+                            if (dr["GateINDateTime"] != DBNull.Value)
+                            {
+
+                                //find the nearby punch from tripod log if found, Addinto GatePassInOut and Remove from lunchinout also TripodLog 
+
+                                DateTime InTime = Convert.ToDateTime(dr["GateInDateTime"]).AddMinutes(3);
+
+                                tsql = "Select top 1 * From TripodLog where EmpUnqID ='" + EmpUnqID + "' " +
+                                " And PunchDate BETWEEN '" + outtime.ToString("yyyy-MM-dd HH:mm:ss") + "' And '" + InTime.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                " And IOFLG = 'I' and tYear = '" + gpdate.ToString("yyyy") + "' " +
+                                " And tYearMt = '" + gpdate.ToString("yyyyMM") + "' Order by PunchDate ";
+
+                                ds = Utils.Helper.GetData(tsql, Utils.Helper.constr);
+                                hasrow = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                if (hasrow)
+                                {
+                                    DataRow row = ds.Tables[0].Rows[0];
+                                    string PunchDate = Convert.ToDateTime(row["PunchDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                                    string IOFLG = row["IOFLG"].ToString();
+                                    string t1Date = Convert.ToDateTime(row["t1Date"]).ToString("yyyy-MM-dd");
+                                    string tYearmt = row["tYearMt"].ToString();
+                                    string tYear = row["tYear"].ToString();
+                                    string MachineIP = row["MachineIP"].ToString();
+
+                                    #region convert_inpunch
+                                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                    {
+                                        try
+                                        {
+                                            cn.Open();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            tMsg = new ServerMsg();
+                                            tMsg.MsgTime = DateTime.Now;
+                                            tMsg.MsgType = "GatePass Punch Process";
+                                            tMsg.Message = id.ToString() + ":" + ex.Message;
+                                            Scheduler.Publish(tMsg);
+                                            
+                                            continue;
+                                        }
+
+                                        SqlTransaction tr = cn.BeginTransaction();
+                                        try
+                                        {
+                                            DateTime tDate = Convert.ToDateTime(PunchDate);
+
+                                            sql = "Delete From AttdLunchGate Where EmpUnqID ='" + EmpUnqID + "' and PunchDate between '" + PunchDate + "' And '" + Convert.ToDateTime(row["PunchDate"]).AddMinutes(3).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                                " And MachineIP ='" + MachineIP + "' And IOFLG = '" + IOFLG + "' " +
+                                                " And tYear ='" + tYear + "' And tYearMt = '" + tYearmt + "' and t1date = '" + t1Date + "'";
+                                            SqlCommand cmd = new SqlCommand(sql, cn);
+                                            cmd.Transaction = tr;
+                                            int t = (int)cmd.ExecuteNonQuery();
+
+                                            if (t > 0)
+                                            {
+                                                sql = "Insert into AttdLunchIODelete (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt,t1date) Values (" +
+                                                " '" + EmpUnqID + "','" + PunchDate + "'," +
+                                                " '" + IOFLG + "','" + MachineIP + "',GetDate(),'Conv-Server','" + tYear + "','" + tYearmt + "','" + t1Date + "' )";
+
+                                                cmd = new SqlCommand(sql, cn);
+                                                cmd.Transaction = tr;
+                                                cmd.ExecuteNonQuery();
+                                            }
+
+
+                                            sql = "Insert into AttdGatePassInOut (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,tYearMt,t1date) Values (" +
+                                            " '" + EmpUnqID + "','" + PunchDate + "'," +
+                                            " '" + IOFLG + "','" + MachineIP + "',GetDate(),'TRIPOD-Conv-Server','" + tYear + "','" + tYearmt + "','" + t1Date + "' )";
+                                            cmd = new SqlCommand(sql, cn);
+                                            cmd.Transaction = tr;
+                                            cmd.ExecuteNonQuery();
+
+                                            sql = "Delete From TripodLog Where EmpUnqID ='" + EmpUnqID + "' and PunchDate between '" + PunchDate + "' And '" + Convert.ToDateTime(row["PunchDate"]).AddMinutes(3).ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                                                " And MachineIP ='" + MachineIP + "' And IOFLG = '" + IOFLG + "' and tYear ='" + tYear + "' and tYearMt = '" + tYearmt + "'";
+
+                                            cmd = new SqlCommand(sql, cn);
+                                            cmd.Transaction = tr;
+                                            cmd.ExecuteNonQuery();
+
+                                            tr.Commit();
+
+                                            inprocess = true;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            tr.Rollback();
+                                            tMsg = new ServerMsg();
+                                            tMsg.MsgTime = DateTime.Now;
+                                            tMsg.MsgType = "GatePass Punch Process";
+                                            tMsg.Message = id.ToString() + ":" + ex.Message; 
+                                            Scheduler.Publish(tMsg);
+                                            continue;
+                                        }
+                                    }//using localcn
+
+                                    #endregion
+
+                                }//inpunch found in tripod
+
+                            }//if gatepassinpunch found in ess..
+                            else
+                            {
+                                if (dr["GateINDateTime"] == DBNull.Value && dr["GateOutDateTime"] != DBNull.Value)
+                                {
+                                    DateTime gout = Convert.ToDateTime(dr["GateOutDateTime"]);
+                                    TimeSpan diff = DateTime.Now - gout;
+                                    double hours = diff.TotalHours;
+                                    if (hours > 24)
+                                    {
+                                        using (SqlConnection esscn = new SqlConnection(essConStr))
+                                        {
+                                            try
+                                            {
+                                                esscn.Open();
+                                                using (SqlCommand cmd = new SqlCommand())
+                                                {
+                                                    cmd.Connection = esscn;
+                                                    cmd.CommandText = "Update GatePasses Set GateOutUser = 1 where ID ='" + id + "'";
+                                                    cmd.ExecuteNonQuery();
+                                                }
+
+                                                
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                tMsg = new ServerMsg();
+                                                tMsg.MsgTime = DateTime.Now;
+                                                tMsg.MsgType = "GatePass Punch Process";
+                                                tMsg.Message = id.ToString() + ":" + ex.Message;
+                                                Scheduler.Publish(tMsg);
+                                            }
+
+                                            continue;
+
+                                        }//using essconnection
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+
+                            if (outprocess || inprocess)
+                            {
+                                //process attendance
+                                DateTime tempdt = new DateTime(), sFromDt = new DateTime(), sToDate = new DateTime();
+                                tempdt = Convert.ToDateTime(outtime.ToString("yyyy-MM-dd"));
+                                sFromDt = tempdt.AddDays(-1);
+                                sToDate = tempdt.AddDays(1);
+
+                                if (sFromDt != DateTime.MinValue && sToDate != DateTime.MinValue)
+                                {
+                                    clsProcess pro = new clsProcess();
+                                    int res = 0; string errpro = string.Empty;
+                                    pro.LunchInOutProcess(EmpUnqID, sFromDt, sToDate, out res);
+                                    pro.Lunch_HalfDayPost_Process(EmpUnqID, tempdt, out res);
+                                    pro.AttdProcess(EmpUnqID, sFromDt, sToDate, out res, out errpro);
+                                }
+                            }
+
+                        }
+
+                        #region update_essgp
+
+                        //mark the process
+                        if (outprocess && inprocess)
+                        {
+                            using (SqlConnection esscn = new SqlConnection(essConStr))
+                            {
+                                try
+                                {
+                                    esscn.Open();
+                                    using (SqlCommand cmd = new SqlCommand())
+                                    {
+                                        cmd.Connection = esscn;
+                                        cmd.CommandText = "Update GatePasses Set GateOutUser = 1 where ID ='" + id + "'";
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                }
+                                catch(Exception ex)
+                                {
+                                    tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "GatePass Punch Process";
+                                    tMsg.Message = id.ToString() + ":" + ex.Message ;
+                                    Scheduler.Publish(tMsg);
+                                }
+
+                            }//using essconnection
+                        }
+                        #endregion
+                        
+                    }//foreachloop
+
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "GatePass Punch Process";
+                    tMsg.Message = "Finished";
+                    Scheduler.Publish(tMsg);
+
+                }
+
+            }
+
+        }
 
         public class AutoDownLoadTask : IJob
         {
@@ -835,9 +1399,6 @@ namespace Attendance.Classes
             }
 
         }
-
-
-        
 
         public class AutoTimeSet : IJob
         {
@@ -1551,7 +2112,8 @@ namespace Attendance.Classes
                             string tsql = "select * from ReaderConFig where canteenflg = 0  and [master] = 0 and compcode = '01' and MachineIP in " +
                                 "( " +
                                 "select Distinct MachineIP from AttdLog where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' and Punchdate between DATEADD(day,-60,getdate()) and DateAdd(day,1,GETDATE()) " +
-                                ")";
+                                ")" +
+                                " Union Select MachineIP From TripodReaderConfig  ";
 
                             string err = string.Empty;
                             DataSet empIPds = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err);

@@ -173,6 +173,7 @@ namespace Attendance
                 Globals.G_myscheduler.RegSchedule_AutoProcess();
                 Globals.G_myscheduler.RegSchedule_DownloadPunch();
                 Globals.G_myscheduler.RegSchedule_BlockUnBlockProcess();
+                Globals.G_myscheduler.RegSchedule_GatePassPunchProcess();
             }
             else
             {
@@ -195,22 +196,28 @@ namespace Attendance
                             string fullpath = Path.Combine(Globals.G_UpdateChkPath, "Attendance.exe");
                             if (File.Exists(fullpath))
                             {
-                                servermodified = File.GetLastWriteTime(fullpath);
+                                servermodified = File.GetLastWriteTime(fullpath);                                
                             }
                         }
                     }
 
-                    
-                    
-                    
-                    
                     localmodified = File.GetLastWriteTime(localfile);
                     if (servermodified > localmodified)
                     {
                         MessageBox.Show("New Upgrade is available, please update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
-                        
                     }
+
+                    if (servermodified != DateTime.MinValue && localmodified != DateTime.MinValue)
+                    {
+                        if (localmodified < servermodified)
+                        {
+                            MessageBox.Show("New Upgrade is available, please update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                    }
+                    
+
                     this.Cursor = Cursors.Default;
                 }
 
@@ -254,6 +261,7 @@ namespace Attendance
 
             return networkPath;
         }
+        
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             //we need to shutdown our scheduler quartz
@@ -1165,6 +1173,18 @@ namespace Attendance
             if (t == null)
             {
                 Attendance.Forms.frmMastException m = new Attendance.Forms.frmMastException();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuPreMedicalMast_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastPreMedical"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastPreMedical m = new Attendance.Forms.frmMastPreMedical();
                 m.MdiParent = this;
                 m.Show();
             }

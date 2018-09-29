@@ -32,8 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSanction));
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
             this.tblp_Home = new System.Windows.Forms.TableLayoutPanel();
             this.xTabCtrl = new DevExpress.XtraTab.XtraTabControl();
@@ -76,6 +80,7 @@
             this.grd_InOutLunch = new DevExpress.XtraGrid.GridControl();
             this.gv_InOutLunch = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.grp_InOut_Lunch = new System.Windows.Forms.GroupBox();
+            this.btnConvertToGatePass = new DevExpress.XtraEditors.SimpleButton();
             this.btnLunch_IO_Del = new DevExpress.XtraEditors.SimpleButton();
             this.btnLunch_IO_San = new DevExpress.XtraEditors.SimpleButton();
             this.label16 = new System.Windows.Forms.Label();
@@ -108,6 +113,26 @@
             this.label13 = new System.Windows.Forms.Label();
             this.txtSanDtGate = new DevExpress.XtraEditors.DateEdit();
             this.label14 = new System.Windows.Forms.Label();
+            this.tb_InOut_GatePass = new DevExpress.XtraTab.XtraTabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.grd_InOutGatePass = new DevExpress.XtraGrid.GridControl();
+            this.gv_InOutGatePass = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnGatePass_IO_Del = new DevExpress.XtraEditors.SimpleButton();
+            this.btnGatePass_IO_San = new DevExpress.XtraEditors.SimpleButton();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtLocGatePass = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.txtInOutGatePass = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtTimeGatePass = new DevExpress.XtraEditors.TimeEdit();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtSanDtGatePass = new DevExpress.XtraEditors.DateEdit();
+            this.label18 = new System.Windows.Forms.Label();
+            this.tb_Tripod = new DevExpress.XtraTab.XtraTabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.grd_Tripod = new DevExpress.XtraGrid.GridControl();
+            this.gv_Tripod = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tblp_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xTabCtrl)).BeginInit();
             this.xTabCtrl.SuspendLayout();
@@ -159,6 +184,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtTimeGate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGate.Properties)).BeginInit();
+            this.tb_InOut_GatePass.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_InOutGatePass)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_InOutGatePass)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLocGatePass.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInOutGatePass.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTimeGatePass.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGatePass.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGatePass.Properties)).BeginInit();
+            this.tb_Tripod.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grd_Tripod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_Tripod)).BeginInit();
             this.SuspendLayout();
             // 
             // ctrlEmp1
@@ -200,7 +239,9 @@
             this.tb_InOut,
             this.tb_InOut_Lunch,
             this.tb_LunchDetails,
-            this.tb_InOut_Gate});
+            this.tb_InOut_Gate,
+            this.tb_InOut_GatePass,
+            this.tb_Tripod});
             // 
             // tb_Attd
             // 
@@ -757,6 +798,7 @@
             // grp_InOut_Lunch
             // 
             this.grp_InOut_Lunch.BackColor = System.Drawing.Color.Gainsboro;
+            this.grp_InOut_Lunch.Controls.Add(this.btnConvertToGatePass);
             this.grp_InOut_Lunch.Controls.Add(this.btnLunch_IO_Del);
             this.grp_InOut_Lunch.Controls.Add(this.btnLunch_IO_San);
             this.grp_InOut_Lunch.Controls.Add(this.label16);
@@ -775,6 +817,26 @@
             this.grp_InOut_Lunch.Size = new System.Drawing.Size(1052, 50);
             this.grp_InOut_Lunch.TabIndex = 1;
             this.grp_InOut_Lunch.TabStop = false;
+            // 
+            // btnConvertToGatePass
+            // 
+            this.btnConvertToGatePass.Appearance.Options.UseTextOptions = true;
+            this.btnConvertToGatePass.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.btnConvertToGatePass.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertToGatePass.Image")));
+            this.btnConvertToGatePass.Location = new System.Drawing.Point(938, 2);
+            this.btnConvertToGatePass.Name = "btnConvertToGatePass";
+            this.btnConvertToGatePass.Size = new System.Drawing.Size(91, 44);
+            toolTipTitleItem1.Text = "Convert To GatePass";
+            toolTipItem1.LeftIndent = 6;
+            toolTipItem1.Text = "Selected Punch will be converted to Gate Pass Punch, (Removed From Lunch In/Out a" +
+    "nd Inserted to GatePass In/Out )";
+            superToolTip1.Items.Add(toolTipTitleItem1);
+            superToolTip1.Items.Add(toolTipItem1);
+            this.btnConvertToGatePass.SuperTip = superToolTip1;
+            this.btnConvertToGatePass.TabIndex = 27;
+            this.btnConvertToGatePass.Text = "Convert To GatePass";
+            this.btnConvertToGatePass.ToolTip = "Convert To GatePass Punch";
+            this.btnConvertToGatePass.Click += new System.EventHandler(this.btnConvertToGatePass_Click);
             // 
             // btnLunch_IO_Del
             // 
@@ -1199,6 +1261,284 @@
             this.label14.TabIndex = 17;
             this.label14.Text = "San.Date :";
             // 
+            // tb_InOut_GatePass
+            // 
+            this.tb_InOut_GatePass.Controls.Add(this.tableLayoutPanel1);
+            this.tb_InOut_GatePass.Name = "tb_InOut_GatePass";
+            this.tb_InOut_GatePass.Size = new System.Drawing.Size(1052, 401);
+            this.tb_InOut_GatePass.Text = "GatePass In/Out Punch";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.grd_InOutGatePass, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1052, 401);
+            this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // grd_InOutGatePass
+            // 
+            this.grd_InOutGatePass.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grd_InOutGatePass.Location = new System.Drawing.Point(3, 53);
+            this.grd_InOutGatePass.MainView = this.gv_InOutGatePass;
+            this.grd_InOutGatePass.Name = "grd_InOutGatePass";
+            this.grd_InOutGatePass.Size = new System.Drawing.Size(1046, 345);
+            this.grd_InOutGatePass.TabIndex = 0;
+            this.grd_InOutGatePass.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gv_InOutGatePass});
+            // 
+            // gv_InOutGatePass
+            // 
+            this.gv_InOutGatePass.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.gv_InOutGatePass.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gv_InOutGatePass.GridControl = this.grd_InOutGatePass;
+            this.gv_InOutGatePass.Name = "gv_InOutGatePass";
+            this.gv_InOutGatePass.OptionsBehavior.Editable = false;
+            this.gv_InOutGatePass.OptionsCustomization.AllowColumnMoving = false;
+            this.gv_InOutGatePass.OptionsCustomization.AllowFilter = false;
+            this.gv_InOutGatePass.OptionsCustomization.AllowGroup = false;
+            this.gv_InOutGatePass.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gv_InOutGatePass.OptionsCustomization.AllowSort = false;
+            this.gv_InOutGatePass.OptionsFilter.AllowColumnMRUFilterList = false;
+            this.gv_InOutGatePass.OptionsFilter.AllowFilterEditor = false;
+            this.gv_InOutGatePass.OptionsFilter.AllowFilterIncrementalSearch = false;
+            this.gv_InOutGatePass.OptionsFilter.AllowMRUFilterList = false;
+            this.gv_InOutGatePass.OptionsFilter.FilterEditorUseMenuForOperandsAndOperators = false;
+            this.gv_InOutGatePass.OptionsFind.AllowFindPanel = false;
+            this.gv_InOutGatePass.OptionsMenu.EnableColumnMenu = false;
+            this.gv_InOutGatePass.OptionsMenu.EnableFooterMenu = false;
+            this.gv_InOutGatePass.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gv_InOutGatePass.OptionsMenu.ShowAddNewSummaryItem = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_InOutGatePass.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gv_InOutGatePass.OptionsMenu.ShowDateTimeGroupIntervalItems = false;
+            this.gv_InOutGatePass.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gv_InOutGatePass.OptionsMenu.ShowSplitItem = false;
+            this.gv_InOutGatePass.OptionsView.EnableAppearanceEvenRow = true;
+            this.gv_InOutGatePass.OptionsView.ShowDetailButtons = false;
+            this.gv_InOutGatePass.OptionsView.ShowGroupExpandCollapseButtons = false;
+            this.gv_InOutGatePass.OptionsView.ShowGroupPanel = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox1.Controls.Add(this.btnGatePass_IO_Del);
+            this.groupBox1.Controls.Add(this.btnGatePass_IO_San);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.txtLocGatePass);
+            this.groupBox1.Controls.Add(this.txtInOutGatePass);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.txtTimeGatePass);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.txtSanDtGatePass);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
+            this.groupBox1.Size = new System.Drawing.Size(1052, 50);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            // 
+            // btnGatePass_IO_Del
+            // 
+            this.btnGatePass_IO_Del.Image = ((System.Drawing.Image)(resources.GetObject("btnGatePass_IO_Del.Image")));
+            this.btnGatePass_IO_Del.Location = new System.Drawing.Point(841, 3);
+            this.btnGatePass_IO_Del.Name = "btnGatePass_IO_Del";
+            this.btnGatePass_IO_Del.Size = new System.Drawing.Size(91, 44);
+            this.btnGatePass_IO_Del.TabIndex = 25;
+            this.btnGatePass_IO_Del.Text = "Delete";
+            this.btnGatePass_IO_Del.Click += new System.EventHandler(this.btnGatePass_IO_Del_Click);
+            // 
+            // btnGatePass_IO_San
+            // 
+            this.btnGatePass_IO_San.Image = ((System.Drawing.Image)(resources.GetObject("btnGatePass_IO_San.Image")));
+            this.btnGatePass_IO_San.Location = new System.Drawing.Point(744, 3);
+            this.btnGatePass_IO_San.Name = "btnGatePass_IO_San";
+            this.btnGatePass_IO_San.Size = new System.Drawing.Size(91, 44);
+            this.btnGatePass_IO_San.TabIndex = 4;
+            this.btnGatePass_IO_San.Text = "Sanction";
+            this.btnGatePass_IO_San.Click += new System.EventHandler(this.btnGatePass_IO_San_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(436, 19);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 15);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "Location :";
+            // 
+            // txtLocGatePass
+            // 
+            this.txtLocGatePass.Location = new System.Drawing.Point(502, 16);
+            this.txtLocGatePass.Name = "txtLocGatePass";
+            this.txtLocGatePass.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtLocGatePass.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.txtLocGatePass.Size = new System.Drawing.Size(216, 20);
+            this.txtLocGatePass.TabIndex = 3;
+            // 
+            // txtInOutGatePass
+            // 
+            this.txtInOutGatePass.Location = new System.Drawing.Point(237, 16);
+            this.txtInOutGatePass.Name = "txtInOutGatePass";
+            this.txtInOutGatePass.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtInOutGatePass.Properties.Items.AddRange(new object[] {
+            "IN",
+            "OUT"});
+            this.txtInOutGatePass.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.txtInOutGatePass.Size = new System.Drawing.Size(65, 20);
+            this.txtInOutGatePass.TabIndex = 1;
+            this.txtInOutGatePass.SelectedIndexChanged += new System.EventHandler(this.txtInOutGatePass_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(311, 19);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 15);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Time :";
+            // 
+            // txtTimeGatePass
+            // 
+            this.txtTimeGatePass.EditValue = new System.DateTime(2017, 11, 21, 0, 0, 0, 0);
+            this.txtTimeGatePass.Location = new System.Drawing.Point(358, 16);
+            this.txtTimeGatePass.Name = "txtTimeGatePass";
+            this.txtTimeGatePass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.txtTimeGatePass.Properties.Appearance.Options.UseFont = true;
+            this.txtTimeGatePass.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, false, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject6, "", null, null, true)});
+            this.txtTimeGatePass.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtTimeGatePass.Properties.Mask.EditMask = "HH:mm";
+            this.txtTimeGatePass.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtTimeGatePass.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtTimeGatePass.Properties.MaxLength = 5;
+            this.txtTimeGatePass.Properties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtTimeGatePass.Size = new System.Drawing.Size(72, 20);
+            this.txtTimeGatePass.TabIndex = 2;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(186, 19);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(45, 15);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "In/Out :";
+            // 
+            // txtSanDtGatePass
+            // 
+            this.txtSanDtGatePass.EditValue = null;
+            this.txtSanDtGatePass.Location = new System.Drawing.Point(80, 16);
+            this.txtSanDtGatePass.Name = "txtSanDtGatePass";
+            this.txtSanDtGatePass.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSanDtGatePass.Properties.Appearance.Options.UseFont = true;
+            this.txtSanDtGatePass.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtSanDtGatePass.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtSanDtGatePass.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
+            this.txtSanDtGatePass.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
+            this.txtSanDtGatePass.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtSanDtGatePass.Size = new System.Drawing.Size(100, 20);
+            this.txtSanDtGatePass.TabIndex = 0;
+            this.txtSanDtGatePass.EditValueChanged += new System.EventHandler(this.txtSanDtGatePass_EditValueChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 19);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(64, 15);
+            this.label18.TabIndex = 17;
+            this.label18.Text = "San.Date :";
+            // 
+            // tb_Tripod
+            // 
+            this.tb_Tripod.Controls.Add(this.tableLayoutPanel2);
+            this.tb_Tripod.Name = "tb_Tripod";
+            this.tb_Tripod.Size = new System.Drawing.Size(1052, 401);
+            this.tb_Tripod.Text = "Tripod Raw Data";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.grd_Tripod, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1052, 401);
+            this.tableLayoutPanel2.TabIndex = 8;
+            // 
+            // grd_Tripod
+            // 
+            this.grd_Tripod.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grd_Tripod.Location = new System.Drawing.Point(3, 53);
+            this.grd_Tripod.MainView = this.gv_Tripod;
+            this.grd_Tripod.Name = "grd_Tripod";
+            this.grd_Tripod.Size = new System.Drawing.Size(1046, 345);
+            this.grd_Tripod.TabIndex = 0;
+            this.grd_Tripod.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gv_Tripod});
+            // 
+            // gv_Tripod
+            // 
+            this.gv_Tripod.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.gv_Tripod.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gv_Tripod.GridControl = this.grd_Tripod;
+            this.gv_Tripod.Name = "gv_Tripod";
+            this.gv_Tripod.OptionsBehavior.Editable = false;
+            this.gv_Tripod.OptionsCustomization.AllowColumnMoving = false;
+            this.gv_Tripod.OptionsCustomization.AllowFilter = false;
+            this.gv_Tripod.OptionsCustomization.AllowGroup = false;
+            this.gv_Tripod.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gv_Tripod.OptionsCustomization.AllowSort = false;
+            this.gv_Tripod.OptionsFilter.AllowColumnMRUFilterList = false;
+            this.gv_Tripod.OptionsFilter.AllowFilterEditor = false;
+            this.gv_Tripod.OptionsFilter.AllowFilterIncrementalSearch = false;
+            this.gv_Tripod.OptionsFilter.AllowMRUFilterList = false;
+            this.gv_Tripod.OptionsFilter.FilterEditorUseMenuForOperandsAndOperators = false;
+            this.gv_Tripod.OptionsFind.AllowFindPanel = false;
+            this.gv_Tripod.OptionsMenu.EnableColumnMenu = false;
+            this.gv_Tripod.OptionsMenu.EnableFooterMenu = false;
+            this.gv_Tripod.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gv_Tripod.OptionsMenu.ShowAddNewSummaryItem = DevExpress.Utils.DefaultBoolean.False;
+            this.gv_Tripod.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gv_Tripod.OptionsMenu.ShowDateTimeGroupIntervalItems = false;
+            this.gv_Tripod.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gv_Tripod.OptionsMenu.ShowSplitItem = false;
+            this.gv_Tripod.OptionsView.EnableAppearanceEvenRow = true;
+            this.gv_Tripod.OptionsView.ShowDetailButtons = false;
+            this.gv_Tripod.OptionsView.ShowGroupExpandCollapseButtons = false;
+            this.gv_Tripod.OptionsView.ShowGroupPanel = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(0);
+            this.groupBox2.Size = new System.Drawing.Size(1052, 50);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            // 
             // frmSanction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1268,6 +1608,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtTimeGate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGate.Properties)).EndInit();
+            this.tb_InOut_GatePass.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grd_InOutGatePass)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_InOutGatePass)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLocGatePass.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInOutGatePass.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTimeGatePass.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGatePass.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSanDtGatePass.Properties)).EndInit();
+            this.tb_Tripod.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grd_Tripod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gv_Tripod)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1348,5 +1703,26 @@
         private DevExpress.XtraEditors.SimpleButton btnLunch_IO_Del;
         private DevExpress.XtraEditors.SpinEdit txtOT;
         private System.Windows.Forms.CheckBox chkTPA;
+        private DevExpress.XtraTab.XtraTabPage tb_InOut_GatePass;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private DevExpress.XtraGrid.GridControl grd_InOutGatePass;
+        private DevExpress.XtraGrid.Views.Grid.GridView gv_InOutGatePass;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private DevExpress.XtraEditors.SimpleButton btnGatePass_IO_Del;
+        private DevExpress.XtraEditors.SimpleButton btnGatePass_IO_San;
+        private System.Windows.Forms.Label label8;
+        private DevExpress.XtraEditors.ComboBoxEdit txtLocGatePass;
+        private DevExpress.XtraEditors.ComboBoxEdit txtInOutGatePass;
+        private System.Windows.Forms.Label label9;
+        private DevExpress.XtraEditors.TimeEdit txtTimeGatePass;
+        private System.Windows.Forms.Label label17;
+        private DevExpress.XtraEditors.DateEdit txtSanDtGatePass;
+        private System.Windows.Forms.Label label18;
+        private DevExpress.XtraEditors.SimpleButton btnConvertToGatePass;
+        private DevExpress.XtraTab.XtraTabPage tb_Tripod;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private DevExpress.XtraGrid.GridControl grd_Tripod;
+        private DevExpress.XtraGrid.Views.Grid.GridView gv_Tripod;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
