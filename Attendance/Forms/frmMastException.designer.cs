@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkGateInOut = new DevExpress.XtraEditors.CheckEdit();
             this.txtMaxOt = new DevExpress.XtraEditors.CalcEdit();
             this.chkMaxOT = new DevExpress.XtraEditors.CheckEdit();
             this.label4 = new System.Windows.Forms.Label();
@@ -55,8 +56,9 @@
             this.Group2 = new System.Windows.Forms.GroupBox();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.chkGateInOut = new DevExpress.XtraEditors.CheckEdit();
+            this.chkLunchInOut = new DevExpress.XtraEditors.CheckEdit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkGateInOut.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxOt.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkMaxOT.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPshift.Properties)).BeginInit();
@@ -72,11 +74,12 @@
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkGateInOut.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkLunchInOut.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkLunchInOut);
             this.groupBox1.Controls.Add(this.chkGateInOut);
             this.groupBox1.Controls.Add(this.txtMaxOt);
             this.groupBox1.Controls.Add(this.chkMaxOT);
@@ -101,12 +104,21 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
+            // chkGateInOut
+            // 
+            this.chkGateInOut.Location = new System.Drawing.Point(7, 48);
+            this.chkGateInOut.Name = "chkGateInOut";
+            this.chkGateInOut.Properties.Caption = "Exclude From GateInOut :";
+            this.chkGateInOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.chkGateInOut.Size = new System.Drawing.Size(172, 19);
+            this.chkGateInOut.TabIndex = 3;
+            // 
             // txtMaxOt
             // 
-            this.txtMaxOt.Location = new System.Drawing.Point(409, 47);
+            this.txtMaxOt.Location = new System.Drawing.Point(601, 49);
             this.txtMaxOt.Name = "txtMaxOt";
             this.txtMaxOt.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.txtMaxOt.Properties.Mask.EditMask = "f0";
             this.txtMaxOt.Properties.MaxLength = 2;
             this.txtMaxOt.Properties.Precision = 0;
@@ -117,18 +129,18 @@
             // 
             // chkMaxOT
             // 
-            this.chkMaxOT.Location = new System.Drawing.Point(291, 47);
+            this.chkMaxOT.Location = new System.Drawing.Point(500, 49);
             this.chkMaxOT.Name = "chkMaxOT";
             this.chkMaxOT.Properties.Caption = "Consider MAX OT :";
             this.chkMaxOT.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkMaxOT.Size = new System.Drawing.Size(113, 19);
+            this.chkMaxOT.Size = new System.Drawing.Size(96, 19);
             this.chkMaxOT.TabIndex = 4;
             this.chkMaxOT.Visible = false;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(226, 49);
+            this.label4.Location = new System.Drawing.Point(785, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 15);
             this.label4.TabIndex = 67;
@@ -137,9 +149,9 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(6, 73);
+            this.label2.Location = new System.Drawing.Point(832, 17);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(266, 43);
+            this.label2.Size = new System.Drawing.Size(27, 43);
             this.label2.TabIndex = 66;
             this.label2.Text = "* Prefered Shifts only works if two or more shift starts the same time in Auto Sh" +
     "ift Calc";
@@ -148,7 +160,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 50);
+            this.label1.Location = new System.Drawing.Point(628, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 15);
             this.label1.TabIndex = 65;
@@ -158,7 +170,7 @@
             // txtPshift
             // 
             this.txtPshift.EditValue = "";
-            this.txtPshift.Location = new System.Drawing.Point(121, 47);
+            this.txtPshift.Location = new System.Drawing.Point(683, 20);
             this.txtPshift.Name = "txtPshift";
             this.txtPshift.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPshift.Properties.Appearance.Options.UseFont = true;
@@ -174,7 +186,7 @@
             // 
             // txtEmpName
             // 
-            this.txtEmpName.Location = new System.Drawing.Point(229, 20);
+            this.txtEmpName.Location = new System.Drawing.Point(185, 18);
             this.txtEmpName.Name = "txtEmpName";
             this.txtEmpName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmpName.Properties.Appearance.Options.UseFont = true;
@@ -191,7 +203,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Location = new System.Drawing.Point(6, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 15);
             this.label3.TabIndex = 63;
@@ -200,7 +212,7 @@
             // txtEmpUnqID
             // 
             this.txtEmpUnqID.EditValue = "20005890";
-            this.txtEmpUnqID.Location = new System.Drawing.Point(121, 19);
+            this.txtEmpUnqID.Location = new System.Drawing.Point(83, 18);
             this.txtEmpUnqID.Name = "txtEmpUnqID";
             this.txtEmpUnqID.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmpUnqID.Properties.Appearance.Options.UseFont = true;
@@ -215,7 +227,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(480, 22);
+            this.label8.Location = new System.Drawing.Point(436, 21);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(83, 15);
             this.label8.TabIndex = 32;
@@ -223,7 +235,7 @@
             // 
             // txtWrkGrpCode
             // 
-            this.txtWrkGrpCode.Location = new System.Drawing.Point(572, 21);
+            this.txtWrkGrpCode.Location = new System.Drawing.Point(520, 20);
             this.txtWrkGrpCode.Name = "txtWrkGrpCode";
             this.txtWrkGrpCode.Properties.Mask.ShowPlaceHolders = false;
             this.txtWrkGrpCode.Properties.ReadOnly = true;
@@ -301,7 +313,7 @@
             // 
             // chkGrace
             // 
-            this.chkGrace.Location = new System.Drawing.Point(303, 69);
+            this.chkGrace.Location = new System.Drawing.Point(495, 71);
             this.chkGrace.Name = "chkGrace";
             this.chkGrace.Properties.Caption = "Do Not Consider Grace Period :";
             this.chkGrace.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
@@ -311,7 +323,7 @@
             // 
             // chkEarlyGoing
             // 
-            this.chkEarlyGoing.Location = new System.Drawing.Point(496, 69);
+            this.chkEarlyGoing.Location = new System.Drawing.Point(688, 71);
             this.chkEarlyGoing.Name = "chkEarlyGoing";
             this.chkEarlyGoing.Properties.Caption = "Do Not Consider Early Going :";
             this.chkEarlyGoing.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
@@ -321,7 +333,7 @@
             // 
             // chkLateCome
             // 
-            this.chkLateCome.Location = new System.Drawing.Point(497, 94);
+            this.chkLateCome.Location = new System.Drawing.Point(689, 96);
             this.chkLateCome.Name = "chkLateCome";
             this.chkLateCome.Properties.Caption = "Do Not Consider LateCome :";
             this.chkLateCome.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
@@ -331,7 +343,7 @@
             // 
             // chkHalfDay
             // 
-            this.chkHalfDay.Location = new System.Drawing.Point(303, 94);
+            this.chkHalfDay.Location = new System.Drawing.Point(495, 96);
             this.chkHalfDay.Name = "chkHalfDay";
             this.chkHalfDay.Properties.Caption = "Do Not Consider Half Day :";
             this.chkHalfDay.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
@@ -341,7 +353,7 @@
             // 
             // chkAutoOut
             // 
-            this.chkAutoOut.Location = new System.Drawing.Point(495, 46);
+            this.chkAutoOut.Location = new System.Drawing.Point(687, 48);
             this.chkAutoOut.Name = "chkAutoOut";
             this.chkAutoOut.Properties.Caption = "Auto Out if Single Punch";
             this.chkAutoOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
@@ -400,14 +412,14 @@
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.DoubleClick += new System.EventHandler(this.gridView1_DoubleClick);
             // 
-            // chkGateInOut
+            // chkLunchInOut
             // 
-            this.chkGateInOut.Location = new System.Drawing.Point(690, 22);
-            this.chkGateInOut.Name = "chkGateInOut";
-            this.chkGateInOut.Properties.Caption = "Exclude From GateInOut :";
-            this.chkGateInOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkGateInOut.Size = new System.Drawing.Size(172, 19);
-            this.chkGateInOut.TabIndex = 3;
+            this.chkLunchInOut.Location = new System.Drawing.Point(7, 71);
+            this.chkLunchInOut.Name = "chkLunchInOut";
+            this.chkLunchInOut.Properties.Caption = "Exclude From LunchInOut :";
+            this.chkLunchInOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.chkLunchInOut.Size = new System.Drawing.Size(172, 19);
+            this.chkLunchInOut.TabIndex = 68;
             // 
             // frmMastException
             // 
@@ -422,6 +434,7 @@
             this.Load += new System.EventHandler(this.frmMastException_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkGateInOut.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMaxOt.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkMaxOT.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPshift.Properties)).EndInit();
@@ -437,7 +450,7 @@
             this.Group2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chkGateInOut.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkLunchInOut.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -471,5 +484,6 @@
         private DevExpress.XtraEditors.CalcEdit txtMaxOt;
         private DevExpress.XtraEditors.CheckEdit chkMaxOT;
         private DevExpress.XtraEditors.CheckEdit chkGateInOut;
+        private DevExpress.XtraEditors.CheckEdit chkLunchInOut;
     }
 }

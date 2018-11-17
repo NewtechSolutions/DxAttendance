@@ -768,6 +768,19 @@ namespace Attendance
 
                                     //}
 
+                                    ////for trying to to single process 
+                                    //if (Emp.WrkGrp == "CONT")
+                                    //{
+                                    //    if(drAttd["ConsIn"] != DBNull.Value && drAttd["ConsOut"] != DBNull.Value 
+                                    //        && Convert.ToDouble(drAttd["ConsWrkHrs"]) > 6 
+                                    //        && Convert.ToBoolean(drAttd["HalfDay"]) == false
+                                    //        && drAttd["LeaveTyp"].ToString() == "AB"
+                                    //        )
+                                    //    {
+                                    //        drAttd["LeaveTyp"] = "";
+                                    //        drAttd["Status"] = "P";
+                                    //    }
+                                    //}
                                     daAttdData.Update(dsAttdData, "AttdData");
 
                                     #endregion Final_Status_Marking
@@ -1382,7 +1395,13 @@ namespace Attendance
                                         {
                                             drAttd["Halfday"] = 0;
                                         }
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone >= 7200  && eWrkGrp == "COMP")
+                                        {
+                                            drAttd["Halfday"] = 1;
+                                            drAttd["GracePeriod"] = "";
+                                            drAttd["EarlyGoing"] = "";
 
+                                        }
                                         
                                     }
                                 }
@@ -1774,7 +1793,7 @@ namespace Attendance
                                             drAttd["EarlyGoing"] = "";
                                             drAttd["GracePeriod"] = "";
                                         }
-                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP")
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && eWrkGrp == "COMP" )
                                         {
                                             drAttd["Halfday"] = 1;
                                             drAttd["EarlyGoing"] = "";
@@ -1915,6 +1934,12 @@ namespace Attendance
                                             drAttd["Halfday"] = 1;
                                             drAttd["EarlyGoing"] = "";
                                            
+                                        }
+                                        else if (secgone > Globals.G_HFSEC_EarlyGoing && secgone >= 7200 && eWrkGrp == "COMP")
+                                        {
+                                            drAttd["Halfday"] = 1;
+                                            drAttd["EarlyGoing"] = "";
+
                                         }
                                         //'check if early come BUT GOES BETWEEN 1HOUR OF SHIFTEND- ALLOW 20/07/2015.
                                         else if (Convert.ToDateTime(drAttd["ConsIn"]) < ShiftStart && secgone <= 3600 && eWrkGrp == "COMP")

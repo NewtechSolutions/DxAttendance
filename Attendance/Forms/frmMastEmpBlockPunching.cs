@@ -81,7 +81,10 @@ namespace Attendance.Forms
             }
 
             
-            
+            if(string.IsNullOrEmpty(txtRemarks.Text.Trim().ToString()))
+            {
+                err = err + "Please Enter Reason..." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -174,8 +177,8 @@ namespace Attendance.Forms
                         DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
                         foreach(DataRow dr in ds.Tables[0].Rows){
 
-                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt) Values ('" + tmaxid + "','" +
-                                tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','BLOCK',GetDate(),'" + Utils.User.GUserID + "',0,GetDate())";
+                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,Remarks) Values ('" + tmaxid + "','" +
+                                tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','BLOCK',GetDate(),'" + Utils.User.GUserID + "',0,GetDate(),'" + txtRemarks.Text.Trim().ToString() + "')";
                             
                             
                             cmd.CommandText = sql;
@@ -247,10 +250,9 @@ namespace Attendance.Forms
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
 
-                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt) Values ('" + tmaxid + "','" +
-                                tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','UNBLOCK',GetDate(),'" + Utils.User.GUserID + "',1,GetDate())";
-
-
+                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,Remarks) Values ('" + tmaxid + "','" +
+                                tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','UNBLOCK',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'" + txtRemarks.Text.Trim().ToString() + "')";
+                            
                             cmd.CommandText = sql;
                             cmd.ExecuteNonQuery();
 
@@ -375,6 +377,7 @@ namespace Attendance.Forms
                 "<tr><td>Grade : </td><td> " + ctrlEmp1.cEmp.GradeDesc + "</td></tr>" +
                 (!string.IsNullOrEmpty(tblokeddt)?"<tr><td>Blocked Date</td><td>" + tblokeddt + "</td></tr>":"") +
                 "<tr><td>Action performed by</td><td>" + Utils.User.GUserID + "</td>" +
+                "<tr><td>Reason</td><td>" + txtRemarks.Text.Trim().ToString() + "</td>" +
                 "<tr><td>Date And Time</td><td>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "</td></tr>" +
                 "</table><br/><br/> " +
                  "*This is Auto-generated notification, do not reply on this e-mail id. </body></html>";

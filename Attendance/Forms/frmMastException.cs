@@ -52,7 +52,7 @@ namespace Attendance.Forms
             object s = new object();
             EventArgs e = new EventArgs();
 
-
+            chkLunchInOut.CheckState = CheckState.Unchecked;
             chkGateInOut.CheckState = CheckState.Unchecked;
             chkHalfDay.CheckState = CheckState.Unchecked;
             chkAutoOut.CheckState = CheckState.Unchecked;
@@ -116,8 +116,8 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Insert into MastException " +
                             "(EmpUnqID,EmpName,WrkGrp,ExecAutoOut,ExecLateCome,ExecHalfDay,ExecGracePeriod,ExecEarlyGoing," +
-                            " AddDt,AddID,PreferedShifts,ExecMaxOT,MaxOT,ExecGateInOut) Values ('{0}','{1}','{2}','{3}','{4}','{5}'," +
-                            " '{6}','{7}',GetDate(),'{8}','{9}','{10}','{11}','{12}')";
+                            " AddDt,AddID,PreferedShifts,ExecMaxOT,MaxOT,ExecGateInOut,ExecLunchInOut) Values ('{0}','{1}','{2}','{3}','{4}','{5}'," +
+                            " '{6}','{7}',GetDate(),'{8}','{9}','{10}','{11}','{12}','{13}')";
                          
                         sql = string.Format(sql, txtEmpUnqID.Text.Trim().ToString(),txtEmpName.Text.Trim(), txtWrkGrpCode.Text.Trim().ToString(),
                             ((chkAutoOut.Checked) ? "1" : "0"), 
@@ -129,7 +129,8 @@ namespace Attendance.Forms
                             txtPshift.Text.Trim().ToString(),
                             ((chkMaxOT.Checked) ? "1" : "0"), 
                             txtMaxOt.Value.ToString(),
-                            ((chkGateInOut.Checked) ? "1" : "0")
+                            ((chkGateInOut.Checked) ? "1" : "0"),
+                             ((chkLunchInOut.Checked) ? "1" : "0")
                             );
 
                         cmd.CommandText = sql;
@@ -175,6 +176,7 @@ namespace Attendance.Forms
                             " ExecMaxOt ='" + ((chkMaxOT.Checked) ? "1" : "0") + "'," +
                             " MaxOT ='" + txtMaxOt.Value.ToString() + "'," +
                             " ExecGateInOut ='" + ((chkGateInOut.Checked) ? "1" : "0") + "'," +
+                            " ExecLunchInOut ='" + ((chkLunchInOut.Checked) ? "1" : "0") + "'," +
                             " UpdDt = GetDate(), UpdID = '" + Utils.User.GUserID + "'" +
                             " Where EmpUnqID = '" + txtEmpUnqID.Text.Trim() + "'";
 
@@ -257,7 +259,7 @@ namespace Attendance.Forms
         private void LoadGrid()
         {
             DataSet ds = new DataSet();
-            string sql = "select a.EmpUnqID,b.EmpName,a.WrkGrp,a.ExecGateInOut, a.AddDt,a.AddID,a.UpdDt,a.UpdID From MastException a, MastEmp b Where a.EmpUnqID = b.EmpUnqId Order By EmpUnqID "; 
+            string sql = "select a.EmpUnqID,b.EmpName,a.WrkGrp,a.ExecGateInOut,a.ExecLunchInOut, a.AddDt,a.AddID,a.UpdDt,a.UpdID From MastException a, MastEmp b Where a.EmpUnqID = b.EmpUnqId Order By EmpUnqID "; 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
 
             Boolean hasRows = ds.Tables.Cast<DataTable>()
@@ -420,6 +422,7 @@ namespace Attendance.Forms
                     txtWrkGrpCode.Text = dr["WrkGrp"].ToString();
                     chkAutoOut.CheckState = (Convert.ToBoolean(dr["ExecAutoOut"])) ? CheckState.Checked : CheckState.Unchecked;
                     chkGateInOut.CheckState = (Convert.ToBoolean(dr["ExecGateInOut"])) ? CheckState.Checked : CheckState.Unchecked;
+                    chkLunchInOut.CheckState = (Convert.ToBoolean(dr["ExecLunchInOut"])) ? CheckState.Checked : CheckState.Unchecked;
                     txtPshift.Text = dr["PreferedShifts"].ToString();
                     chkMaxOT.CheckState = (Convert.ToBoolean(dr["ExecMaxOT"])) ? CheckState.Checked : CheckState.Unchecked;
                     txtMaxOt.Value = Convert.ToInt32(dr["MaxOT"].ToString());
@@ -436,6 +439,8 @@ namespace Attendance.Forms
                 txtMaxOt.Value = 0;
                 chkMaxOT.CheckState = CheckState.Unchecked;
                 chkGateInOut.CheckState = CheckState.Unchecked;
+                chkLunchInOut.CheckState = CheckState.Unchecked;
+
                 mode = "NEW";
                 oldCode = "";
             }

@@ -39,11 +39,14 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtRemarks = new DevExpress.XtraEditors.TextEdit();
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.grpUserRights.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRemarks.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // Group2
@@ -99,6 +102,8 @@
             // 
             // grpUserRights
             // 
+            this.grpUserRights.Controls.Add(this.label10);
+            this.grpUserRights.Controls.Add(this.txtRemarks);
             this.grpUserRights.Controls.Add(this.btnRefresh);
             this.grpUserRights.Controls.Add(this.btnClose);
             this.grpUserRights.Controls.Add(this.btnCancel);
@@ -114,7 +119,7 @@
             // btnRefresh
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnRefresh.Location = new System.Drawing.Point(450, 14);
+            this.btnRefresh.Location = new System.Drawing.Point(828, 16);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(105, 32);
             this.btnRefresh.TabIndex = 6;
@@ -125,7 +130,7 @@
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnClose.Location = new System.Drawing.Point(339, 14);
+            this.btnClose.Location = new System.Drawing.Point(717, 16);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(105, 32);
             this.btnClose.TabIndex = 5;
@@ -136,7 +141,7 @@
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnCancel.Location = new System.Drawing.Point(228, 14);
+            this.btnCancel.Location = new System.Drawing.Point(606, 16);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(105, 32);
             this.btnCancel.TabIndex = 4;
@@ -147,7 +152,7 @@
             // btnUpdate
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnUpdate.Location = new System.Drawing.Point(117, 14);
+            this.btnUpdate.Location = new System.Drawing.Point(495, 16);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(105, 32);
             this.btnUpdate.TabIndex = 2;
@@ -158,7 +163,7 @@
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnAdd.Location = new System.Drawing.Point(6, 14);
+            this.btnAdd.Location = new System.Drawing.Point(384, 16);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(105, 32);
             this.btnAdd.TabIndex = 1;
@@ -192,6 +197,25 @@
             this.tableLayoutPanel1.TabIndex = 25;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 15);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "Reason :";
+            // 
+            // txtRemarks
+            // 
+            this.txtRemarks.Location = new System.Drawing.Point(92, 20);
+            this.txtRemarks.Name = "txtRemarks";
+            this.txtRemarks.Properties.Mask.EditMask = "[0-9A-Za-z.-: ]+";
+            this.txtRemarks.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtRemarks.Properties.MaxLength = 45;
+            this.txtRemarks.Size = new System.Drawing.Size(273, 20);
+            this.txtRemarks.TabIndex = 13;
+            // 
             // frmMastEmpBlockPunching
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -207,7 +231,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.grpUserRights.ResumeLayout(false);
+            this.grpUserRights.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtRemarks.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -225,5 +251,7 @@
         private ctrlEmp ctrlEmp1;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label10;
+        private DevExpress.XtraEditors.TextEdit txtRemarks;
     }
 }

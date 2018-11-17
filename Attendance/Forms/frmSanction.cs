@@ -880,7 +880,13 @@ namespace Attendance.Forms
                 colDate = gv_InOut.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
+
+                colDate = gv_InOut.Columns["AddDt"];
+                colDate.DisplayFormat.Format = new CultureInfo("en");
+                colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
                 colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+
 
                 foreach (GridColumn gc in gv_InOut.Columns)
                 {
@@ -1662,7 +1668,8 @@ namespace Attendance.Forms
                 string cellpunch = gv_InOutGate.GetRowCellValue(i, "PunchDate").ToString().Trim();
                 string cellio = gv_InOutGate.GetRowCellValue(i, "IOFLG").ToString().Trim();
                 string cellip = gv_InOutGate.GetRowCellValue(i, "MachineIP").ToString().Trim();
-
+                string celluser = gv_InOutGate.GetRowCellValue(i, "AddID").ToString().Trim();
+                
                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                 {
                     try
@@ -1687,12 +1694,15 @@ namespace Attendance.Forms
                         cmd.Transaction = tr;
                         cmd.ExecuteNonQuery();
 
+                        
                         sql = "Delete From AttdGateInOut Where EmpUnqID ='" + Emp.EmpUnqID + "' and PunchDate ='" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
                             " And MachineIP ='" + cellip + "' And IOFLG = '" + cellio + "' and tYear ='" + tDate.Year.ToString() + "'";
 
                         cmd = new SqlCommand(sql, cn);
                         cmd.Transaction = tr;
                         cmd.ExecuteNonQuery();
+
+
                         tr.Commit();
 
                         //process attendance
@@ -2137,6 +2147,7 @@ namespace Attendance.Forms
                 string cellpunch = gv_InOutGatePass.GetRowCellValue(i, "PunchDate").ToString().Trim();
                 string cellio = gv_InOutGatePass.GetRowCellValue(i, "IOFLG").ToString().Trim();
                 string cellip = gv_InOutGatePass.GetRowCellValue(i, "MachineIP").ToString().Trim();
+                string celluser = gv_InOutGatePass.GetRowCellValue(i, "AddID").ToString().Trim();
 
                 using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                 {
@@ -2168,6 +2179,20 @@ namespace Attendance.Forms
                         cmd = new SqlCommand(sql, cn);
                         cmd.Transaction = tr;
                         cmd.ExecuteNonQuery();
+                       
+
+
+                        if (celluser.Contains("TRIPOD-Conv"))
+                        {
+                            string sql1 = "Insert into TripodLog (EmpUnqID,PunchDate,IOFLG,MachineIP,AddDt,AddId,tYear,t1date,tYearMt,LunchFlg,DutyFlg,GatePassFlg,Processed) Values (" +
+                            " '" + Emp.EmpUnqID + "','" + tDate.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                            " '" + cellio + "','" + cellip + "',GetDate(),'SERVER','" + tDate.Year + "','" + tDate.ToString("yyyy-MM-dd") + "','" + tDate.ToString("yyyyMM") + "',0,0,0,0 )";
+                            
+                            cmd = new SqlCommand(sql1, cn);
+                            cmd.Transaction = tr;
+                            cmd.ExecuteNonQuery();
+                        }
+
                         tr.Commit();
 
                         //process attendance
