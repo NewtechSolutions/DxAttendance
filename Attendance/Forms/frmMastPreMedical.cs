@@ -173,7 +173,7 @@ namespace Attendance.Forms
                             " '" + txtContCode.Text.Trim().ToString() + "','" + txtEmpName.Text.Trim().ToString() + "'," +
                             " '" + txtAdharNo.Text.Trim().ToString() + "','" + txtBirthDT.DateTime.Date.ToString("yyyy-MM-dd") + "'," +
                             " '" + txtAge.Text.Trim().ToString() + "'," +
-                            " " + (txtMedChkDt.DateTime == DateTime.MinValue || txtMedChkDt.EditValue == null ? "null" : "'" + txtBirthDT.DateTime.Date.ToString("yyyy-MM-dd") + "'") + "," +
+                            " " + (txtMedChkDt.DateTime == DateTime.MinValue || txtMedChkDt.EditValue == null ? "null" : "'" + txtMedChkDt.DateTime.Date.ToString("yyyy-MM-dd") + "'") + "," +
                             " '" + txtMedRes.Text.Trim().ToString() + "','" + txtRemark.Text.Trim().ToString() + "',GetDate(),'" + Utils.User.GUserID + "')";
 
                         cmd.CommandText = sql;
