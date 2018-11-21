@@ -1318,7 +1318,7 @@ namespace Attendance.Forms
                                  " ,'" + txtEmpName.Text.Trim() + "' " +
                                  " ,'' " +
                                  " ,'0'" +
-                                 " ,'1'" +
+                                 " ,'0'" +
                                  " ,'" + txtNewRFID.Text.Trim() + "',GetDate(),'" + Utils.User.GUserID + "')";                        
                     }
                     else
