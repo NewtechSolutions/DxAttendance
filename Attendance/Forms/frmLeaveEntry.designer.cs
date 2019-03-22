@@ -38,6 +38,8 @@
             this.tb_LeaveEntry = new DevExpress.XtraTab.XtraTabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btnReconsile = new DevExpress.XtraEditors.SimpleButton();
             this.btnSanction = new DevExpress.XtraEditors.SimpleButton();
             this.label9 = new System.Windows.Forms.Label();
             this.txtLeaveDays = new DevExpress.XtraEditors.CalcEdit();
@@ -185,6 +187,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.btnReconsile);
             this.groupBox1.Controls.Add(this.btnSanction);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.txtLeaveDays);
@@ -213,6 +217,25 @@
             this.groupBox1.Size = new System.Drawing.Size(1042, 393);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 275);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(434, 14);
+            this.label12.TabIndex = 19;
+            this.label12.Text = "Note : Reconsile Leave Balance for Current year, (Re-Calculate Availed Leave )";
+            // 
+            // btnReconsile
+            // 
+            this.btnReconsile.Image = ((System.Drawing.Image)(resources.GetObject("btnReconsile.Image")));
+            this.btnReconsile.Location = new System.Drawing.Point(101, 298);
+            this.btnReconsile.Name = "btnReconsile";
+            this.btnReconsile.Size = new System.Drawing.Size(100, 44);
+            this.btnReconsile.TabIndex = 18;
+            this.btnReconsile.Text = "Reconsile";
+            this.btnReconsile.Click += new System.EventHandler(this.btnReconsile_Click);
             // 
             // btnSanction
             // 
@@ -995,5 +1018,7 @@
         private DevExpress.XtraEditors.SimpleButton btnDel_SanLeave;
         private System.Windows.Forms.Label label11;
         private DevExpress.XtraEditors.DateEdit txtFromDt2;
+        private System.Windows.Forms.Label label12;
+        private DevExpress.XtraEditors.SimpleButton btnReconsile;
     }
 }

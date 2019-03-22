@@ -33,7 +33,7 @@ namespace Attendance
             stsUserID.Text = Utils.User.GUserID;
             stsUserDesc.Text = Utils.User.GUserName;
 
-            this.Text = "Attendance System : (Server->" + tdb.DataSource + ")";
+            this.Text = "Attendance System : (Server->" + tdb.DataSource + ",DB->" + tdb.DbName + ")";
         }
 
         private void mnuUserRights_Click(object sender, EventArgs e)
@@ -1161,8 +1161,9 @@ namespace Attendance
         {
             if (!string.IsNullOrEmpty(Globals.G_ReportServiceURL))
             {
-                string twrd = Globals.G_ReportServiceURL.Substring(0, Globals.G_ReportServiceURL.IndexOf("ReportService2010.asmx"));
-                Process.Start("IExplore.exe", twrd);
+                //string twrd = Globals.G_ReportServiceURL.Substring(0, Globals.G_ReportServiceURL.IndexOf("ReportService2010.asmx"));
+                string temp = "http://172.16.12.47/reports/browse/Attendance";
+                Process.Start("IExplore.exe", temp);
             }
         }
 
@@ -1185,6 +1186,30 @@ namespace Attendance
             if (t == null)
             {
                 Attendance.Forms.frmMastPreMedical m = new Attendance.Forms.frmMastPreMedical();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastManPowerGroup_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastManPowerGroup"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastManPowerGroup m = new Attendance.Forms.frmMastManPowerGroup();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuMastManPowerGroupDT_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastManPowerGroupDt"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmMastManPowerGroupDt m = new Attendance.Forms.frmMastManPowerGroupDt();
                 m.MdiParent = this;
                 m.Show();
             }

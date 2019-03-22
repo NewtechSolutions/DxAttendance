@@ -209,6 +209,7 @@ namespace Attendance.Forms
 
                                 cmd.CommandType = CommandType.Text;
                                 cmd.CommandText = sql;
+                                cmd.Connection = con;
                                 cmd.ExecuteNonQuery();
                                 
                                 

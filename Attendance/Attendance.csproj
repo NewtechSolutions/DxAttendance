@@ -194,6 +194,18 @@
     <Compile Include="Forms\frmAutoMailSender.designer.cs">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastManPowerGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastManPowerGroup.designer.cs">
+      <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastManPowerGroupDt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastManPowerGroupDt.designer.cs">
+      <DependentUpon>frmMastManPowerGroupDt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmAutoMailSubScription.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -608,6 +620,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoMailSender.resx">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastManPowerGroup.resx">
+      <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastManPowerGroupDt.resx">
+      <DependentUpon>frmMastManPowerGroupDt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>

@@ -202,6 +202,31 @@ namespace Attendance.Forms
                             }
                             catch (Exception ex)
                             {
+
+
+                                if (ex.ToString().Contains("Cannot insert duplicate key"))
+                                {
+                                    string sql = "Update LeaveBal Set Opn ='{0}', UpdDt = GetDate() , UpdID = '{1}' where CompCode = '{2}' and " +
+                                         " WrkGrp ='{3}' and tYear = '{4}' and EmpUnqID = '{5}' and LeaveTyp = '{6}'  ";
+                                    sql = string.Format(sql,dr["OpnBal"].ToString().Trim(),
+                                        Utils.User.GUserID,
+                                        dr["CompCode"].ToString().Trim(),
+                                        dr["WrkGrp"].ToString().Trim(),
+                                        dr["Year"].ToString().Trim(),
+                                        tEmpUnqID,
+                                        tLeaveTyp                                        
+                                        );
+                                    cmd.Connection = con;
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+                                    dr["remarks"] = "Record Updated...";
+                                    
+                                    continue;
+
+                                }
+                                
+                                
+                                
                                 dr["remarks"] = ex.ToString();
                                 //MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 continue;

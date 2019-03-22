@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attendance", "Attendance\Attendance.csproj", "{19E14C23-C9B1-4FD9-9766-CD61C085707D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttdLog_TxtToDB", "AttdLog_TxtToDB\AttdLog_TxtToDB.csproj", "{EE9AF715-4158-40B5-814B-EAE68D78A80A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{19E14C23-C9B1-4FD9-9766-CD61C085707D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19E14C23-C9B1-4FD9-9766-CD61C085707D}.Release|Any CPU.ActiveCfg = Release|x86
 		{19E14C23-C9B1-4FD9-9766-CD61C085707D}.Release|Any CPU.Build.0 = Release|x86
+		{EE9AF715-4158-40B5-814B-EAE68D78A80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE9AF715-4158-40B5-814B-EAE68D78A80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE9AF715-4158-40B5-814B-EAE68D78A80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE9AF715-4158-40B5-814B-EAE68D78A80A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

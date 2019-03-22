@@ -1315,7 +1315,7 @@ namespace Attendance.Forms
                                  " ,'" + "Master" + "'" +
                                  " ,'RFID',10 " +
                                  " ,'9999'  " +
-                                 " ,'" + txtEmpName.Text.Trim() + "' " +
+                                 " ,'' " +
                                  " ,'' " +
                                  " ,'0'" +
                                  " ,'0'" +
@@ -1813,6 +1813,42 @@ namespace Attendance.Forms
                 }
 
             }
+        }
+
+        private void btnDownloadAccessRecord_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAddSrc2.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            string ip = txtIPAddSrc2.Text.Trim().ToString();
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            string err = string.Empty;
+            m.Connect(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.Cursor = Cursors.WaitCursor;
+            LockCtrl();
+            err = string.Empty;
+            int reqno = m.GetAccessRecords(out err);
+
+            UnLockCtrl();
+            this.Cursor = Cursors.Default;
+
+            if(string.IsNullOrEmpty(err))            
+                lblAccessLogReq.Text = "Req.No : " + reqno.ToString();
+            else
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+
         }
         
     }

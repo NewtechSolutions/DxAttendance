@@ -676,10 +676,10 @@ namespace Attendance.Forms
                     " ,GracePeriod From AttdData " +
                     " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + FromDt + "' AND CompCode = '01' And WrkGrp = '" + Emp.WrkGrp + "' Order By tDate" ;
     
-            SqlSanc = "Select Top 40 " +
+            SqlSanc = "Select  " +
                       " SanID,tDate,ConsInTime,ConsOutTime,ConsOverTime,ConsShift,SchLeave,AddID,AddDT,Remarks " +
                       " From MastLeaveSchedule " +
-                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate >= '" + FromDt + "'" +
+                      " Where EmpUnqId ='" + Emp.EmpUnqID + "' And tDate between (select CalendarStartOfMonthDate from dbo.F_TABLE_DATE('" + FromDt + "','" + FromDt + "')) And (select CalendarEndOfMonthDate from dbo.F_TABLE_DATE('" + FromDt + "','" + FromDt + "'))  " +
                       " And (ConsInTime is not null OR ConsOutTime is not null OR ConsOverTime is not null Or ConsShift is not null) Order By SanID Desc ";
 
             SqlPunch = "Select Top 100 " +

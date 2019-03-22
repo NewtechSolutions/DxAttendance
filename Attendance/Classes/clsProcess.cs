@@ -1101,7 +1101,7 @@ namespace Attendance
                 string sminlate = "";
 
                 //'for early going
-                double secgone = 0, hurgone = 0, mingone = 0;
+                double secgone = 0, hurgone = 0, mingone = 0, restsecgone = 0 ;
                 string smingone = "";
 
                 //for grace period
@@ -1316,31 +1316,36 @@ namespace Attendance
 
                                 #region grace
 
-                                if (Convert.ToDateTime(drAttd["ConsOut"]) < ShiftEnd)
-                                {
-                                    if (ts.TotalSeconds < 0)
-                                    {
-                                        secgrace += Math.Abs(ts.TotalSeconds);
-                                        hurgrace = Math.Truncate(secgrace / 3600);
-                                        mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                        smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
+                                ///Removed Grace Period From Out Time as per Mail of Vallabh Bhai
+                                ///Date : 04/03/2019
 
-                                    }
-                                    if (secgrace > Globals.G_GracePeriodSec)
-                                    {
-                                        drAttd["GracePeriod"] = smingrace;
-                                        if (drAttd["LeaveTyp"].ToString() != "")
-                                        {
-                                            drAttd["GracePeriod"] = "";
-                                        }
+                                //if (Convert.ToDateTime(drAttd["ConsOut"]) < ShiftEnd)
+                                //{
+                                //    if (ts.TotalSeconds < 0)
+                                //    {
+                                //        secgrace += Math.Abs(ts.TotalSeconds);
+                                //        hurgrace = Math.Truncate(secgrace / 3600);
+                                //        mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //        smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
 
-                                    }//new development for dynamic halfday
-                                    else
-                                    {
-                                        drAttd["GracePeriod"] = "";
-                                    }
+                                //    }
+                                //    if (secgrace > Globals.G_GracePeriodSec)
+                                //    {
+                                //        drAttd["GracePeriod"] = smingrace;
+                                //        if (drAttd["LeaveTyp"].ToString() != "")
+                                //        {
+                                //            drAttd["GracePeriod"] = "";
+                                //        }
 
-                                }
+                                //    }//new development for dynamic halfday
+                                //    else
+                                //    {
+                                //        drAttd["GracePeriod"] = "";
+                                //    }
+
+                                //}
+
+                                //removed : 04/03/2019
 
                                 if (eWrkGrp == "COMP" && eGradeCode <= 15)
                                 {
@@ -1355,12 +1360,14 @@ namespace Attendance
 
                                     secgone = t1.TotalSeconds;
                                     
-                                    if (secgone > 1 && secgone <= 59)
-                                        secgone = 60;
+                                    //if (secgone > 1 && secgone <= 59)
+                                    //    secgone = 60;
 
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
-                                    smingone = string.Format("{0:00}:{1:00}", hurgone, mingone); 
+                                    //smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    restsecgone = (secgone - ((hurgone * 3600) + (mingone * 60)));
+                                    smingone = string.Format("{0:00}:{1:00}:{2:00}", hurgone, mingone, restsecgone);
 
                                     drAttd["EarlyGoing"] = smingone;
 
@@ -1485,6 +1492,7 @@ namespace Attendance
                         secgone = 0;
                         hurgone = 0;
                         mingone = 0;
+                        restsecgone = 0;
                         smingone = "";
                         #endregion Reset_ShiftVars
 
@@ -1724,29 +1732,35 @@ namespace Attendance
                                 TimeSpan t5 = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd);
 
                                 #region grace
+
+                                ///Removed Grace Period From Out Time as per Mail of Vallabh Bhai
+                                ///Date : 04/03/2019
+
                                 //grace period
-                                if (Math.Abs(t5.TotalSeconds) > 0)
-                                {
-                                    secgrace += Math.Abs(t5.TotalSeconds);
-                                    hurgrace = Math.Truncate(secgrace / 3600);
-                                    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
+                                //if (Math.Abs(t5.TotalSeconds) > 0)
+                                //{
+                                //    secgrace += Math.Abs(t5.TotalSeconds);
+                                //    hurgrace = Math.Truncate(secgrace / 3600);
+                                //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);
                                    
-                                }
-                                if (secgrace > Globals.G_GracePeriodSec)
-                                {
-                                    drAttd["GracePeriod"] = smingrace;
+                                //}
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    drAttd["GracePeriod"] = smingrace;
 
-                                    if (drAttd["LeaveTyp"].ToString() != "")
-                                    {
-                                        drAttd["GracePeriod"] = "";
-                                    }
-                                }
-                                else
-                                {
-                                    drAttd["GracePeriod"] = "";
+                                //    if (drAttd["LeaveTyp"].ToString() != "")
+                                //    {
+                                //        drAttd["GracePeriod"] = "";
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    drAttd["GracePeriod"] = "";
 
-                                }//new development for dynamic halfday
+                                //}//new development for dynamic halfday
+
+                                //removed : 04/03/2019
 
                                 if (eWrkGrp == "COMP" && eGradeCode <= 15)
                                 {
@@ -1758,12 +1772,15 @@ namespace Attendance
                                 if (t5.TotalSeconds < (-1 * Globals.G_EarlyGoingSec) && t5.TotalSeconds < 0)
                                 {
                                     secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
-                                    if (secgone > 1 && secgone <= 59)
-                                        secgone = 60;
+                                    //if (secgone > 1 && secgone <= 59)
+                                    //    secgone = 60;
 
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
-                                    smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    //smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    restsecgone = (secgone - ((hurgone * 3600) + (mingone * 60)));
+                                    smingone = string.Format("{0:00}:{1:00}:{2:00}", hurgone, mingone, restsecgone);
+                                    
                                     drAttd["EarlyGoing"] = smingone;
 
                                     //new development for dynamic halfday
@@ -1865,27 +1882,33 @@ namespace Attendance
                                 
 
                                 #region grace
-                                if (t5.TotalSeconds > 0)
-                                {
-                                    secgrace += t5.TotalSeconds;
-                                    hurgrace = Math.Truncate(secgrace / 3600);
-                                    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
-                                    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);                                    
-                                }
-                                //grace period
-                                if (secgrace > Globals.G_GracePeriodSec)
-                                {
-                                    drAttd["GracePeriod"] = smingrace;
-                                    if (drAttd["LeaveTyp"].ToString() != "")
-                                    {
-                                        drAttd["GracePeriod"] = "";
-                                    }
-                                }
-                                else
-                                {
-                                    drAttd["GracePeriod"] = "";
 
-                                }//new development for dynamic halfday
+                                ///Removed Grace Period From Out Time as per Mail of Vallabh Bhai
+                                ///Date : 04/03/2019
+
+                                //if (t5.TotalSeconds > 0)
+                                //{
+                                //    secgrace += t5.TotalSeconds;
+                                //    hurgrace = Math.Truncate(secgrace / 3600);
+                                //    mingrace = Math.Truncate((secgrace - (hurgrace * 3600)) / 60);
+                                //    smingrace = string.Format("{0:00}:{1:00}", hurgrace, mingrace);                                    
+                                //}
+                                ////grace period
+                                //if (secgrace > Globals.G_GracePeriodSec)
+                                //{
+                                //    drAttd["GracePeriod"] = smingrace;
+                                //    if (drAttd["LeaveTyp"].ToString() != "")
+                                //    {
+                                //        drAttd["GracePeriod"] = "";
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    drAttd["GracePeriod"] = "";
+
+                                //}//new development for dynamic halfday
+
+                                ///removed - 04/03/2019
 
                                 if (eWrkGrp == "COMP" && eGradeCode <= 15)
                                 {
@@ -1897,13 +1920,15 @@ namespace Attendance
                                 if (t5.TotalSeconds > (Globals.G_EarlyGoingSec) )
                                 {
                                     secgone = (ShiftEnd - Convert.ToDateTime(drAttd["ConsOut"])).TotalSeconds;
-                                    if (secgone > 1 && secgone <= 59)
-                                        secgone = 60;
+                                    
+                                    //if (secgone > 1 && secgone <= 59)
+                                    //    secgone = 60;
 
 
                                     hurgone = Math.Truncate(secgone / 3600);
                                     mingone = Math.Truncate((secgone - (hurgone * 3600)) / 60);
-                                    smingone = string.Format("{0:00}:{1:00}", hurgone, mingone);
+                                    restsecgone = (secgone - ((hurgone * 3600) + (mingone * 60)));
+                                    smingone = string.Format("{0:00}:{1:00}:{2:00}", hurgone, mingone,restsecgone);
                                     drAttd["EarlyGoing"] = smingone;
 
                                     if (Globals.G_HFFLG_EarlyGoing)
@@ -2006,7 +2031,7 @@ namespace Attendance
                     hurgrace = 0;
                     mingrace = 0;
                     smingrace = "";
-
+                    restsecgone = 0;
                     #endregion Reset_ShiftVars
 
 
@@ -2053,73 +2078,111 @@ namespace Attendance
                 OverTime = 0;
                 if (tOTFLG && (Convert.ToDouble(drAttd["ConsWrkHrs"])) > ShiftHrs && drAttd["LeaveTyp"].ToString() == "")
                 {
-                    TimeSpan t3 = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd);
-                    OverTime = t3.TotalSeconds;
-                    double othrs = 0, otmin = 0;
-                    double ot = 0;
 
-                    othrs = Math.Truncate(OverTime / 3600);
-                    otmin = Math.Truncate((OverTime - (othrs * 3600)) / 60);
-                    //otmin = ((int)OverTime - (othrs * 60));
-                    ot = othrs;
+                    DateTime tOut = Convert.ToDateTime(drAttd["ConsOut"]);
+                    //DateTime tIn = Convert.ToDateTime(drAttd["ConsInTime"]);
+                    int tHour = (tOut - ShiftEnd).Hours;
 
-                    if (otmin >= 21 && otmin <= 50)
-                    {
-                        ot = othrs + 0.5;
-                    }
-                    else if (otmin > 50 && otmin <= 59)
-                    {
-                        ot = othrs + 1;
-                    }
+                    int ot = 0;
 
-                    if (ot >= 1)
+                    if (tHour >= 2)
                     {
-                        ot = ot - ShiftBreak;
-                    }
+                        ot = (tHour - Convert.ToInt32(ShiftBreak));
 
-                    if (ot >= 1.5)
-                    {
                         if (drAttd["Latecome"].ToString() != "")
                         {
                             int thr = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(0, 2));
                             int tmn = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(3, 2));
 
                             ot = ot - thr;
-                            if (tmn >= 15 && tmn <= 40)
-                                ot = ot - 0.5;
-                            else if (tmn >= 41 && tmn <= 59)
+                            if (tmn >= 1)
                                 ot = ot - 1;
-
+                            
                         }
 
-                        drAttd["ConsOverTime"] = ot;
-                        drAttd["CalcOvertime"] = ot;
+                        if (ot >= 2)
+                        {
+                            drAttd["ConsOverTime"] = ot;
+                            drAttd["CalcOvertime"] = ot;
+                        }
+                        else
+                        {
+                            drAttd["ConsOverTime"] = 0;
+                            drAttd["CalcOvertime"] = 0;
+                        }
+                        
                     }
                     else
                     {
                         drAttd["ConsOverTime"] = 0;
                         drAttd["CalcOvertime"] = 0;
                     }
-                }
-                else if (tOTFLG && drAttd["LeaveTyp"].ToString() == "WO")
-                {
-                    OverTime = (Convert.ToDouble(drAttd["ConsWrkHrs"]) - BreakHours);
-                    if (OverTime >= 1.5)
-                    {
-                        drAttd["ConsOverTime"] = Convert.ToInt32(OverTime);
-                        drAttd["CalcOvertime"] = Convert.ToInt32(OverTime);
-                    }
-                }
-                else if (tOTFLG && drAttd["LeaveTyp"].ToString() == "HL")
-                {
-                    OverTime = (Convert.ToDouble(drAttd["ConsWrkHrs"]) - BreakHours);
-                    if (OverTime >= 1.5)
-                    {
-                        drAttd["ConsOverTime"] = Convert.ToInt32(OverTime);
-                        drAttd["CalcOvertime"] = Convert.ToInt32(OverTime);
 
-                    }
+                    //removed Rounding calculate completed hours only
+                    //based on Mr. Vallabh's Mail 04/03/2019
+                    
+                    //TimeSpan t3 = (Convert.ToDateTime(drAttd["ConsOut"]) - ShiftEnd);
+                    //OverTime = t3.TotalSeconds;
+                    //double othrs = 0, otmin = 0;
+                    //double ot = 0;
+
+                    //othrs = Math.Truncate(OverTime / 3600);
+                    //otmin = Math.Truncate((OverTime - (othrs * 3600)) / 60);
+                    //ot = othrs;
+
+                    //if (otmin >= 21 && otmin <= 50)
+                    //{
+                    //    ot = othrs + 0.5;
+                    //}
+                    //else if (otmin > 50 && otmin <= 59)
+                    //{
+                    //    ot = othrs + 1;
+                    //}
+
+                    //if (ot >= 1)
+                    //{
+                    //    ot = ot - ShiftBreak;
+                    //}
+
+                    //if (ot >= 1.5)
+                    //{
+                    //    if (drAttd["Latecome"].ToString() != "")
+                    //    {
+                    //        int thr = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(0, 2));
+                    //        int tmn = Convert.ToInt32(drAttd["Latecome"].ToString().Substring(3, 2));
+
+                    //        ot = ot - thr;
+                    //        if (tmn >= 15 && tmn <= 40)
+                    //            ot = ot - 0.5;
+                    //        else if (tmn >= 41 && tmn <= 59)
+                    //            ot = ot - 1;
+
+                    //    }
+
+                    //    drAttd["ConsOverTime"] = ot;
+                    //    drAttd["CalcOvertime"] = ot;
+                    //}
+                    //else
+                    //{
+                    //    drAttd["ConsOverTime"] = 0;
+                    //    drAttd["CalcOvertime"] = 0;
+                    //}
                 }
+                else if (tOTFLG && (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL"))
+                {
+                    OverTime = Math.Truncate(Convert.ToDouble(drAttd["ConsWrkHrs"]) - BreakHours);
+                    
+                    if (OverTime >= 2)
+                    {
+                        drAttd["ConsOverTime"] = OverTime;                        
+                        drAttd["CalcOvertime"] = OverTime;
+                    }
+                    else
+                    {
+                        drAttd["ConsOverTime"] = 0;
+                        drAttd["CalcOvertime"] = 0;
+                    }
+                }                
                 else
                 {
                     drAttd["ConsOverTime"] = 0;

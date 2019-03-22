@@ -140,6 +140,11 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.btnDownloadAccessRecord = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtIPAddSrc2 = new DevExpress.XtraEditors.TextEdit();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lblAccessLogReq = new System.Windows.Forms.Label();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -189,6 +194,7 @@
             this.grpButtons6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAddDest.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc.Properties)).BeginInit();
+            this.grpButtons7.SuspendLayout();
             this.tbp_Upload.SuspendLayout();
             this.tblp_Upload.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpButtons10)).BeginInit();
@@ -197,6 +203,7 @@
             this.grpButtons11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc2.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tblp
@@ -1471,12 +1478,18 @@
             // grpButtons7
             // 
             this.grpButtons7.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons7.Controls.Add(this.lblAccessLogReq);
+            this.grpButtons7.Controls.Add(this.label21);
+            this.grpButtons7.Controls.Add(this.btnDownloadAccessRecord);
+            this.grpButtons7.Controls.Add(this.label20);
+            this.grpButtons7.Controls.Add(this.txtIPAddSrc2);
             this.grpButtons7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons7.Location = new System.Drawing.Point(3, 119);
             this.grpButtons7.Name = "grpButtons7";
             this.grpButtons7.Size = new System.Drawing.Size(650, 110);
             this.grpButtons7.TabIndex = 2;
             this.grpButtons7.TabStop = false;
+            this.grpButtons7.Text = "Download Machine Access Log";
             // 
             // tbp_Upload
             // 
@@ -1649,6 +1662,54 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
+            // btnDownloadAccessRecord
+            // 
+            this.btnDownloadAccessRecord.Location = new System.Drawing.Point(339, 34);
+            this.btnDownloadAccessRecord.Name = "btnDownloadAccessRecord";
+            this.btnDownloadAccessRecord.Size = new System.Drawing.Size(118, 47);
+            this.btnDownloadAccessRecord.TabIndex = 78;
+            this.btnDownloadAccessRecord.Text = "Download";
+            this.btnDownloadAccessRecord.UseVisualStyleBackColor = true;
+            this.btnDownloadAccessRecord.Click += new System.EventHandler(this.btnDownloadAccessRecord_Click);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(30, 38);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(115, 14);
+            this.label20.TabIndex = 77;
+            this.label20.Text = "Source IP Address :";
+            // 
+            // txtIPAddSrc2
+            // 
+            this.txtIPAddSrc2.EditValue = "";
+            this.txtIPAddSrc2.Location = new System.Drawing.Point(174, 35);
+            this.txtIPAddSrc2.Name = "txtIPAddSrc2";
+            this.txtIPAddSrc2.Properties.Mask.EditMask = "[0-9.]+";
+            this.txtIPAddSrc2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtIPAddSrc2.Properties.MaxLength = 15;
+            this.txtIPAddSrc2.Size = new System.Drawing.Size(159, 20);
+            this.txtIPAddSrc2.TabIndex = 76;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(30, 89);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(438, 14);
+            this.label21.TabIndex = 79;
+            this.label21.Text = "Use -> Monthly Report \\ Machine Wise Accesslog Report with your request No";
+            // 
+            // lblAccessLogReq
+            // 
+            this.lblAccessLogReq.AutoSize = true;
+            this.lblAccessLogReq.Location = new System.Drawing.Point(86, 65);
+            this.lblAccessLogReq.Name = "lblAccessLogReq";
+            this.lblAccessLogReq.Size = new System.Drawing.Size(59, 14);
+            this.lblAccessLogReq.TabIndex = 80;
+            this.lblAccessLogReq.Text = "Req. No :";
+            // 
             // frmMastUserManagement
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1717,6 +1778,8 @@
             this.grpButtons6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAddDest.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc.Properties)).EndInit();
+            this.grpButtons7.ResumeLayout(false);
+            this.grpButtons7.PerformLayout();
             this.tbp_Upload.ResumeLayout(false);
             this.tblp_Upload.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grpButtons10)).EndInit();
@@ -1726,6 +1789,7 @@
             this.grpButtons11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grd_Upload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gv_Upload)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtIPAddSrc2.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1844,5 +1908,10 @@
         public DevExpress.XtraEditors.TextEdit txtIPAddSrc;
         private System.Windows.Forms.Button btnBulkDelete;
         private DevExpress.XtraEditors.SimpleButton btnSetTime;
+        private System.Windows.Forms.Button btnDownloadAccessRecord;
+        private System.Windows.Forms.Label label20;
+        public DevExpress.XtraEditors.TextEdit txtIPAddSrc2;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblAccessLogReq;
     }
 }

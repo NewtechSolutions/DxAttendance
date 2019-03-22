@@ -677,6 +677,22 @@ namespace Attendance.Forms
                 
             }
 
+            
+
+            DateTime Fromdt = txtFromDt.DateTime.Date;
+            DateTime Todt = txtToDt.DateTime.Date;
+
+            if (Todt < Fromdt)
+            {
+                err += "Invalid Date Range..." + Environment.NewLine;
+            }
+
+            if ((Todt - Fromdt).TotalDays > 90)
+            {
+                err += "Changes not allowed morethan 90 days..." + Environment.NewLine;
+            }
+
+
             ////make sure to to check months between dates
             //if (txtFromDt.DateTime.ToString("yyyyMM") != txtToDt.DateTime.ToString("yyyyMM"))
             //{

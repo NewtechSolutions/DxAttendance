@@ -203,7 +203,7 @@ namespace Attendance.Classes
 
         /// <summary>
         /// Get Data File from device
-        /// Type of the data file to be obtained 
+        /// DataFlg Type of the data file to be obtained 
         /// 1. Attendance record data file 
         /// 2. Fingerprint template data file 
         /// 3. None 
@@ -216,18 +216,18 @@ namespace Attendance.Classes
         /// FileName Name of the obtained data file 
         /// </summary>
         /// <param name="DataFlag"></param>
-        /// <param name="FileName"></param>
+        /// <param name="FileName">File Name with full Path of user's PC</param>
 
-
+        ///
         public bool GetDataFile(int DataFlag,string FileName,out string err)
         {
             err = string.Empty;
             bool ret = false;
-            if(this._connected){
+            if(!this._connected){
                 err = "Machine is not connected";
                 return ret;
             }
-
+            
             ret = this.CZKEM1.GetDataFile(this.CZKEM1.MachineNumber, DataFlag, FileName);
             return ret;
 
@@ -237,7 +237,7 @@ namespace Attendance.Classes
         {
             err = string.Empty;
             bool ret = false;
-            if (this._connected)
+            if (!this._connected)
             {
                 err = "Machine is not connected";
                 return ret;
@@ -274,6 +274,133 @@ namespace Attendance.Classes
             }
 
             ret = this.CZKEM1.GetSerialNumber(this.CZKEM1.MachineNumber, out strSerialNo);
+            return ret;
+        }
+
+        public int GetAccessRecords(out string err)
+        {
+            err = string.Empty;
+            int ret = 0;
+            if (!this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            int idwYear = 0;
+            int idwMonth = 0;
+            int idwDay = 0;
+            int idwHour = 0;
+            int idwMinute = 0;           
+            int odwEnrollNumber = 0; //for old machine            
+            int Params4 = 0;
+            int Params3 = 0;
+            int Params2 = 0;
+            int Params1 = 0;
+            int dwManipulation = 0;
+            bool m_tft = false;
+
+            bool logfound = false;
+
+            m_tft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            this.CZKEM1.EnableDevice(_machineno, false);//disable the device
+            if (this.CZKEM1.ReadSuperLogData(_machineno))//read all the operation records to the memory
+            {
+
+                string sql = "SELECT isnull(Max(ReqNo),0) + 1 from MastMachineAccessLog ";
+                int ReqNo = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr,out err));
+                
+                if (!string.IsNullOrEmpty(err))
+                {
+                    ret = 0;
+                    return ret;
+                }
+
+                //string tpath = Utils.Helper.GetInfoLogFilePath();
+                //string filename = System.IO.Path.Combine(tpath, "5_data.dat");
+                //this.GetDataFile(4, filename, out err);
+
+                err = string.Empty;
+                DateTime ReqDt = DateTime.Now;
+                string ReqBy = Utils.User.GUserID;
+                string Machid = this._ip;
+
+                
+                int outnum = 0;
+                string stradmin = string.Empty;
+                string struser = string.Empty;
+                string strtime = string.Empty;
+
+
+                //while(CZKEM1.SSR_GetSuperLogData(_machineno, out outnum,out stradmin, out struser,out dwManipulation, out strtime, out Params1, out Params2, out Params3))
+
+                while (CZKEM1.GetSuperLogData(_machineno, ref _machineno, ref odwEnrollNumber,
+                        ref Params4,ref Params1,ref Params2, ref dwManipulation,ref Params3,
+                        ref idwYear,ref idwMonth,ref idwDay,ref idwHour,ref idwMinute))//get records from the memory
+                {
+                    DateTime logdt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute,0);
+
+                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                    {
+                        try
+                        {
+                            cn.Open();
+                        }
+                        catch (Exception ex)
+                        {
+                            ret = 0;
+                            err = ex.Message.ToString();
+                            return ret;
+                        }
+
+                        sql = "Insert into MastMachineAccessLog (ReqNo,MachineIP,ReqDt,ReqBy,ManiplulationTime," +
+                            " DwManipulation,Params1,Params2,Params3,Params4,OperatedUserID) Values ({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}')";
+
+                        sql = string.Format(sql,
+                            ReqNo, Machid, ReqDt.ToString("yyyy-MM-dd HH:mm:ss"), ReqBy,
+                            logdt.ToString("yyyy-MM-dd HH:mm:ss"),
+                            dwManipulation, Params1, Params2, Params3, Params4, odwEnrollNumber
+                            );
+
+                        //sql = "Insert into MastMachineAccessLog (ReqNo,MachineIP,ReqDt,ReqBy,StringTime," +
+                        //    " DwManipulation,Params1,Params2,Params3,Params4,StringAdmin,StringUser,OutNumber) Values ({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}')";
+
+                        //sql = string.Format(sql,
+                        //    ReqNo, Machid, ReqDt.ToString("yyyy-MM-dd HH:mm:ss"), ReqBy,
+                        //    strtime,
+                        //    dwManipulation, Params1, Params2, Params3, Params4, stradmin, struser, outnum
+                        //    );
+
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            cmd.Connection = cn;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.CommandText = sql;
+
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                logfound = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                err = ex.Message.ToString();
+                                ret = 0;
+                            }
+                                                   
+                        }
+
+                        ret = ReqNo;
+                    }
+                    
+                }
+                
+            }
+            if (logfound)
+                this.CZKEM1.ClearSLog(_machineno);
+            
+            this.CZKEM1.EnableDevice(_machineno, true);//disable the device
             return ret;
         }
 

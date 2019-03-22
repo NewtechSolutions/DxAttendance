@@ -53,6 +53,7 @@
             this.mnuUserSpRights = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUserDSRights = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUserEmpRights = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPreMedicalMast = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastEmpType = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMastCat = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,7 +125,8 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuPreMedicalMast = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastManPowerGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMastManPowerGroupDT = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -342,6 +344,13 @@
             this.mnuUserEmpRights.Text = "User Emp Rights";
             this.mnuUserEmpRights.Click += new System.EventHandler(this.mnuUserEmpRights_Click);
             // 
+            // mnuPreMedicalMast
+            // 
+            this.mnuPreMedicalMast.Name = "mnuPreMedicalMast";
+            this.mnuPreMedicalMast.Size = new System.Drawing.Size(209, 22);
+            this.mnuPreMedicalMast.Text = "Pre-Medical Master";
+            this.mnuPreMedicalMast.Click += new System.EventHandler(this.mnuPreMedicalMast_Click);
+            // 
             // mnuProfile
             // 
             this.mnuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -357,7 +366,9 @@
             this.mnuMastHolidayOpt,
             this.mnuAutoMail,
             this.mnuCreateMuster,
-            this.mnuMastRules});
+            this.mnuMastRules,
+            this.mnuMastManPowerGroup,
+            this.mnuMastManPowerGroupDT});
             this.mnuProfile.Name = "mnuProfile";
             this.mnuProfile.Size = new System.Drawing.Size(209, 22);
             this.mnuProfile.Text = "Profile Master";
@@ -365,91 +376,91 @@
             // mnuMastEmpType
             // 
             this.mnuMastEmpType.Name = "mnuMastEmpType";
-            this.mnuMastEmpType.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastEmpType.Size = new System.Drawing.Size(209, 22);
             this.mnuMastEmpType.Text = "EmpType Master";
             this.mnuMastEmpType.Click += new System.EventHandler(this.mnuMastEmpType_Click);
             // 
             // mnuMastCat
             // 
             this.mnuMastCat.Name = "mnuMastCat";
-            this.mnuMastCat.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastCat.Size = new System.Drawing.Size(209, 22);
             this.mnuMastCat.Text = "Catagory Master";
             this.mnuMastCat.Click += new System.EventHandler(this.mnuMastCat_Click);
             // 
             // mnuMastDept
             // 
             this.mnuMastDept.Name = "mnuMastDept";
-            this.mnuMastDept.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastDept.Size = new System.Drawing.Size(209, 22);
             this.mnuMastDept.Text = "Department Master";
             this.mnuMastDept.Click += new System.EventHandler(this.mnuMastDept_Click);
             // 
             // mnuMastStat
             // 
             this.mnuMastStat.Name = "mnuMastStat";
-            this.mnuMastStat.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastStat.Size = new System.Drawing.Size(209, 22);
             this.mnuMastStat.Text = "Station Master";
             this.mnuMastStat.Click += new System.EventHandler(this.mnuMastStat_Click);
             // 
             // mnuMastStatSec
             // 
             this.mnuMastStatSec.Name = "mnuMastStatSec";
-            this.mnuMastStatSec.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastStatSec.Size = new System.Drawing.Size(209, 22);
             this.mnuMastStatSec.Text = "Section Master";
             this.mnuMastStatSec.Click += new System.EventHandler(this.mnuMastStatSec_Click);
             // 
             // mnuMastDesg
             // 
             this.mnuMastDesg.Name = "mnuMastDesg";
-            this.mnuMastDesg.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastDesg.Size = new System.Drawing.Size(209, 22);
             this.mnuMastDesg.Text = "Designation Mast";
             this.mnuMastDesg.Click += new System.EventHandler(this.mnuMastDesg_Click);
             // 
             // mnuMastGrade
             // 
             this.mnuMastGrade.Name = "mnuMastGrade";
-            this.mnuMastGrade.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastGrade.Size = new System.Drawing.Size(209, 22);
             this.mnuMastGrade.Text = "Grade Master";
             this.mnuMastGrade.Click += new System.EventHandler(this.mnuMastGrade_Click);
             // 
             // mnuMastCont
             // 
             this.mnuMastCont.Name = "mnuMastCont";
-            this.mnuMastCont.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastCont.Size = new System.Drawing.Size(209, 22);
             this.mnuMastCont.Text = "Contractor Master";
             this.mnuMastCont.Click += new System.EventHandler(this.mnuMastCont_Click);
             // 
             // mnuMastHoliday
             // 
             this.mnuMastHoliday.Name = "mnuMastHoliday";
-            this.mnuMastHoliday.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastHoliday.Size = new System.Drawing.Size(209, 22);
             this.mnuMastHoliday.Text = "Holiday Calander";
             this.mnuMastHoliday.Click += new System.EventHandler(this.mnuMastHoliday_Click);
             // 
             // mnuMastHolidayOpt
             // 
             this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
-            this.mnuMastHolidayOpt.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastHolidayOpt.Size = new System.Drawing.Size(209, 22);
             this.mnuMastHolidayOpt.Text = "Optional Holidy Calander";
             this.mnuMastHolidayOpt.Click += new System.EventHandler(this.mnuMastHolidayOpt_Click);
             // 
             // mnuAutoMail
             // 
             this.mnuAutoMail.Name = "mnuAutoMail";
-            this.mnuAutoMail.Size = new System.Drawing.Size(208, 22);
+            this.mnuAutoMail.Size = new System.Drawing.Size(209, 22);
             this.mnuAutoMail.Text = "AutoMail SubScription";
             this.mnuAutoMail.Click += new System.EventHandler(this.mnuAutoMail_Click);
             // 
             // mnuCreateMuster
             // 
             this.mnuCreateMuster.Name = "mnuCreateMuster";
-            this.mnuCreateMuster.Size = new System.Drawing.Size(208, 22);
+            this.mnuCreateMuster.Size = new System.Drawing.Size(209, 22);
             this.mnuCreateMuster.Text = "Create Muster Table";
             this.mnuCreateMuster.Click += new System.EventHandler(this.mnuCreateMuster_Click);
             // 
             // mnuMastRules
             // 
             this.mnuMastRules.Name = "mnuMastRules";
-            this.mnuMastRules.Size = new System.Drawing.Size(208, 22);
+            this.mnuMastRules.Size = new System.Drawing.Size(209, 22);
             this.mnuMastRules.Text = "Rules Master";
             this.mnuMastRules.Click += new System.EventHandler(this.mnuMastRules_Click);
             // 
@@ -894,12 +905,19 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
-            // mnuPreMedicalMast
+            // mnuMastManPowerGroup
             // 
-            this.mnuPreMedicalMast.Name = "mnuPreMedicalMast";
-            this.mnuPreMedicalMast.Size = new System.Drawing.Size(209, 22);
-            this.mnuPreMedicalMast.Text = "Pre-Medical Master";
-            this.mnuPreMedicalMast.Click += new System.EventHandler(this.mnuPreMedicalMast_Click);
+            this.mnuMastManPowerGroup.Name = "mnuMastManPowerGroup";
+            this.mnuMastManPowerGroup.Size = new System.Drawing.Size(209, 22);
+            this.mnuMastManPowerGroup.Text = "Man Power Group Master";
+            this.mnuMastManPowerGroup.Click += new System.EventHandler(this.mnuMastManPowerGroup_Click);
+            // 
+            // mnuMastManPowerGroupDT
+            // 
+            this.mnuMastManPowerGroupDT.Name = "mnuMastManPowerGroupDT";
+            this.mnuMastManPowerGroupDT.Size = new System.Drawing.Size(209, 22);
+            this.mnuMastManPowerGroupDT.Text = "Man Power Group Details";
+            this.mnuMastManPowerGroupDT.Click += new System.EventHandler(this.mnuMastManPowerGroupDT_Click);
             // 
             // frmMain
             // 
@@ -1023,6 +1041,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuReports;
         private System.Windows.Forms.ToolStripMenuItem mnuMastException;
         private System.Windows.Forms.ToolStripMenuItem mnuPreMedicalMast;
+        private System.Windows.Forms.ToolStripMenuItem mnuMastManPowerGroup;
+        private System.Windows.Forms.ToolStripMenuItem mnuMastManPowerGroupDT;
 
 
     }
