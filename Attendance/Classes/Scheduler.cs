@@ -562,7 +562,7 @@ namespace Attendance.Classes
                                     //write primary errors
                                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                     {
-                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDelete-[" + ip + "]-" + err);
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDelete-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                                     }
 
                                     tMsg.MsgTime = DateTime.Now;
@@ -581,7 +581,7 @@ namespace Attendance.Classes
                                     //write errlog
                                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                     {
-                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-" + err);
+                                        file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                                     }
 
                                 }
@@ -589,7 +589,7 @@ namespace Attendance.Classes
                                 string fullpath2 = Path.Combine(Loginfopath, filenm);
                                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
                                 {
-                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-Completed");
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-Completed");
                                 }
                                 m.RefreshData();
                                 m.DisConnect(out err);
@@ -599,7 +599,7 @@ namespace Attendance.Classes
                                 string fullpath = Path.Combine(Errfilepath, filenm);
                                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                 {
-                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-" + ex.ToString());
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-Auto Delete Left Employee-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + ex.ToString());
                                 }
                             }
                         }
@@ -653,7 +653,7 @@ namespace Attendance.Classes
                                 //write primary errors
                                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                 {
-                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                                 }
 
                                 tMsg.MsgTime = DateTime.Now;
@@ -671,7 +671,7 @@ namespace Attendance.Classes
                                 //write errlog
                                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                                 {
-                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + err);
+                                    file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                                 }
 
                                 tMsg.MsgTime = DateTime.Now;
@@ -687,7 +687,7 @@ namespace Attendance.Classes
                             fullpath = Path.Combine(Loginfopath, filenm);
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                             {
-                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-Completed");
+                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-Completed");
                             }
 
                             m.DisConnect(out err);
@@ -698,7 +698,7 @@ namespace Attendance.Classes
                             string fullpath = Path.Combine(Errfilepath, filenm);
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                             {
-                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-" + ex.ToString());
+                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoDownload-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + ex.ToString());
                             }
                         }
                     }
@@ -1608,7 +1608,7 @@ namespace Attendance.Classes
 
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                             {
-                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-" + err);
+                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                             }
 
                             tMsg.MsgTime = DateTime.Now;
@@ -1626,7 +1626,7 @@ namespace Attendance.Classes
 
                             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                             {
-                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-" + err);
+                                file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-" + err);
                             }
                             tMsg.MsgTime = DateTime.Now;
                             tMsg.MsgType = "Auto Time Set";
@@ -1645,7 +1645,7 @@ namespace Attendance.Classes
                         fullpath = Path.Combine(Loginfopath, filenm);
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                         {
-                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-Completed");
+                            file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-AutoTimeSet-[" + ip + "]-(" + dr["MachineDesc"].ToString() + ")-Completed");
                         }
 
                     }
