@@ -160,7 +160,19 @@ namespace Attendance.Forms
                         try
                         {
                             DateTime tAddDt = Convert.ToDateTime(Utils.Helper.GetDescription("Select GetDate()", Utils.Helper.constr));
-            
+                            
+
+                            //added 10/04/2019-Deloitee Auditor issue Mail Dated 02/04/2019
+                            if (Convert.ToDateTime(dr["SanDate"]).Date > tAddDt.Date)
+                            {
+                                if (dr["InTime"].ToString() != "" || dr["OutTime"].ToString() != "")
+                                {
+                                    dr["InTime"] = DBNull.Value;
+                                    dr["OutTime"] = DBNull.Value;
+                                    dr["Remarks"] = "In Time/Out Time future date sanction denied";
+                                }
+                            }
+
                             //added on 02-12-2014 full rights skip the validation
                             if (Utils.User.IsAdmin == false) 
                             {
