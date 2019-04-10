@@ -1264,14 +1264,13 @@ namespace Attendance.Forms
                 }   
             }
 
-            if (txtInTime.Time.Hour > 0 || txtOutTime.Time.Hour > 0)
+            if (txtInTime.Time.Hour > 0 || txtOutTime.Time.Hour > 0 || txtOT.Value > 0)
             {
                 
                 if (reqDate > curDate.Date)
                 {
-                    MessageBox.Show("In Time/Out Time future date sanction denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    return;
+                    MessageBox.Show("Future date sanction (In Time/Out Time/TPA Hours) denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;                    
                 }
 
             }   

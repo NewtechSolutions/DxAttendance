@@ -165,11 +165,21 @@ namespace Attendance.Forms
                             //added 10/04/2019-Deloitee Auditor issue Mail Dated 02/04/2019
                             if (Convert.ToDateTime(dr["SanDate"]).Date > tAddDt.Date)
                             {
-                                if (dr["InTime"].ToString() != "" || dr["OutTime"].ToString() != "")
+                                if (dr["InTime"].ToString() != "" || dr["OutTime"].ToString() != "" || dr["TPAHours"].ToString() != "")
                                 {
                                     dr["InTime"] = DBNull.Value;
                                     dr["OutTime"] = DBNull.Value;
-                                    dr["Remarks"] = "In Time/Out Time future date sanction denied";
+                                    
+                                    double t = 0;
+                                    if (double.TryParse(dr["TPAHours"].ToString(), out t))
+                                    {
+                                        if (t > 0)
+                                        {
+                                            dr["TPAHours"] = "";
+                                        }
+                                    }
+
+                                    dr["Remarks"] = "Future date sanction (In Time/Out Time/TPA Hours) denied";
                                 }
                             }
 
