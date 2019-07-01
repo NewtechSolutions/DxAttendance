@@ -102,7 +102,10 @@ namespace ConnectUNCWithCredentials
                 uint paramErrorIndex;
                 returncode = NetUseAdd(null, 2, ref useinfo, out paramErrorIndex);
                 iLastError = (int)returncode;
-                return returncode == 0;
+                if (iLastError == 1219)
+                    return true;
+                else
+                    return returncode == 0;
             }
             catch
             {

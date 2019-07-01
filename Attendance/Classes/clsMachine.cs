@@ -2880,5 +2880,76 @@ namespace Attendance.Classes
 
         }
 
+        public void DeleteAllUser(out string err)
+        {
+            err = string.Empty;
+
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            string _userid, _username, _password, _cardno;
+            int _prev, _useridInt;
+            bool _enabled = false;
+
+            this.CZKEM1.EnableDevice(_machineno, false);
+
+            _userid = string.Empty; _username = string.Empty; _password = string.Empty; _cardno = string.Empty;
+            _useridInt = 0; _prev = 0; _enabled = false;
+
+            List<UserBioInfo> tUserList = new List<UserBioInfo>();
+
+            if (_istft)
+            {
+                while (this.CZKEM1.SSR_GetAllUserInfo(_machineno, out _userid, out _username, out _password, out _prev, out _enabled))
+                {
+                    UserBioInfo t = new UserBioInfo();
+                    t.UserID = _userid;
+                    t.Previlege = _prev;
+                    t.Enabled = _enabled;
+                    tUserList.Add(t);
+
+                }//end while
+
+                foreach (UserBioInfo t in tUserList)
+                {
+                    this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, _userid, 12);
+                    this.CZKEM1.DelUserFace(_machineno, _userid, 50);   
+                }
+
+            }//end if new machine
+            else
+            {
+                //old machines
+                while (this.CZKEM1.GetAllUserInfo(_machineno, ref _useridInt, ref _username, ref _password, ref _prev, ref _enabled))
+                {
+                    UserBioInfo t = new UserBioInfo();
+                    t.UserID = _useridInt.ToString();
+                    t.Previlege = _prev;
+                    t.Enabled = _enabled;
+                    tUserList.Add(t);
+                }
+
+                foreach (UserBioInfo t in tUserList)
+                {
+                    this.CZKEM1.DeleteEnrollData(_machineno, _useridInt, _machineno, 0);
+                }
+            }
+            this.CZKEM1.EnableDevice(_machineno, false);
+            this.RefreshData();
+
+
+        }
+
     }
 }

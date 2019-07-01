@@ -1986,6 +1986,87 @@ namespace Attendance.Classes
                                     return;
                                 }
 
+                                //check once again if validity extended or not if yes then skip
+                                if (dr["Remarks"].ToString().Contains("Validity Expired") && dr["Operation"].ToString() == "DELTE")
+                                {
+                                    sql = "Select EmpUnqID,Active,WrkGrp,ValidFrom, ValidTo from MastEmp where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "'";
+                                    DataSet tds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                                    hasRows = tds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                                    if (hasRows)
+                                    {
+                                        DataRow tdr = tds.Tables[0].Rows[0];
+                                        if(Convert.ToDateTime(tdr["ValidTo"]) > Convert.ToDateTime(dr["ValidTo"]))
+                                        {
+                                            //delete from MastMachineUserOperation where EmpUnqID
+                                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                            {
+                                                try
+                                                {
+                                                    cn.Open();
+                                                    using (SqlCommand cmd = new SqlCommand())
+                                                    {
+                                                        cmd.Connection = cn;
+                                                        sql = "Delete From MastMachineUserOperation Where DoneFlg = 0 and EmpUnqID = '" + dr["EmpUnqID"].ToString() + "'";
+                                                        cmd.CommandText = sql;
+                                                        cmd.ExecuteNonQuery();
+                                                        
+                                                    }
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    tMsg.MsgTime = DateTime.Now;
+                                                    tMsg.MsgType = "Machine Operation->";
+                                                    tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + ex.ToString();
+                                                    Scheduler.Publish(tMsg);
+                                                }
+
+                                                continue;
+                                            }//using
+                                        }
+                                        else
+                                        {
+                                            
+                                            DateTime CurDate = DateTime.Now;
+                                            DateTime MastValidDt = Convert.ToDateTime(tdr["ValidTo"]);
+                                            bool tActive = Convert.ToBoolean(tdr["Active"]);
+
+                                            
+                                            //Auto deActivate Employee
+                                            if ((CurDate - MastValidDt).Days > 30 && tActive)
+                                            {
+                                                sql = "Update MastEmp Set Active = 0, LeftDate = '" + MastValidDt.ToString("yyyy-MM-dd") + "' " +
+                                                    " Where EmpUnqID ='" + tdr["EmpUnqID"].ToString() + "';";
+
+
+                                                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                                {
+                                                    try
+                                                    {
+                                                        cn.Open();
+                                                        using (SqlCommand cmd = new SqlCommand())
+                                                        {
+                                                            cmd.Connection = cn;
+                                                            cmd.CommandText = sql;
+                                                            cmd.ExecuteNonQuery();
+
+                                                        }
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        tMsg.MsgTime = DateTime.Now;
+                                                        tMsg.MsgType = "Machine Operation->";
+                                                        tMsg.Message = "Error : " + dr["Operation"].ToString() + " : EmpUnqID=>" + dr["EmpUnqID"].ToString() + "->" + dr["MachineIP"].ToString() + "->" + ex.ToString();
+                                                        Scheduler.Publish(tMsg);
+                                                    }
+                                                }//using
+
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+
+
                                 _StatusWorker = true;
 
                                 string ip = dr["MachineIP"].ToString();
@@ -2231,7 +2312,7 @@ namespace Attendance.Classes
                 }
                 
                 //
-                    string sql = "Select EmpUnqID from MastEmp where Active = 1 and ValidityExpired = 0 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
+                    string sql = "Select EmpUnqID,ValidTo from MastEmp where Active = 1 and ValidityExpired = 0 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
                     string cnerr = string.Empty;
 
                     DataSet dsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr, out cnerr);
@@ -2326,6 +2407,13 @@ namespace Attendance.Classes
                                                 cmd.ExecuteNonQuery();
 
                                                 tsql = "Update MastEmp Set ValidityExpired = 1 Where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' And CompCode = '01'";
+                                                cmd.CommandText = tsql;
+                                                cmd.ExecuteNonQuery();
+
+                                                tsql = "Update  a set a.ValidTo = b.ValidTo " +
+                                                    "  from MastMachineUserOperation a ,MastEmp b  " +
+                                                    " where a.EmpUnqID = b.EmpUnqID and Remarks  = 'Validity Expired' and Doneflg = 0 " +
+                                                    " And a.EmpUnqID='" + dr["EmpUnqID"].ToString() + "' And MachineIP ='" + tdr["MachineIP"].ToString() + "'";
                                                 cmd.CommandText = tsql;
                                                 cmd.ExecuteNonQuery();
 

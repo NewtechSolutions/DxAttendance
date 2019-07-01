@@ -584,10 +584,21 @@ namespace Attendance.Forms
                 serverstatus.Start();
                 appstatus.Start();
             }
-            else if (ProcessName == "MESS")
+            else if (ProcessName == "MESS" )
             {
                 GRights = Attendance.Classes.Globals.GetFormRights("frmMessProcess");
                 this.Text = "Mess/Cafeteria Data Process";
+                grpInfo.Visible = false;
+                grpMethod.Visible = false;
+                serverstatus.Stop();
+            }
+            else if (ProcessName == "BULKMESS")
+            {
+                GRights = Attendance.Classes.Globals.GetFormRights("frmBulkMessProcess");
+                this.Text = "Mess/Cafeteria Data Process (ALL Employee)";
+
+                this.txtCompCode.Properties.ReadOnly = true;
+                this.txtWrkGrpCode.Properties.ReadOnly = true;
                 grpInfo.Visible = false;
                 grpMethod.Visible = false;
                 serverstatus.Stop();
@@ -718,10 +729,14 @@ namespace Attendance.Forms
                 return;
             }
             
-            if (txtCompCode.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "")
+            //
+            if (ProcessName != "BULKMESS")
             {
-                MessageBox.Show("Please Select CompCode/WrkGrpCode...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (txtCompCode.Text.Trim() == "" || txtWrkGrpCode.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please Select CompCode/WrkGrpCode...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             string err = string.Empty;
@@ -761,10 +776,22 @@ namespace Attendance.Forms
                 return;
             }
 
-            string msg = "Are You Sure to Process Data of " + Environment.NewLine + " WrkGrp : " + txtWrkGrpCode.Text + Environment.NewLine +
-                " From Date : " + txtWrkFromDt.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
-               " To Date : " + txtWrkToDate.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
-               " Current Data will be deleted between From Date And To Date ";
+            string msg = string.Empty;
+
+            if (ProcessName != "BULKMESS")
+            {
+                msg = "Are You Sure to Process Data of " + Environment.NewLine + " WrkGrp : " + txtWrkGrpCode.Text + Environment.NewLine +
+                    " From Date : " + txtWrkFromDt.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
+                   " To Date : " + txtWrkToDate.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
+                   " Current Data will be deleted between From Date And To Date ";
+            }
+            else
+            {
+                msg = "Are You Sure to Bulk Mess Process Data " + Environment.NewLine +
+                    " From Date : " + txtWrkFromDt.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
+                   " To Date : " + txtWrkToDate.DateTime.ToString("dd/MM/yyyy") + Environment.NewLine +
+                   " Current Data will be deleted between From Date And To Date ";
+            }
 
             DialogResult ans = MessageBox.Show(msg, "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ans != System.Windows.Forms.DialogResult.Yes)
@@ -879,6 +906,36 @@ namespace Attendance.Forms
                 }
                 
             }
+            else if (ProcessName == "BULKMESS")
+            {
+                DateTime startdt = txtWrkFromDt.DateTime.AddHours(0).AddMinutes(1);
+                DateTime enddt = txtWrkToDate.DateTime.AddHours(23).AddMinutes(59);
+               
+
+                string sql = "Select Distinct l.EmpUnqID,'" + startdt.ToString("yyyy-MM-dd") + "' as FromDate," +
+                    " '" + enddt.ToString("yyyy-MM-dd") + "' as ToDate, Convert(bit,0) as IsDone " +
+                    " From ATTDLOG l Left join MastEmp m on l.EmpUnqID = m.EmpunqID where LunchFLG = 1 " +
+                    " and l.ioflg = 'B' and l.PunchDate between '" + startdt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    " and '" + enddt.ToString("yyyy-MM-dd HH:mm:ss") + "' " +
+                    " and m.MessCode is not null  " +
+                    " And l.MachineIP in (Select MachineIP From MastMessReader ) Order By EmpUnqID ";
+
+                DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+
+                bool hasRows = ds.Tables.Cast<DataTable>()
+                          .Any(table => table.Rows.Count != 0);
+
+                if (hasRows)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+
+                        ProcessList.ImportRow(dr);
+                    }
+                    RefreshAppGrid(sender, e);
+                    ProcessDATA(sender, e, "APP", "WRKGRP");
+                }
+            }
             else if (ProcessName == "LUNCHINOUT")
             {
 
@@ -987,7 +1044,7 @@ namespace Attendance.Forms
 
                     }
                 }
-                else if (ProcessName == "MESS")
+                else if (ProcessName == "MESS" || ProcessName == "BULKMESS")
                 {
                     foreach (DataRow dr in ProcessList.Rows)
                     {

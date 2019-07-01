@@ -268,7 +268,7 @@ namespace Attendance.Forms
                     txtReportSerExeURL.Text = dr["ReportSerExeURL"].ToString();
                     txtServerWorkerIP.Text = dr["ServerWorkerIP"].ToString();
                     txtUpdateChkPath.Text = dr["UpdateChkPath"].ToString();
-                    
+                    txtAttdWebApiHost.Text = dr["AttdWebApiHost"].ToString();
                     GNetWorkDomain = dr["NetWorkDomain"].ToString();
                     GNetWorkUser = dr["NetWorkUser"].ToString();
                     txtAutoProcessWrkGrp.Text = dr["AutoProcessWrkGrp"].ToString();
@@ -467,6 +467,7 @@ namespace Attendance.Forms
                             " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'," +
                             " JobNotificationFlg ='" + (chkJobNotification.Checked?1:0)+ "', " +
                             " JobNotificationEmail ='" + txtJobNotificationEmail.Text.Trim().ToString() + "' " +
+                            " AttdWebApiHost ='" + txtAttdWebApiHost.Text.Trim().ToString() + "' " +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         
                         cmd.Connection = cn;

@@ -155,7 +155,7 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastEmpBlackList Set BlackList = '{1}',UpdDt = GetDate(),UpdID = '{2}' Where AdharNo ='{3}'";
+                        string sql = "Update MastEmpBlackList Set BlackList = '{0}',UpdDt = GetDate(),UpdID = '{1}' Where AdharNo ='{2}'";
                         sql = string.Format(sql, (chkActive.Checked ? 1 : 0), Utils.User.GUserID,txtAdharNo.Text);
 
                         cmd.CommandText = sql;

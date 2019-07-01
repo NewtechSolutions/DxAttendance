@@ -13,10 +13,12 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using DevExpress.XtraGrid.Columns;
 using Attendance.Classes;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Attendance.Forms
 {
-    public partial class frmBulkGateInOutSanction : DevExpress.XtraEditors.XtraForm
+    public partial class frmBulkLeaveUpload : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
         private int GFormID = 0;
@@ -24,7 +26,7 @@ namespace Attendance.Forms
 
         DataTable dt = new DataTable();
 
-        public frmBulkGateInOutSanction()
+        public frmBulkLeaveUpload()
         {
             InitializeComponent();
             
@@ -79,14 +81,51 @@ namespace Attendance.Forms
         private string DataValidate(DataRow tdr)
         {
             string err = string.Empty;
-            clsEmp t = new clsEmp();
-            t.CompCode = "01";
-            t.EmpUnqID = tdr["EmpUnqID"].ToString();
-            if (!t.GetEmpDetails(t.CompCode,t.EmpUnqID))
-            {
-                err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+            string sql = "Select Compcode,WrkGrp,EmpUnqID,Active from MastEmp where EmpUnqID='" + tdr["EmpUnqID"].ToString() + "'";
+            DataSet ds = Utils.Helper.GetData(sql,Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            string tWrkGrp = string.Empty;
+            string tCompCode = string.Empty;
+            string tLeaveType = string.Empty;
+            string tUserID = tdr["PostID"].ToString();
+            tLeaveType = tdr["LeaveType"].ToString();
+
+            if (string.IsNullOrEmpty(tLeaveType)){
+                err += "Leave Type is required..";
             }
 
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    tWrkGrp = dr["WrkGrp"].ToString();
+                    tCompCode = dr["CompCode"].ToString();
+                    //check emplyee active status
+                    if (!Convert.ToBoolean(dr["Active"]))
+                    {
+                        err += "InActive Employee.";
+                        return err;
+                    }
+                }
+
+                if (tWrkGrp != tdr["WrkGrp"].ToString())
+                {
+                    err += "Invalid Supplied WrkGrp.";
+                }
+
+                //check leave type
+                int tcnt = 0;
+                sql = "Select Count(*) from MastLeave where CompCode ='" + tCompCode + "' And WrkGrp ='" + tWrkGrp + "' And LeaveTyp ='" + tLeaveType + "'";
+                int.TryParse(Utils.Helper.GetDescription(sql, Utils.Helper.constr),out tcnt);
+                if(tcnt <= 0)
+                {
+                    err += "Invalid Leave Type.";
+                }
+
+            }else{
+                err += "Employee does not exist.";
+            }
+            
             return err;
         }
 
@@ -123,26 +162,69 @@ namespace Attendance.Forms
                 dv.Sort = "EmpUnqID asc";
                 sortedDT = dv.ToTable();
 
+                int srno = 0;
+
                 using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
                 {
+                    DateTime fdt;
                     DateTime tdt;
 
                     con.Open();
                     foreach (DataRow dr in sortedDT.Rows)
                     {
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
+                        srno += 1;        
                         
+
 
                         try
                         {
-                            tdt = Convert.ToDateTime(dr["SanDate"]);
+                            fdt = Convert.ToDateTime(dr["FromDate"]);
                         }
                         catch (Exception ex)
                         {
-                            dr["Remarks"] = "Sanction Date Conversion failed...";
+                            dr["Remarks"] = "FromDate Conversion failed...";
                             continue; 
                         }
-                        
+
+                        try
+                        {
+                            tdt = Convert.ToDateTime(dr["ToDate"]);
+                        }
+                        catch (Exception ex)
+                        {
+                            dr["Remarks"] = "ToDate Conversion failed...";
+                            continue;
+                        }
+
+                        if (tdt > fdt)
+                        {
+                            dr["Remarks"] = "Invalid Date Range";
+                            continue;
+                        }
+
+                        if((tdt - fdt).Days > 0 && Convert.ToBoolean(dr["HalfDayFlg"].ToString()))
+                        {
+                            dr["Remarks"] = "Multiple HalfDay not allowed";
+                            continue;
+                        }
+
+                        if(string.IsNullOrEmpty(dr["HalfDayFlg"].ToString().Trim()))
+                        {
+                            dr["HalfDayFlg"] = 0;
+                        }
+
+                        if(!string.IsNullOrEmpty(dr["HalfDayFlg"].ToString().Trim()))
+                        {
+                            if(dr["HalfDayFlg"].ToString().Trim() == "0")
+                                dr["HalfDayFlg"] = 0;
+                            else if (dr["HalfDayFlg"].ToString().Trim() == "1")
+                                dr["HalfDayFlg"] = 1;
+                            else
+                                dr["HalfDayFlg"] = 0;
+                        }
+
+
                         string err = DataValidate(dr);
 
                         if (!string.IsNullOrEmpty(err))
@@ -151,193 +233,33 @@ namespace Attendance.Forms
                             continue; 
                         }
 
-                        clsEmp Emp = new clsEmp();
+                        AttdLeavePost tmpvar = new AttdLeavePost();
+                        tmpvar.AppID = srno;                       
+                        tmpvar.EmpUnqID = dr["EmpUnqID"].ToString().Trim();                       
+                        tmpvar.FromDate = Convert.ToDateTime(dr["FromDate"]);
+                        tmpvar.ToDate = Convert.ToDateTime(dr["ToDate"]);                        
+                        tmpvar.LeaveTyp = dr["LeaveType"].ToString().Trim().ToUpper();
+                        tmpvar.HalfDay = Convert.ToBoolean(dr["HalfDayFlg"]);
+                        tmpvar.AttdUser = (string.IsNullOrEmpty(dr["PostID"].ToString()) ? Utils.User.GUserID : dr["PostID"].ToString()).Trim();
+                        tmpvar.ERROR = string.Empty;
+                        tmpvar.Location = (string.IsNullOrEmpty(dr["Location"].ToString()) ? "IPU" : dr["Location"].ToString()).Trim();
+                        tmpvar.Remarks = "";
 
-                        #region Chk_Primary
+                        bool outres = false;
+                        string tloc = (string.IsNullOrEmpty(dr["Location"].ToString()) ? "IPU" : dr["Location"].ToString()).Trim();
 
-                        try
-                        {
-                            Emp.CompCode = "01";
-                            Emp.EmpUnqID = tEmpUnqID;
-                            Emp.GetEmpDetails(Emp.CompCode,Emp.EmpUnqID);
+                        AttdLeavePost retObj = AttdPostLeave(tmpvar, tloc, out outres);
 
-                            
+                        if(retObj.PostedFlg){
+                            dr["Remarks"] = "Leave Posted Sucussfully";
                         }
-                        catch (Exception ex)
-                        {
-                            dr["Remarks"] = ex.ToString();
-                            continue;
-                        }
-                        #endregion
 
-                        #region Chk_AllVals
-                        //check all values if all empty skip
-                        if(dr["GateInTime"].ToString() == "" && dr["GateOutTime"].ToString() == "")
-                        {
-                            dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
-                            continue;
+                        if(!string.IsNullOrEmpty(retObj.ERROR)){
+                            dr["Remarks"] = dr["Remarks"].ToString().Trim() + retObj.ERROR;
                         }
-                        #endregion
                         
-                        DateTime tInTime = new DateTime(),tOutTime = new DateTime(), tDate = new DateTime();
-
-                        #region Chk_InTime
-                        if (dr["GateInTime"].ToString().Trim() != "" && dr["SanDate"] != DBNull.Value)
-                        {
-                            
-                            tInTime = Convert.ToDateTime(dr["SanDate"]);
-                            string[] inary = dr["GateInTime"].ToString().Split(':');
-
-                            if(inary.GetLength(0) >= 2)
-                            {
-                               tInTime = tInTime.AddHours(Convert.ToInt32(inary[0].ToString().Trim()));
-                               tInTime = tInTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
-                            }else
-                            {
-                                dr["GateInTime"] = DBNull.Value;
-                                dr["Remarks"] = dr["Remarks"].ToString() + " Invalid InTime, will not be considered..";
-                            }
-
-                        }
-                        #endregion
-
-                        #region Chk_OutTime
-                        if (dr["GateOutTime"].ToString().Trim() != "" && dr["SanDate"] != DBNull.Value)
-                        {
-                            tOutTime = Convert.ToDateTime(dr["SanDate"]);
-                            string[] inary = dr["GateOutTime"].ToString().Split(':');
-
-                            if(inary.GetLength(0) >= 2)
-                            {
-                                tOutTime = tOutTime.AddHours(Convert.ToInt32(inary[0].ToString().Trim()));
-                                tOutTime = tOutTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
-                            }else{
-                                dr["GateOutTime"] = DBNull.Value;
-                                dr["Remarks"] = dr["Remarks"].ToString() + " Invalid OutTime, will not be considered..";
-                            }
-
-                        }
-                        #endregion
-
-                      
-
-                        #region Chk_AllVals
-                        //check all values if all empty skip
-                        if(dr["GateInTime"].ToString() == "" && dr["GateOutTime"].ToString() == "")
-                        {
-                            dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
-                            continue;
-                        }
-                        #endregion
-
-                        string sWrkGrp = "",sDate = "", sInTime = "", sOutTime = "";
-                        sWrkGrp = Emp.WrkGrp;
-
-                        #region Set_InTime
-                        if (tInTime == DateTime.MinValue || tInTime == Convert.ToDateTime(dr["SanDate"]))
-                        {
-                            sInTime = " NULL " ;
-                        }else if( tInTime.Hour > 0 || tInTime.Minute > 0){
-                            sInTime = "'" + tInTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                        }else{
-                            sInTime = " NULL " ;
-                        }
-                        #endregion
-
-                        #region Set_OutTime
-                        if (tOutTime == DateTime.MinValue || tOutTime == Convert.ToDateTime(dr["SanDate"]))
-                        {
-                            sOutTime = " NULL " ;
-                        }else if( tOutTime.Hour > 0 || tOutTime.Minute > 0){
-                            sOutTime = "'" + tOutTime.ToString("yyyy-MM-dd HH:mm:ss")+ "'";
-                        }else{
-                            sOutTime = " NULL " ;
-                        }
-                        #endregion
 
 
-                        #region Final_Update
-                        //string sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'I' and Active = 1 Union " +
-                        //    "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sql = "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sInMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
-                        //sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'O' and active = 1 Union " +
-                        //    " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-                        sql = " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-
-                        string sOutMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
-                        using (SqlCommand cmd = new SqlCommand())
-                        {                            
-                            try
-                            {
-                                sDate = Convert.ToDateTime(dr["SanDate"]).ToString("yyyy-MM-dd");
-                                tDate = Convert.ToDateTime(dr["SanDate"]);
-                                sql = string.Empty;
-
-                                cmd.Connection = con;
-                                cmd.CommandType = CommandType.Text;
-                                if (!string.IsNullOrEmpty(sInTime) && sInTime != " NULL ")
-                                {
-                                    //sql = "Insert Into AttdGateInOut " +
-                                    //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    //" " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
-
-                                    sql = "Insert Into TripodLog " +
-                                    " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
-                                    " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
-                                
-                                
-                                }
-                                
-                                cmd.CommandText = sql;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
-
-
-                                if (!string.IsNullOrEmpty(sOutTime) && sOutTime != " NULL ")
-                                {
-                                    //sql = "Insert Into AttdGateInOut " +
-                                    //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    //" " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
-
-                                    
-                                    //As GateInOut punches taken from TripodLogs
-                                    sql = "Insert Into TripodLog " +
-                                    " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
-                                    " " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
-                                }
-
-                                cmd.CommandText = sql;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
-
-
-
-                                clsProcess pro = new clsProcess();
-                                int result = 0;
-                                string proerr = string.Empty;
-                                pro.AttdProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result,out proerr);
-
-                                if(result >0)
-                                {
-                                    pro.LunchInOutProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result);
-                                    dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
-                                    
-                                }
-                                
-                                
-
-                            }
-                            catch (Exception ex)
-                            {
-                                dr["remarks"] = dr["remarks"].ToString() + ex.ToString();
-                                continue;
-                            }
-
-                        }//using sqlcommand
-                        #endregion
                     }//using foreach
 
                     con.Close();
@@ -355,6 +277,49 @@ namespace Attendance.Forms
 
             Cursor.Current = Cursors.Default;
         }
+
+
+        private AttdLeavePost AttdPostLeave(AttdLeavePost attdLeaveObj, string location, out bool output)
+        {
+            string baseuri = Utils.Helper.GetDescription("select AttdWebApiHost From MastNetwork", Utils.Helper.constr);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseuri);
+
+                var content = new StringContent(JsonConvert.SerializeObject(attdLeaveObj),
+                    Encoding.UTF8, "application/json");
+
+                var responseTask = client.PostAsync("/api/leavepost", content);
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                output = result.IsSuccessStatusCode;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<AttdLeavePost>();
+                    readTask.Wait();
+
+                    var attdLeave = readTask.Result;
+
+                    return attdLeave;
+
+                }
+                else
+                {
+                    var readTask = result.Content.ReadAsAsync<AttdLeavePost>();
+                    readTask.Wait();
+
+                    var attdLeave = readTask.Result;
+                    // Some error was there, return it without changing posting flags
+
+
+                    return attdLeave;
+                }
+            }
+
+        }
+
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
@@ -402,7 +367,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,SanDate,GateInTime,GateOutTime,'' as Remarks from " + sheetname;
+                string myexceldataquery = "select WrkGrp,EmpUnqID,FromDate,ToDate,LeaveType,HalfDayFlg,PostID,Location,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
@@ -505,7 +470,7 @@ namespace Attendance.Forms
             }
         }
 
-        private void frmBulkGateInOutSanction_Load(object sender, EventArgs e)
+        private void frmBulkLeaveUpload_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             

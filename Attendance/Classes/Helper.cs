@@ -38,6 +38,9 @@ namespace Utils
             return dir;
         }
 
+
+        
+
         static public string GetTraceFilePath()
         {
             string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);

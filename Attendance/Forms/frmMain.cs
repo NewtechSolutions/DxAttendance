@@ -1215,6 +1215,53 @@ namespace Attendance
             }
         }
 
+        private void mnuBulkLunchInOutSanction_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkLunchInOutSanction"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkLunchInOutSanction m = new Attendance.Forms.frmBulkLunchInOutSanction();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkLunchPunchSanction_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkLunchPunchSanction"];
+
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkLunchPunchSanction m = new Attendance.Forms.frmBulkLunchPunchSanction();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkMessDataProcess_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmProcess"];
+            if (t == null)
+            {
+                Attendance.Forms.frmProcess m = new Attendance.Forms.frmProcess();
+                m.MdiParent = this;
+                m.ProcessName = "BULKMESS";
+                m.Show();
+            }
+        }
+
+        private void mnuBulkLeavePost_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkLeaveUpload"];
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkLeaveUpload m = new Attendance.Forms.frmBulkLeaveUpload();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
         
 

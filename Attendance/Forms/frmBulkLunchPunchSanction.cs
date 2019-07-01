@@ -16,7 +16,7 @@ using Attendance.Classes;
 
 namespace Attendance.Forms
 {
-    public partial class frmBulkGateInOutSanction : DevExpress.XtraEditors.XtraForm
+    public partial class frmBulkLunchPunchSanction : DevExpress.XtraEditors.XtraForm
     {
         public string GRights = "XXXV";
         private int GFormID = 0;
@@ -24,7 +24,7 @@ namespace Attendance.Forms
 
         DataTable dt = new DataTable();
 
-        public frmBulkGateInOutSanction()
+        public frmBulkLunchPunchSanction()
         {
             InitializeComponent();
             
@@ -95,7 +95,7 @@ namespace Attendance.Forms
         {
 
             Cursor.Current = Cursors.WaitCursor;
-
+            DataTable LunchMachines = Utils.Helper.GetData("Select * from [LunchMachine]",Utils.Helper.constr).Tables[0];
             DataTable dtMaterial = new DataTable();
             DataTable sortedDT = new DataTable();
             try
@@ -151,6 +151,12 @@ namespace Attendance.Forms
                             continue; 
                         }
 
+                        if(string.IsNullOrEmpty(dr["Location"].ToString().Trim()))
+                        {
+                            dr["Remarks"] = "Location Must be Required..";
+                            continue;
+                        }
+
                         clsEmp Emp = new clsEmp();
 
                         #region Chk_Primary
@@ -172,21 +178,21 @@ namespace Attendance.Forms
 
                         #region Chk_AllVals
                         //check all values if all empty skip
-                        if(dr["GateInTime"].ToString() == "" && dr["GateOutTime"].ToString() == "")
+                        if(dr["LunchTime"].ToString().Trim() == "" )
                         {
                             dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
                             continue;
                         }
                         #endregion
                         
-                        DateTime tInTime = new DateTime(),tOutTime = new DateTime(), tDate = new DateTime();
-
+                        DateTime tInTime = new DateTime(), tDate = new DateTime();
+                        DateTime tSanDate = Convert.ToDateTime(dr["SanDate"]).Date;
                         #region Chk_InTime
-                        if (dr["GateInTime"].ToString().Trim() != "" && dr["SanDate"] != DBNull.Value)
+                        if (dr["LunchTime"].ToString().Trim() != "" && dr["SanDate"] != DBNull.Value)
                         {
                             
                             tInTime = Convert.ToDateTime(dr["SanDate"]);
-                            string[] inary = dr["GateInTime"].ToString().Split(':');
+                            string[] inary = dr["LunchTime"].ToString().Split(':');
 
                             if(inary.GetLength(0) >= 2)
                             {
@@ -194,79 +200,63 @@ namespace Attendance.Forms
                                tInTime = tInTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
                             }else
                             {
-                                dr["GateInTime"] = DBNull.Value;
+                                dr["LunchTime"] = DBNull.Value;
                                 dr["Remarks"] = dr["Remarks"].ToString() + " Invalid InTime, will not be considered..";
+                                continue;
                             }
 
                         }
                         #endregion
 
-                        #region Chk_OutTime
-                        if (dr["GateOutTime"].ToString().Trim() != "" && dr["SanDate"] != DBNull.Value)
-                        {
-                            tOutTime = Convert.ToDateTime(dr["SanDate"]);
-                            string[] inary = dr["GateOutTime"].ToString().Split(':');
-
-                            if(inary.GetLength(0) >= 2)
-                            {
-                                tOutTime = tOutTime.AddHours(Convert.ToInt32(inary[0].ToString().Trim()));
-                                tOutTime = tOutTime.AddMinutes(Convert.ToInt32(inary[1].ToString().Trim()));
-                            }else{
-                                dr["GateOutTime"] = DBNull.Value;
-                                dr["Remarks"] = dr["Remarks"].ToString() + " Invalid OutTime, will not be considered..";
-                            }
-
-                        }
-                        #endregion
-
-                      
 
                         #region Chk_AllVals
                         //check all values if all empty skip
-                        if(dr["GateInTime"].ToString() == "" && dr["GateOutTime"].ToString() == "")
+                        if(dr["LunchTime"].ToString().Trim() == ""  )
                         {
                             dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
                             continue;
                         }
+                        
+                        string sWrkGrp = "",sDate = "", sInTime = "", sLocation = "",sInMachine = "" ;
+                        
+                        sWrkGrp = Emp.WrkGrp;
+
+                        sLocation = dr["Location"].ToString().Trim();
+
+                        
+                        string expression;
+                        expression = "Location = '" + sLocation + "'";
+                        DataRow[] foundRows;
+                        foundRows = LunchMachines.Select(expression);
+                        if(foundRows.Length <= 0){
+                             dr["Remarks"] = dr["Remarks"].ToString() + " Invalid Location...";
+                            continue;
+                        }else{
+                            sInMachine = foundRows[0]["InMachine"].ToString();
+                            
+                        }
+
                         #endregion
 
-                        string sWrkGrp = "",sDate = "", sInTime = "", sOutTime = "";
-                        sWrkGrp = Emp.WrkGrp;
 
                         #region Set_InTime
                         if (tInTime == DateTime.MinValue || tInTime == Convert.ToDateTime(dr["SanDate"]))
                         {
                             sInTime = " NULL " ;
-                        }else if( tInTime.Hour > 0 || tInTime.Minute > 0){
+                        }else if( tInTime.Hour > 0 || tInTime.Minute >= 0){
                             sInTime = "'" + tInTime.ToString("yyyy-MM-dd HH:mm:ss") + "'";
                         }else{
                             sInTime = " NULL " ;
                         }
                         #endregion
 
-                        #region Set_OutTime
-                        if (tOutTime == DateTime.MinValue || tOutTime == Convert.ToDateTime(dr["SanDate"]))
-                        {
-                            sOutTime = " NULL " ;
-                        }else if( tOutTime.Hour > 0 || tOutTime.Minute > 0){
-                            sOutTime = "'" + tOutTime.ToString("yyyy-MM-dd HH:mm:ss")+ "'";
-                        }else{
-                            sOutTime = " NULL " ;
-                        }
-                        #endregion
 
 
                         #region Final_Update
-                        //string sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'I' and Active = 1 Union " +
-                        //    "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sql = "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sInMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+                        
 
-                        //sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'O' and active = 1 Union " +
-                        //    " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-                        sql = " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-
-                        string sOutMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+                        string sql = string.Empty;
+                        
 
                         using (SqlCommand cmd = new SqlCommand())
                         {                            
@@ -280,35 +270,11 @@ namespace Attendance.Forms
                                 cmd.CommandType = CommandType.Text;
                                 if (!string.IsNullOrEmpty(sInTime) && sInTime != " NULL ")
                                 {
-                                    //sql = "Insert Into AttdGateInOut " +
-                                    //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    //" " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
-
-                                    sql = "Insert Into TripodLog " +
-                                    " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
-                                    " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
-                                
-                                
+                                    sql = "Insert Into AttdLog " +
+                                    " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
+                                    " " + sInTime + ",'" + Emp.EmpUnqID + "','B','" + sInMachine + "',1,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
                                 }
                                 
-                                cmd.CommandText = sql;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
-
-
-                                if (!string.IsNullOrEmpty(sOutTime) && sOutTime != " NULL ")
-                                {
-                                    //sql = "Insert Into AttdGateInOut " +
-                                    //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    //" " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
-
-                                    
-                                    //As GateInOut punches taken from TripodLogs
-                                    sql = "Insert Into TripodLog " +
-                                    " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
-                                    " " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
-                                }
-
                                 cmd.CommandText = sql;
                                 cmd.CommandTimeout = 0;
                                 cmd.ExecuteNonQuery();
@@ -318,14 +284,8 @@ namespace Attendance.Forms
                                 clsProcess pro = new clsProcess();
                                 int result = 0;
                                 string proerr = string.Empty;
-                                pro.AttdProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result,out proerr);
-
-                                if(result >0)
-                                {
-                                    pro.LunchInOutProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result);
-                                    dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
-                                    
-                                }
+                                pro.LunchProcess(Emp.EmpUnqID, tDate, tDate.AddDays(1), out result);
+                                dr["remarks"] = dr["remarks"].ToString() + "Record updated...";
                                 
                                 
 
@@ -402,7 +362,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,SanDate,GateInTime,GateOutTime,'' as Remarks from " + sheetname;
+                string myexceldataquery = "select EmpUnqID,SanDate,Location,LunchTime,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);
@@ -505,7 +465,7 @@ namespace Attendance.Forms
             }
         }
 
-        private void frmBulkGateInOutSanction_Load(object sender, EventArgs e)
+        private void frmBulkLunchPunchSanction_Load(object sender, EventArgs e)
         {
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             
