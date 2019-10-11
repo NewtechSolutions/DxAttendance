@@ -252,7 +252,7 @@ namespace Attendance.Classes
             err = string.Empty;
             version = string.Empty;
             bool ret = false;
-            if (this._connected)
+            if (!this._connected)
             {
                 err = "Machine is not connected";
                 return ret;
@@ -267,7 +267,7 @@ namespace Attendance.Classes
             err = string.Empty;
             strSerialNo = string.Empty;
             bool ret = false;
-            if (this._connected)
+            if (!this._connected)
             {
                 err = "Machine is not connected";
                 return ret;
@@ -276,6 +276,122 @@ namespace Attendance.Classes
             ret = this.CZKEM1.GetSerialNumber(this.CZKEM1.MachineNumber, out strSerialNo);
             return ret;
         }
+
+        public bool GetFirmwareVersion(out string strFirmwarever, out string err)
+        {
+            err = string.Empty;
+            strFirmwarever = string.Empty;
+            bool ret = false;
+            if (!this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetFirmwareVersion(this.CZKEM1.MachineNumber, ref strFirmwarever);
+            return ret;
+        }
+
+        public bool GetDeviceMAC(out string strmacadd, out string err)
+        {
+            err = string.Empty;
+            strmacadd = string.Empty;
+            bool ret = false;
+            if (!this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetDeviceMAC(this.CZKEM1.MachineNumber, ref strmacadd);
+            return ret;
+        }
+
+        public bool GetPlatform(out string strplatform, out string err)
+        {
+            err = string.Empty;
+            strplatform = string.Empty;
+            bool ret = false;
+            if (!this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+
+            ret = this.CZKEM1.GetPlatform(this.CZKEM1.MachineNumber, ref strplatform);
+            return ret;
+        }
+
+        public bool SaveDeviceData(out string err)
+        {
+            
+            bool ret = false;
+            if (!this._connected)
+            {
+                err = "Machine is not connected";
+                return ret;
+            }
+            
+            
+            string sdkversion = "";
+            string serialno = "";
+            string firmwarever = "";
+            string platform = "";
+            string macadd = "";
+            
+            int UserCapacity = 0;
+            int RegisteredUsers = 0;
+            int FaceCapacity = 0;
+            int RegisteredFace = 0;
+            int FingerCapacity = 0;
+            int RegisteredFinger = 0;
+            
+            this.GetSDKVersion(out sdkversion, out err);
+            this.GetSerialNumber(out serialno, out err);
+            this.GetFirmwareVersion(out firmwarever, out err);
+            this.GetPlatform(out platform, out err);
+            this.GetDeviceMAC(out macadd, out err);
+            this.Get_StatusInfo_Users(out RegisteredUsers, out UserCapacity, out err);
+            this.Get_StatusInfo_Face(out RegisteredFace, out FaceCapacity, out err);
+            this.Get_StatusInfo_Finger(out RegisteredFinger, out FingerCapacity, out err);
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    try
+                    {
+                        cn.Open();
+                        string sql = "Update ReaderConfig set FirmwareVer ='" + firmwarever + "'," +
+                            " SdkVer ='" + sdkversion + "', SerialNo ='" + serialno + "',Platform ='" + platform + "'," +
+                            " MacAdd ='" + macadd + "'," +
+                            " UserCapacity = '" + UserCapacity.ToString() + "'," +
+                            " RegisteredUsers ='" + RegisteredUsers.ToString() + "'," +
+                            " FaceCapacity='" + FaceCapacity.ToString() + "'," +
+                            " RegisteredFace ='" + RegisteredFace.ToString() + "'," +
+                            " FingerCapacity='" + FingerCapacity.ToString() + "'," +
+                            " RegisteredFinger='" + RegisteredFinger.ToString() + "'," +
+                            " DeviceInfoUpdDt ='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                            " Where MachineIP ='" + this._ip + "'";
+
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = cn;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+                        err = "";
+                        return true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        err = ex.Message.ToString();
+                        return false;
+                    }
+                }
+            }
+
+        }
+
 
         public int GetAccessRecords(out string err)
         {
@@ -305,9 +421,9 @@ namespace Attendance.Classes
             m_tft = this.CZKEM1.IsTFTMachine(_machineno);
 
             this.CZKEM1.EnableDevice(_machineno, false);//disable the device
-            if (this.CZKEM1.ReadSuperLogData(_machineno))//read all the operation records to the memory
+            if (this.CZKEM1.ReadAllSLogData(_machineno))//read all the operation records to the memory
             {
-
+                
                 string sql = "SELECT isnull(Max(ReqNo),0) + 1 from MastMachineAccessLog ";
                 int ReqNo = Convert.ToInt32(Utils.Helper.GetDescription(sql, Utils.Helper.constr,out err));
                 
@@ -333,11 +449,11 @@ namespace Attendance.Classes
                 string strtime = string.Empty;
 
 
-                //while(CZKEM1.SSR_GetSuperLogData(_machineno, out outnum,out stradmin, out struser,out dwManipulation, out strtime, out Params1, out Params2, out Params3))
+                while (CZKEM1.SSR_GetSuperLogData(_machineno, out outnum, out stradmin, out struser, out dwManipulation, out strtime, out Params1, out Params2, out Params3))
 
-                while (CZKEM1.GetSuperLogData(_machineno, ref _machineno, ref odwEnrollNumber,
-                        ref Params4,ref Params1,ref Params2, ref dwManipulation,ref Params3,
-                        ref idwYear,ref idwMonth,ref idwDay,ref idwHour,ref idwMinute))//get records from the memory
+                //while (CZKEM1.GetSuperLogData(_machineno, ref _machineno, ref odwEnrollNumber,
+                //        ref Params4,ref Params1,ref Params2, ref dwManipulation,ref Params3,
+                //        ref idwYear,ref idwMonth,ref idwDay,ref idwHour,ref idwMinute))//get records from the memory
                 {
                     DateTime logdt = new DateTime(idwYear, idwMonth, idwDay, idwHour, idwMinute,0);
 
@@ -404,7 +520,7 @@ namespace Attendance.Classes
             return ret;
         }
 
-
+       
         public void DisConnect (out string err)
         {
             err = string.Empty;
@@ -597,6 +713,49 @@ namespace Attendance.Classes
                     file.WriteLine(t.ToString());
                 }
             }
+
+            string outerr1 = string.Empty;
+            //new function to insert int RESTLOG table if RestPost and RestApi configured in machine
+            DataSet ds = Utils.Helper.GetData("Select RestPost,RestAPI from ReaderConfig where MachineIP ='" + this._ip + "'", Utils.Helper.constr, out outerr1);
+            if (string.IsNullOrEmpty(outerr1))
+            {
+                bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                if (hasrows)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+
+                    bool RestPost = Convert.ToBoolean((dr["RestPost"] == DBNull.Value) ? "FALSE" : dr["RestPost"]);
+                    string RestAPI = dr["RestAPI"].ToString().Trim();
+                    string Basesql = string.Empty;
+                    if (RestPost && !string.IsNullOrEmpty(RestAPI))
+                    {
+                        Basesql = "Insert into RESTLog (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,PostedFlg,PostUrl) "
+                           + " SELECT PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFLG,tyear,tyearmt,t1date,AddDt,AddID,0,'" + RestAPI + "'"
+                           + " FROM ATTDLOG "
+                           + " Where MachineIP = '" + this._ip + "'"
+                           + " And AddDt between '" + DateTime.Now.AddHours(-1).ToString("yyyy-MM-dd HH:mm:ss") + "' and '" + DateTime.Now.AddMinutes(20).ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                        {
+                            using (SqlCommand cmd = new SqlCommand(Basesql, cn))
+                            {
+                                try
+                                {
+                                    cn.Open();
+                                    cmd.CommandType = CommandType.Text;
+                                    cmd.ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    err += ex.Message.ToString();
+                                }
+
+                            }//command end
+                        }//connection end
+
+                    } //if rest check
+
+                }//if getdata 
+            }//if getdata err
 
             if (string.IsNullOrEmpty(write_err))
             {
@@ -2923,8 +3082,8 @@ namespace Attendance.Classes
 
                 foreach (UserBioInfo t in tUserList)
                 {
-                    this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, _userid, 12);
-                    this.CZKEM1.DelUserFace(_machineno, _userid, 50);   
+                    this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, t.UserID, 12);
+                    this.CZKEM1.DelUserFace(_machineno, t.UserID, 50);   
                 }
 
             }//end if new machine
@@ -2942,12 +3101,36 @@ namespace Attendance.Classes
 
                 foreach (UserBioInfo t in tUserList)
                 {
-                    this.CZKEM1.DeleteEnrollData(_machineno, _useridInt, _machineno, 0);
+                    this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(t.UserID), _machineno, 0);
                 }
             }
             this.CZKEM1.EnableDevice(_machineno, false);
             this.RefreshData();
 
+
+        }
+
+        public void ClearALLUserData(out string err)
+        {
+            err = string.Empty;
+
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            bool vRet = this.CZKEM1.ClearData(_machineno,5); // 'read all the user information to the memory
+            
+            if(_istft)
+                vRet = this.CZKEM1.ClearData(_machineno, 2);
+
+            if (!vRet)
+            {
+                err = "Error : Can not Delete All Users....";
+                return;
+            }
 
         }
 

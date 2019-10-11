@@ -221,6 +221,12 @@
     <Compile Include="Forms\frmBulkLunchInOutSanction.designer.cs">
       <DependentUpon>frmBulkLunchInOutSanction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmMastConfigKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastConfigKeys.designer.cs">
+      <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmMastManPowerGroup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -656,6 +662,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkLunchInOutSanction.resx">
       <DependentUpon>frmBulkLunchInOutSanction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastConfigKeys.resx">
+      <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastManPowerGroup.resx">
       <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>

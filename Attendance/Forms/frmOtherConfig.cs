@@ -466,7 +466,7 @@ namespace Attendance.Forms
                             " AutoDelEmpExpireValFlg ='" + (chkAutoDelExpEmp.Checked?1:0) + "', AutoDelEmpExpireTime='" + txtAutoDelExpEmpTime.Time.ToString("HH:mm").ToString() + "'," +
                             " UpdateChkPath ='" + txtUpdateChkPath.Text.Trim() + "'," +
                             " JobNotificationFlg ='" + (chkJobNotification.Checked?1:0)+ "', " +
-                            " JobNotificationEmail ='" + txtJobNotificationEmail.Text.Trim().ToString() + "' " +
+                            " JobNotificationEmail ='" + txtJobNotificationEmail.Text.Trim().ToString() + "', " +
                             " AttdWebApiHost ='" + txtAttdWebApiHost.Text.Trim().ToString() + "' " +
                             " where NetWorkDomain ='" + GNetWorkDomain + "' And NetworkUser ='"  + GNetWorkUser +  "'";
                         

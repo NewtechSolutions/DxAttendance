@@ -490,6 +490,7 @@ namespace Attendance.Forms
                 oledbconn.Close();
                 MessageBox.Show("Please Check upload template..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Cursor.Current = Cursors.Default;
+                btnBrowse.Enabled = true;
                 btnBulkUpload.Enabled = false;
                 oledbconn.Close();
                 return;
@@ -524,7 +525,7 @@ namespace Attendance.Forms
             }
             
             gv_Upload.RefreshData();
-
+            btnBrowse.Enabled = true;
             Cursor.Current = Cursors.Default;
         }
 
@@ -653,11 +654,7 @@ namespace Attendance.Forms
 
         private void btnAddEmp_Click(object sender, EventArgs e)
         {
-            if(txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty  )
-            {
-                //MessageBox.Show("Invalid Employee...","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                return;
-            }
+            
 
             string tEmpUnqID = txtEmpUnqID.Text.Trim();
             UserBioInfo user = new UserBioInfo();   
@@ -666,7 +663,7 @@ namespace Attendance.Forms
             user.MessCode = txtMessCode.Text.Trim();
             user.MessGrpCode = txtMessGrpCode.Text.Trim();
             user.WrkGrp = txtWrkGrpCode.Text.Trim();
-
+            user.UserID = tEmpUnqID;
             
             if (user.UserID == tEmpUnqID)
             {
@@ -686,11 +683,19 @@ namespace Attendance.Forms
             if (gv_Emp.SelectedRowsCount <= 0)
                 return;
 
-            foreach (int i in gv_Emp.GetSelectedRows())
+
+            try
             {
-                tEmpUnqID = gv_Emp.GetRowCellValue(i, "UserID").ToString();
-                tUserList.RemoveAll(tmpuser => tmpuser.UserID == tEmpUnqID);
+                foreach (int i in gv_Emp.GetSelectedRows())
+                {
+                    tEmpUnqID = gv_Emp.GetRowCellValue(i, "UserID").ToString();
+                    tUserList.RemoveAll(tmpuser => tmpuser.UserID == tEmpUnqID);
+                }
+            }catch (Exception ex)
+            {
+                
             }
+            
 
             grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
         }
@@ -1806,8 +1811,21 @@ namespace Attendance.Forms
 
                     if (!string.IsNullOrEmpty(cells.ToString()))
                     {
-                        txtEmpUnqID.Text = cells.Substring(0, 8).Trim();
+                        txtEmpUnqID.Text = cells.Trim();
                         txtEmpUnqID_Validated(sender, e);
+
+                        if (txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty)
+                        {
+
+                            DialogResult dr = MessageBox.Show("warning! Employee not found,are you sure ?", "Question", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                            if (dr == System.Windows.Forms.DialogResult.No)
+                                continue;
+                            else if (dr == System.Windows.Forms.DialogResult.Cancel)
+                                break;
+
+                        }
+
                         btnAddEmp_Click(sender, e);
                     }
                 }
@@ -1850,6 +1868,93 @@ namespace Attendance.Forms
 
 
         }
+
+        private void btnDevInfo_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            LockCtrl();
+            //Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    continue;
+                }
+
+                err = "";
+                if(!m.SaveDeviceData(out err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Completed..");
+                }
+                else
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                }
+
+                m.DisConnect(out err);
+            }
+
+            UnLockCtrl();
+            //Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
+        }
+        
+        private void btnDeleteAllUsers_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAdd2.Text.Trim()))
+            {
+                MessageBox.Show("Please Select Machine...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("Please this function is disabled for security reason...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+
+            //string ip = txtIPAdd2.Text.Trim();
+            //string ioflg = "B";
+            //string err;
+            //clsMachine m = new clsMachine(ip, ioflg);
+            //m.Connect(out err);
+
+            //if (!string.IsNullOrEmpty(err))
+            //{
+            //    MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //Cursor.Current = Cursors.WaitCursor;
+            //LockCtrl();
+            //m.ClearALLUserData(out err);
+            //m.RefreshData();
+            //m.DisConnect(out err);
+            //UnLockCtrl();
+            //Cursor.Current = Cursors.Default;
+            
+
+        }
         
     }
+
 }

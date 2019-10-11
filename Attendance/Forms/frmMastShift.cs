@@ -119,7 +119,7 @@ namespace Attendance.Forms
             ShiftOutTo = new TimeSpan(txtOUT_To.Time.Hour, txtOUT_To.Time.Minute, txtOUT_To.Time.Second);
 
 
-            if (ShiftStart > ShiftEnd)
+            if (ShiftStart > ShiftEnd && chkNight.Checked == false)
             {
                 err = err + "Shift Start must be less than shift end.." + Environment.NewLine;
             }
@@ -139,11 +139,15 @@ namespace Attendance.Forms
                 err = err + "Shift In from must be less than  Shift Start.." + Environment.NewLine;
             }
 
-            if (ShiftInTo < ShiftStart || ShiftInTo >= ShiftEnd)
+            if (chkNight.Checked == false)
             {
-                err = err + "Shift In To must be under Shift Start-End.." + Environment.NewLine;
-            }
+                if (ShiftInTo < ShiftStart || ShiftInTo >= ShiftEnd)
+                {
+                    err = err + "Shift In To must be under Shift Start-End.." + Environment.NewLine;
+                }
 
+            }
+            
 
 
             return err;

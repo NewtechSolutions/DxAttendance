@@ -902,12 +902,12 @@ namespace Attendance.Forms
                 colDate = gv_InOutLunch.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 colDate = gv_InOutLunch.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOutLunch.Columns)
                 {
@@ -923,12 +923,12 @@ namespace Attendance.Forms
                 colDate = gv_InOutGate.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 colDate = gv_InOutGate.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOutGate.Columns)
                 {
@@ -944,12 +944,12 @@ namespace Attendance.Forms
                 colDate = gv_InOutGatePass.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 colDate = gv_InOutGatePass.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_InOutGatePass.Columns)
                 {
@@ -966,12 +966,12 @@ namespace Attendance.Forms
                 colDate = gv_Tripod.Columns["PunchDate"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 colDate = gv_Tripod.Columns["AddDt"];
                 colDate.DisplayFormat.Format = new CultureInfo("en");
                 colDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-                colDate.DisplayFormat.FormatString = "dd/MM/yy HH:mm:ss";
+                colDate.DisplayFormat.FormatString = "dd/MM/yyyy HH:mm:ss";
 
                 foreach (GridColumn gc in gv_Tripod.Columns)
                 {

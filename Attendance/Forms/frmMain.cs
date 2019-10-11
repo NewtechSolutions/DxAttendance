@@ -1161,9 +1161,17 @@ namespace Attendance
         {
             if (!string.IsNullOrEmpty(Globals.G_ReportServiceURL))
             {
-                //string twrd = Globals.G_ReportServiceURL.Substring(0, Globals.G_ReportServiceURL.IndexOf("ReportService2010.asmx"));
-                string temp = "http://172.16.12.47/reports/browse/Attendance";
-                Process.Start("IExplore.exe", temp);
+                string sql = "Select Config_Val from Mast_OtherConfig where Config_Key = 'ReportServerBrowseURL'" ;
+                string turl = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+                if (!string.IsNullOrEmpty(turl))
+                {
+                    Process.Start("IExplore.exe", turl);
+                }
+                else
+                {
+                    MessageBox.Show("'ReportServerBrowseURL'<-ConfigKey is not configured, please configure from Admin->Config Key","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+               
             }
         }
 
@@ -1257,6 +1265,17 @@ namespace Attendance
             if (t == null)
             {
                 Attendance.Forms.frmBulkLeaveUpload m = new Attendance.Forms.frmBulkLeaveUpload();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuConfig_KeyVal_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastConfigKeys"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMastConfigKeys m = new Attendance.Forms.frmMastConfigKeys();
                 m.MdiParent = this;
                 m.Show();
             }

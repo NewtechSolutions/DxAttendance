@@ -1973,7 +1973,9 @@ namespace Attendance.Classes
                     {
                         //check if any pending machine operation if yes do it....
                         #region newmachinejob
-                        DataSet ds = Utils.Helper.GetData("Select top 10 * from MastMachineUserOperation where DoneFlg = 0 and Operation not in ('BLOCK','UNBLOCK') order by MachineIP ", Utils.Helper.constr);
+                        sql = "Select top 10 * from MastMachineUserOperation where DoneFlg = 0 and Operation not in ('BLOCK','UNBLOCK') " +
+                            " And MachineIP not in (Select MachineIP From TRIPODReaderConFig) order by MachineIP ";
+                        DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if (hasRows)
                         {
@@ -2035,6 +2037,7 @@ namespace Attendance.Classes
                                             if ((CurDate - MastValidDt).Days > 30 && tActive)
                                             {
                                                 sql = "Update MastEmp Set Active = 0, LeftDate = '" + MastValidDt.ToString("yyyy-MM-dd") + "' " +
+                                                    " UpdDt = GetDate(), UpdID ='SERVER' " +
                                                     " Where EmpUnqID ='" + tdr["EmpUnqID"].ToString() + "';";
 
 
@@ -2087,7 +2090,9 @@ namespace Attendance.Classes
                                     {
                                         
                                         case "DELETE":
+                                           
                                             m.DeleteUser(dr["EmpUnqID"].ToString(), out err);
+                                                                                      
                                             break;
                                         case "REGISTER":
                                             m.Register(dr["EmpUnqID"].ToString(), out err);
@@ -2115,12 +2120,12 @@ namespace Attendance.Classes
                                                 cmd.Connection = cn;
                                                 if (string.IsNullOrEmpty(err))
                                                 {
-                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , " +
+                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'Completed' , UpdID = 'ATTDServer', " +
                                                         " UpdDt=GetDate() where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" +  dr["EmpUnqID"].ToString() + "';";
                                                 }
                                                 else
                                                 {
-                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "' " +
+                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "',UpdID = 'ATTDServer' " +
                                                         " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" + dr["EmpUnqID"].ToString() + "';";
                                                 }
                                                 cmd.CommandText = sql;
@@ -2312,7 +2317,7 @@ namespace Attendance.Classes
                 }
                 
                 //
-                    string sql = "Select EmpUnqID,ValidTo from MastEmp where Active = 1 and ValidityExpired = 0 and ValidTo < GetDate() and WrkGrp <> 'COMP' AND COMPCODE = '01'";
+                string sql = "Select EmpUnqID,ValidTo from MastEmp where Active = 1 and ValidityExpired = 0 and DATEDIFF(day,ValidTo,GetDate()) > 1 and WrkGrp <> 'COMP' AND COMPCODE = '01'";
                     string cnerr = string.Empty;
 
                     DataSet dsEmp = Utils.Helper.GetData(sql, Utils.Helper.constr, out cnerr);

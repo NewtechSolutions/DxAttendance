@@ -320,11 +320,13 @@ namespace Attendance.Forms
 
         private void sendmail(string mailtype,string tEmpUnqID)
         {
+            string sql = "Select Config_Val from Mast_OtherConfig where Config_Key ='EMPBLOCKNOTIFICATION'";
+            
             string tsubject = string.Empty;
             string tbody = string.Empty;
-            string to = "anil.singh@jindalsaw.com";
+            string to = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
             //to = "anand.acharya@jindalsaw.com";
-            string cc = "vallabh.r@jindalsaw.com;pchandra.soni@jindalsaw.com";
+            string cc = "";
             //string bcc = "anand.acharya@jindalsaw.com";
             string bcc = "";
 
