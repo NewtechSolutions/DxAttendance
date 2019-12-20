@@ -2204,6 +2204,7 @@ namespace Attendance
                     {
                         drAttd["ConsOverTime"] = 0;
                         drAttd["CalcOvertime"] = 0;
+                        
                     }
                 }                
                 else
@@ -2214,6 +2215,8 @@ namespace Attendance
                 }
 
                
+
+
                 daAttdData.Update(dsAttdData, "AttdData");
 
                 #endregion OTCalc

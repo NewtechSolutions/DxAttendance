@@ -140,6 +140,25 @@ namespace Attendance.Forms
                 err = err + "Invalid Date Range..." + Environment.NewLine;
             }
 
+            if (string.IsNullOrEmpty(err))
+            {
+                if (txtFromDt.DateTime != null && txtToDt.DateTime != null)
+                {
+                    
+
+                    DateTime fdt = txtFromDt.DateTime.Date;
+                    DateTime tdt = txtToDt.DateTime.Date;
+
+                    if ( (tdt-fdt).Days > 90)
+                    {
+                        err = err + "system does not allow more than 90 days leave posting in once..." + Environment.NewLine +
+                        "split in to multiple periods";
+                    }
+                
+                }
+
+                
+            }
 
             return err;
         }

@@ -616,6 +616,16 @@ namespace Attendance.Forms
             grd_Upload.DataSource = null;
             btnBulkUpload.Enabled = false;
             optMachineType.EditValue = 1;
+
+            if (Utils.User.IsAdmin)
+            {
+                btnUnlock.Visible = true;
+                btnUnlock.Enabled = true;
+            }else
+            {
+                btnUnlock.Visible = false;
+                btnUnlock.Enabled = false;
+            }
         }
 
         private void optMachineType_EditValueChanged(object sender, EventArgs e)
@@ -1953,6 +1963,37 @@ namespace Attendance.Forms
             //Cursor.Current = Cursors.Default;
             
 
+        }
+
+        private void btnDownloadPhotos_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAdd1.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter MachineIP...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //MessageBox.Show("Please this function is disabled for security reason...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //return;
+
+            string ip = txtIPAdd1.Text.Trim();
+            string ioflg = "B";
+            string err;
+            clsMachine m = new clsMachine(ip, ioflg);
+            m.Connect(out err);
+
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Cursor.Current = Cursors.WaitCursor;
+            LockCtrl();
+            m.DownloadAllUsers_Photos(out err);
+            m.DisConnect(out err);
+            UnLockCtrl();
+            Cursor.Current = Cursors.Default;
         }
         
     }

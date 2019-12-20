@@ -105,6 +105,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtOldRFID = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons5 = new System.Windows.Forms.GroupBox();
+            this.btnDeleteAllUsers = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.btnDelLeftEmp = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
@@ -146,7 +147,7 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnDeleteAllUsers = new System.Windows.Forms.Button();
+            this.btnDownloadPhotos = new System.Windows.Forms.Button();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -1265,6 +1266,16 @@
             this.grpButtons5.TabStop = false;
             this.grpButtons5.Text = "Delete Left Employee From Machine";
             // 
+            // btnDeleteAllUsers
+            // 
+            this.btnDeleteAllUsers.Location = new System.Drawing.Point(445, 32);
+            this.btnDeleteAllUsers.Name = "btnDeleteAllUsers";
+            this.btnDeleteAllUsers.Size = new System.Drawing.Size(71, 48);
+            this.btnDeleteAllUsers.TabIndex = 97;
+            this.btnDeleteAllUsers.Text = "Delete All Users";
+            this.btnDeleteAllUsers.UseVisualStyleBackColor = true;
+            this.btnDeleteAllUsers.Click += new System.EventHandler(this.btnDeleteAllUsers_Click_1);
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -1307,6 +1318,7 @@
             // grpButtons4
             // 
             this.grpButtons4.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons4.Controls.Add(this.btnDownloadPhotos);
             this.grpButtons4.Controls.Add(this.lblReqNo);
             this.grpButtons4.Controls.Add(this.label14);
             this.grpButtons4.Controls.Add(this.btnGetExcelUser);
@@ -1725,15 +1737,16 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
-            // btnDeleteAllUsers
+            // btnDownloadPhotos
             // 
-            this.btnDeleteAllUsers.Location = new System.Drawing.Point(445, 32);
-            this.btnDeleteAllUsers.Name = "btnDeleteAllUsers";
-            this.btnDeleteAllUsers.Size = new System.Drawing.Size(71, 48);
-            this.btnDeleteAllUsers.TabIndex = 97;
-            this.btnDeleteAllUsers.Text = "Delete All Users";
-            this.btnDeleteAllUsers.UseVisualStyleBackColor = true;
-            this.btnDeleteAllUsers.Click += new System.EventHandler(this.btnDeleteAllUsers_Click_1);
+            this.btnDownloadPhotos.Location = new System.Drawing.Point(318, 51);
+            this.btnDownloadPhotos.Name = "btnDownloadPhotos";
+            this.btnDownloadPhotos.Size = new System.Drawing.Size(118, 23);
+            this.btnDownloadPhotos.TabIndex = 74;
+            this.btnDownloadPhotos.Text = "Download Photo";
+            this.btnDownloadPhotos.UseVisualStyleBackColor = true;
+            this.btnDownloadPhotos.Visible = false;
+            this.btnDownloadPhotos.Click += new System.EventHandler(this.btnDownloadPhotos_Click);
             // 
             // frmMastUserManagement
             // 
@@ -1940,5 +1953,6 @@
         private System.Windows.Forms.Label lblAccessLogReq;
         private DevExpress.XtraEditors.SimpleButton btnDevInfo;
         private System.Windows.Forms.Button btnDeleteAllUsers;
+        private System.Windows.Forms.Button btnDownloadPhotos;
     }
 }

@@ -609,7 +609,15 @@ namespace Attendance.Classes
             }
             
             m_tft = CZKEM1.IsTFTMachine(_machineno);
-            
+
+            _istft = m_tft;
+
+            //added 20/12/2019 : Auto Lock with random password for each machine
+            string lockerr = string.Empty;
+            bool reslock = LockMachine(out lockerr);
+
+            //-----------------------
+
             //'Prepare File Name for writing log data
             //CZKEM1.GetDeviceTime(_machineno, ref idwYear, ref idwMonth, ref idwDay, ref idwHour, ref idwMinute, ref idwSecond);
             string filepath = Utils.Helper.GetLogFilePath();
@@ -689,6 +697,8 @@ namespace Attendance.Classes
                 
             }
 
+           
+            
             this.CZKEM1.EnableDevice(_machineno, true);//enable the device
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
             {
@@ -713,6 +723,8 @@ namespace Attendance.Classes
                     file.WriteLine(t.ToString());
                 }
             }
+
+
 
             string outerr1 = string.Empty;
             //new function to insert int RESTLOG table if RestPost and RestApi configured in machine
@@ -907,6 +919,55 @@ namespace Attendance.Classes
             CZKEM1.RefreshData(_machineno);
             CZKEM1.EnableDevice(_machineno, true);
             
+        }
+
+        public bool LockMachine(out string err)
+        {
+            err = string.Empty;
+            bool result = false;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return result;
+            }
+            //generate new random password
+            Random generator = new Random();
+            int r = generator.Next(100000,999999);
+            
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cn.Open();
+                        string sql = "Update ReaderConfig Set MachinePW ='" + r.ToString() + "' Where MachineIP ='" + _ip + "'";
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        bool t = CZKEM1.ClearAdministrators(_machineno);
+                        if (!_istft)
+                        {
+                            result = this.CZKEM1.SetUserInfo(_machineno, 1234, "Admin", r.ToString(), 3, true);
+
+                        }
+                        else
+                        {
+                            result = this.CZKEM1.SSR_SetUserInfo(_machineno, "1234", "Admin", r.ToString(), 3, true);
+                            this.CZKEM1.SetUserInfoEx(_machineno, 1234, 131, 0);
+                        }
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -1592,6 +1653,51 @@ namespace Attendance.Classes
 
         }
 
+        public void DownloadAllUsers_Photos(out string err)
+        {
+            err = string.Empty;
+           
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return;
+            }
+
+            int _prev = 0, _machineno = 0;
+            string sUserID, sName, sPassword;
+            bool bEnabled = false;
+            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            if (!vRet)
+            {
+                err = "Error : Can not read All UserID";
+                return;
+            }
+
+            bool istft = this.CZKEM1.IsTFTMachine(_machineno);
+
+            if (istft)
+            {
+                while (this.CZKEM1.SSR_GetAllUserInfo(_machineno, out sUserID, out sName, out sPassword, out _prev, out bEnabled))
+                {
+                    vRet = CZKEM1.ReadFile(_machineno, "104019" + ".jpg", "d:\\104019.jpg");
+                    if (vRet)
+                    {
+                        //dont know how to use
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                err = "unable to download...";
+                return;
+            }
+        }
+
         
         public void DownloadAllUsers_QuickReport(out string err , out List<UserBioInfo> tUsers)
         {
@@ -1731,6 +1837,10 @@ namespace Attendance.Classes
 
             return result;
         }
+
+
+       
+
 
         /// <summary>
         /// this function help to download bio details from machine and store to master data
