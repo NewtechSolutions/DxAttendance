@@ -331,6 +331,7 @@
             this.btnUnockMach.Size = new System.Drawing.Size(120, 27);
             this.btnUnockMach.TabIndex = 5;
             this.btnUnockMach.Text = "&Unlock Machine";
+            this.btnUnockMach.Visible = false;
             this.btnUnockMach.Click += new System.EventHandler(this.btnUnockMach_Click);
             // 
             // btnRestartMach

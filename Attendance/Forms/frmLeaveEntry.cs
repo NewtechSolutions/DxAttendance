@@ -1513,21 +1513,32 @@ namespace Attendance.Forms
                     //string sql = "Delete From MastLeaveSchedule where SanID = '" + sanid + "'";
                     try
                     {
-                        string sql = "Delete From MastLeaveSchedule where SanID = '" + sanid.ToString() + "' and SchLeave is not null " +
-                            " and ConsInTime is not null  and ConsOutTime is not null " +
-                            " and ConsShift is not null and ConsOverTime is not null " +
-                            " and ConsShift is not null and SchShift is not null and SchLeave ='" + leavtyp + "'" ;
-                                
-                                        
+                        string sql = "Insert into MastLeaveScheduleDelHistory ( " +
+                            "[SanID],[EmpUnqID],[tDate],[WrkGrp],[ConsInTime],[ConsOutTime],[ConsOverTime]," +
+                            "[ConsShift],[SchShift],[SchLeave],[SchLeaveAdv],[SchLeaveHalf],[SchInstedOf]," +
+                            "[tyear],[tyearmt],[AddDt],[AddID],[UpdDt],[UpdID],[DelFlg],[Remarks])  " +
+                            "Select " + 
+                            "[SanID],[EmpUnqID],[tDate],[WrkGrp],[ConsInTime],[ConsOutTime],[ConsOverTime]," +
+                            "[ConsShift],[SchShift],[SchLeave],[SchLeaveAdv],[SchLeaveHalf],[SchInstedOf]," +
+                            "[tyear],[tyearmt],[AddDt],[AddID],GetDate(),'" + Utils.User.GUserID + "',[DelFlg], 'Changed By " + Utils.User.GUserID + "'" +
+                            " from MastLeaveSchedule where SanID ='" + sanid.ToString() + "' ";
+
                         SqlCommand cmd = new SqlCommand(sql, cn,tr);
                         cmd.ExecuteNonQuery();
+
+                        sql = "Delete From MastLeaveSchedule where SanID = '" + sanid.ToString() + "' and SchLeave is not null " +
+                            " and ConsInTime is not null  and ConsOutTime is not null " +
+                            " and ConsShift is not null and ConsOverTime is not null " +
+                            " and SchShift is not null and SchLeave ='" + leavtyp + "'" ;
+                        cmd = new SqlCommand(sql, cn,tr);
+                        cmd.ExecuteNonQuery();
+
 
                         sql = "Update MastLeaveSchedule set SchLeave = null , SchLeaveHalf = 0  where SanID = '" + sanid.ToString() + "' and SchLeave ='" + leavtyp + "'";
                         SqlCommand cmd2 = new SqlCommand(sql, cn,tr);
                         cmd2.ExecuteNonQuery();
 
-                        //SqlCommand cmd2 = new SqlCommand(sql, cn, tr);
-                        //cmd2.ExecuteNonQuery();
+
                     }
                     catch (Exception ex)
                     {
