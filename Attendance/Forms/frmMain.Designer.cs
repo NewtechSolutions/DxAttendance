@@ -46,6 +46,7 @@
             this.mnuMessInOutMachine = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuConfig_KeyVal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUser = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuChangePass = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLogOff = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,7 +132,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuConfig_KeyVal = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -290,6 +290,13 @@
             this.mnuOtherConfig.Text = "Other Config";
             this.mnuOtherConfig.Click += new System.EventHandler(this.mnuOtherConfig_Click);
             // 
+            // mnuConfig_KeyVal
+            // 
+            this.mnuConfig_KeyVal.Name = "mnuConfig_KeyVal";
+            this.mnuConfig_KeyVal.Size = new System.Drawing.Size(193, 22);
+            this.mnuConfig_KeyVal.Text = "Config Keys";
+            this.mnuConfig_KeyVal.Click += new System.EventHandler(this.mnuConfig_KeyVal_Click);
+            // 
             // mnuUser
             // 
             this.mnuUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -439,14 +446,14 @@
             // 
             this.mnuMastHoliday.Name = "mnuMastHoliday";
             this.mnuMastHoliday.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastHoliday.Text = "Holiday Calander";
+            this.mnuMastHoliday.Text = "Holiday Calendar";
             this.mnuMastHoliday.Click += new System.EventHandler(this.mnuMastHoliday_Click);
             // 
             // mnuMastHolidayOpt
             // 
             this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
             this.mnuMastHolidayOpt.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastHolidayOpt.Text = "Optional Holidy Calander";
+            this.mnuMastHolidayOpt.Text = "Optional Holidy Calendar";
             this.mnuMastHolidayOpt.Click += new System.EventHandler(this.mnuMastHolidayOpt_Click);
             // 
             // mnuAutoMail
@@ -956,13 +963,6 @@
             // 
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
-            // 
-            // mnuConfig_KeyVal
-            // 
-            this.mnuConfig_KeyVal.Name = "mnuConfig_KeyVal";
-            this.mnuConfig_KeyVal.Size = new System.Drawing.Size(193, 22);
-            this.mnuConfig_KeyVal.Text = "Config Keys";
-            this.mnuConfig_KeyVal.Click += new System.EventHandler(this.mnuConfig_KeyVal_Click);
             // 
             // frmMain
             // 
