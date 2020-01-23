@@ -111,6 +111,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.txtIPAdd2 = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons4 = new System.Windows.Forms.GroupBox();
+            this.btnDownloadPhotos = new System.Windows.Forms.Button();
             this.lblReqNo = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.btnGetExcelUser = new System.Windows.Forms.Button();
@@ -147,7 +148,6 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnDownloadPhotos = new System.Windows.Forms.Button();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -720,9 +720,9 @@
             // 
             this.btnUnBlock.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUnBlock.Appearance.Options.UseFont = true;
-            this.btnUnBlock.Location = new System.Drawing.Point(510, 13);
+            this.btnUnBlock.Location = new System.Drawing.Point(387, 13);
             this.btnUnBlock.Name = "btnUnBlock";
-            this.btnUnBlock.Size = new System.Drawing.Size(120, 27);
+            this.btnUnBlock.Size = new System.Drawing.Size(79, 27);
             this.btnUnBlock.TabIndex = 10;
             this.btnUnBlock.Text = "&Unblock";
             this.btnUnBlock.Visible = false;
@@ -732,9 +732,9 @@
             // 
             this.btnBlock.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBlock.Appearance.Options.UseFont = true;
-            this.btnBlock.Location = new System.Drawing.Point(384, 13);
+            this.btnBlock.Location = new System.Drawing.Point(302, 13);
             this.btnBlock.Name = "btnBlock";
-            this.btnBlock.Size = new System.Drawing.Size(120, 27);
+            this.btnBlock.Size = new System.Drawing.Size(79, 27);
             this.btnBlock.TabIndex = 9;
             this.btnBlock.Text = "Block";
             this.btnBlock.Visible = false;
@@ -744,9 +744,9 @@
             // 
             this.btnDelete.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.Appearance.Options.UseFont = true;
-            this.btnDelete.Location = new System.Drawing.Point(258, 13);
+            this.btnDelete.Location = new System.Drawing.Point(217, 13);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(120, 27);
+            this.btnDelete.Size = new System.Drawing.Size(79, 27);
             this.btnDelete.TabIndex = 8;
             this.btnDelete.Text = "Delete";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -757,7 +757,7 @@
             this.btnRegister.Appearance.Options.UseFont = true;
             this.btnRegister.Location = new System.Drawing.Point(132, 13);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(120, 27);
+            this.btnRegister.Size = new System.Drawing.Size(79, 27);
             this.btnRegister.TabIndex = 7;
             this.btnRegister.Text = "Register";
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
@@ -1333,6 +1333,17 @@
             this.grpButtons4.TabStop = false;
             this.grpButtons4.Text = "Download All Users From Single Machine To Excel File";
             // 
+            // btnDownloadPhotos
+            // 
+            this.btnDownloadPhotos.Location = new System.Drawing.Point(318, 51);
+            this.btnDownloadPhotos.Name = "btnDownloadPhotos";
+            this.btnDownloadPhotos.Size = new System.Drawing.Size(118, 23);
+            this.btnDownloadPhotos.TabIndex = 74;
+            this.btnDownloadPhotos.Text = "Download Photo";
+            this.btnDownloadPhotos.UseVisualStyleBackColor = true;
+            this.btnDownloadPhotos.Visible = false;
+            this.btnDownloadPhotos.Click += new System.EventHandler(this.btnDownloadPhotos_Click);
+            // 
             // lblReqNo
             // 
             this.lblReqNo.AutoSize = true;
@@ -1736,17 +1747,6 @@
             this.gv_Upload.OptionsView.ShowDetailButtons = false;
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
-            // 
-            // btnDownloadPhotos
-            // 
-            this.btnDownloadPhotos.Location = new System.Drawing.Point(318, 51);
-            this.btnDownloadPhotos.Name = "btnDownloadPhotos";
-            this.btnDownloadPhotos.Size = new System.Drawing.Size(118, 23);
-            this.btnDownloadPhotos.TabIndex = 74;
-            this.btnDownloadPhotos.Text = "Download Photo";
-            this.btnDownloadPhotos.UseVisualStyleBackColor = true;
-            this.btnDownloadPhotos.Visible = false;
-            this.btnDownloadPhotos.Click += new System.EventHandler(this.btnDownloadPhotos_Click);
             // 
             // frmMastUserManagement
             // 

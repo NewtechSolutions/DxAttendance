@@ -581,6 +581,8 @@ namespace Attendance.Classes
                 return;
             }
 
+           
+
 
             int idwYear = 0;
             int idwMonth = 0;
@@ -627,6 +629,9 @@ namespace Attendance.Classes
             CZKEM1.EnableDevice(_machineno, false);//disable the device
             if (CZKEM1.ReadGeneralLogData(_machineno))//read all the attendance records to the memory
             {
+                
+                
+                
                 if (m_tft)
                 {
                     while (CZKEM1.SSR_GetGeneralLogData(_machineno, out sdwEnrollNumber, out idwVerifyMode,
@@ -959,6 +964,8 @@ namespace Attendance.Classes
                             this.CZKEM1.SetUserInfoEx(_machineno, 1234, 131, 0);
                         }
                         
+
+
                     }
                 }
             }
@@ -967,6 +974,23 @@ namespace Attendance.Classes
                 result = false;
             }
 
+            return result;
+        }
+
+        public bool SetDuplicatePunchDuration(int nosofminutes)
+        {
+            bool result = false;
+            if (!_messflg)
+            {
+                //// get duplicate punch time from machine
+                int duptime = 0;
+                result = this.CZKEM1.GetDeviceInfo(_machineno, 8, ref duptime);
+
+                if (result)
+                {
+                    result = this.CZKEM1.SetDeviceInfo(_machineno, 8, 3);
+                }
+            }            
             return result;
         }
 

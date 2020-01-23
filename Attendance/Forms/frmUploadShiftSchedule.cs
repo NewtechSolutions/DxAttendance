@@ -165,6 +165,7 @@ namespace Attendance.Forms
                 {
                    
                     DateTime StartDt = new DateTime(), EndDt = new DateTime();
+                    
 
                     string sql = string.Empty;
                     string tYearMt = txtYearMT.DateTime.ToString("yyyyMM");
@@ -174,7 +175,8 @@ namespace Attendance.Forms
 
                     StartDt = Convert.ToDateTime(stdt);
                     EndDt = Convert.ToDateTime(endt);
-                   
+                    
+
                     foreach (DataRow dr in sortedDT.Rows)
                     {
 
@@ -342,6 +344,7 @@ namespace Attendance.Forms
                         bool hasRows = dsLeave.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if(hasRows)
                         {
+                            
                             foreach(DataRow drl in dsLeave.Tables[0].Rows)
                             {
                                 LeaveData t = new LeaveData();
@@ -349,10 +352,11 @@ namespace Attendance.Forms
                                 t.ToDt = ((Convert.ToDateTime(drl["ToDt"]) > EndDt) ? EndDt : Convert.ToDateTime(drl["ToDt"]));
                                 t.LeaveTyp = drl["LeaveTyp"].ToString();
                                 leave.Add(t);
+                               
                             }
                         }
                         #endregion
-
+                        
                         #region Upd_ShiftSchedule_AttdData
                         
                         string ShiftSql = string.Empty;
@@ -572,23 +576,42 @@ namespace Attendance.Forms
                                 }//end if WO
                                 else
                                 {
-                                    try
-                                    {
-                                        sql = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' " +
-                                                    " and tDate = '" + date.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
 
-                                        cmd = new SqlCommand(sql,cn,trn);
-                                        cmd.ExecuteNonQuery();
-                                    }
-                                    catch (Exception ex)
+                                    LeavPos = false;
+                                    foreach (LeaveData t in leave)
                                     {
-                                        dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
-                                        brkflg = true;
-                                        break;
+                                        //check if date is fall between leave posted
+                                        if (date >= t.FromDt && date <= t.ToDt)
+                                        {
+                                            LeavPos = true;
+                                            break;
+                                        }
                                     }
+
+                                    if (!LeavPos)
+                                    {
+                                        try
+                                        {
+                                            sql = "Delete from MastLeaveSchedule Where EmpUnqID = '" + Emp.EmpUnqID + "' " +
+                                                        " and tDate = '" + date.ToString("yyyy-MM-dd") + "' and SchLeave ='WO'";
+
+                                            cmd = new SqlCommand(sql, cn, trn);
+                                            cmd.ExecuteNonQuery();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            dr["Remarks"] = dr["Remarks"].ToString() + Environment.NewLine + ex.ToString();
+                                            brkflg = true;
+                                            break;
+                                        }
+
+                                    }
+
+                                    
                                 }
 
                             } //end of eachday
+
                             if (brkflg)
                             {
                                 trn.Rollback();

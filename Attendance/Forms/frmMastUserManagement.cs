@@ -42,7 +42,7 @@ namespace Attendance.Forms
             {
                 case 1: //attendance
                     dtrs = srcDs.Tables[0].Select("CanteenFlg = 0 And GateInOut = 0 and LunchInOut = 0");
-                   
+                    
                     break;
                 case 2: //canteen
                     dtrs = srcDs.Tables[0].Select("CanteenFlg = 1 And GateInOut = 0 and LunchInOut = 0");

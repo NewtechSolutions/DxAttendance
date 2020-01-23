@@ -1088,14 +1088,35 @@ namespace Attendance
                     tShift = "";
                 }
 
+
                 if (eWrkGrp == "COMP")
                 {
-                    eGradeCode = Convert.ToInt32(Emp.GradeCode);
+                    int t = 0;
+
+                    if (int.TryParse(Emp.GradeCode, out t))
+                    {
+                        eGradeCode = t;
+                    }
+                    else
+                    {
+                        eGradeCode = 999999;
+                    }
+
                 }
                 else
                 {
                     eGradeCode = 0;
                 }
+
+
+                //if (eWrkGrp == "COMP")
+                //{
+                //    eGradeCode = Convert.ToInt32(Emp.GradeCode);
+                //}
+                //else
+                //{
+                //    eGradeCode = 0;
+                //}
 
                 DateTime ShiftStart = new DateTime(), ShiftEnd = new DateTime(), ShiftInFrom = new DateTime(), ShiftInTo = new DateTime(), ShiftOutFrom = new DateTime(), ShiftOutTo = new DateTime();
                 double ShiftHrs = 0, ShiftBreak = 0;
@@ -1214,7 +1235,7 @@ namespace Attendance
                                     drAttd["GracePeriod"] = "";
                                 }
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["GracePeriod"] = "";
                                 }
@@ -1238,7 +1259,7 @@ namespace Attendance
                                     if (Globals.G_HFFLG_LateCome)
                                     {
                                         //'added on 14-02-2014 if late more than 30 min mark halfday exclude agm and above on comp emp.
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                        if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["Latecome"] = "";
@@ -1357,7 +1378,7 @@ namespace Attendance
 
                                 //removed : 04/03/2019
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["GracePeriod"] = "";
                                 }
@@ -1615,7 +1636,7 @@ namespace Attendance
 
                             }//new development for dynamic halfday
 
-                            if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                            if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                             {
                                 drAttd["GracePeriod"] = "";
                             }
@@ -1699,7 +1720,7 @@ namespace Attendance
 
                                 drAttd["EarlyCome"] = sminearly;
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["Halfday"] = 0;
                                     drAttd["Latecome"] = "";
@@ -1772,7 +1793,7 @@ namespace Attendance
 
                                 //removed : 04/03/2019
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["GracePeriod"] = "";
                                 }
@@ -1796,7 +1817,7 @@ namespace Attendance
                                     //new development for dynamic halfday
                                     if (Globals.G_HFFLG_EarlyGoing)
                                     {
-                                        if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                        if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                         {
                                             drAttd["Halfday"] = 0;
                                             drAttd["EarlyGoing"] = "";
@@ -1920,7 +1941,7 @@ namespace Attendance
 
                                 ///removed - 04/03/2019
 
-                                if (eWrkGrp == "COMP" && eGradeCode <= 15)
+                                if (eWrkGrp == "COMP" && eGradeCode <= Globals.G_GlobalGradeExclude)
                                 {
                                     drAttd["GracePeriod"] = "";
                                 }

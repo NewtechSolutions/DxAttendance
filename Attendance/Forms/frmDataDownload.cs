@@ -608,6 +608,10 @@ namespace Attendance.Forms
                 string sql = "Select FACE from ReaderConfig where MachineIP ='" + ip + "'";
                 string tcnt = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
 
+                //set duplicate punch count
+                m.SetDuplicatePunchDuration(3);
+
+
                 if (Convert.ToBoolean(tcnt))
                 {
                     m.Get_StatusInfo_Face(out UserCount, out UserCapacity, out err);
