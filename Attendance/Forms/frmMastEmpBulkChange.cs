@@ -141,14 +141,14 @@ namespace Attendance.Forms
 
                         #region Chk_AllVals
                         //check all values if all empty skip
-                        if (dr["CatCode"].ToString() == "" && dr["DesgCode"].ToString() == ""
-                            && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == ""
-                            && dr["SPLALL"].ToString() == "" && dr["BAALL"].ToString() == ""
-                            && dr["LeftDt"].ToString() == "")
-                        {
-                            dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
-                            continue;
-                        }
+                        //if (dr["CatCode"].ToString() == "" && dr["DesgCode"].ToString() == ""
+                        //    && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == ""
+                        //    && dr["SPLALL"].ToString() == "" && dr["BAALL"].ToString() == ""
+                        //    && dr["LeftDt"].ToString() == "")
+                        //{
+                        //    dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
+                        //    continue;
+                        //}
                         #endregion
                         string tCatCode = dr["CatCode"].ToString();
                         string tDesgCode = dr["DesgCode"].ToString();
@@ -157,6 +157,9 @@ namespace Attendance.Forms
                         double tBAAll = 0;
                         DateTime tLeftDt = DateTime.MinValue;
                         double tBasic = 0;
+
+
+
 
                         try
                         {
@@ -220,6 +223,91 @@ namespace Attendance.Forms
                                 {
                                     sql += " LeftDt ='" + tLeftDt.ToString("yyyy-MM-dd") + "', Active = 0 ,";
                                 }
+
+                                #region Bank_Contact_BloodGrp
+
+                                if (!string.IsNullOrEmpty(dr["MobileNo"].ToString()))
+                                     sql += " ContactNo ='" + dr["MobileNo"].ToString() + "'," ;
+                                
+                                if(!string.IsNullOrEmpty(dr["BANKNAME"].ToString()))
+                                    sql += " BANKNAME ='" + dr["BANKNAME"].ToString() + "'," ;
+
+                                if (!string.IsNullOrEmpty(dr["ACCOUNTNO"].ToString()))
+                                    sql += " BankAcNo='" + dr["ACCOUNTNO"].ToString() + "',";
+
+                                if(!string.IsNullOrEmpty(dr["IFSCCODE"].ToString()))
+                                    sql+=  " BankIFSCCode='" + dr["IFSCCODE"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PANCARD"].ToString()))
+                                    sql += " IDPRF1='PANCARD',IDPRF1NO='" + dr["PANCARD"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["UANNO"].ToString()))
+                                    sql += " IDPRF2='UAN',IDPRF2NO='" + dr["UANNO"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["BloodGroup"].ToString()))
+                                    sql += " BLDGrp='" + dr["BloodGroup"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["EmailID"].ToString()))
+                                    sql += " EmailID='" + dr["EmailID"].ToString() + "',";
+
+                                #endregion
+
+                                #region PERMENENT_ADDRESS
+
+
+                                if (!string.IsNullOrEmpty(dr["PermenantAdd1"].ToString()))
+                                    sql += " PerAdd1='" + dr["PermenantAdd1"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantAdd2"].ToString()))
+                                    sql += " PerAdd2='" + dr["PermenantAdd2"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantAdd3"].ToString()))
+                                    sql += " PerAdd3='" + dr["PermenantAdd3"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantAdd4"].ToString()))
+                                    sql += " PerAdd4='" + dr["PermenantAdd4"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantDistrict"].ToString()))
+                                    sql += " PerDistrict='" + dr["PermenantDistrict"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantCity"].ToString()))
+                                    sql += " PerCITY='" + dr["PermenantCity"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantState"].ToString()))
+                                    sql += " PerState='" + dr["PermenantState"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PermenantPinCode"].ToString()))
+                                    sql += " PerPIN='" + dr["PermenantPinCode"].ToString() + "',";
+                                #endregion
+
+                                #region Present_Address
+
+                                if (!string.IsNullOrEmpty(dr["PresantAdd1"].ToString()))
+                                    sql += " PreAdd1='" + dr["PresantAdd1"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantAdd2"].ToString()))
+                                    sql += " PreAdd2='" + dr["PresantAdd2"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantAdd3"].ToString()))
+                                    sql += " PreAdd3='" + dr["PresantAdd3"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantAdd4"].ToString()))
+                                    sql += " PreAdd4='" + dr["PresantAdd4"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantDistrict"].ToString()))
+                                    sql += " PreDistrict='" + dr["PresantDistrict"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantCity"].ToString()))
+                                    sql += " PreCITY='" + dr["PresantCity"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantState"].ToString()))
+                                    sql += " PreState='" + dr["PresantState"].ToString() + "',";
+
+                                if (!string.IsNullOrEmpty(dr["PresantPinCode"].ToString()))
+                                    sql += " PrePIN='" + dr["PresantPinCode"].ToString() + "',";
+
+                                #endregion
+
 
                                 sql += "  UpdDt=GetDate(), UpdID = '" + Utils.User.GUserID + "' Where CompCode = '01' and EmpUnqID = '" + tEmpUnqID + "'";
 
@@ -312,7 +400,12 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL,LeftDt, '' as Remarks from " + sheetname;
+                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL,LeftDt, " +
+                    "BANKNAME,IFSCCODE,ACCOUNTNO,PANCARD,UANNO,MobileNo,EmailID,BloodGroup, " +
+                    "PermenantAdd1,PermenantAdd2,PermenantAdd3,PermenantAdd4,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
+                    "PresantAdd1,PresantAdd2,PresantAdd3,PresantAdd4,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
+                    " '' as Remarks from " + sheetname;
+
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);

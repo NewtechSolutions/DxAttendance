@@ -278,7 +278,7 @@ namespace Attendance.Forms
 
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.Text;
-                                if (!string.IsNullOrEmpty(sInTime) && sInTime != " NULL ")
+                                if (!string.IsNullOrEmpty(sInTime) && sInTime != " NULL " && !string.IsNullOrEmpty(sInMachine))
                                 {
                                     //sql = "Insert Into AttdGateInOut " +
                                     //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
@@ -287,16 +287,17 @@ namespace Attendance.Forms
                                     sql = "Insert Into TripodLog " +
                                     " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
                                     " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
-                                
+
+                                    cmd.CommandText = sql;
+                                    cmd.CommandTimeout = 0;
+                                    cmd.ExecuteNonQuery();
                                 
                                 }
-                                
-                                cmd.CommandText = sql;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
 
 
-                                if (!string.IsNullOrEmpty(sOutTime) && sOutTime != " NULL ")
+
+
+                                if (!string.IsNullOrEmpty(sOutTime) && sOutTime != " NULL " && !string.IsNullOrEmpty(sOutMachine) )
                                 {
                                     //sql = "Insert Into AttdGateInOut " +
                                     //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
@@ -307,11 +308,14 @@ namespace Attendance.Forms
                                     sql = "Insert Into TripodLog " +
                                     " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
                                     " " + sOutTime + ",'" + Emp.EmpUnqID + "','O','" + sOutMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";
+                                    
+                                    cmd.CommandText = sql;
+                                    cmd.CommandTimeout = 0;
+                                    cmd.ExecuteNonQuery();                               
+                                
                                 }
 
-                                cmd.CommandText = sql;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
+                                
 
 
 

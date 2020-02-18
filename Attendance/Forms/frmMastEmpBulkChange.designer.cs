@@ -39,6 +39,31 @@
             this.Basic = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SPLALL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.BAALL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.LeftDt = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.BANKNAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.IFSCCODE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ACCOUNTNO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PANCARD = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UANNO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.MobileNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.EmailID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.BloodGroup = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantAdd1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantAdd2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantAdd3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantAdd4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantDistrict = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantCity = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantState = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantPinCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantAdd1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantAdd2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantAdd3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantAdd4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantDistrict = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantCity = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantState = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantPinCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnExport = new System.Windows.Forms.Button();
@@ -46,7 +71,6 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
-            this.LeftDt = new DevExpress.XtraGrid.Columns.GridColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -106,6 +130,30 @@
             this.SPLALL,
             this.BAALL,
             this.LeftDt,
+            this.BANKNAME,
+            this.IFSCCODE,
+            this.ACCOUNTNO,
+            this.PANCARD,
+            this.UANNO,
+            this.MobileNo,
+            this.EmailID,
+            this.BloodGroup,
+            this.PermenantAdd1,
+            this.PermenantAdd2,
+            this.PermenantAdd3,
+            this.PermenantAdd4,
+            this.PermenantDistrict,
+            this.PermenantCity,
+            this.PermenantState,
+            this.PermenantPinCode,
+            this.PresantAdd1,
+            this.PresantAdd2,
+            this.PresantAdd3,
+            this.PresantAdd4,
+            this.PresantDistrict,
+            this.PresantCity,
+            this.PresantState,
+            this.PresantPinCode,
             this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
@@ -218,6 +266,232 @@
             this.BAALL.Visible = true;
             this.BAALL.VisibleIndex = 6;
             // 
+            // LeftDt
+            // 
+            this.LeftDt.Caption = "LeftDt";
+            this.LeftDt.FieldName = "LeftDt";
+            this.LeftDt.Name = "LeftDt";
+            this.LeftDt.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.LeftDt.Visible = true;
+            this.LeftDt.VisibleIndex = 7;
+            this.LeftDt.Width = 97;
+            // 
+            // BANKNAME
+            // 
+            this.BANKNAME.Caption = "BANKNAME";
+            this.BANKNAME.FieldName = "BANKNAME";
+            this.BANKNAME.Name = "BANKNAME";
+            this.BANKNAME.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.BANKNAME.Visible = true;
+            this.BANKNAME.VisibleIndex = 8;
+            // 
+            // IFSCCODE
+            // 
+            this.IFSCCODE.Caption = "IFSCCODE";
+            this.IFSCCODE.FieldName = "IFSCCODE";
+            this.IFSCCODE.Name = "IFSCCODE";
+            this.IFSCCODE.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.IFSCCODE.Visible = true;
+            this.IFSCCODE.VisibleIndex = 9;
+            // 
+            // ACCOUNTNO
+            // 
+            this.ACCOUNTNO.Caption = "ACCOUNTNO";
+            this.ACCOUNTNO.FieldName = "ACCOUNTNO";
+            this.ACCOUNTNO.Name = "ACCOUNTNO";
+            this.ACCOUNTNO.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.ACCOUNTNO.Visible = true;
+            this.ACCOUNTNO.VisibleIndex = 10;
+            // 
+            // PANCARD
+            // 
+            this.PANCARD.Caption = "PANCARD";
+            this.PANCARD.FieldName = "PANCARD";
+            this.PANCARD.Name = "PANCARD";
+            this.PANCARD.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PANCARD.Visible = true;
+            this.PANCARD.VisibleIndex = 11;
+            // 
+            // UANNO
+            // 
+            this.UANNO.Caption = "UANNO";
+            this.UANNO.FieldName = "UANNO";
+            this.UANNO.Name = "UANNO";
+            this.UANNO.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.UANNO.Visible = true;
+            this.UANNO.VisibleIndex = 12;
+            // 
+            // MobileNo
+            // 
+            this.MobileNo.Caption = "MobileNo";
+            this.MobileNo.FieldName = "MobileNo";
+            this.MobileNo.Name = "MobileNo";
+            this.MobileNo.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.MobileNo.Visible = true;
+            this.MobileNo.VisibleIndex = 13;
+            // 
+            // EmailID
+            // 
+            this.EmailID.Caption = "EmailID";
+            this.EmailID.FieldName = "EmailID";
+            this.EmailID.Name = "EmailID";
+            this.EmailID.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.EmailID.Visible = true;
+            this.EmailID.VisibleIndex = 14;
+            // 
+            // BloodGroup
+            // 
+            this.BloodGroup.Caption = "BloodGroup";
+            this.BloodGroup.FieldName = "BloodGroup";
+            this.BloodGroup.Name = "BloodGroup";
+            this.BloodGroup.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.BloodGroup.Visible = true;
+            this.BloodGroup.VisibleIndex = 15;
+            // 
+            // PermenantAdd1
+            // 
+            this.PermenantAdd1.Caption = "PermenantAdd1";
+            this.PermenantAdd1.FieldName = "PermenantAdd1";
+            this.PermenantAdd1.Name = "PermenantAdd1";
+            this.PermenantAdd1.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantAdd1.Visible = true;
+            this.PermenantAdd1.VisibleIndex = 16;
+            // 
+            // PermenantAdd2
+            // 
+            this.PermenantAdd2.Caption = "PermenantAdd2";
+            this.PermenantAdd2.FieldName = "PermenantAdd2";
+            this.PermenantAdd2.Name = "PermenantAdd2";
+            this.PermenantAdd2.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantAdd2.Visible = true;
+            this.PermenantAdd2.VisibleIndex = 17;
+            // 
+            // PermenantAdd3
+            // 
+            this.PermenantAdd3.Caption = "PermenantAdd3";
+            this.PermenantAdd3.FieldName = "PermenantAdd3";
+            this.PermenantAdd3.Name = "PermenantAdd3";
+            this.PermenantAdd3.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantAdd3.Visible = true;
+            this.PermenantAdd3.VisibleIndex = 18;
+            // 
+            // PermenantAdd4
+            // 
+            this.PermenantAdd4.Caption = "PermenantAdd4";
+            this.PermenantAdd4.FieldName = "PermenantAdd4";
+            this.PermenantAdd4.Name = "PermenantAdd4";
+            this.PermenantAdd4.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantAdd4.Visible = true;
+            this.PermenantAdd4.VisibleIndex = 19;
+            // 
+            // PermenantDistrict
+            // 
+            this.PermenantDistrict.Caption = "PermenantDistrict";
+            this.PermenantDistrict.FieldName = "PermenantDistrict";
+            this.PermenantDistrict.Name = "PermenantDistrict";
+            this.PermenantDistrict.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantDistrict.Visible = true;
+            this.PermenantDistrict.VisibleIndex = 20;
+            // 
+            // PermenantCity
+            // 
+            this.PermenantCity.Caption = "PermenantCity";
+            this.PermenantCity.FieldName = "PermenantCity";
+            this.PermenantCity.Name = "PermenantCity";
+            this.PermenantCity.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantCity.Visible = true;
+            this.PermenantCity.VisibleIndex = 21;
+            // 
+            // PermenantState
+            // 
+            this.PermenantState.Caption = "PermenantState";
+            this.PermenantState.FieldName = "PermenantState";
+            this.PermenantState.Name = "PermenantState";
+            this.PermenantState.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantState.Visible = true;
+            this.PermenantState.VisibleIndex = 22;
+            // 
+            // PermenantPinCode
+            // 
+            this.PermenantPinCode.Caption = "PermenantPinCode";
+            this.PermenantPinCode.FieldName = "PermenantPinCode";
+            this.PermenantPinCode.Name = "PermenantPinCode";
+            this.PermenantPinCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantPinCode.Visible = true;
+            this.PermenantPinCode.VisibleIndex = 23;
+            // 
+            // PresantAdd1
+            // 
+            this.PresantAdd1.Caption = "PresantAdd1";
+            this.PresantAdd1.FieldName = "PresantAdd1";
+            this.PresantAdd1.Name = "PresantAdd1";
+            this.PresantAdd1.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantAdd1.Visible = true;
+            this.PresantAdd1.VisibleIndex = 24;
+            // 
+            // PresantAdd2
+            // 
+            this.PresantAdd2.Caption = "PresantAdd2";
+            this.PresantAdd2.FieldName = "PresantAdd2";
+            this.PresantAdd2.Name = "PresantAdd2";
+            this.PresantAdd2.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantAdd2.Visible = true;
+            this.PresantAdd2.VisibleIndex = 25;
+            // 
+            // PresantAdd3
+            // 
+            this.PresantAdd3.Caption = "PresantAdd3";
+            this.PresantAdd3.FieldName = "PresantAdd3";
+            this.PresantAdd3.Name = "PresantAdd3";
+            this.PresantAdd3.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantAdd3.Visible = true;
+            this.PresantAdd3.VisibleIndex = 26;
+            // 
+            // PresantAdd4
+            // 
+            this.PresantAdd4.Caption = "PresantAdd4";
+            this.PresantAdd4.FieldName = "PresantAdd4";
+            this.PresantAdd4.Name = "PresantAdd4";
+            this.PresantAdd4.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantAdd4.Visible = true;
+            this.PresantAdd4.VisibleIndex = 27;
+            // 
+            // PresantDistrict
+            // 
+            this.PresantDistrict.Caption = "PresantDistrict";
+            this.PresantDistrict.FieldName = "PresantDistrict";
+            this.PresantDistrict.Name = "PresantDistrict";
+            this.PresantDistrict.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantDistrict.Visible = true;
+            this.PresantDistrict.VisibleIndex = 28;
+            // 
+            // PresantCity
+            // 
+            this.PresantCity.Caption = "PresantCity";
+            this.PresantCity.FieldName = "PresantCity";
+            this.PresantCity.Name = "PresantCity";
+            this.PresantCity.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantCity.Visible = true;
+            this.PresantCity.VisibleIndex = 29;
+            // 
+            // PresantState
+            // 
+            this.PresantState.Caption = "PresantState";
+            this.PresantState.FieldName = "PresantState";
+            this.PresantState.Name = "PresantState";
+            this.PresantState.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantState.Visible = true;
+            this.PresantState.VisibleIndex = 30;
+            // 
+            // PresantPinCode
+            // 
+            this.PresantPinCode.Caption = "PresantPinCode";
+            this.PresantPinCode.FieldName = "PresantPinCode";
+            this.PresantPinCode.Name = "PresantPinCode";
+            this.PresantPinCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantPinCode.Visible = true;
+            this.PresantPinCode.VisibleIndex = 31;
+            // 
             // Remarks
             // 
             this.Remarks.Caption = "Remarks";
@@ -228,7 +502,7 @@
             this.Remarks.OptionsColumn.ReadOnly = true;
             this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 8;
+            this.Remarks.VisibleIndex = 32;
             this.Remarks.Width = 270;
             // 
             // groupControl1
@@ -294,16 +568,6 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
-            // LeftDt
-            // 
-            this.LeftDt.Caption = "LeftDt";
-            this.LeftDt.FieldName = "LeftDt";
-            this.LeftDt.Name = "LeftDt";
-            this.LeftDt.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.LeftDt.Visible = true;
-            this.LeftDt.VisibleIndex = 7;
-            this.LeftDt.Width = 97;
-            // 
             // frmMastEmpBulkChange
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -349,5 +613,29 @@
         private DevExpress.XtraGrid.Columns.GridColumn SPLALL;
         private DevExpress.XtraGrid.Columns.GridColumn BAALL;
         private DevExpress.XtraGrid.Columns.GridColumn LeftDt;
+        private DevExpress.XtraGrid.Columns.GridColumn BANKNAME;
+        private DevExpress.XtraGrid.Columns.GridColumn IFSCCODE;
+        private DevExpress.XtraGrid.Columns.GridColumn ACCOUNTNO;
+        private DevExpress.XtraGrid.Columns.GridColumn PANCARD;
+        private DevExpress.XtraGrid.Columns.GridColumn UANNO;
+        private DevExpress.XtraGrid.Columns.GridColumn MobileNo;
+        private DevExpress.XtraGrid.Columns.GridColumn EmailID;
+        private DevExpress.XtraGrid.Columns.GridColumn BloodGroup;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd1;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd2;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd3;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd4;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantDistrict;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantCity;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantState;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantPinCode;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd1;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd2;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd3;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd4;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantDistrict;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantCity;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantState;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantPinCode;
     }
 }
