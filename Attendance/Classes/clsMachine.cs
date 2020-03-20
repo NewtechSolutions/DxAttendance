@@ -1704,7 +1704,7 @@ namespace Attendance.Classes
             {
                 while (this.CZKEM1.SSR_GetAllUserInfo(_machineno, out sUserID, out sName, out sPassword, out _prev, out bEnabled))
                 {
-                    vRet = CZKEM1.ReadFile(_machineno, "104019" + ".jpg", "d:\\104019.jpg");
+                    vRet = CZKEM1.ReadFile(_machineno, "104019" + ".jpg", "/mnt/mtdblock/");
                     if (vRet)
                     {
                         //dont know how to use
@@ -3266,6 +3266,22 @@ namespace Attendance.Classes
                 return;
             }
 
+        }
+
+        public bool SetUserGroup(int Userid,int usergroup, out string err)
+        {
+            err = string.Empty;
+            bool res = false;
+
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return res;
+            }
+            
+            res = this.CZKEM1.SetUserInfoEx(1,Userid,0,new byte());
+            res = this.CZKEM1.SetUserGroup(1,Userid,usergroup) ;
+            return res;
         }
 
     }

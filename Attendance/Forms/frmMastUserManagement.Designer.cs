@@ -137,6 +137,7 @@
             this.tbp_Upload = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Upload = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons10 = new DevExpress.XtraEditors.GroupControl();
+            this.btnSetUserGroup = new System.Windows.Forms.Button();
             this.btnBulkDelete = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbListMachine2 = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -1274,6 +1275,7 @@
             this.btnDeleteAllUsers.TabIndex = 97;
             this.btnDeleteAllUsers.Text = "Delete All Users";
             this.btnDeleteAllUsers.UseVisualStyleBackColor = true;
+            this.btnDeleteAllUsers.Visible = false;
             this.btnDeleteAllUsers.Click += new System.EventHandler(this.btnDeleteAllUsers_Click_1);
             // 
             // label16
@@ -1603,6 +1605,7 @@
             // 
             this.grpButtons10.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpButtons10.Appearance.Options.UseFont = true;
+            this.grpButtons10.Controls.Add(this.btnSetUserGroup);
             this.grpButtons10.Controls.Add(this.btnBulkDelete);
             this.grpButtons10.Controls.Add(this.label5);
             this.grpButtons10.Controls.Add(this.cmbListMachine2);
@@ -1617,6 +1620,16 @@
             this.grpButtons10.Size = new System.Drawing.Size(701, 84);
             this.grpButtons10.TabIndex = 3;
             this.grpButtons10.Text = "Import File";
+            // 
+            // btnSetUserGroup
+            // 
+            this.btnSetUserGroup.Location = new System.Drawing.Point(628, 24);
+            this.btnSetUserGroup.Name = "btnSetUserGroup";
+            this.btnSetUserGroup.Size = new System.Drawing.Size(68, 48);
+            this.btnSetUserGroup.TabIndex = 96;
+            this.btnSetUserGroup.Text = "Set User Group";
+            this.btnSetUserGroup.UseVisualStyleBackColor = true;
+            this.btnSetUserGroup.Click += new System.EventHandler(this.btnSetUserGroup_Click);
             // 
             // btnBulkDelete
             // 
@@ -1954,5 +1967,6 @@
         private DevExpress.XtraEditors.SimpleButton btnDevInfo;
         private System.Windows.Forms.Button btnDeleteAllUsers;
         private System.Windows.Forms.Button btnDownloadPhotos;
+        private System.Windows.Forms.Button btnSetUserGroup;
     }
 }

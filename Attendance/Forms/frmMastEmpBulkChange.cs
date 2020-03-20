@@ -216,8 +216,23 @@ namespace Attendance.Forms
                                     sql += " GradCode = '" + tDesgCode.Trim() + "', ";
                                 }
 
-                                sql += "  Basic = '" + tBasic.ToString() + "', SPLALL = '" + tSplAll.ToString() + "', BAALL = '" + tBAAll.ToString() + "', ";
+
+                                if (tBasic > 0)
+                                {
+                                    sql += "  Basic = '" + tBasic.ToString() + "',";
+
+                                }
+
+                                if(tSplAll > 0)
+                                {
+                                    sql += " SPLALL = '" + tSplAll.ToString() + "',";
+                                }
                                
+                                if(tBAAll > 0){
+                                    sql += " BAALL = '" + tBAAll.ToString() + "', ";
+                                }
+
+                                
 
                                 if (tLeftDt.Date != DateTime.MinValue.Date)
                                 {

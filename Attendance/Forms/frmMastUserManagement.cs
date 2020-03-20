@@ -1995,6 +1995,63 @@ namespace Attendance.Forms
             UnLockCtrl();
             Cursor.Current = Cursors.Default;
         }
+
+        private void btnSetUserGroup_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cmbListMachine2.Text.Trim()))
+            {
+                MessageBox.Show("Please Select Machine...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string ip = cmbListMachine2.Text.Trim();
+            string ioflg = "B";
+            string err;
+            clsMachine m = new clsMachine(ip, ioflg);
+            m.Connect(out err);
+
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            List<UserBioInfo> tmpuser = new List<UserBioInfo>();
+            m.DownloadAllUsers_QuickReport(out err, out tmpuser);
+
+            dt.Clear();
+            dt.Columns.Clear();
+            dt.Columns.Add("EmpUnqID");
+            dt.Columns.Add("Remarks");
+            dt.BeginLoadData();
+            foreach (UserBioInfo t in tmpuser)
+            {
+                DataRow dr = dt.NewRow();
+                dr["EmpUnqID"] = t.UserID;
+                dr["Remarks"] = string.Empty;
+                dt.Rows.Add(dr);
+            }
+            dt.EndLoadData();
+            grd_Upload.DataSource = dt;
+            gv_Upload.RefreshData();
+            LockCtrl();
+            this.Cursor = Cursors.WaitCursor;
+            foreach (DataRow dr in dt.Rows)
+            {
+                string err2 = string.Empty;
+                bool vret = m.SetUserGroup(Convert.ToInt32(dr["EmpUnqID"]), 1, out err2);
+                if (vret)
+                    dr["Remarks"] = "Group Set Completed";
+                else
+                    dr["Remarks"] = err2;
+
+
+                Application.DoEvents();
+            }
+            m.RefreshData();
+            m.DisConnect(out err);
+            this.Cursor = Cursors.Default;
+            UnLockCtrl();
+        }
         
     }
 
