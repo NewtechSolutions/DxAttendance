@@ -126,6 +126,11 @@ namespace Attendance.Forms
                 using (SqlConnection con = new SqlConnection(Utils.Helper.constr))
                 {
                     DateTime tdt;
+                    
+                    string sql = "Select  MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
+                    string sInMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
+                    sql = " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
+                    string sOutMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
 
                     con.Open();
                     foreach (DataRow dr in sortedDT.Rows)
@@ -159,7 +164,7 @@ namespace Attendance.Forms
                         {
                             Emp.CompCode = "01";
                             Emp.EmpUnqID = tEmpUnqID;
-                            Emp.GetEmpDetails(Emp.CompCode,Emp.EmpUnqID);
+                            //Emp.GetEmpDetails(Emp.CompCode,Emp.EmpUnqID);
 
                             
                         }
@@ -257,17 +262,7 @@ namespace Attendance.Forms
 
 
                         #region Final_Update
-                        //string sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'I' and Active = 1 Union " +
-                        //    "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sql = "Select MachineIP from TripodReaderConFig where  IOFLG = 'I' ";
-                        string sInMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
-                        //sql = "Select MachineIP from ReaderConFig where GateInOut = 1 and IOFLG = 'O' and active = 1 Union " +
-                        //    " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-                        sql = " Select MachineIP from TripodReaderConFig where IOFLG = 'O' ";
-
-                        string sOutMachine = Utils.Helper.GetDescription(sql, Utils.Helper.constr);
-
+                    
                         using (SqlCommand cmd = new SqlCommand())
                         {                            
                             try
@@ -280,10 +275,7 @@ namespace Attendance.Forms
                                 cmd.CommandType = CommandType.Text;
                                 if (!string.IsNullOrEmpty(sInTime) && sInTime != " NULL " && !string.IsNullOrEmpty(sInMachine))
                                 {
-                                    //sql = "Insert Into AttdGateInOut " +
-                                    //" (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
-                                    //" " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "')";
-
+                    
                                     sql = "Insert Into TripodLog " +
                                     " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,DutyFlg,GatePassFlg,Processed) Values (" +
                                     " " + sInTime + ",'" + Emp.EmpUnqID + "','I','" + sInMachine + "',0,'" + tDate.Year + "','" + tDate.ToString("yyyyMM") + "','" + sDate + "',GetDate(),'" + Utils.User.GUserID + "-San" + "',0,0,0)";

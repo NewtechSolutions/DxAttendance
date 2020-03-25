@@ -3279,8 +3279,10 @@ namespace Attendance.Classes
                 return res;
             }
             
+            
             res = this.CZKEM1.SetUserInfoEx(1,Userid,0,new byte());
-            res = this.CZKEM1.SetUserGroup(1,Userid,usergroup) ;
+            res = this.CZKEM1.SetUserGroup(1,Userid,usergroup);
+
             return res;
         }
 

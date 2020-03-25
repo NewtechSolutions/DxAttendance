@@ -1269,8 +1269,24 @@ namespace Attendance.Forms
                 
                 if (reqDate > curDate.Date)
                 {
-                    MessageBox.Show("Future date sanction (In Time/Out Time/TPA Hours) denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;                    
+                    string tmpsql = "Select Count(*) from MastSanctionException where '" + reqDate.ToString("yyyy-MM-dd") + "' between FromDt and Todate";
+                    string err2 = string.Empty;
+                    string tid = Utils.Helper.GetDescription(tmpsql, Utils.Helper.constr, out err2);
+                    if (string.IsNullOrEmpty(err2))
+                    {
+
+                        if (Convert.ToInt32(tid) <= 0)
+                        {
+                            MessageBox.Show("Future date sanction (In Time/Out Time/TPA Hours) denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+
+                        }
+                    }
+                    
+                    
+                    
+                    //MessageBox.Show("Future date sanction (In Time/Out Time/TPA Hours) denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //return;                    
                 }
 
             }   
