@@ -1276,6 +1276,7 @@
             this.btnDeleteAllUsers.TabIndex = 97;
             this.btnDeleteAllUsers.Text = "Delete All Users";
             this.btnDeleteAllUsers.UseVisualStyleBackColor = true;
+            this.btnDeleteAllUsers.Visible = false;
             this.btnDeleteAllUsers.Click += new System.EventHandler(this.btnDeleteAllUsers_Click_1);
             // 
             // label16
