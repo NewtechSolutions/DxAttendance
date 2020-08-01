@@ -720,7 +720,7 @@ namespace Attendance.Forms
 
             string err;
             //machine selection
-            if (cmbListMachine1.Text.Contains(Globals.MasterMachineIP))
+            if (cmbListMachine1.Text.Contains(Globals.MasterMachineIP) && Globals.MasterMachineIP.Trim() != "")
             {
                 clsMachine tmach = new clsMachine(Globals.MasterMachineIP, "B");
                 tmach.Connect(out err);
@@ -810,12 +810,13 @@ namespace Attendance.Forms
                 }
                 
                 string allerr = "";
+                m.EnableDevice(false);
                 foreach (UserBioInfo emp in tUserList)
                 {
                     m.Register(emp.UserID, out err);
                     if (!string.IsNullOrEmpty(err))
                     {
-                        allerr += err + Environment.NewLine;
+                        allerr += emp.UserID + "--" + err + Environment.NewLine;
                     }
                     else
                     {
@@ -843,12 +844,10 @@ namespace Attendance.Forms
 
                                 }
                             }//using command
-                        }//using connection
-                   
+                        }//using connection                   
                     }
-                }
 
-                
+                }//foreach...
 
                 if (string.IsNullOrEmpty(allerr))
                 {
@@ -856,9 +855,10 @@ namespace Attendance.Forms
                 }
                 else
                 {
-                    gv_avbl.SetRowCellValue(i, "Remarks", allerr);
+                    gv_avbl.SetRowCellValue(i, "Remarks", allerr + ",Others are Registered");
                 }
                 m.RefreshData();
+                m.EnableDevice(true);
                 m.DisConnect(out err);
 
             }
@@ -893,7 +893,7 @@ namespace Attendance.Forms
             grpButtons9.Enabled = false;
             grpButtons10.Enabled = false;
 
-            grpButtons11.Enabled = false;
+            //grpButtons11.Enabled = false;
             grpButtons12.Enabled = false;
             grpButtons13.Enabled = false;
 
@@ -1342,9 +1342,25 @@ namespace Attendance.Forms
                     
                     }
                     
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (SqlCommand cmd = new SqlCommand())
                     {
+                        cmd.Connection = con;
+                        cmd.CommandText = sql;
+                        cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
+
+                        if (txtOldRFID.Text.Trim() != txtNewRFID.Text.Trim())
+                        {
+                            int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError,Remarks) Values ('" + tmaxid + "','" +
+                                tEmpUnqID + "','9999','B','RFID Change',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed','Changed from " + txtOldRFID.Text.Trim() + "->" + txtNewRFID.Text.Trim() + "')";
+
+
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+                        }
+                       
+
                     }
                     
                 }
@@ -1401,6 +1417,10 @@ namespace Attendance.Forms
 
                         foreach (UserBioInfo emp in tmpuser)
                         {
+                            sql = "Delete From tmp_machineusers where reqno ='" + reqno + "' And MachineIP='" + ip + "' And EmpUnqID ='" + emp.UserID + "'";
+                            cmd = new SqlCommand(sql, cn);
+                            cmd.ExecuteNonQuery();
+                            
                             sql = "Insert Into tmp_machineusers (ReqNo,MachineIP,EmpUnqID,RFID,AMthD,AddDt,AddID )" +
                             " Values ('" + reqno + "','" + ip + "','" + emp.UserID + "','" + emp.CardNumber + "','0',GetDate(),'" + Utils.User.GUserID +  "')";
 
@@ -1824,17 +1844,17 @@ namespace Attendance.Forms
                         txtEmpUnqID.Text = cells.Trim();
                         txtEmpUnqID_Validated(sender, e);
 
-                        if (txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty)
-                        {
+                        //if (txtEmpUnqID.Text.Trim() == string.Empty || txtEmpName.Text.Trim() == string.Empty)
+                        //{
 
-                            DialogResult dr = MessageBox.Show("warning! Employee not found,are you sure ?", "Question", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        //    DialogResult dr = MessageBox.Show("warning! Employee not found,are you sure ?", "Question", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                            if (dr == System.Windows.Forms.DialogResult.No)
-                                continue;
-                            else if (dr == System.Windows.Forms.DialogResult.Cancel)
-                                break;
+                        //    if (dr == System.Windows.Forms.DialogResult.No)
+                        //        continue;
+                        //    else if (dr == System.Windows.Forms.DialogResult.Cancel)
+                        //        break;
 
-                        }
+                        //}
 
                         btnAddEmp_Click(sender, e);
                     }
@@ -1939,28 +1959,44 @@ namespace Attendance.Forms
                 return;
             }
 
-            MessageBox.Show("Please this function is disabled for security reason...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return;
+            if (Utils.User.GUserID == "anand")
+            {
+                DialogResult dr = MessageBox.Show("Are You Sure This will delete all users from machine ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            //string ip = txtIPAdd2.Text.Trim();
-            //string ioflg = "B";
-            //string err;
-            //clsMachine m = new clsMachine(ip, ioflg);
-            //m.Connect(out err);
+                if (dr == System.Windows.Forms.DialogResult.Yes)
+                {
+                    string ip = txtIPAdd2.Text.Trim();
+                    string ioflg = "B";
+                    string err;
+                    clsMachine m = new clsMachine(ip, ioflg);
+                    m.Connect(out err);
 
-            //if (!string.IsNullOrEmpty(err))
-            //{
-            //    MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-            //Cursor.Current = Cursors.WaitCursor;
-            //LockCtrl();
-            //m.ClearALLUserData(out err);
-            //m.RefreshData();
-            //m.DisConnect(out err);
-            //UnLockCtrl();
-            //Cursor.Current = Cursors.Default;
+                    Cursor.Current = Cursors.WaitCursor;
+                    LockCtrl();
+                    m.ClearALLUserData(out err);
+                    m.RefreshData();
+                    m.DisConnect(out err);
+                    UnLockCtrl();
+                    Cursor.Current = Cursors.Default;
+                }
+                
+                
+            }
+            else
+            {
+                MessageBox.Show("Please this function is disabled for security reason...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
+            }
+
+            
+            
             
 
         }
@@ -2044,6 +2080,69 @@ namespace Attendance.Forms
                 else
                     dr["Remarks"] = err2;
 
+
+                Application.DoEvents();
+            }
+            m.RefreshData();
+            m.DisConnect(out err);
+            this.Cursor = Cursors.Default;
+            UnLockCtrl();
+        }
+
+        private void btnSetUserFace_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cmbListMachine2.Text.Trim()))
+            {
+                MessageBox.Show("Please Select Machine...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string ip = cmbListMachine2.Text.Trim();
+            string ioflg = "B";
+            string err;
+            clsMachine m = new clsMachine(ip, ioflg);
+            m.Connect(out err);
+
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            List<UserBioInfo> tmpuser = new List<UserBioInfo>();
+            m.DownloadAllUsers_QuickReport(out err, out tmpuser);
+
+            dt.Clear();
+            dt.Columns.Clear();
+            dt.Columns.Add("EmpUnqID");
+            dt.Columns.Add("Remarks");
+            dt.BeginLoadData();
+            foreach (UserBioInfo t in tmpuser)
+            {
+                DataRow dr = dt.NewRow();
+                dr["EmpUnqID"] = t.UserID;
+                dr["Remarks"] = string.Empty;
+                dt.Rows.Add(dr);
+            }
+            dt.EndLoadData();
+            grd_Upload.DataSource = dt;
+            gv_Upload.RefreshData();
+            LockCtrl();
+            this.Cursor = Cursors.WaitCursor;
+            foreach (DataRow dr in dt.Rows)
+            {
+                string err2 = string.Empty;
+
+                err = string.Empty;
+                bool x = m.Register_Face(dr["EmpUnqID"].ToString(),out err);
+                
+                if (!x)
+                {
+                     dr["Remarks"] = err;
+                }
+                else
+                {
+                    dr["Remarks"] = "Registered";
+                }
 
                 Application.DoEvents();
             }

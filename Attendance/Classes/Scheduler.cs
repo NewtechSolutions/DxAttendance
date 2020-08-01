@@ -306,6 +306,45 @@ namespace Attendance.Classes
                     Publish(tMsg);
 
                 }
+
+
+                #region HardCodeProcess
+
+                //daily 09:50AM Company Employee HardCode
+
+                string jobid2 = "Job_AutoProcess_Comp";
+                string triggerid2 = "Trigger_AutoProcess_Comp";
+
+                
+                // define the job and tie it to our HelloJob class
+                IJobDetail job2 = JobBuilder.Create<AutoProcess>()
+                    .WithDescription("Auto Process Attendance Data")
+                    .WithIdentity(jobid2, "Job_AutoProcess")
+                    .UsingJobData("WrkGrp", "COMP")
+                    .Build();
+
+                // Trigger the job to run now, and then repeat every 10 seconds
+                ITrigger trigger2 = TriggerBuilder.Create()
+                    .WithIdentity(triggerid2, "TRG_AutoProcess")
+                    .StartNow()
+                    .WithSchedule(
+                        CronScheduleBuilder.DailyAtHourAndMinute(9, 50)
+                        .WithMisfireHandlingInstructionFireAndProceed()
+                        )
+                    .Build();
+
+                // Tell quartz to schedule the job using our trigger
+                scheduler.ScheduleJob(job2, trigger2);
+                
+
+                ServerMsg tMsg2 = new ServerMsg();
+                tMsg2.MsgType = "Job Building";
+                tMsg2.MsgTime = DateTime.Now;
+                tMsg2.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid2, triggerid2);
+                Publish(tMsg2);
+
+                //daily 09:50AM Company Employee HardCode
+                #endregion
             }
         }
 
@@ -663,7 +702,7 @@ namespace Attendance.Classes
                                 continue;
                             }
                             err = string.Empty;
-
+                            m.SetDuplicatePunchDuration(3);
                             List<AttdLog> tempattd = new List<AttdLog>();
                             m.GetAttdRec(out tempattd, out err);
                             if (!string.IsNullOrEmpty(err))
@@ -1924,6 +1963,8 @@ namespace Attendance.Classes
                                 pro.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out tres);
                             else if (ProType == "MESS")
                                 pro.LunchProcess(tEmpUnqID, tFromDt, tToDt, out tres);
+                            else if (ProType == "EMPCOSTCODERPT")
+                                pro.EmpCostCodeRpt_Process(tEmpUnqID, tFromDt, out tres, out err);
                             else
                                 pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
                             
@@ -1989,7 +2030,7 @@ namespace Attendance.Classes
                                 }
 
                                 //check once again if validity extended or not if yes then skip
-                                if (dr["Remarks"].ToString().Contains("Validity Expired") && dr["Operation"].ToString() == "DELTE")
+                                if (dr["Remarks"].ToString().Contains("Validity Expired") && dr["Operation"].ToString() == "DELETE")
                                 {
                                     sql = "Select EmpUnqID,Active,WrkGrp,ValidFrom, ValidTo from MastEmp where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "'";
                                     DataSet tds = Utils.Helper.GetData(sql, Utils.Helper.constr);
@@ -2247,11 +2288,13 @@ namespace Attendance.Classes
                                     if (!isTft)
                                     {
                                         Deleted = tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
+                                        
                                         Deleted = true;
                                     }
                                     else
                                     {
-                                        Deleted = tmpMachine.SSR_DeleteEnrollData(1, emp, 12);
+                                        Deleted = tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
+                                        //Deleted = tmpMachine.SSR_DeleteEnrollData(1, emp, 12);
                                         tmpMachine.DelUserFace(1, emp, 50);
                                         Deleted = true;
                                     }

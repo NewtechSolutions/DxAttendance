@@ -32,6 +32,7 @@ namespace Attendance.Forms
             
         }
 
+       
         private string DataValidate()
         {
             string err = string.Empty;
@@ -56,6 +57,9 @@ namespace Attendance.Forms
             {
                 err = err + "Please Enter EmpName..." + Environment.NewLine;
             }
+
+            
+
 
             if (string.IsNullOrEmpty(txtFatherName.Text))
             {
@@ -221,6 +225,8 @@ namespace Attendance.Forms
                 err = err + "This Adhar Card is Black Listed..." + Environment.NewLine;
                 return err;
             }
+            
+           
 
             return err;
         }
@@ -291,12 +297,13 @@ namespace Attendance.Forms
                             ((chkCont.Checked)?1:0),((chkComp.Checked)?1:0),((chkOTFlg.Checked)?1:0),txtWeekOff.Text.Trim(),
                             Utils.User.GUserID, txtBasic.Text.Trim().ToString(), 0,
                             txtSplALL.Text.Trim().ToString(), txtBAAll.Text.Trim().ToString()
+                            
                             );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
-                        
 
+                        
 
                         //createmuster
                         clsEmp t = new clsEmp();
@@ -344,7 +351,7 @@ namespace Attendance.Forms
         {
             string err = DataValidate();
             bool WrkGrpChange = false;
-
+            bool UnitCodeChange = false;
             if (!string.IsNullOrEmpty(err))
             {
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -419,10 +426,29 @@ namespace Attendance.Forms
                             
                             
                         }
-                        else
+                        else if (t.UnitCode != txtUnitCode.Text.Trim())
                         {
-                            WrkGrpChange = false;
+                            try
+                            {
+                                sql = "Exec sp_ChangeUnitCode '" + t.EmpUnqID + "','" + txtUnitCode.Text.Trim() + "';";
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+                                UnitCodeChange = true;
+                            }
+                            catch (Exception ex)
+                            {
+
+                                UnitCodeChange = false;
+                                GrpMain.Enabled = true;
+                                Cursor.Current = Cursors.Default;
+                                MessageBox.Show("Kindly Clear the Job Profile First,(EmpTypeCode,CatCode,GradeCode,DesgCode,DeptCode,StatCode)" + Environment.NewLine +
+                                   "and try again..."
+                               , "UnitCode Change Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                return;
+                            }
                         }
+                        
 
                         if (string.IsNullOrEmpty(txtBasic.Text.Trim()))
                         {
@@ -467,7 +493,8 @@ namespace Attendance.Forms
                         cmd.ExecuteNonQuery();
 
 
-                        if(WrkGrpChange){
+                        if (WrkGrpChange || UnitCodeChange)
+                        {
                             MessageBox.Show("Employee Job Profile is Discarded.." + Environment.NewLine +
                                     "Please Fill the Employee Job Profile Again.."                                
                                 , "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -534,6 +561,8 @@ namespace Attendance.Forms
             GrpMain.Enabled = true;
 
             lblLeft.Visible = false;
+
+            
 
             oldCode = "";
             mode = "NEW";
@@ -925,7 +954,8 @@ namespace Attendance.Forms
             txtValidTo.EditValue = cEmp.ValidTo;
             txtBirthDT.EditValue = cEmp.BirthDt;
             txtWeekOff.Text = cEmp.WeekOffDay;
-
+            
+            
             if (cEmp.Active)
             {
                 lblLeft.Visible = false;
@@ -934,11 +964,11 @@ namespace Attendance.Forms
             {
                 lblLeft.Visible = true;
             }
-
+            
             txtBasic.Text = Utils.Helper.GetDescription("Select Basic from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
             txtSplALL.Text = Utils.Helper.GetDescription("Select SPLALL from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
             txtBAAll.Text = Utils.Helper.GetDescription("Select BAALL from MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And CompCode = '01'", Utils.Helper.constr);
-
+           
             mode = "OLD";
             oldCode = cEmp.EmpUnqID;
         }
@@ -1188,7 +1218,7 @@ namespace Attendance.Forms
 
         private void chkCont_Validated(object sender, EventArgs e)
         {
-            
+
         }
 
     }

@@ -21,7 +21,7 @@ namespace AttdLog_TxtToDB
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Utils.Helper.constr = "Server=192.168.0.103;Database=Attendance;User Id=sa;Password=testomonials@123;";
+            Utils.Helper.constr = "Server=172.16.12.47;Database=Attendance;User Id=sa;Password=testomonials@123;";
 
             listView1.Columns.Clear();
 

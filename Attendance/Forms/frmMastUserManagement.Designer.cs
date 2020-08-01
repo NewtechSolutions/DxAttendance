@@ -84,7 +84,7 @@
             this.gv_avbl = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.SEL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.Location = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colLocation = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MachineIP = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MachineNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -137,6 +137,7 @@
             this.tbp_Upload = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Upload = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons10 = new DevExpress.XtraEditors.GroupControl();
+            this.btnSetUserFace = new System.Windows.Forms.Button();
             this.btnSetUserGroup = new System.Windows.Forms.Button();
             this.btnBulkDelete = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -226,7 +227,7 @@
             this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 228F));
-            this.tblp.Size = new System.Drawing.Size(1045, 522);
+            this.tblp.Size = new System.Drawing.Size(1142, 522);
             this.tblp.TabIndex = 0;
             // 
             // grpButtons12
@@ -634,7 +635,7 @@
             this.groupBox4.Location = new System.Drawing.Point(323, 3);
             this.groupBox4.Name = "groupBox4";
             this.tblp.SetRowSpan(this.groupBox4, 3);
-            this.groupBox4.Size = new System.Drawing.Size(719, 516);
+            this.groupBox4.Size = new System.Drawing.Size(816, 516);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             // 
@@ -651,7 +652,7 @@
             this.tb_Main.Location = new System.Drawing.Point(3, 18);
             this.tb_Main.Name = "tb_Main";
             this.tb_Main.SelectedTabPage = this.tbp_Main;
-            this.tb_Main.Size = new System.Drawing.Size(713, 495);
+            this.tb_Main.Size = new System.Drawing.Size(810, 495);
             this.tb_Main.TabIndex = 0;
             this.tb_Main.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tbp_Main,
@@ -663,7 +664,7 @@
             // 
             this.tbp_Main.Controls.Add(this.tblp_Main);
             this.tbp_Main.Name = "tbp_Main";
-            this.tbp_Main.Size = new System.Drawing.Size(707, 467);
+            this.tbp_Main.Size = new System.Drawing.Size(804, 467);
             this.tbp_Main.Text = "Main";
             // 
             // tblp_Main
@@ -680,7 +681,7 @@
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tblp_Main.Size = new System.Drawing.Size(707, 467);
+            this.tblp_Main.Size = new System.Drawing.Size(804, 467);
             this.tblp_Main.TabIndex = 0;
             // 
             // grpButtons1
@@ -695,7 +696,7 @@
             this.grpButtons1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons1.Location = new System.Drawing.Point(3, 3);
             this.grpButtons1.Name = "grpButtons1";
-            this.grpButtons1.Size = new System.Drawing.Size(701, 74);
+            this.grpButtons1.Size = new System.Drawing.Size(798, 74);
             this.grpButtons1.TabIndex = 0;
             this.grpButtons1.TabStop = false;
             // 
@@ -712,7 +713,7 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem(2, "Canteen"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(3, "Lunch In/Out"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(4, "Gate In/Out")});
-            this.optMachineType.Size = new System.Drawing.Size(695, 23);
+            this.optMachineType.Size = new System.Drawing.Size(792, 23);
             this.optMachineType.TabIndex = 11;
             this.optMachineType.SelectedIndexChanged += new System.EventHandler(this.optMachineType_SelectedIndexChanged);
             this.optMachineType.EditValueChanged += new System.EventHandler(this.optMachineType_EditValueChanged);
@@ -785,7 +786,7 @@
             this.grpButtons2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons2.Location = new System.Drawing.Point(3, 421);
             this.grpButtons2.Name = "grpButtons2";
-            this.grpButtons2.Size = new System.Drawing.Size(701, 43);
+            this.grpButtons2.Size = new System.Drawing.Size(798, 43);
             this.grpButtons2.TabIndex = 1;
             this.grpButtons2.TabStop = false;
             // 
@@ -851,7 +852,7 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(3, 83);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(701, 332);
+            this.groupBox7.Size = new System.Drawing.Size(798, 332);
             this.groupBox7.TabIndex = 2;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Avbl Machine";
@@ -864,7 +865,7 @@
             this.grpGrid.Name = "grpGrid";
             this.grpGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.grpGrid.Size = new System.Drawing.Size(695, 311);
+            this.grpGrid.Size = new System.Drawing.Size(792, 311);
             this.grpGrid.TabIndex = 4;
             this.grpGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_avbl});
@@ -873,7 +874,7 @@
             // 
             this.gv_avbl.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.SEL,
-            this.Location,
+            this.colLocation,
             this.MachineIP,
             this.MachineNo,
             this.Remarks,
@@ -941,25 +942,25 @@
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             this.repositoryItemCheckEdit1.ValueGrayed = false;
             // 
-            // Location
+            // colLocation
             // 
-            this.Location.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Location.AppearanceHeader.Options.UseFont = true;
-            this.Location.AppearanceHeader.Options.UseTextOptions = true;
-            this.Location.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Location.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.Location.Caption = "Location";
-            this.Location.FieldName = "MachineDesc";
-            this.Location.Name = "Location";
-            this.Location.OptionsColumn.AllowEdit = false;
-            this.Location.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.Location.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.Location.OptionsColumn.AllowMove = false;
-            this.Location.OptionsColumn.FixedWidth = true;
-            this.Location.OptionsColumn.ReadOnly = true;
-            this.Location.Visible = true;
-            this.Location.VisibleIndex = 1;
-            this.Location.Width = 63;
+            this.colLocation.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.colLocation.AppearanceHeader.Options.UseFont = true;
+            this.colLocation.AppearanceHeader.Options.UseTextOptions = true;
+            this.colLocation.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colLocation.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.colLocation.Caption = "Location";
+            this.colLocation.FieldName = "MachineDesc";
+            this.colLocation.Name = "colLocation";
+            this.colLocation.OptionsColumn.AllowEdit = false;
+            this.colLocation.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.colLocation.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.colLocation.OptionsColumn.AllowMove = false;
+            this.colLocation.OptionsColumn.FixedWidth = true;
+            this.colLocation.OptionsColumn.ReadOnly = true;
+            this.colLocation.Visible = true;
+            this.colLocation.VisibleIndex = 1;
+            this.colLocation.Width = 63;
             // 
             // MachineIP
             // 
@@ -1144,7 +1145,7 @@
             // 
             this.tbp_Other.Controls.Add(this.tblp_Other);
             this.tbp_Other.Name = "tbp_Other";
-            this.tbp_Other.Size = new System.Drawing.Size(707, 467);
+            this.tbp_Other.Size = new System.Drawing.Size(804, 467);
             this.tbp_Other.Text = "Other";
             // 
             // tblp_Other
@@ -1161,7 +1162,7 @@
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tblp_Other.Size = new System.Drawing.Size(707, 467);
+            this.tblp_Other.Size = new System.Drawing.Size(804, 467);
             this.tblp_Other.TabIndex = 2;
             // 
             // grpButtons3
@@ -1177,7 +1178,7 @@
             this.grpButtons3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons3.Location = new System.Drawing.Point(3, 3);
             this.grpButtons3.Name = "grpButtons3";
-            this.grpButtons3.Size = new System.Drawing.Size(701, 149);
+            this.grpButtons3.Size = new System.Drawing.Size(798, 149);
             this.grpButtons3.TabIndex = 0;
             this.grpButtons3.TabStop = false;
             this.grpButtons3.Text = "Add New/Change RFID Card Number in Data";
@@ -1262,7 +1263,7 @@
             this.grpButtons5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons5.Location = new System.Drawing.Point(3, 313);
             this.grpButtons5.Name = "grpButtons5";
-            this.grpButtons5.Size = new System.Drawing.Size(701, 151);
+            this.grpButtons5.Size = new System.Drawing.Size(798, 151);
             this.grpButtons5.TabIndex = 1;
             this.grpButtons5.TabStop = false;
             this.grpButtons5.Text = "Delete Left Employee From Machine";
@@ -1275,7 +1276,6 @@
             this.btnDeleteAllUsers.TabIndex = 97;
             this.btnDeleteAllUsers.Text = "Delete All Users";
             this.btnDeleteAllUsers.UseVisualStyleBackColor = true;
-            this.btnDeleteAllUsers.Visible = false;
             this.btnDeleteAllUsers.Click += new System.EventHandler(this.btnDeleteAllUsers_Click_1);
             // 
             // label16
@@ -1330,7 +1330,7 @@
             this.grpButtons4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons4.Location = new System.Drawing.Point(3, 158);
             this.grpButtons4.Name = "grpButtons4";
-            this.grpButtons4.Size = new System.Drawing.Size(701, 149);
+            this.grpButtons4.Size = new System.Drawing.Size(798, 149);
             this.grpButtons4.TabIndex = 2;
             this.grpButtons4.TabStop = false;
             this.grpButtons4.Text = "Download All Users From Single Machine To Excel File";
@@ -1406,7 +1406,7 @@
             // 
             this.tbp_Misc.Controls.Add(this.tblp_Misc);
             this.tbp_Misc.Name = "tbp_Misc";
-            this.tbp_Misc.Size = new System.Drawing.Size(707, 467);
+            this.tbp_Misc.Size = new System.Drawing.Size(804, 467);
             this.tbp_Misc.Text = "Misc";
             // 
             // tblp_Misc
@@ -1426,7 +1426,7 @@
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblp_Misc.Size = new System.Drawing.Size(707, 467);
+            this.tblp_Misc.Size = new System.Drawing.Size(804, 467);
             this.tblp_Misc.TabIndex = 2;
             // 
             // grpButtons9
@@ -1435,7 +1435,7 @@
             this.grpButtons9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons9.Location = new System.Drawing.Point(3, 351);
             this.grpButtons9.Name = "grpButtons9";
-            this.grpButtons9.Size = new System.Drawing.Size(701, 113);
+            this.grpButtons9.Size = new System.Drawing.Size(798, 113);
             this.grpButtons9.TabIndex = 3;
             this.grpButtons9.TabStop = false;
             // 
@@ -1450,7 +1450,7 @@
             this.grpButtons6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons6.Location = new System.Drawing.Point(3, 3);
             this.grpButtons6.Name = "grpButtons6";
-            this.grpButtons6.Size = new System.Drawing.Size(701, 110);
+            this.grpButtons6.Size = new System.Drawing.Size(798, 110);
             this.grpButtons6.TabIndex = 0;
             this.grpButtons6.TabStop = false;
             this.grpButtons6.Text = "Copy Users From One Machine to Other";
@@ -1511,7 +1511,7 @@
             this.grpButtons8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons8.Location = new System.Drawing.Point(3, 235);
             this.grpButtons8.Name = "grpButtons8";
-            this.grpButtons8.Size = new System.Drawing.Size(701, 110);
+            this.grpButtons8.Size = new System.Drawing.Size(798, 110);
             this.grpButtons8.TabIndex = 1;
             this.grpButtons8.TabStop = false;
             // 
@@ -1526,7 +1526,7 @@
             this.grpButtons7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons7.Location = new System.Drawing.Point(3, 119);
             this.grpButtons7.Name = "grpButtons7";
-            this.grpButtons7.Size = new System.Drawing.Size(701, 110);
+            this.grpButtons7.Size = new System.Drawing.Size(798, 110);
             this.grpButtons7.TabIndex = 2;
             this.grpButtons7.TabStop = false;
             this.grpButtons7.Text = "Download Machine Access Log";
@@ -1583,7 +1583,7 @@
             // 
             this.tbp_Upload.Controls.Add(this.tblp_Upload);
             this.tbp_Upload.Name = "tbp_Upload";
-            this.tbp_Upload.Size = new System.Drawing.Size(707, 467);
+            this.tbp_Upload.Size = new System.Drawing.Size(804, 467);
             this.tbp_Upload.Text = "Upload";
             // 
             // tblp_Upload
@@ -1598,13 +1598,14 @@
             this.tblp_Upload.RowCount = 2;
             this.tblp_Upload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tblp_Upload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblp_Upload.Size = new System.Drawing.Size(707, 467);
+            this.tblp_Upload.Size = new System.Drawing.Size(804, 467);
             this.tblp_Upload.TabIndex = 1;
             // 
             // grpButtons10
             // 
             this.grpButtons10.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpButtons10.Appearance.Options.UseFont = true;
+            this.grpButtons10.Controls.Add(this.btnSetUserFace);
             this.grpButtons10.Controls.Add(this.btnSetUserGroup);
             this.grpButtons10.Controls.Add(this.btnBulkDelete);
             this.grpButtons10.Controls.Add(this.label5);
@@ -1617,9 +1618,19 @@
             this.grpButtons10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons10.Location = new System.Drawing.Point(3, 3);
             this.grpButtons10.Name = "grpButtons10";
-            this.grpButtons10.Size = new System.Drawing.Size(701, 84);
+            this.grpButtons10.Size = new System.Drawing.Size(798, 84);
             this.grpButtons10.TabIndex = 3;
             this.grpButtons10.Text = "Import File";
+            // 
+            // btnSetUserFace
+            // 
+            this.btnSetUserFace.Location = new System.Drawing.Point(702, 23);
+            this.btnSetUserFace.Name = "btnSetUserFace";
+            this.btnSetUserFace.Size = new System.Drawing.Size(68, 48);
+            this.btnSetUserFace.TabIndex = 97;
+            this.btnSetUserFace.Text = "Reg User Face";
+            this.btnSetUserFace.UseVisualStyleBackColor = true;
+            this.btnSetUserFace.Click += new System.EventHandler(this.btnSetUserFace_Click);
             // 
             // btnSetUserGroup
             // 
@@ -1656,7 +1667,6 @@
             this.cmbListMachine2.Name = "cmbListMachine2";
             this.cmbListMachine2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbListMachine2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.cmbListMachine2.Size = new System.Drawing.Size(173, 20);
             this.cmbListMachine2.TabIndex = 5;
             // 
@@ -1714,7 +1724,7 @@
             this.grpButtons11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons11.Location = new System.Drawing.Point(3, 93);
             this.grpButtons11.Name = "grpButtons11";
-            this.grpButtons11.Size = new System.Drawing.Size(701, 371);
+            this.grpButtons11.Size = new System.Drawing.Size(798, 371);
             this.grpButtons11.TabIndex = 2;
             this.grpButtons11.TabStop = false;
             // 
@@ -1724,7 +1734,7 @@
             this.grd_Upload.Location = new System.Drawing.Point(3, 18);
             this.grd_Upload.MainView = this.gv_Upload;
             this.grd_Upload.Name = "grd_Upload";
-            this.grd_Upload.Size = new System.Drawing.Size(695, 350);
+            this.grd_Upload.Size = new System.Drawing.Size(792, 350);
             this.grd_Upload.TabIndex = 3;
             this.grd_Upload.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Upload});
@@ -1767,7 +1777,7 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 522);
+            this.ClientSize = new System.Drawing.Size(1142, 522);
             this.Controls.Add(this.tblp);
             this.KeyPreview = true;
             this.Name = "frmMastUserManagement";
@@ -1892,7 +1902,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gv_avbl;
         private DevExpress.XtraGrid.Columns.GridColumn SEL;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn Location;
+        private DevExpress.XtraGrid.Columns.GridColumn colLocation;
         private DevExpress.XtraGrid.Columns.GridColumn MachineIP;
         private DevExpress.XtraGrid.Columns.GridColumn MachineNo;
         private DevExpress.XtraGrid.Columns.GridColumn AutoClear;
@@ -1968,5 +1978,6 @@
         private System.Windows.Forms.Button btnDeleteAllUsers;
         private System.Windows.Forms.Button btnDownloadPhotos;
         private System.Windows.Forms.Button btnSetUserGroup;
+        private System.Windows.Forms.Button btnSetUserFace;
     }
 }

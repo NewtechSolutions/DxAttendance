@@ -73,6 +73,11 @@ namespace Attendance.Forms
             {
                 err = err + "Please Enter Contractor Name" + Environment.NewLine;
             }
+
+            if (string.IsNullOrEmpty(txtRate.Text))
+            {
+                err = err + "Please Enter Rate of Commisssion" + Environment.NewLine;
+            }
             
             return err;
         }
@@ -99,6 +104,7 @@ namespace Attendance.Forms
             txtAdd1.Text = "";
             txtAdd2.Text = "";
             txtPhone.Text = "";
+            txtRate.Text = "";
             oldCode = "";
         }
 
@@ -287,9 +293,12 @@ namespace Attendance.Forms
                 {
                     try
                     {
+                        double trate = 0;
+                        double.TryParse(txtRate.Text.Trim().ToString(),out trate);
+
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastCont (CompCode,WrkGrp,UnitCode,ContCode,ContName,Add1,Add2,Phone,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}',GetDate(),'{8}')";
+                        string sql = "Insert into MastCont (CompCode,WrkGrp,UnitCode,ContCode,ContName,Add1,Add2,Phone,AddDt,AddID,ComRate) Values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}',GetDate(),'{8}','{9}')";
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(),
                             txtWrkGrpCode.Text.Trim().ToString(),
                             txtUnitCode.Text.Trim().ToString(),
@@ -298,7 +307,9 @@ namespace Attendance.Forms
                             txtAdd1.Text.Trim().ToString(),
                             txtAdd2.Text.Trim().ToString(),
                             txtPhone.Text.Trim().ToString(),
-                            Utils.User.GUserID);
+                            Utils.User.GUserID,
+                            trate
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -332,16 +343,18 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastCont Set ContName = '{0}',Add1='{1}',Add2='{2}',Phone='{3}', UpdDt = GetDate(), UpdID = '{4}' " +
-                            " Where CompCode = '{5}' and WrkGrp = '{6}' and UnitCode = '{7}' and ContCode = '{8}' ";
+                        double trate = 0;
+                        double.TryParse(txtRate.Text.Trim().ToString(), out trate);
+
+                        string sql = "Update MastCont Set ContName = '{0}',Add1='{1}', Add2='{2}',Phone='{3}', UpdDt = GetDate(), UpdID = '{4}' " +
+                            " , ComRate = '{5}' Where CompCode = '{6}' and WrkGrp = '{7}' and UnitCode = '{8}' and ContCode = '{9}' ";
 
                         sql = string.Format(sql, txtContName.Text.ToString(),
                              txtAdd1.Text.Trim().ToString(),
                              txtAdd2.Text.Trim().ToString(),
                              txtPhone.Text.Trim().ToString(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
+                             Utils.User.GUserID, trate, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
                              txtUnitCode.Text.Trim(), txtContCode.Text.Trim()
-
                            );
 
                         cmd.CommandText = sql;
@@ -544,6 +557,7 @@ namespace Attendance.Forms
                     txtAdd1.Text = dr["Add1"].ToString();
                     txtAdd2.Text = dr["Add2"].ToString();
                     txtPhone.Text = dr["Phone"].ToString();
+                    txtRate.Text = dr["ComRate"].ToString();
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);

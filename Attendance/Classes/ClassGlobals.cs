@@ -542,6 +542,36 @@ namespace Attendance.Classes
             err = "";
         }
 
+        public void GetBioFaceFromDb(string tEmpUnqID)
+        {
+            if (tEmpUnqID == string.Empty)
+            {
+                this.err = "User ID is required...";
+                return;
+            }
+
+
+            string sql = "Select [RFIDNO],[TmpData],[Length],b.Punchingblocked " +
+                         " FROM [EmpBioData] a,MastEmp b " +
+                         " where a.EmpUnqID = b.EmpUnqID and a.EmpUnqID = '" + tEmpUnqID + "' and [Type] = 'FACE' " +
+                         " and MachineNo = 9999 ";
+
+            DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    this.Enabled = !Convert.ToBoolean(dr["PunchingBlocked"]);
+                    this.FaceTemp = dr["TmpData"].ToString();
+                    this.FaceLength = Convert.ToInt32(dr["Length"].ToString());
+                    this.CardNumber = dr["RFIDNO"].ToString();
+                }
+            }
+
+        }
+
         public void GetBioInfoFromDB(string tEmpUnqID){
 
             if (tEmpUnqID == string.Empty)
@@ -712,12 +742,12 @@ namespace Attendance.Classes
 
             if(tInfoType == 2 && this.FaceLength == 0 )
             {
-                err = "Data Template Length is Required...";
+                err = "Face Template Length is Required...";
                 return;
             }
             if (tInfoType == 3 && this.FingerLength == 0)
             {
-                err = "Data Template Length is Required...";
+                err = "Finger Template Length is Required...";
                 return;
             }
 

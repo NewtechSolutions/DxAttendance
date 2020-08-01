@@ -377,25 +377,26 @@ namespace Attendance.Classes
                 err += "Please Enter 12 digit Adhar No" + Environment.NewLine;
             }
 
-
-            //check for duplicate adharno..
-            DataSet ds = new DataSet();
-            string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
-                " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
+            if(_WrkGrp == "COMP" || _WrkGrp == "CONT")
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                //check for duplicate adharno..
+                DataSet ds = new DataSet();
+                string sql = "select EmpUnqID,EmpName from MastEmp where CompCode ='" + this.CompCode.Trim() + "' " +
+                    " and AdharNo = '" + this.AdharNo.Trim() + "' and EmpUnqID not in ('" + this.EmpUnqID.Trim() + "')";
+
+                ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                bool hasRows = ds.Tables.Cast<DataTable>()
+                               .Any(table => table.Rows.Count != 0);
+
+                if (hasRows)
                 {
-                    err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        err += "duplicate Adhar No with : " + dr["EmpUnqID"].ToString() + "," + dr["EmpName"].ToString() + Environment.NewLine;
+                    }
                 }
             }
-
-
+            
             return err;
         }
 

@@ -132,6 +132,9 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnuCostCodePlannedManPower = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBulkCostCodeSanManpower = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBulkDailyCostCodePlannedManpower = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -620,8 +623,11 @@
             this.mnuCostCent.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCostCodeMast,
             this.mnuEmpCostCode,
-            this.mnuEmpCostCodeBulk,
             this.mnuCostCodeSanManPower,
+            this.mnuCostCodePlannedManPower,
+            this.mnuEmpCostCodeBulk,
+            this.mnuBulkDailyCostCodePlannedManpower,
+            this.mnuBulkCostCodeSanManpower,
             this.mnuCostCodeManPowerProcess,
             this.mnuCostCodeManPowerUpdate});
             this.mnuCostCent.Name = "mnuCostCent";
@@ -631,42 +637,42 @@
             // mnuCostCodeMast
             // 
             this.mnuCostCodeMast.Name = "mnuCostCodeMast";
-            this.mnuCostCodeMast.Size = new System.Drawing.Size(289, 22);
+            this.mnuCostCodeMast.Size = new System.Drawing.Size(363, 22);
             this.mnuCostCodeMast.Text = "Cost Center Master";
             this.mnuCostCodeMast.Click += new System.EventHandler(this.mnuCostCodeMast_Click);
             // 
             // mnuEmpCostCode
             // 
             this.mnuEmpCostCode.Name = "mnuEmpCostCode";
-            this.mnuEmpCostCode.Size = new System.Drawing.Size(289, 22);
+            this.mnuEmpCostCode.Size = new System.Drawing.Size(363, 22);
             this.mnuEmpCostCode.Text = "Update Employee CostCode";
             this.mnuEmpCostCode.Click += new System.EventHandler(this.mnuEmpCostCode_Click);
             // 
             // mnuEmpCostCodeBulk
             // 
             this.mnuEmpCostCodeBulk.Name = "mnuEmpCostCodeBulk";
-            this.mnuEmpCostCodeBulk.Size = new System.Drawing.Size(289, 22);
+            this.mnuEmpCostCodeBulk.Size = new System.Drawing.Size(363, 22);
             this.mnuEmpCostCodeBulk.Text = "Bulk Update Employee CostCode";
             this.mnuEmpCostCodeBulk.Click += new System.EventHandler(this.mnuEmpCostCodeBulk_Click);
             // 
             // mnuCostCodeSanManPower
             // 
             this.mnuCostCodeSanManPower.Name = "mnuCostCodeSanManPower";
-            this.mnuCostCodeSanManPower.Size = new System.Drawing.Size(289, 22);
+            this.mnuCostCodeSanManPower.Size = new System.Drawing.Size(363, 22);
             this.mnuCostCodeSanManPower.Text = "CostCenter wise Sanc. Manpower Master";
             this.mnuCostCodeSanManPower.Click += new System.EventHandler(this.mnuCostCodeSanManPower_Click);
             // 
             // mnuCostCodeManPowerProcess
             // 
             this.mnuCostCodeManPowerProcess.Name = "mnuCostCodeManPowerProcess";
-            this.mnuCostCodeManPowerProcess.Size = new System.Drawing.Size(289, 22);
+            this.mnuCostCodeManPowerProcess.Size = new System.Drawing.Size(363, 22);
             this.mnuCostCodeManPowerProcess.Text = "CostCenter Manpower Report Process";
             this.mnuCostCodeManPowerProcess.Click += new System.EventHandler(this.mnuCostCodeManPowerProcess_Click);
             // 
             // mnuCostCodeManPowerUpdate
             // 
             this.mnuCostCodeManPowerUpdate.Name = "mnuCostCodeManPowerUpdate";
-            this.mnuCostCodeManPowerUpdate.Size = new System.Drawing.Size(289, 22);
+            this.mnuCostCodeManPowerUpdate.Size = new System.Drawing.Size(363, 22);
             this.mnuCostCodeManPowerUpdate.Text = "CostCenter Manpower Report Update";
             // 
             // mnuTranS
@@ -964,6 +970,27 @@
             this.stsExtra.Name = "stsExtra";
             this.stsExtra.Size = new System.Drawing.Size(0, 17);
             // 
+            // mnuCostCodePlannedManPower
+            // 
+            this.mnuCostCodePlannedManPower.Name = "mnuCostCodePlannedManPower";
+            this.mnuCostCodePlannedManPower.Size = new System.Drawing.Size(363, 22);
+            this.mnuCostCodePlannedManPower.Text = "CostCenter wise Plan. Manpower Master";
+            this.mnuCostCodePlannedManPower.Click += new System.EventHandler(this.mnuCostCodePlannedManPower_Click);
+            // 
+            // mnuBulkCostCodeSanManpower
+            // 
+            this.mnuBulkCostCodeSanManpower.Name = "mnuBulkCostCodeSanManpower";
+            this.mnuBulkCostCodeSanManpower.Size = new System.Drawing.Size(363, 22);
+            this.mnuBulkCostCodeSanManpower.Text = "Bulk Update CostCenter Wise Sanc. Manpower";
+            this.mnuBulkCostCodeSanManpower.Click += new System.EventHandler(this.mnuBulkCostCodeSanManpower_Click);
+            // 
+            // mnuBulkDailyCostCodePlannedManpower
+            // 
+            this.mnuBulkDailyCostCodePlannedManpower.Name = "mnuBulkDailyCostCodePlannedManpower";
+            this.mnuBulkDailyCostCodePlannedManpower.Size = new System.Drawing.Size(363, 22);
+            this.mnuBulkDailyCostCodePlannedManpower.Text = "Bulk Update Daily CostCenter Wise Planned Manpower";
+            this.mnuBulkDailyCostCodePlannedManpower.Click += new System.EventHandler(this.mnuBulkDailyCostCodePlannedManpower_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1093,6 +1120,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuBulkMessDataProcess;
         private System.Windows.Forms.ToolStripMenuItem mnuBulkLeavePost;
         private System.Windows.Forms.ToolStripMenuItem mnuConfig_KeyVal;
+        private System.Windows.Forms.ToolStripMenuItem mnuCostCodePlannedManPower;
+        private System.Windows.Forms.ToolStripMenuItem mnuBulkDailyCostCodePlannedManpower;
+        private System.Windows.Forms.ToolStripMenuItem mnuBulkCostCodeSanManpower;
 
 
     }

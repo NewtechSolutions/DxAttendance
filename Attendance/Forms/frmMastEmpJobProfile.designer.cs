@@ -36,7 +36,11 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
             this.GrpMain = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.txtCostDesc = new DevExpress.XtraEditors.TextEdit();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtCostCode = new DevExpress.XtraEditors.TextEdit();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtESINo = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.txtSecDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtSecCode = new DevExpress.XtraEditors.TextEdit();
@@ -76,10 +80,11 @@
             this.txtDeptCode = new DevExpress.XtraEditors.TextEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.txtLeftDt = new DevExpress.XtraEditors.DateEdit();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtESINo = new DevExpress.XtraEditors.TextEdit();
             this.grpUserRights.SuspendLayout();
             this.GrpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostDesc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostCode.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSecDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSecCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).BeginInit();
@@ -107,7 +112,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // grpUserRights
@@ -188,9 +192,11 @@
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.txtCostDesc);
+            this.GrpMain.Controls.Add(this.label16);
+            this.GrpMain.Controls.Add(this.txtCostCode);
             this.GrpMain.Controls.Add(this.label6);
             this.GrpMain.Controls.Add(this.txtESINo);
-            this.GrpMain.Controls.Add(this.label3);
             this.GrpMain.Controls.Add(this.label2);
             this.GrpMain.Controls.Add(this.txtSecDesc);
             this.GrpMain.Controls.Add(this.txtSecCode);
@@ -236,19 +242,59 @@
             this.GrpMain.TabIndex = 1;
             this.GrpMain.TabStop = false;
             // 
-            // label3
+            // txtCostDesc
             // 
-            this.label3.Location = new System.Drawing.Point(744, 101);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(172, 42);
-            this.label3.TabIndex = 116;
-            this.label3.Text = "(* Used For Portal Release Strategy)";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtCostDesc.Location = new System.Drawing.Point(573, 98);
+            this.txtCostDesc.Name = "txtCostDesc";
+            this.txtCostDesc.Properties.MaxLength = 100;
+            this.txtCostDesc.Properties.ReadOnly = true;
+            this.txtCostDesc.Size = new System.Drawing.Size(237, 20);
+            this.txtCostDesc.TabIndex = 122;
+            this.txtCostDesc.TabStop = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(379, 101);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(60, 15);
+            this.label16.TabIndex = 123;
+            this.label16.Text = "CostCode";
+            // 
+            // txtCostCode
+            // 
+            this.txtCostCode.Location = new System.Drawing.Point(454, 98);
+            this.txtCostCode.Name = "txtCostCode";
+            this.txtCostCode.Properties.Mask.EditMask = "[A-Z0-9]+";
+            this.txtCostCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtCostCode.Size = new System.Drawing.Size(114, 20);
+            this.txtCostCode.TabIndex = 12;
+            this.txtCostCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCostCode_KeyDown);
+            this.txtCostCode.Validated += new System.EventHandler(this.txtCostCode_Validated);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 180);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 15);
+            this.label6.TabIndex = 120;
+            this.label6.Text = "ESI NO  :";
+            // 
+            // txtESINo
+            // 
+            this.txtESINo.Location = new System.Drawing.Point(90, 178);
+            this.txtESINo.Name = "txtESINo";
+            this.txtESINo.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtESINo.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtESINo.Properties.MaxLength = 100;
+            this.txtESINo.Size = new System.Drawing.Size(276, 20);
+            this.txtESINo.TabIndex = 119;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(382, 102);
+            this.label2.Location = new System.Drawing.Point(744, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 15);
             this.label2.TabIndex = 115;
@@ -257,19 +303,19 @@
             // 
             // txtSecDesc
             // 
-            this.txtSecDesc.Location = new System.Drawing.Point(519, 99);
+            this.txtSecDesc.Location = new System.Drawing.Point(747, 73);
             this.txtSecDesc.Name = "txtSecDesc";
             this.txtSecDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtSecDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtSecDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtSecDesc.Properties.ReadOnly = true;
-            this.txtSecDesc.Size = new System.Drawing.Size(219, 20);
+            this.txtSecDesc.Size = new System.Drawing.Size(169, 20);
             this.txtSecDesc.TabIndex = 114;
             this.txtSecDesc.TabStop = false;
             // 
             // txtSecCode
             // 
-            this.txtSecCode.Location = new System.Drawing.Point(454, 99);
+            this.txtSecCode.Location = new System.Drawing.Point(747, 47);
             this.txtSecCode.Name = "txtSecCode";
             this.txtSecCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtSecCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -376,7 +422,7 @@
             this.txtContCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtContCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtContCode.Size = new System.Drawing.Size(59, 20);
-            this.txtContCode.TabIndex = 15;
+            this.txtContCode.TabIndex = 16;
             this.txtContCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContCode_KeyDown);
             this.txtContCode.Validated += new System.EventHandler(this.txtContCode_Validated);
             // 
@@ -511,7 +557,7 @@
             this.txtCatCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtCatCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtCatCode.Size = new System.Drawing.Size(59, 20);
-            this.txtCatCode.TabIndex = 14;
+            this.txtCatCode.TabIndex = 15;
             this.txtCatCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCatCode_KeyDown);
             this.txtCatCode.Validated += new System.EventHandler(this.txtCatCode_Validated);
             // 
@@ -565,7 +611,7 @@
             this.txtGradeCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtGradeCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtGradeCode.Size = new System.Drawing.Size(59, 20);
-            this.txtGradeCode.TabIndex = 13;
+            this.txtGradeCode.TabIndex = 14;
             this.txtGradeCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtGradeCode_KeyDown);
             this.txtGradeCode.Validated += new System.EventHandler(this.txtGradeCode_Validated);
             // 
@@ -600,7 +646,7 @@
             this.txtDesgCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtDesgCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtDesgCode.Size = new System.Drawing.Size(59, 20);
-            this.txtDesgCode.TabIndex = 12;
+            this.txtDesgCode.TabIndex = 13;
             this.txtDesgCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDesgCode_KeyDown);
             this.txtDesgCode.Validated += new System.EventHandler(this.txtDesgCode_Validated);
             // 
@@ -699,25 +745,6 @@
             this.txtLeftDt.TabIndex = 4;
             this.txtLeftDt.TabStop = false;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 180);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 15);
-            this.label6.TabIndex = 120;
-            this.label6.Text = "ESI NO  :";
-            // 
-            // txtESINo
-            // 
-            this.txtESINo.Location = new System.Drawing.Point(90, 178);
-            this.txtESINo.Name = "txtESINo";
-            this.txtESINo.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtESINo.Properties.AppearanceReadOnly.Options.UseBackColor = true;
-            this.txtESINo.Properties.MaxLength = 100;
-            this.txtESINo.Size = new System.Drawing.Size(276, 20);
-            this.txtESINo.TabIndex = 119;
-            // 
             // frmMastEmpJobProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -736,6 +763,9 @@
             this.grpUserRights.ResumeLayout(false);
             this.GrpMain.ResumeLayout(false);
             this.GrpMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostDesc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostCode.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSecDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSecCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkIsHOD.Properties)).EndInit();
@@ -763,7 +793,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeftDt.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtESINo.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -814,11 +843,13 @@
         private DevExpress.XtraEditors.TextEdit txtShiftDesc;
         private DevExpress.XtraEditors.TextEdit txtShiftCode;
         private DevExpress.XtraEditors.CheckEdit chkIsHOD;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private DevExpress.XtraEditors.TextEdit txtSecDesc;
         public DevExpress.XtraEditors.TextEdit txtSecCode;
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraEditors.TextEdit txtESINo;
+        private DevExpress.XtraEditors.TextEdit txtCostDesc;
+        private System.Windows.Forms.Label label16;
+        private DevExpress.XtraEditors.TextEdit txtCostCode;
     }
 }

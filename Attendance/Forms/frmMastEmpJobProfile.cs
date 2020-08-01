@@ -65,6 +65,83 @@ namespace Attendance.Forms
                        
         }
 
+        private void txtCostCode_Validated(object sender, EventArgs e)
+        {
+            if (txtCostCode.Text.Trim() == "")
+            {
+                return;
+            }
+
+            DataSet ds = new DataSet();
+            string sql = "select * from MastCostCode where CostCode ='" + txtCostCode.Text.Trim() + "'";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtCostCode.Text = dr["CostCode"].ToString();
+                    txtCostDesc.Text = dr["CostDesc"].ToString();
+
+                }
+            }
+            else
+            {
+                txtCostCode.Text = "";
+                txtCostDesc.Text = "";
+            }
+
+        }
+
+        private void txtCostCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+
+                sql = "Select CostCode,CostDesc From MastCostCode Where 1 = 1";
+                if (e.KeyCode == Keys.F1)
+                {
+
+                    obj = (List<string>)hlp.Show(sql, "CostCode", "CostCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+                else
+                {
+                    obj = (List<string>)hlp.Show(sql, "CostDesc", "CostDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                  100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+
+                    txtCostCode.Text = obj.ElementAt(0).ToString();
+                    txtCostDesc.Text = obj.ElementAt(1).ToString();
+
+                }
+            }
+        }
+        
         private string DataValidate()
         {
             string err = string.Empty;
@@ -98,7 +175,15 @@ namespace Attendance.Forms
                 err = err + "Unit Code is required../Please update from EmpBasicData module..." + Environment.NewLine;
             }
 
-            
+            if (string.IsNullOrEmpty(txtCostCode.Text.Trim()))
+            {
+                err = err + "Please Enter CostCode..." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtCostDesc.Text.Trim()))
+            {
+                err = err + "Invalid CostCode..." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -139,7 +224,8 @@ namespace Attendance.Forms
             chkIsHOD.Checked = false;
             txtLeftDt.EditValue = null;
             txtLeftDt.Enabled = true;
-
+            txtCostCode.Text = "";
+            txtCostDesc.Text = "";
 
             oldCode = "";
             mode = "NEW";
@@ -290,6 +376,31 @@ namespace Attendance.Forms
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
 
+
+                        //check first if costcode exist or not
+                        string err3 = "0";
+                        string tcostcodecnt = Utils.Helper.GetDescription("Select Count(*) from MastCostCodeEmp Where EmpUnqID='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'", Utils.Helper.constr, out err3);
+                        if(tcostcodecnt == "0" && string.IsNullOrEmpty(err3))
+                        {
+                            sql = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('{0}',(Select JoinDt From MastEmp Where EmpUnqID='{1}'),'{2}',GetDate(),'{3}')";
+                            sql = string.Format(sql,
+                            ctrlEmp1.txtEmpUnqID.Text.Trim(),
+                            ctrlEmp1.txtEmpUnqID.Text.Trim(),
+                            txtCostCode.Text.Trim(),
+                            Utils.User.GUserID
+                            );
+
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+
+                            sql = "Update MastEmp Set CostCode = '" + txtCostCode.Text.Trim().ToString() + "' Where EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'";
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            MessageBox.Show("CostCenter Change not allowed, Please update from respective module if required.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
 
                         //if (WrkGrpChange)
                         //{
@@ -510,6 +621,10 @@ namespace Attendance.Forms
             EventArgs e = new EventArgs();
             txtSecCode_Validated(s, e);
             txtESINo.Text = Utils.Helper.GetDescription("Select ESINO from MastEmp Where EmpUnqID = '" + temp.EmpUnqID + "'", Utils.Helper.constr);
+            txtContCode_Validated(s, e);
+
+            txtCostCode.Text = temp.CostCode;
+            txtCostCode_Validated(s, e);
 
 
             if(temp.LeftDt.HasValue){

@@ -1281,6 +1281,39 @@ namespace Attendance
             }
         }
 
+        private void mnuCostCodePlannedManPower_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmMastCostCodePlannedManPower"];
+            if (t == null)
+            {
+                Attendance.Forms.frmMastCostCodePlannedManPower m = new Attendance.Forms.frmMastCostCodePlannedManPower();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkDailyCostCodePlannedManpower_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkCostCodePlannedManPower"];
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkCostCodePlannedManPower m = new Attendance.Forms.frmBulkCostCodePlannedManPower();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkCostCodeSanManpower_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkCostCodeSanManPower"];
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkCostCodeSanManPower m = new Attendance.Forms.frmBulkCostCodeSanManPower();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
         
         
 

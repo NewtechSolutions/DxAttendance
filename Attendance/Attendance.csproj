@@ -203,6 +203,18 @@
     <Compile Include="Forms\frmAutoMailSender.designer.cs">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmBulkCostCodePlannedManPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBulkCostCodePlannedManPower.designer.cs">
+      <DependentUpon>frmBulkCostCodePlannedManPower.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBulkCostCodeSanManPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmBulkCostCodeSanManPower.designer.cs">
+      <DependentUpon>frmBulkCostCodeSanManPower.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBulkLeaveUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,6 +238,12 @@
     </Compile>
     <Compile Include="Forms\frmMastConfigKeys.designer.cs">
       <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastCostCodePlannedManPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastCostCodePlannedManPower.designer.cs">
+      <DependentUpon>frmMastCostCodePlannedManPower.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastManPowerGroup.cs">
       <SubType>Form</SubType>
@@ -654,6 +672,12 @@
     <EmbeddedResource Include="Forms\frmAutoMailSender.resx">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBulkCostCodePlannedManPower.resx">
+      <DependentUpon>frmBulkCostCodePlannedManPower.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBulkCostCodeSanManPower.resx">
+      <DependentUpon>frmBulkCostCodeSanManPower.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkLeaveUpload.resx">
       <DependentUpon>frmBulkLeaveUpload.cs</DependentUpon>
     </EmbeddedResource>
@@ -665,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastConfigKeys.resx">
       <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastCostCodePlannedManPower.resx">
+      <DependentUpon>frmMastCostCodePlannedManPower.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastManPowerGroup.resx">
       <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>

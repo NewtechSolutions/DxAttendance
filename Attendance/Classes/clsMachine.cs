@@ -732,6 +732,7 @@ namespace Attendance.Classes
 
 
             string outerr1 = string.Empty;
+            
             //new function to insert int RESTLOG table if RestPost and RestApi configured in machine
             DataSet ds = Utils.Helper.GetData("Select RestPost,RestAPI from ReaderConfig where MachineIP ='" + this._ip + "'", Utils.Helper.constr, out outerr1);
             if (string.IsNullOrEmpty(outerr1))
@@ -746,27 +747,49 @@ namespace Attendance.Classes
                     string Basesql = string.Empty;
                     if (RestPost && !string.IsNullOrEmpty(RestAPI))
                     {
-                        Basesql = "Insert into RESTLog (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,PostedFlg,PostUrl) "
-                           + " SELECT PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFLG,tyear,tyearmt,t1date,AddDt,AddID,0,'" + RestAPI + "'"
-                           + " FROM ATTDLOG "
-                           + " Where MachineIP = '" + this._ip + "'"
-                           + " And AddDt between '" + DateTime.Now.AddHours(-1).ToString("yyyy-MM-dd HH:mm:ss") + "' and '" + DateTime.Now.AddMinutes(20).ToString("yyyy-MM-dd HH:mm:ss") + "'";
+
                         using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                         {
-                            using (SqlCommand cmd = new SqlCommand(Basesql, cn))
-                            {
-                                try
-                                {
-                                    cn.Open();
-                                    cmd.CommandType = CommandType.Text;
-                                    cmd.ExecuteNonQuery();
-                                }
-                                catch (Exception ex)
-                                {
-                                    err += ex.Message.ToString();
-                                }
 
-                            }//command end
+                            try
+                            {
+                                cn.Open();
+                                using (SqlCommand cmd = new SqlCommand())
+                                {
+
+                                    foreach (AttdLog t in AttdLogRec)
+                                    {
+                                        Basesql = "Insert into RESTLog (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,PostedFlg,PostUrl) "
+                                           + " values('" + t.PunchDate.ToString("yyyy-MM-dd HH:mm:ss") + "','" + t.EmpUnqID + "','" + t.IOFLG + "','" + t.MachineIP + "'" +
+                                            " ,'" + t.LunchFlg + "','" + t.tYear.ToString() + "','" + t.tYearMt.ToString() + "','" + t.t1Date.ToString("yyyy-MM-dd") + "'" +
+                                            " ,GetDate(),'Server',0,'" + RestAPI + "')";
+                                        try
+                                        {
+                                            cmd.Connection = cn;
+                                            cmd.CommandText = Basesql;
+                                            cmd.CommandType = CommandType.Text;
+                                            cmd.ExecuteNonQuery();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                            {
+                                                file.WriteLine(ex.Message.ToString());
+                                            }
+                                        }
+
+                                    }//end for each
+
+                                }//command end
+                            }
+                            catch (Exception ex)
+                            {
+                                using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
+                                {
+                                    file.WriteLine(ex.Message.ToString());
+                                }
+                            }
+
                         }//connection end
 
                     } //if rest check
@@ -935,6 +958,19 @@ namespace Attendance.Classes
                 err = "Machine not connected..";
                 return result;
             }
+            
+            ////////Added 2020-07-15
+            //check configuration of "LockMachineAfterDownload" in Mast_OtherConfig
+            string chkflg = Utils.Helper.GetDescription("Select isnull(Config_Val,'') From Mast_OtherConfig where Config_Key ='LockMachineAfterDownload'", Utils.Helper.constr, out err);
+
+            if (string.IsNullOrEmpty(err))
+            {
+                if (!Convert.ToBoolean(chkflg))
+                    return false;
+            }
+            ////////////////////////
+
+
             //generate new random password
             Random generator = new Random();
             int r = generator.Next(100000,999999);
@@ -946,6 +982,7 @@ namespace Attendance.Classes
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cn.Open();
+
                         string sql = "Update ReaderConfig Set MachinePW ='" + r.ToString() + "' Where MachineIP ='" + _ip + "'";
                         cmd.Connection = cn;
                         cmd.CommandType = CommandType.Text;
@@ -980,17 +1017,17 @@ namespace Attendance.Classes
         public bool SetDuplicatePunchDuration(int nosofminutes)
         {
             bool result = false;
-            if (!_messflg)
-            {
-                //// get duplicate punch time from machine
-                int duptime = 0;
-                result = this.CZKEM1.GetDeviceInfo(_machineno, 8, ref duptime);
+            //if (!_messflg)
+            //{
+                ////// get duplicate punch time from machine
+                //int duptime = 0;
+                //result = this.CZKEM1.GetDeviceInfo(_machineno, 8, ref duptime);
 
-                if (result)
-                {
-                    result = this.CZKEM1.SetDeviceInfo(_machineno, 8, 3);
-                }
-            }            
+                //if (result)
+                //{
+                    result = this.CZKEM1.SetDeviceInfo(_machineno, 8, nosofminutes);
+                //}
+            //}            
             return result;
         }
 
@@ -1073,7 +1110,63 @@ namespace Attendance.Classes
                 }
             }
         }
-        
+
+
+
+        public bool Register_Face(string tEmpUnqID,out string err)
+        {
+            err = string.Empty;
+            if (!_connected)
+            {
+                err = "Machine not connected..";
+                return false;
+            }
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                err = "UserID is required..";
+                return false;
+            }
+
+            bool result = false;
+
+            UserBioInfo emp = new UserBioInfo();
+            emp.UserID = tEmpUnqID;
+            emp.GetBioFaceFromDb(tEmpUnqID);
+            
+            if(!emp.Enabled)
+            {
+                err = "Employee is blocked....";
+                result = false;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(emp.FaceTemp))
+                {
+                    bool x = this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
+                    
+                    if (!x)
+                    {
+                        err = "Employee face did not registered....";
+                        result = false;
+
+                    }
+                    else
+                    {
+                        result = true;
+                    }
+                }
+                else
+                {
+                    err = "Employee face not available....";
+                    result = false;
+                }
+            }           
+
+            return result;
+            
+        }
+
+
         /// <summary>
         /// this function will get the bio detail from master data, 
         /// if MessGrp and MessCode not defined and machine is used for canteen
@@ -1196,7 +1289,7 @@ namespace Attendance.Classes
                             
                         }
 
-                        this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                        //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                     }
                 }
 
@@ -1294,7 +1387,7 @@ namespace Attendance.Classes
                         //}
                     //}
                     
-                    this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
+                    //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                 }
 
             }
@@ -1737,6 +1830,7 @@ namespace Attendance.Classes
             int _prev=0, _useridInt=0, _bkpno=0, _isenable=0, _machineno=0;
             string sUserID, sName, sPassword, sCardNumber;
             bool bEnabled = false;
+            //bool vRet = false;
             bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
             if (!vRet)
             {
@@ -1894,7 +1988,7 @@ namespace Attendance.Classes
             this.CZKEM1.EnableDevice(_machineno, false);
             UserBioInfo emp = new UserBioInfo();
             List<UserBioInfo> emplist = new List<UserBioInfo>();
-
+            _useridInt = 0;
             
             emp.SetUserInfoForMachine(tEmpUnqID);
             
@@ -2132,70 +2226,70 @@ namespace Attendance.Classes
                             }
                         }
 
-                        if (_finger)
-                        {
-                            double fpversion = 0;
-                            double.TryParse(_fingerprintversion, out fpversion);
-                            if (fpversion >= 10)
-                            {
+                        //if (_finger)
+                        //{
+                        //    double fpversion = 0;
+                        //    double.TryParse(_fingerprintversion, out fpversion);
+                        //    if (fpversion >= 10)
+                        //    {
 
-                                //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
-                                for (int i = 0; i <= 9; i++)
-                                {
-                                    UserBioInfo tmpuser2 = new UserBioInfo();
-                                    tmpuser2.CardNumber = emp.CardNumber;
-                                    tmpuser2.UserID = emp.UserID;
-                                    tmpuser2.Password = emp.Password;
-                                    tmpuser2.Previlege = emp.Previlege;
-                                    tmpuser2.Enabled = emp.Enabled;
-                                    if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
-                                    {
-                                        tmpuser2.FingerIndex = i;
-                                        tmpuser2.FingerLength = _fingerlength;
-                                        tmpuser2.FingerTemp = _fingertemp;
-                                        fingerusers.Add(tmpuser2);
-                                    }
-                                }  
+                        //        //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
+                        //        for (int i = 0; i <= 9; i++)
+                        //        {
+                        //            UserBioInfo tmpuser2 = new UserBioInfo();
+                        //            tmpuser2.CardNumber = emp.CardNumber;
+                        //            tmpuser2.UserID = emp.UserID;
+                        //            tmpuser2.Password = emp.Password;
+                        //            tmpuser2.Previlege = emp.Previlege;
+                        //            tmpuser2.Enabled = emp.Enabled;
+                        //            if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
+                        //            {
+                        //                tmpuser2.FingerIndex = i;
+                        //                tmpuser2.FingerLength = _fingerlength;
+                        //                tmpuser2.FingerTemp = _fingertemp;
+                        //                fingerusers.Add(tmpuser2);
+                        //            }
+                        //        }  
                                 
-                                ///this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
+                        //        ///this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
 
-                            }
-                            else if (fpversion == 9)
-                            {
+                        //    }
+                        //    else if (fpversion == 9)
+                        //    {
 
-                                //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
-                                for (int i = 0; i <= 9; i++)
-                                {
-                                    UserBioInfo tmpuser2 = new UserBioInfo();
-                                    tmpuser2.CardNumber = emp.CardNumber;
-                                    tmpuser2.UserID = emp.UserID;
-                                    tmpuser2.Password = emp.Password;
-                                    tmpuser2.Previlege = emp.Previlege;
-                                    tmpuser2.Enabled = emp.Enabled;
-                                    if (this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength))
-                                    {
-                                        tmpuser2.FingerIndex = i;
-                                        tmpuser2.FingerLength = _fingerlength;
-                                        tmpuser2.FingerTemp = _fingertemp;
-                                        fingerusers.Add(tmpuser2);
-                                    }
-                                }  
+                        //        //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
+                        //        for (int i = 0; i <= 9; i++)
+                        //        {
+                        //            UserBioInfo tmpuser2 = new UserBioInfo();
+                        //            tmpuser2.CardNumber = emp.CardNumber;
+                        //            tmpuser2.UserID = emp.UserID;
+                        //            tmpuser2.Password = emp.Password;
+                        //            tmpuser2.Previlege = emp.Previlege;
+                        //            tmpuser2.Enabled = emp.Enabled;
+                        //            if (this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength))
+                        //            {
+                        //                tmpuser2.FingerIndex = i;
+                        //                tmpuser2.FingerLength = _fingerlength;
+                        //                tmpuser2.FingerTemp = _fingertemp;
+                        //                fingerusers.Add(tmpuser2);
+                        //            }
+                        //        }  
                                 
-                                //this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
-                            }
-                            else
-                            {
-                                emp.err += emp.err + "Can not determine Finger print version" + Environment.NewLine;
-                                continue;
-                            }
+                        //        //this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
+                        //    }
+                        //    else
+                        //    {
+                        //        emp.err += emp.err + "Can not determine Finger print version" + Environment.NewLine;
+                        //        continue;
+                        //    }
 
-                            emp.FingerTemp = _fingertemp;
-                            emp.FingerLength = _fingerlength;
-                            if (string.IsNullOrEmpty(_fingertemp))
-                            {
-                                emp.err += emp.err + "Finger Template Not Found..." + Environment.NewLine;
-                            }
-                        }
+                        //    emp.FingerTemp = _fingertemp;
+                        //    emp.FingerLength = _fingerlength;
+                        //    if (string.IsNullOrEmpty(_fingertemp))
+                        //    {
+                        //        emp.err += emp.err + "Finger Template Not Found..." + Environment.NewLine;
+                        //    }
+                        //}
 
                     }//end foreach loop
                     
@@ -2260,15 +2354,16 @@ namespace Attendance.Classes
                     }
                 }
 
-                if (_finger)
-                {
-                    if (!string.IsNullOrEmpty(emp.FingerTemp))
-                    {
-                        emp.UserName = "";
-                        emp.StoreToDb(3, out err);
-                        emp.err += err;
-                    }
-                }
+                //if (_finger)
+                //{
+                //    if (!string.IsNullOrEmpty(emp.FingerTemp))
+                //    {
+                //        emp.UserName = "";
+                //        emp.StoreToDb(3, out err);
+                //        emp.err += err;
+                //    }
+                //}
+
             }//end foreach store to db
 
             RetUserList = tUserList;
@@ -2328,7 +2423,7 @@ namespace Attendance.Classes
                 if (this.CZKEM1.SSR_GetUserInfo(_machineno, tEmpUnqID, out tmpuser, out tmppass, out tmppre, out tmpenable))
                 {
                     //this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
-                    //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                    this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
                     this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
                     this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
 
@@ -2400,8 +2495,8 @@ namespace Attendance.Classes
 
                         if(this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID,out tmpuser, out tmppass, out tmppre, out tmpenable))
                         {
-                            //this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
-                            //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
+                            this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
+                            this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
                             this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
                             this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
                             StoreHistoryinDB(emp.UserID, false);
@@ -2987,7 +3082,7 @@ namespace Attendance.Classes
             try
             {
                 Ping myPing = new Ping();
-                PingReply reply = myPing.Send(_ip, 2000);
+                PingReply reply = myPing.Send(_ip, 5000);
 
                 if (reply.Status == IPStatus.Success)
                 {
@@ -3126,8 +3221,7 @@ namespace Attendance.Classes
                             string tEmpUnqID = dr["EmpUnqID"].ToString();
 
                             string tmpuser2 = string.Empty, tmppass2 = string.Empty;
-                            int tmppre2 = 0;
-                            bool tmpenable2 = false;
+                         
 
                             if (!_istft)
                             {
@@ -3135,22 +3229,9 @@ namespace Attendance.Classes
                             }
                             else
                             {
+                                this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                                this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);  
 
-                                if (this.CZKEM1.SSR_GetUserInfo(_machineno, tEmpUnqID, out tmpuser2, out tmppass2, out tmppre2, out tmpenable2))
-                                {
-                                    if (tmppre2 != 3)
-                                    {
-                                        //this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
-                                        //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
-                                        this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
-                                        this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);   
-                                    }
-                                                                     
-                                }
-                                
-                                //this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);                                
-                                //this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
-                                //this.CZKEM1.SSR_DelUserTmpExt(_machineno, tEmpUnqID, 13);
                             }             
                             
                         }

@@ -34,7 +34,7 @@
             this.gv_avbl = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.SEL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.Location = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colLocation = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MachineIP = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MachineNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Records = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -102,7 +102,7 @@
             // 
             this.gv_avbl.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.SEL,
-            this.Location,
+            this.colLocation,
             this.MachineIP,
             this.MachineNo,
             this.Records,
@@ -168,18 +168,18 @@
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             this.repositoryItemCheckEdit1.ValueGrayed = false;
             // 
-            // Location
+            // colLocation
             // 
-            this.Location.Caption = "Location";
-            this.Location.FieldName = "MachineDesc";
-            this.Location.Name = "Location";
-            this.Location.OptionsColumn.AllowEdit = false;
-            this.Location.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
-            this.Location.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.Location.OptionsColumn.AllowMove = false;
-            this.Location.OptionsColumn.ReadOnly = true;
-            this.Location.Visible = true;
-            this.Location.VisibleIndex = 1;
+            this.colLocation.Caption = "Location";
+            this.colLocation.FieldName = "MachineDesc";
+            this.colLocation.Name = "colLocation";
+            this.colLocation.OptionsColumn.AllowEdit = false;
+            this.colLocation.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
+            this.colLocation.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.colLocation.OptionsColumn.AllowMove = false;
+            this.colLocation.OptionsColumn.ReadOnly = true;
+            this.colLocation.Visible = true;
+            this.colLocation.VisibleIndex = 1;
             // 
             // MachineIP
             // 
@@ -406,7 +406,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gv_avbl;
         private DevExpress.XtraGrid.Columns.GridColumn SEL;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn Location;
+        private DevExpress.XtraGrid.Columns.GridColumn colLocation;
         private DevExpress.XtraGrid.Columns.GridColumn MachineIP;
         private DevExpress.XtraGrid.Columns.GridColumn MachineNo;
         private DevExpress.XtraGrid.Columns.GridColumn Records;
