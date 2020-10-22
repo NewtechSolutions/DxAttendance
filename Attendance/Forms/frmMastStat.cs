@@ -122,7 +122,7 @@ namespace Attendance.Forms
             //txtDeptDesc.Text = "";
             txtStatCode.Text = "";
             txtStatDesc.Text = "";
-
+            txtStatMail.Text = "";
             oldCode = "";
         }
 
@@ -451,7 +451,7 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Delete From MastStatManPower Where "
                             + "CompCode = '{0}' and WrkGrp = '{1}' and UnitCode = '{2}' "
-                            + " and DeptCode = '{3}' and StatCode = '{4}' and CatCode = '{5}' and Shift = '{6}' ";
+                            + " DeptCode = '{3}' and StatCode = '{4}' and CatCode = '{5}' and Shift = '{6}' ";
                             
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(),
                             txtWrkGrpCode.Text.Trim().ToString(),
@@ -493,14 +493,16 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastStat (CompCode,WrkGrp,UnitCode,DeptCode,StatCode,StatDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}','{5}',GetDate(),'{6}')";
+                        string sql = "Insert into MastStat (CompCode,WrkGrp,UnitCode,DeptCode,StatCode,StatDesc,AddDt,AddID,StatEMail) Values ('{0}','{1}','{2}','{3}','{4}','{5}',GetDate(),'{6}','{7}')";
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(),
                             txtWrkGrpCode.Text.Trim().ToString(),
                             txtUnitCode.Text.Trim().ToString(),
                             txtDeptCode.Text.Trim().ToString(),
                             txtStatCode.Text.Trim().ToString(),
-                            txtStatDesc.Text.Trim().ToString(),
-                            Utils.User.GUserID);
+                            txtStatDesc.Text.Trim().ToString(),                           
+                            Utils.User.GUserID,
+                             txtStatMail.Text.Trim().ToString()
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -534,11 +536,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastStat Set StatDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' " +
-                            " Where CompCode = '{2}' and WrkGrp = '{3}' and UnitCode = '{4}' and DeptCode = '{5}'  and StatCode = '{6}'";
+                        string sql = "Update MastStat Set StatDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' , StatEmail = '{2}' " +
+                            " Where CompCode = '{3}' and WrkGrp = '{4}' and UnitCode = '{5}' and DeptCode = '{6}'  and StatCode = '{7}'";
 
-                        sql = string.Format(sql, txtStatDesc.Text.ToString(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
+                        sql = string.Format(sql, txtStatDesc.Text.ToString().Trim(),
+                             Utils.User.GUserID, txtStatMail.Text.Trim().ToString(), txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
                              txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim(),txtStatCode.Text.Trim()
                            );
 
@@ -871,6 +873,8 @@ namespace Attendance.Forms
                     
                     txtStatCode.Text = dr["StatCode"].ToString();
                     txtStatDesc.Text = dr["StatDesc"].ToString();
+                    txtStatMail.Text = dr["StatEMail"].ToString();
+
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);

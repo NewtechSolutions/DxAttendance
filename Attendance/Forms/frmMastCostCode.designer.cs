@@ -41,6 +41,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.chkActive = new DevExpress.XtraEditors.CheckEdit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCostCode.Properties)).BeginInit();
@@ -48,10 +49,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.grpUserRights.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkActive);
             this.groupBox1.Controls.Add(this.txtDescription);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtCostCode);
@@ -209,6 +212,16 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // chkActive
+            // 
+            this.chkActive.Location = new System.Drawing.Point(589, 21);
+            this.chkActive.Name = "chkActive";
+            this.chkActive.Properties.Caption = "Is Active :";
+            this.chkActive.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.chkActive.Size = new System.Drawing.Size(90, 19);
+            this.chkActive.TabIndex = 9;
+            this.chkActive.Visible = false;
+            // 
             // frmMastCostCode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -230,6 +243,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.grpUserRights.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chkActive.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -249,5 +263,6 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnAdd;
+        private DevExpress.XtraEditors.CheckEdit chkActive;
     }
 }

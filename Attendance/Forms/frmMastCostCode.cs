@@ -62,7 +62,7 @@ namespace Attendance.Forms
             EventArgs e = new EventArgs();
             txtCostCode.Text = "";
             txtDescription.Text = "";
-           
+            chkActive.Checked = false;
             oldCode = "";
             mode = "NEW";
         }
@@ -112,6 +112,7 @@ namespace Attendance.Forms
                 {
                     txtCostCode.Text = dr["CostCode"].ToString();
                     txtDescription.Text = dr["CostDesc"].ToString();
+                    chkActive.Checked = Convert.ToBoolean(dr["Active"]);
                     mode = "OLD";
                     oldCode = dr["CostCode"].ToString();
                 }
@@ -134,7 +135,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select CostCode,CostDesc From MastCostCode Where 1 = 1";
+                sql = "Select CostCode,CostDesc,Active From MastCostCode Where 1 = 1";
                 if (e.KeyCode == Keys.F1)
                 {
 
@@ -165,6 +166,7 @@ namespace Attendance.Forms
 
                     txtCostCode.Text = obj.ElementAt(0).ToString();
                     txtDescription.Text = obj.ElementAt(1).ToString();
+                    chkActive.Checked = Convert.ToBoolean(obj.ElementAt(2).ToString());
                     mode = "OLD";
                 }
             }
@@ -186,10 +188,12 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastCostCode (CostCode,CostDesc,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
+                        string sql = "Insert into MastCostCode (CostCode,CostDesc,AddDt,AddID,Active) Values ('{0}','{1}',GetDate(),'{2}','{3}')";
                         sql = string.Format(sql, txtCostCode.Text.Trim().ToString().ToUpper(),
                             txtDescription.Text.Trim().ToString(),
-                            Utils.User.GUserID);
+                            Utils.User.GUserID,
+                            (chkActive.Checked ? "1" : "0").ToString()
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -227,9 +231,10 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastCostCode set CostDesc = '{0}',UpdDt = GetDate(),UpdID ='{1}' where CostCode = '{2}'";
+                        string sql = "Update MastCostCode set CostDesc = '{0}',UpdDt = GetDate(),UpdID ='{1}' , Active = '{2}' where CostCode = '{3}'";
                         sql = string.Format(sql, txtDescription.Text.Trim().ToString(),
                             Utils.User.GUserID,
+                             (chkActive.Checked ? "1" : "0").ToString(),
                             txtCostCode.Text.Trim().ToString().ToUpper()
                             );
 
@@ -260,42 +265,42 @@ namespace Attendance.Forms
                 return;
             }
 
-            if (string.IsNullOrEmpty(err))
-            {
+            MessageBox.Show("Invalid Operation", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+            
+            //if (string.IsNullOrEmpty(err))
+            //{
+            //    DialogResult qs = MessageBox.Show("Are You Sure to Delete this CostCode...?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //    if (qs == DialogResult.No)
+            //    {
+            //        return;
+            //    }
 
-                DialogResult qs = MessageBox.Show("Are You Sure to Delete this CostCode...?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (qs == DialogResult.No)
-                {
-                    return;
-                }
-
-                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        try
-                        {
-                            cn.Open();
-                            string sql = "Delete From MastCostCode where CostCode = '" + txtCostCode.Text.Trim() + "' ";
+            //    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            //    {
+            //        using (SqlCommand cmd = new SqlCommand())
+            //        {
+            //            try
+            //            {
+            //                cn.Open();
+            //                string sql = "Delete From MastCostCode where CostCode = '" + txtCostCode.Text.Trim() + "' ";
                                 
-                            cmd.CommandText = sql;
-                            cmd.Connection = cn;
-                            cmd.ExecuteNonQuery();
-
-
-                            MessageBox.Show("Record Deleted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            ResetCtrl();
-                            LoadGrid();
-                            return;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }
-                }
-            }
+            //                cmd.CommandText = sql;
+            //                cmd.Connection = cn;
+            //                cmd.ExecuteNonQuery();
+            //                MessageBox.Show("Record Deleted...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //                ResetCtrl();
+            //                LoadGrid();
+            //                return;
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //                return;
+            //            }
+            //        }
+            //    }
+            //}
             
         }
 
@@ -316,7 +321,7 @@ namespace Attendance.Forms
         private void LoadGrid()
         {
             DataSet ds = new DataSet();
-            string sql = "select CostCode,CostDesc From MastCostCode where 1 = 1 Order By CostCode ";
+            string sql = "select CostCode,CostDesc,Active From MastCostCode where 1 = 1 Order By CostCode ";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
 

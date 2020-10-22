@@ -87,7 +87,7 @@ namespace Attendance.Forms
 
                         }else{
 
-                            sql = "Insert into MastBCFlg (SanDayLimit,LateComeSec,EarlyComeSec,EarlyGoingSec,GracePeriodSec" +
+                            sql = "Insert into MastBCFlg (SanDayLimit,LateComeSec,EarlyComeSec,EarlyGoingSec,GracePeriodSec," +
                             "  GraceHalfDayFlg, LateHalfDayFlg,EarlyGoingHalfDayFlg,EarlyGoingHalfDaySec,LateHalfDaySec,GlobalGradeExclude ) values (" +
                                 "'" + txtSanDayLimit.Value.ToString() + "'," +
                                 "'" + txtLateComeSec.Value.ToString() + "'," +

@@ -2293,10 +2293,23 @@ namespace Attendance.Classes
                                     }
                                     else
                                     {
-                                        Deleted = tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
-                                        //Deleted = tmpMachine.SSR_DeleteEnrollData(1, emp, 12);
-                                        tmpMachine.DelUserFace(1, emp, 50);
-                                        Deleted = true;
+                                        
+                                        //tmpMachine.SSR_DeleteEnrollData(1, emp, 0);          
+                                        if (machineip.Contains(".99."))
+                                        {
+                                            Deleted = tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
+                                            tmpMachine.DelUserFace(1, emp, 50);
+                                        }
+                                        else
+                                        {
+                                            tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
+                                            tmpMachine.DelUserFace(1, emp, 50);
+                                            tmpMachine.SSR_DeleteEnrollData(1, emp, 0);
+                                            tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
+                                            Deleted = true;
+                                        }
+
+                                        tmpMachine.RefreshData(1);
                                     }
 
                                     if (Deleted)
@@ -2328,7 +2341,8 @@ namespace Attendance.Classes
 
                                         }//using
                                     }
-                                }
+                                    
+                                }//foreach
                                 
                             }//if connected
 

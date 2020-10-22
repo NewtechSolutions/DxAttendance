@@ -590,8 +590,14 @@ namespace Attendance.Forms
 
             cmbListMachine1.Properties.Items.Clear();
             cmbListMachine2.Properties.Items.Clear();
+            //cmbListMachine1.Properties.Items.Add("192.168.6.9" + "-" + "Master_Tripod");
+            //cmbListMachine1.Properties.Items.Add(Globals.MasterMachineIP + "-" + "Master_Old");
 
-            cmbListMachine1.Properties.Items.Add(Globals.MasterMachineIP + "-" + "Master");
+            foreach (KeyValuePair<string,string> t in Globals.MasterIP)
+            {
+                cmbListMachine1.Properties.Items.Add(t.Key.Trim() + "-" + t.Value.Trim());
+            }
+
 
             //load all machine ip in combo
             DataSet ds = new DataSet();
@@ -714,52 +720,70 @@ namespace Attendance.Forms
         {
             if (cmbListMachine1.Text.Trim() == string.Empty)
             {
+                UnLockCtrl();
+                Cursor.Current = Cursors.Default;
+                
                 return;
             }
+            
             lblDownAll.Text = "";
 
             string err;
             //machine selection
-            if (cmbListMachine1.Text.Contains(Globals.MasterMachineIP) && Globals.MasterMachineIP.Trim() != "")
+                
+            string machineip = string.Empty;
+            string[] tmpmachine = cmbListMachine1.Text.Trim().Split('-');
+            if (tmpmachine.Length > 0)
+                machineip = tmpmachine[0].Trim();
+            else
+                machineip = cmbListMachine1.Text.Trim();
+                
+            lblDownAll.Text = "Downloading...";
+            lblDownAll.Update();
+
+            if (tUserList.Count > 0)
             {
-                clsMachine tmach = new clsMachine(Globals.MasterMachineIP, "B");
-                tmach.Connect(out err);
+                LockCtrl();
+                Cursor.Current = Cursors.WaitCursor;
+
+                clsMachine m = new clsMachine(machineip, "B");
+                  
+
+                //try to connect
+                m.Connect(out err);
                 if (!string.IsNullOrEmpty(err))
                 {
                     lblDownAll.Text = err;
                     return;
                 }
-               
-                lblDownAll.Text = "Downloading...";
-                lblDownAll.Update();
+                List<UserBioInfo> tempusers = new List<UserBioInfo>();
+                m.DownloadTemplate(tUserList, out err, out tempusers);
 
-                this.Cursor = Cursors.WaitCursor;
-                List<UserBioInfo> tusers = new List<UserBioInfo>();
+                m.DisConnect(out err);
+                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
                 
-                tmach.DownloadALLUsers(true,out err, out tusers);
-                lblDownAll.Text = tusers.Count().ToString() + " Downloaded Users";
-                lblDownAll.Update();
-                this.Cursor = Cursors.Default;
-                MessageBox.Show("Download Complete", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UnLockCtrl();
+                Cursor.Current = Cursors.Default;
+                MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
+
             }
             else
             {
-                clsMachine tmach = new clsMachine(cmbListMachine1.Text.Trim(), "B");
+                DialogResult dr = MessageBox.Show("Are you Sure to download All User from Selected Machine ?", "Question", MessageBoxButtons.YesNoCancel);
+
+                if (dr == DialogResult.Cancel || dr == DialogResult.No)
+                    return;
+
+                this.Cursor = Cursors.WaitCursor;
+                List<UserBioInfo> tusers = new List<UserBioInfo>();
+                clsMachine tmach = new clsMachine(machineip.Trim(), "B");
                 tmach.Connect(out err);
                 if (!string.IsNullOrEmpty(err))
                 {
                     lblDownAll.Text = err;
                     return;
                 }
-
-
-                lblDownAll.Text = "Downloading...";
-                lblDownAll.Update();
-
-                this.Cursor = Cursors.WaitCursor;
-                List<UserBioInfo> tusers = new List<UserBioInfo>();
-
-                tmach.DownloadALLUsers(true,out err, out tusers);
+                tmach.DownloadALLUsers(true, out err, out tusers);
                 tmach.DisConnect(out err);
                 lblDownAll.Text = tusers.Count().ToString() + " Downloaded Users";
                 lblDownAll.Update();

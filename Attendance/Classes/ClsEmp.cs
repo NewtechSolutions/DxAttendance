@@ -658,7 +658,7 @@ namespace Attendance.Classes
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     this._CostDesc = dr["CostDesc"].ToString();
-
+                    
                 }
             }
         

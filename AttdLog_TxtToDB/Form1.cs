@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
-
+using Attendance;
 namespace AttdLog_TxtToDB
 {
     public partial class Form1 : Form
@@ -21,7 +21,7 @@ namespace AttdLog_TxtToDB
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Utils.Helper.constr = "Server=172.16.12.47;Database=Attendance;User Id=sa;Password=testomonials@123;";
+            //Utils.Helper.constr = "Server=172.16.12.47;Database=Attendance;User Id=sa;Password=testomonials@123;";
 
             listView1.Columns.Clear();
 
@@ -35,6 +35,24 @@ namespace AttdLog_TxtToDB
 
 
             txtBrowse.Text = "";
+
+
+            Utils.DbCon dbcon = Utils.Helper.ReadConDb("DBCON");
+            //Utils.DbCon empdbcon = Utils.Helper.ReadConDb("EMPDBCON");
+
+            if (string.IsNullOrEmpty(dbcon.DataSource))
+            {
+                var b = new FrmConnection();
+                b.typeofcon = "DBCON";
+                b.ShowDialog();
+                return;
+            }
+            else
+            {
+                Utils.Helper.constr = dbcon.ToString();
+            }
+
+            this.Text = "Upload Text File Attendance DataBase Upload (" + dbcon.DataSource + "->" + dbcon.DbName + ")";
 
             //cmbListMachine1.Properties.Items.Add("192.168.1.1");
 
@@ -141,7 +159,7 @@ namespace AttdLog_TxtToDB
 
 
                     AttdLog t = new AttdLog();
-                    t.AddID = "uploadtool";
+                    t.AddID = "upload";
                     t.AddDt = DateTime.Now;
 
                     //ListViewItem.ListViewSubItem x = tm.SubItems;
@@ -304,6 +322,19 @@ namespace AttdLog_TxtToDB
                 listView1.Refresh();
                 Application.DoEvents();
             }//if
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["FrmConnection"];
+
+            if (t == null)
+            {
+                FrmConnection m = new FrmConnection();
+               
+                m.typeofcon = "DBCON";
+                m.Show();
+            }
         }
 
 

@@ -106,13 +106,15 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastDept (CompCode,WrkGrp,UnitCode,DeptCode,DeptDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}')";
+                        string sql = "Insert into MastDept (CompCode,WrkGrp,UnitCode,DeptCode,DeptDesc,AddDt,AddID,DeptEMail) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}','{6}')";
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), 
                             txtWrkGrpCode.Text.Trim().ToString(),
                             txtUnitCode.Text.Trim().ToString(),
                             txtDeptCode.Text.Trim().ToString(),
                             txtDeptDesc.Text.Trim().ToString(),
-                            Utils.User.GUserID);
+                            Utils.User.GUserID,
+                            txtDeptMail.Text.Trim().ToString()
+                            );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -146,7 +148,7 @@ namespace Attendance.Forms
             //txtUnitDesc.Text = "";
             txtDeptCode.Text = "";
             txtDeptDesc.Text = "";
-
+            txtDeptMail.Text = "";
             oldCode = "";
         }
 
@@ -339,11 +341,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastDept Set DeptDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}' " +
-                            " Where CompCode = '{2}' and WrkGrp = '{3}' and UnitCode = '{4}' and DeptCode = '{5}' ";
+                        string sql = "Update MastDept Set DeptDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}', DeptEMail ='{2}' " +
+                            " Where CompCode = '{3}' and WrkGrp = '{4}' and UnitCode = '{5}' and DeptCode = '{6}' ";
 
                         sql = string.Format(sql, txtDeptDesc.Text.ToString(),
-                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
+                             Utils.User.GUserID, txtDeptMail.Text.Trim().ToString(), txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
                              txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim()
                            );
 
@@ -580,6 +582,7 @@ namespace Attendance.Forms
                     txtUnitCode.Text = dr["UnitCode"].ToString();
                     txtDeptCode.Text = dr["DeptCode"].ToString();
                     txtDeptDesc.Text = dr["DeptDesc"].ToString();
+                    txtDeptMail.Text = dr["DeptEMail"].ToString();
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);

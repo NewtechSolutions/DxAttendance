@@ -734,7 +734,15 @@ namespace Attendance.Forms
             #region Chk_LeaveBal_Rec
             if (IsBalanced)
             {
-               
+
+                if(LeaveDays <= 0)
+                {
+                    MessageBox.Show("Leave Days 0, hence can not be posted...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                
+                
                 sql = "Select * from LeaveBal where " +
                    " compcode = '" + Emp.CompCode + "'" +
                    " and WrkGrp ='" + Emp.WrkGrp + "'" +
@@ -838,6 +846,9 @@ namespace Attendance.Forms
             }
 
             #endregion
+
+
+
 
             Cursor.Current = Cursors.WaitCursor;
 

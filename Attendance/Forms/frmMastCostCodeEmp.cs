@@ -95,6 +95,17 @@ namespace Attendance.Forms
                 err = err + "Please Enter Valid From Date..." + Environment.NewLine;
             }
             
+            string tsql = "Select Active from MastCostCode where CostCode = '" + txtCostCode.Text.Trim().ToString() + "'";
+            string ifcostact = Utils.Helper.GetDescription(tsql, Utils.Helper.constr, out err);
+            if (string.IsNullOrEmpty(ifcostact))
+            {
+                ifcostact = "false";
+            }
+            if (!Convert.ToBoolean(ifcostact))
+            {
+                err = err + "CostCode not active..." + Environment.NewLine;
+                return err;
+            }
 
             string sql = "Select max(ValidFrom) From MastCostCodeEmp where EmpUnqId = '" + ctrlEmp1.cEmp.EmpUnqID + "' " +
                 " and ValidFrom > '" + txtValidFrom.DateTime.ToString("yyyy-MM-dd") + "'";
@@ -187,7 +198,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select CostCode,CostDesc From MastCostCode Where 1 = 1";
+                sql = "Select CostCode,CostDesc From MastCostCode Where Active = 1";
                 if (e.KeyCode == Keys.F1)
                 {
 

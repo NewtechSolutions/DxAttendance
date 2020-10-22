@@ -106,7 +106,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select CostCode,CostDesc From MastCostCode Where 1 = 1";
+                sql = "Select CostCode,CostDesc From MastCostCode Where Active = 1";
                 if (e.KeyCode == Keys.F1)
                 {
 
@@ -178,11 +178,25 @@ namespace Attendance.Forms
             if (string.IsNullOrEmpty(txtCostCode.Text.Trim()))
             {
                 err = err + "Please Enter CostCode..." + Environment.NewLine;
+                return err;
             }
 
             if (string.IsNullOrEmpty(txtCostDesc.Text.Trim()))
             {
                 err = err + "Invalid CostCode..." + Environment.NewLine;
+                return err;
+            }
+
+            string tsql = "Select Active from MastCostCode where CostCode = '" + txtCostCode.Text.Trim().ToString() + "'";
+            string ifcostact = Utils.Helper.GetDescription(tsql, Utils.Helper.constr, out err);
+            if (string.IsNullOrEmpty(ifcostact))
+            {
+                ifcostact = "false";
+            }
+            if (!Convert.ToBoolean(ifcostact))
+            {
+                err = err + "CostCode not active..." + Environment.NewLine;
+                return err;
             }
 
             return err;
@@ -382,6 +396,12 @@ namespace Attendance.Forms
                         string tcostcodecnt = Utils.Helper.GetDescription("Select Count(*) from MastCostCodeEmp Where EmpUnqID='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'", Utils.Helper.constr, out err3);
                         if(tcostcodecnt == "0" && string.IsNullOrEmpty(err3))
                         {
+                            
+                            
+                            
+                            
+                            
+                            
                             sql = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('{0}',(Select JoinDt From MastEmp Where EmpUnqID='{1}'),'{2}',GetDate(),'{3}')";
                             sql = string.Format(sql,
                             ctrlEmp1.txtEmpUnqID.Text.Trim(),

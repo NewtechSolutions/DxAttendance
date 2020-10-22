@@ -13,6 +13,7 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using DevExpress.XtraGrid.Columns;
 using Attendance.Classes;
+using System.Text.RegularExpressions;
 
 namespace Attendance.Forms
 {
@@ -87,6 +88,11 @@ namespace Attendance.Forms
             if (!t.GetEmpDetails(t.CompCode,t.EmpUnqID))
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+            }
+            
+            if(string.IsNullOrEmpty(tdr["Reason"].ToString().Trim()))
+            {
+                 err = err + "Reason is required..." + Environment.NewLine;
             }
 
             return err;
@@ -330,7 +336,7 @@ namespace Attendance.Forms
                         }
                         #endregion
 
-                        string sWrkGrp = "",sDate = "", sInTime = "", sOutTime = "", sShiftCode ="", sOverTime = "";
+                        string sWrkGrp = "",sDate = "", sInTime = "", sOutTime = "", sShiftCode ="", sOverTime = "",sReason = "";
                         sWrkGrp = Emp.WrkGrp;
 
                         #region Set_InTime
@@ -372,6 +378,17 @@ namespace Attendance.Forms
                         }
                         #endregion
 
+                        #region Set_Reason
+
+                        if (dr["Reason"].ToString().Trim().Length > 80)
+                            sReason = dr["Reason"].ToString().Trim().Substring(1, 80).Replace("'", "");
+                        else
+                            sReason = dr["Reason"].ToString().Trim().Replace("'","");
+                        
+                        sReason.Replace("\"","").Replace("&"," and ");
+                        sReason = Regex.Replace(sReason, @"\r\n?|\n", "-");
+                        
+                        #endregion
 
                         #region Final_Update
 
@@ -386,9 +403,9 @@ namespace Attendance.Forms
                                 cmd.CommandType = CommandType.Text;
 
                                 string sql = "Insert Into MastLeaveSchedule " +
-                                " (tDate,EmpUnqID,WrkGrp,ConsInTime,ConsOutTime,ConsShift,ConsOverTime,AddId,AddDt) Values (" +
+                                " (tDate,EmpUnqID,WrkGrp,ConsInTime,ConsOutTime,ConsShift,ConsOverTime,Remarks,AddId,AddDt) Values (" +
                                 " '" + sDate + "','" + Emp.EmpUnqID + "','" + sWrkGrp + "'," + sInTime + "," + 
-                                sOutTime + "," + sShiftCode + "," + sOverTime + ",'" + Utils.User.GUserID + "',GetDate())";
+                                sOutTime + "," + sShiftCode + "," + sOverTime + ",'" + sReason + "','" + Utils.User.GUserID + "',GetDate())";
                                 cmd.CommandText = sql;
                                 cmd.CommandTimeout = 0;
                                 cmd.ExecuteNonQuery();
@@ -416,6 +433,7 @@ namespace Attendance.Forms
 
                         }//using sqlcommand
                         #endregion
+
                     }//using foreach
 
                     con.Close();
@@ -480,7 +498,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,SanDate,InTime,OutTime,ShiftCode,TPAHours,'' as Remarks from " + sheetname;
+                string myexceldataquery = "select EmpUnqID,SanDate,InTime,OutTime,ShiftCode,TPAHours,Reason,'' as Remarks from " + sheetname;
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);
                 dt.Clear();
                 oledbda.Fill(dt);

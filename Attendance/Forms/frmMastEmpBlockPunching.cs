@@ -320,26 +320,33 @@ namespace Attendance.Forms
 
         private void sendmail(string mailtype,string tEmpUnqID)
         {
-            string sql = "Select Config_Val from Mast_OtherConfig where Config_Key ='EMPBLOCKNOTIFICATION'";
             
             string tsubject = string.Empty;
             string tbody = string.Empty;
-            string to = Utils.Helper.GetDescription(sql,Utils.Helper.constr);
-            //to = "anand.acharya@jindalsaw.com";
-            string cc = "";
-            //string bcc = "anand.acharya@jindalsaw.com";
-            string bcc = "";
+            string partbody = string.Empty;
+
+            string to = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='EMPBLOCKNOTIFICATION'",Utils.Helper.constr);
+            string cc = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='EMPBLOCKNOTIFICATION_CC'", Utils.Helper.constr);
+            string bcc = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='EMPBLOCKNOTIFICATION_BCC'", Utils.Helper.constr);
+
+            if (string.IsNullOrEmpty(to))
+            {
+                to = Globals.G_DefaultMailID;
+            }
 
             if (mailtype == "BLOCK")
             {
                 tsubject = "Notification : Card Blocked for  " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
+                partbody = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig Where Config_Key ='EMPBLOCKNOTIFICATION_PartBodyBLOCK'", Utils.Helper.constr);
+
             }
             string tblokeddt = string.Empty;
 
             if (mailtype == "UNBLOCK")
             {
                 tsubject = "Notification : Card Un-Blocked for " + ctrlEmp1.cEmp.EmpName + " (" + tEmpUnqID + " ) ";
-            
+                partbody = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig Where Config_Key ='EMPBLOCKNOTIFICATION_PartBodyUnBLOCK'", Utils.Helper.constr);
+
                 //get last blocked date
                 string tsql = "Select Max(ReqDt) From MastMachineUserOperation where EmpUnqID = '" + tEmpUnqID + "' and Operation = 'BLOCK' ";
                 tblokeddt = Convert.ToDateTime(Utils.Helper.GetDescription(tsql, Utils.Helper.constr)).ToString("yyyy-MM-dd HH:mm");
@@ -369,7 +376,7 @@ namespace Attendance.Forms
 
 
 
-            tbody = "Sir, <br/><p>" + "Subjected Action Performed as per below details:"  + "</p> <br/> <br/> " +
+            tbody = "Sir, <br/><p>" + partbody  + "</p> <br/> <br/> " +
                 "<table>" +
                 "<tr><td>EmpCode : </td><td>" + tEmpUnqID  + "</td></tr>" +
                 "<tr><td>EmpName : </td><td>" + ctrlEmp1.cEmp.EmpName + "</td></tr>" +

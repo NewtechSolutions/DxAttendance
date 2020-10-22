@@ -76,7 +76,7 @@ namespace Attendance.Forms
             return;
         }
 
-        private string DataValidate(string tEmpUnqID,string tLeaveTyp)
+        private string DataValidate(string tEmpUnqID,string tLeaveTyp,string tWrkGrp)
         {
             string err = string.Empty;
             clsEmp t = new clsEmp();
@@ -87,6 +87,13 @@ namespace Attendance.Forms
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
                 return err;
             }
+
+            if (t.WrkGrp != tWrkGrp)
+            {
+                err = err + "Invalid WrkGrp of Employee..." + Environment.NewLine;
+                return err;
+            }
+
 
             if(string.IsNullOrEmpty(tLeaveTyp))
             {
@@ -161,7 +168,7 @@ namespace Attendance.Forms
                         string tEmpUnqID = dr["EmpUnqID"].ToString();
                         string tLeaveTyp = dr["LeaveType"].ToString();
                         string OpnBal = dr["OpnBal"].ToString();
-                        
+                        string tWrkGrp = dr["WrkGrp"].ToString();
                         double tBal = 0;
                         if(!double.TryParse(OpnBal,out tBal))                        
                         {
@@ -170,7 +177,7 @@ namespace Attendance.Forms
                         }
                         
                         
-                        string err = DataValidate(tEmpUnqID, tLeaveTyp);
+                        string err = DataValidate(tEmpUnqID, tLeaveTyp,tWrkGrp);
 
                         if (!string.IsNullOrEmpty(err))
                         {

@@ -75,6 +75,8 @@ namespace Attendance.Classes
                         _tableName = "AttdGateInOut";
                     else if (Globals.G_WaterIP.Contains(_ip))
                         _tableName = "AttdWater";
+                    else if(Globals.MasterMachineIP.Contains(_ip))
+                        _tableName = "AttdMastLog";
                     else
                         _tableName = "AttdLog";
 
@@ -723,6 +725,12 @@ namespace Attendance.Classes
                     err += "Error while store to db : " + t.EmpUnqID + " : " + dberr + Environment.NewLine;
                 }
 
+                string attprocess = AttdPunchSchduleProcess(t);
+                if (!string.IsNullOrEmpty(attprocess))
+                {
+                    write_err += attprocess;
+                }
+
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath, true))
                 {
                     file.WriteLine(t.ToString());
@@ -810,6 +818,55 @@ namespace Attendance.Classes
             
         }
 
+
+        public string AttdPunchSchduleProcess(AttdLog t)
+        {
+            string err = string.Empty;
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+
+                    string sql = string.Empty;
+                    if(t.LunchFlg && this._tableName != "AttdLunchGate")
+                    {
+                        sql = "Insert into AttdWorker (EmpUnqID,FromDt,ToDt,Workerid,DoneFlg,PushFlg,AddDt,AddId,ProcessType) values" +
+                        " ('" + t.EmpUnqID + "','" + t.t1Date.AddDays(-1).ToString("yyyy-MM-dd") + "' " +
+                        " ,'" + t.t1Date.ToString("yyyy-MM-dd") + "','SERVER',0,0,GetDate(),'SERVER','MESS')";
+                    }
+                    else if (!t.LunchFlg && this._tableName != "AttdLunchGate")
+                    {
+                        sql = "Insert into AttdWorker (EmpUnqID,FromDt,ToDt,Workerid,DoneFlg,PushFlg,AddDt,AddId,ProcessType) values" +
+                        " ('" + t.EmpUnqID + "','" + t.t1Date.AddDays(-1).ToString("yyyy-MM-dd") + "' " +
+                        " ,'" + t.t1Date.ToString("yyyy-MM-dd") + "','SERVER',0,0,GetDate(),'SERVER','ATTD')";
+                    }
+                    else if (this._tableName == "AttdLunchGate")
+                    {
+                        sql = "Insert into AttdWorker (EmpUnqID,FromDt,ToDt,Workerid,DoneFlg,PushFlg,AddDt,AddId,ProcessType) values" +
+                          " ('" + t.EmpUnqID + "','" + t.t1Date.AddDays(-1).ToString("yyyy-MM-dd") + "' " +
+                          " ,'" + t.t1Date.ToString("yyyy-MM-dd") + "','SERVER',0,0,GetDate(),'SERVER','LUNCHINOUT')";
+                    }
+                    
+
+                    using (SqlCommand cmd = new SqlCommand(sql, cn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    err += "Error While storage in AttdWorker ->" + ex.Message.ToString();
+                }
+            }
+
+            return err;
+
+        }
+
+        
+        
         /// <summary>
         /// store attendance logs in db
         /// </summary>
@@ -907,6 +964,41 @@ namespace Attendance.Classes
             
             
             this.CZKEM1.EnableDevice(_machineno,false);
+            int tYear = 0;
+            int tMonth = 0;
+            int tDay = 0;
+            int tHour = 0;
+            int tMinute = 0;
+            int tSeconds = 0;
+            this.CZKEM1.GetDeviceTime(1, ref tYear, ref tMonth, ref tDay, ref tHour, ref tMinute, ref tSeconds);
+
+            DateTime MachineTime = new DateTime(tYear, tMonth, tDay, tHour, tMinute, tSeconds);
+            DateTime CurTime = DateTime.Now;
+
+            if (Math.Abs((CurTime - MachineTime).TotalMinutes) > 5)
+            {
+                string sql = "Insert into AttdTimeErr (MachineIP,MachineDesc,MachineTime,ActTime,AddDt) Values (" +
+                    "'" + _ip + "','" + _machinedesc + "','" + MachineTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                    "'" + CurTime.ToString("yyyy-MM-dd HH:mm:ss") + "',GetDate())";
+
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cn.Open();
+                            cmd.Connection = cn;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex) { }
+                    }
+                }
+            }
+
 
             err = (this.CZKEM1.SetDeviceTime(_machineno) ? "" : "Unable to Set Time...");
 
@@ -1203,11 +1295,21 @@ namespace Attendance.Classes
             //    return;
             //}
 
-            //if(string.IsNullOrEmpty(emp.CardNumber))
-            //{
-            //    err = "RFID Card Number not found...";
-            //    return;
-            //}
+            if (string.IsNullOrEmpty(emp.CardNumber))
+            {
+                err = "RFID Card Number not found...";
+                return;
+            }
+            else
+            {
+                int t = 0;
+                int.TryParse(emp.CardNumber, out t);
+                if (t <= 0)
+                {
+                    err = "RFID Card Number is Required...";
+                    return;
+                }
+            }
 
             if (_messflg)
             {
@@ -1285,8 +1387,6 @@ namespace Attendance.Classes
                                     }
                                 }
                             }
-                            
-                            
                         }
 
                         //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
@@ -2338,7 +2438,8 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.CardNumber))
                     {
-                        emp.UserName = "";
+                       
+                        //emp.UserName = "";
                         emp.StoreToDb(1, out err);
                         emp.err += err;
                     }
@@ -2348,7 +2449,7 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.FaceTemp))
                     {
-                        emp.UserName = "";
+                        //emp.UserName = "";
                         emp.StoreToDb(2, out err);
                         emp.err += err;
                     }
@@ -3082,7 +3183,7 @@ namespace Attendance.Classes
             try
             {
                 Ping myPing = new Ping();
-                PingReply reply = myPing.Send(_ip, 5000);
+                PingReply reply = myPing.Send(_ip, 15000);
 
                 if (reply.Status == IPStatus.Success)
                 {

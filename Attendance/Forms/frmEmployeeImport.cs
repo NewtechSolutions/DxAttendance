@@ -92,7 +92,18 @@ namespace Attendance.Forms
                 err = err + "Invalid CostCode..." + Environment.NewLine;
             }
 
-            
+            string tsql = "Select Active from MastCostCode where CostCode = '" + t.CostCode + "'";
+            string ifcostact = Utils.Helper.GetDescription(tsql, Utils.Helper.constr, out err);
+            if (string.IsNullOrEmpty(ifcostact))
+            {
+                ifcostact = "false";
+            }
+
+            if (!Convert.ToBoolean(ifcostact))
+            {
+                err = err + "CostCode not active..." + Environment.NewLine;
+                return err;
+            }
 
             if (tValidFrom == DateTime.MinValue)
             {

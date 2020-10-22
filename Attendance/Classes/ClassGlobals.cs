@@ -221,14 +221,14 @@ namespace Attendance.Classes
             //    }
             //}
 
-            MasterMachineIP = MasterMachineIP = Utils.Helper.GetDescription("Select MachineIP From ReaderConfig Where master = 1", Utils.Helper.constr);
+            //MasterMachineIP = MasterMachineIP = Utils.Helper.GetDescription("Select MachineIP From ReaderConfig Where master = 1 ", Utils.Helper.constr);
 
             return tset;
 
 
         }
 
-
+        public static Dictionary<string,string> MasterIP = new Dictionary<string,string>();
         public static List<string> WaterIP = new List<string>();
         public static string G_WaterIP;
 
@@ -285,13 +285,35 @@ namespace Attendance.Classes
             }
         }
 
-        
+        public static void SetMasterIPList()
+        {
+            //Setting WaterIP
+            DataSet ds = new DataSet();
+            string sql = "Select MachineIP,MachineDesc From ReaderConfig where MachineDesc like '%Master%'  Order By MachineIP";
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            
+
+            if (hasRows)
+            {
+                 
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    MasterIP.Add(dr["MachineIP"].ToString(),dr["MachineDesc"].ToString());
+                    MasterMachineIP = MasterMachineIP + dr["MachineIP"].ToString() + ",";
+                }
+
+            }
+        }
 
         public static void SetWaterIPList()
         {
             //Setting WaterIP
             DataSet ds = new DataSet();
-            string sql = "Select MachineIP From ReaderConfig where MachineDesc like '%Water%' Order By MachineIP";
+            string sql = "Select MachineIP From ReaderConfig where MachineDesc like '%Water%'  Order By MachineIP";
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
                            .Any(table => table.Rows.Count != 0);
@@ -725,8 +747,18 @@ namespace Attendance.Classes
 
             if (string.IsNullOrEmpty(this.CardNumber))
             {
+                
                 err = "RFID Card Number is Required...";
                 return;
+                
+            }else{
+                int t = 0;
+                int.TryParse(this.CardNumber, out t);
+                if (t <= 0)
+                {
+                    err = "RFID Card Number is Required...";
+                    return;
+                }
             }
 
             if (tInfoType == 2 && string.IsNullOrEmpty(this.FaceTemp))
@@ -895,6 +927,15 @@ namespace Attendance.Classes
                 " '" + ((this.LunchFlg) ? "1" : "0") + "','" + this.tYear.ToString() + "'," +
                 " '" + this.tYearMt.ToString() + "','" + this.t1Date.ToString("yyyy-MM-dd") + "'," +
                 " '" + this.AddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + Utils.User.GUserID + "');";
+
+            if (this.PunchDate.Year == 2000)
+            {
+                string errdbstr = GetDBWriteErrString();
+                return errdbstr;
+
+            }
+               
+
 
             return dbstr;
         }

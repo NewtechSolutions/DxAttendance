@@ -375,6 +375,8 @@ namespace Attendance
                     {
                         foreach (DataRow drDate in dsDate.Tables[0].Rows)
                         {
+                            bool ChkSanInOut = false;
+                            
                             //Open EmpAttdRecord
                             sql = "Select tYear,tDate,CompCode,WrkGrp,EmpUnqID,ScheDuleShift,ConsShift,ConsIN,ConsOut,ConsWrkHrs,ConsOverTime," +
                                 "Status,HalfDay,LeaveTyp,LeaveHalf,ActualStatus,Earlycome,EarlyGoing,GracePeriod," +
@@ -415,6 +417,7 @@ namespace Attendance
                                     if (!string.IsNullOrEmpty(insantime))
                                     {
                                         drAttd["ConsIN"] = Convert.ToDateTime(insantime);
+                                        ChkSanInOut = true;
                                     }
                                     else
                                     {
@@ -497,6 +500,7 @@ namespace Attendance
                                     if (!string.IsNullOrEmpty(outsantime))
                                     {
                                         drAttd["ConsOut"] = Convert.ToDateTime(outsantime);
+                                        ChkSanInOut = true;
                                     }
                                     else
                                     {
@@ -507,56 +511,60 @@ namespace Attendance
 
                                     #endregion SanctionOutTime
 
-                                    #region Check_For_Continueous_Duty
-
-                                    if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
+                                    if (!ChkSanInOut)
                                     {
-                                        if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
-                                            == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
-                                        {
-                                            TimeSpan outdiff1 = Convert.ToDateTime(drAttd["OutPunch1"]) - Convert.ToDateTime(drAttd["InPunch2"]);
-                                            if (outdiff1.TotalMinutes <= 60 && outdiff1.TotalMinutes >= 0)
-                                            {
-                                                TimeSpan outdiff2 = Convert.ToDateTime(drAttd["InPunch1"]) - Convert.ToDateTime(drAttd["OutPunch1"]);
-                                                if (outdiff2.TotalHours >= 6)
-                                                {
-                                                    drAttd["ConsIn"] = drAttd["InPunch1"];
-                                                    drAttd["ConsOut"] = drAttd["OutPunch2"];
-                                                    daAttdData.Update(dsAttdData, "AttdData");
-                                                }
-                                            }
-                                        }
-                                    }
-                                    #endregion Check_For_Continueous_Duty
 
-                                    #region Check_For_Maximum_Hours
+                                        #region Check_For_Continueous_Duty
 
-                                    if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
-                                    {
-                                        if (Convert.ToDateTime(drAttd["OutPunch2"]) > Convert.ToDateTime(drAttd["OutPunch1"]))
+                                        if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
                                         {
                                             if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
-                                            == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
+                                                == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
                                             {
-                                                if (Convert.ToDouble(drAttd["WrkHrs1"]) > Convert.ToDouble(drAttd["WrkHrs2"]))
+                                                TimeSpan outdiff1 = Convert.ToDateTime(drAttd["OutPunch1"]) - Convert.ToDateTime(drAttd["InPunch2"]);
+                                                if (outdiff1.TotalMinutes <= 60 && outdiff1.TotalMinutes >= 0)
                                                 {
-                                                    drAttd["ConsIn"] = drAttd["InPunch1"];
-                                                    drAttd["ConsOut"] = drAttd["OutPunch1"];
-                                                    drAttd["ConsWrkHrs"] = drAttd["WrkHrs1"];
-                                                    daAttdData.Update(dsAttdData, "AttdData");
-                                                }
-                                                else
-                                                {
-                                                    drAttd["ConsIn"] = drAttd["InPunch2"];
-                                                    drAttd["ConsOut"] = drAttd["OutPunch2"];
-                                                    drAttd["ConsWrkHrs"] = drAttd["WrkHrs2"];
-                                                    daAttdData.Update(dsAttdData, "AttdData");
+                                                    TimeSpan outdiff2 = Convert.ToDateTime(drAttd["InPunch1"]) - Convert.ToDateTime(drAttd["OutPunch1"]);
+                                                    if (outdiff2.TotalHours >= 6)
+                                                    {
+                                                        drAttd["ConsIn"] = drAttd["InPunch1"];
+                                                        drAttd["ConsOut"] = drAttd["OutPunch2"];
+                                                        daAttdData.Update(dsAttdData, "AttdData");
+                                                    }
                                                 }
                                             }
-
                                         }
+                                        #endregion Check_For_Continueous_Duty
+
+                                        #region Check_For_Maximum_Hours
+
+                                        if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
+                                        {
+                                            if (Convert.ToDateTime(drAttd["OutPunch2"]) > Convert.ToDateTime(drAttd["OutPunch1"]))
+                                            {
+                                                if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
+                                                == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
+                                                {
+                                                    if (Convert.ToDouble(drAttd["WrkHrs1"]) > Convert.ToDouble(drAttd["WrkHrs2"]))
+                                                    {
+                                                        drAttd["ConsIn"] = drAttd["InPunch1"];
+                                                        drAttd["ConsOut"] = drAttd["OutPunch1"];
+                                                        drAttd["ConsWrkHrs"] = drAttd["WrkHrs1"];
+                                                        daAttdData.Update(dsAttdData, "AttdData");
+                                                    }
+                                                    else
+                                                    {
+                                                        drAttd["ConsIn"] = drAttd["InPunch2"];
+                                                        drAttd["ConsOut"] = drAttd["OutPunch2"];
+                                                        drAttd["ConsWrkHrs"] = drAttd["WrkHrs2"];
+                                                        daAttdData.Update(dsAttdData, "AttdData");
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                        #endregion Check_For_Maximum_Hours
                                     }
-                                    #endregion Check_For_Maximum_Hours
 
                                     #region Double_Check_ConsIn
                                     if (drAttd["ConsIN"] == DBNull.Value)
@@ -657,9 +665,15 @@ namespace Attendance
                                         DataRow dr = ds.Tables[0].Rows[0];
                                         drAttd["LeaveTyp"] = dr["schLeave"];
                                         drAttd["LeaveHalf"] = dr["SchLeaveHalf"];
+                                        
+                                        if(drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL" )
+                                        {
+                                            drAttd["LeaveHalf"] = 0;
+                                        }
 
                                         daAttdData.Update(dsAttdData, "AttdData");
                                     }
+                                    
 
                                     #endregion PostLeave
 
@@ -776,6 +790,17 @@ namespace Attendance
                                     if (drAttd["LeaveTyp"].ToString() != "")
                                     {
                                         drAttd["Status"] = "P";
+
+                                        //added on dt 2020-09-30
+                                        if (Convert.ToBoolean(drAttd["LeaveHalf"]) 
+                                            &&  tconswrkhrs <= 0 
+                                            && drAttd["ConsIn"] == DBNull.Value
+                                            && drAttd["ConsOut"] == DBNull.Value                                            
+                                            )
+                                        {
+                                            drAttd["HalfDay"] = 1;
+                                        }
+
 
                                         if (drAttd["LeaveTyp"].ToString() == "AB")
                                         {

@@ -1,6 +1,6 @@
 ﻿namespace Attendance.Forms
 {
-    partial class frmBulkSanction
+    partial class frmBulkEmpBlockPunching
     {
         /// <summary>
         /// Required designer variable.
@@ -32,12 +32,8 @@
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
             this.grd_view = new DevExpress.XtraGrid.GridControl();
             this.grd_view1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.EmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.SanDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.InTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.OutTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ShiftCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.TPAHours = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colEmpUnqID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colReason = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Remarks = new DevExpress.XtraGrid.Columns.GridColumn();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.btnExport = new System.Windows.Forms.Button();
@@ -45,7 +41,6 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtBrowse = new System.Windows.Forms.TextBox();
-            this.Reason = new DevExpress.XtraGrid.Columns.GridColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -97,13 +92,8 @@
             // grd_view1
             // 
             this.grd_view1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.EmpUnqID,
-            this.SanDate,
-            this.InTime,
-            this.OutTime,
-            this.ShiftCode,
-            this.TPAHours,
-            this.Reason,
+            this.colEmpUnqID,
+            this.colReason,
             this.Remarks});
             this.grd_view1.GridControl = this.grd_view;
             this.grd_view1.Name = "grd_view1";
@@ -135,83 +125,31 @@
             this.grd_view1.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.grd_view1.OptionsView.ShowGroupPanel = false;
             // 
-            // EmpUnqID
+            // colEmpUnqID
             // 
-            this.EmpUnqID.Caption = "EmpUnqID";
-            this.EmpUnqID.FieldName = "EmpUnqID";
-            this.EmpUnqID.Name = "EmpUnqID";
-            this.EmpUnqID.OptionsColumn.AllowEdit = false;
-            this.EmpUnqID.OptionsColumn.AllowMove = false;
-            this.EmpUnqID.OptionsColumn.ReadOnly = true;
-            this.EmpUnqID.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.EmpUnqID.Visible = true;
-            this.EmpUnqID.VisibleIndex = 0;
-            this.EmpUnqID.Width = 105;
+            this.colEmpUnqID.Caption = "EmpUnqID";
+            this.colEmpUnqID.FieldName = "EmpUnqID";
+            this.colEmpUnqID.Name = "colEmpUnqID";
+            this.colEmpUnqID.OptionsColumn.AllowEdit = false;
+            this.colEmpUnqID.OptionsColumn.AllowMove = false;
+            this.colEmpUnqID.OptionsColumn.ReadOnly = true;
+            this.colEmpUnqID.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.colEmpUnqID.Visible = true;
+            this.colEmpUnqID.VisibleIndex = 0;
+            this.colEmpUnqID.Width = 97;
             // 
-            // SanDate
+            // colReason
             // 
-            this.SanDate.Caption = "SanDate";
-            this.SanDate.FieldName = "SanDate";
-            this.SanDate.Name = "SanDate";
-            this.SanDate.OptionsColumn.AllowEdit = false;
-            this.SanDate.OptionsColumn.AllowMove = false;
-            this.SanDate.OptionsColumn.ReadOnly = true;
-            this.SanDate.UnboundType = DevExpress.Data.UnboundColumnType.DateTime;
-            this.SanDate.Visible = true;
-            this.SanDate.VisibleIndex = 1;
-            this.SanDate.Width = 116;
-            // 
-            // InTime
-            // 
-            this.InTime.Caption = "InTime";
-            this.InTime.FieldName = "InTime";
-            this.InTime.Name = "InTime";
-            this.InTime.OptionsColumn.AllowEdit = false;
-            this.InTime.OptionsColumn.AllowMove = false;
-            this.InTime.OptionsColumn.ReadOnly = true;
-            this.InTime.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.InTime.Visible = true;
-            this.InTime.VisibleIndex = 2;
-            this.InTime.Width = 110;
-            // 
-            // OutTime
-            // 
-            this.OutTime.Caption = "OutTime";
-            this.OutTime.FieldName = "OutTime";
-            this.OutTime.Name = "OutTime";
-            this.OutTime.OptionsColumn.AllowEdit = false;
-            this.OutTime.OptionsColumn.AllowMove = false;
-            this.OutTime.OptionsColumn.ReadOnly = true;
-            this.OutTime.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.OutTime.Visible = true;
-            this.OutTime.VisibleIndex = 3;
-            this.OutTime.Width = 108;
-            // 
-            // ShiftCode
-            // 
-            this.ShiftCode.Caption = "ShiftCode";
-            this.ShiftCode.FieldName = "ShiftCode";
-            this.ShiftCode.Name = "ShiftCode";
-            this.ShiftCode.OptionsColumn.AllowEdit = false;
-            this.ShiftCode.OptionsColumn.AllowMove = false;
-            this.ShiftCode.OptionsColumn.ReadOnly = true;
-            this.ShiftCode.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.ShiftCode.Visible = true;
-            this.ShiftCode.VisibleIndex = 4;
-            this.ShiftCode.Width = 81;
-            // 
-            // TPAHours
-            // 
-            this.TPAHours.Caption = "TPAHours";
-            this.TPAHours.FieldName = "TPAHours";
-            this.TPAHours.Name = "TPAHours";
-            this.TPAHours.OptionsColumn.AllowEdit = false;
-            this.TPAHours.OptionsColumn.AllowMove = false;
-            this.TPAHours.OptionsColumn.ReadOnly = true;
-            this.TPAHours.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.TPAHours.Visible = true;
-            this.TPAHours.VisibleIndex = 5;
-            this.TPAHours.Width = 102;
+            this.colReason.Caption = "Reason";
+            this.colReason.FieldName = "Reason";
+            this.colReason.Name = "colReason";
+            this.colReason.OptionsColumn.AllowEdit = false;
+            this.colReason.OptionsColumn.AllowMove = false;
+            this.colReason.OptionsColumn.ReadOnly = true;
+            this.colReason.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.colReason.Visible = true;
+            this.colReason.VisibleIndex = 1;
+            this.colReason.Width = 136;
             // 
             // Remarks
             // 
@@ -223,8 +161,8 @@
             this.Remarks.OptionsColumn.ReadOnly = true;
             this.Remarks.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.Remarks.Visible = true;
-            this.Remarks.VisibleIndex = 7;
-            this.Remarks.Width = 272;
+            this.Remarks.VisibleIndex = 2;
+            this.Remarks.Width = 270;
             // 
             // groupControl1
             // 
@@ -289,17 +227,7 @@
             this.txtBrowse.Size = new System.Drawing.Size(543, 23);
             this.txtBrowse.TabIndex = 0;
             // 
-            // Reason
-            // 
-            this.Reason.Caption = "Reason";
-            this.Reason.FieldName = "Reason";
-            this.Reason.Name = "Reason";
-            this.Reason.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.Reason.Visible = true;
-            this.Reason.VisibleIndex = 6;
-            this.Reason.Width = 184;
-            // 
-            // frmBulkSanction
+            // frmBulkEmpBlockPunching
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Appearance.Options.UseFont = true;
@@ -308,9 +236,9 @@
             this.ClientSize = new System.Drawing.Size(945, 602);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "frmBulkSanction";
-            this.Text = "Bulk Sanction";
-            this.Load += new System.EventHandler(this.frmBulkSanction_Load);
+            this.Name = "frmBulkEmpBlockPunching";
+            this.Text = "Bulk Employee Block - Punching Card";
+            this.Load += new System.EventHandler(this.frmBulkEmpBlockPunching_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -334,14 +262,9 @@
         private System.Windows.Forms.TextBox txtBrowse;
         private DevExpress.XtraGrid.GridControl grd_view;
         private DevExpress.XtraGrid.Views.Grid.GridView grd_view1;
-        private DevExpress.XtraGrid.Columns.GridColumn EmpUnqID;
+        private DevExpress.XtraGrid.Columns.GridColumn colEmpUnqID;
         private System.Windows.Forms.Button btnExport;
-        private DevExpress.XtraGrid.Columns.GridColumn SanDate;
-        private DevExpress.XtraGrid.Columns.GridColumn InTime;
-        private DevExpress.XtraGrid.Columns.GridColumn OutTime;
-        private DevExpress.XtraGrid.Columns.GridColumn ShiftCode;
-        private DevExpress.XtraGrid.Columns.GridColumn TPAHours;
+        private DevExpress.XtraGrid.Columns.GridColumn colReason;
         private DevExpress.XtraGrid.Columns.GridColumn Remarks;
-        private DevExpress.XtraGrid.Columns.GridColumn Reason;
     }
 }

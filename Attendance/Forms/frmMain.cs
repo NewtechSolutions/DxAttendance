@@ -130,6 +130,7 @@ namespace Attendance
             //set ShiftList
             Globals.SetShiftList();
 
+            Globals.SetMasterIPList();
             //set global vars
             Globals.GetGlobalVars();
 
@@ -1309,6 +1310,17 @@ namespace Attendance
             if (t == null)
             {
                 Attendance.Forms.frmBulkCostCodeSanManPower m = new Attendance.Forms.frmBulkCostCodeSanManPower();
+                m.MdiParent = this;
+                m.Show();
+            }
+        }
+
+        private void mnuBulkEmpBlock_Click(object sender, EventArgs e)
+        {
+            Form t = Application.OpenForms["frmBulkEmpBlockPunching"];
+            if (t == null)
+            {
+                Attendance.Forms.frmBulkEmpBlockPunching m = new Attendance.Forms.frmBulkEmpBlockPunching();
                 m.MdiParent = this;
                 m.Show();
             }

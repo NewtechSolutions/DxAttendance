@@ -37,6 +37,9 @@
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtStatEmail = new DevExpress.XtraEditors.TextEdit();
             this.txtStatDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtStatCode = new DevExpress.XtraEditors.TextEdit();
             this.label5 = new System.Windows.Forms.Label();
@@ -66,11 +69,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtCatDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtCatCode = new DevExpress.XtraEditors.TextEdit();
+            this.label11 = new System.Windows.Forms.Label();
             this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStatEmail.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptDesc.Properties)).BeginInit();
@@ -181,6 +186,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.txtStatEmail);
             this.groupBox1.Controls.Add(this.txtStatDesc);
             this.groupBox1.Controls.Add(this.txtStatCode);
             this.groupBox1.Controls.Add(this.label5);
@@ -201,6 +210,35 @@
             this.groupBox1.Size = new System.Drawing.Size(621, 187);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(99, 166);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(195, 14);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "* Used in Notification if configured";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(8, 144);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(81, 14);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Stat. Email ID";
+            // 
+            // txtStatEmail
+            // 
+            this.txtStatEmail.Location = new System.Drawing.Point(102, 143);
+            this.txtStatEmail.Name = "txtStatEmail";
+            this.txtStatEmail.Properties.Mask.EditMask = "[0-9@._A-Za-z ]+";
+            this.txtStatEmail.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtStatEmail.Properties.Mask.ShowPlaceHolders = false;
+            this.txtStatEmail.Properties.MaxLength = 50;
+            this.txtStatEmail.Size = new System.Drawing.Size(340, 20);
+            this.txtStatEmail.TabIndex = 18;
             // 
             // txtStatDesc
             // 
@@ -529,6 +567,15 @@
             this.txtCatCode.EditValueChanged += new System.EventHandler(this.txtCatCode_EditValueChanged);
             this.txtCatCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCatCode_KeyDown);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(448, 146);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(42, 14);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "(HOD)";
+            // 
             // frmMastStat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -546,6 +593,7 @@
             this.xtraTabPage1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtStatEmail.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStatCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptDesc.Properties)).EndInit();
@@ -610,5 +658,9 @@
         private System.Windows.Forms.Label label7;
         private DevExpress.XtraGrid.GridControl grid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private DevExpress.XtraEditors.TextEdit txtStatEmail;
+        private System.Windows.Forms.Label label11;
     }
 }

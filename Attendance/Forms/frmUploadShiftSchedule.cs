@@ -130,6 +130,25 @@ namespace Attendance.Forms
                 return;
             }
 
+            //added on 2020-10-01
+            int sheduleymt = Convert.ToInt32(txtYearMT.DateTime.ToString("yyyyMM"));
+            int curymt = Convert.ToInt32(DateTime.Now.ToString("yyyyMM"));        
+            if(sheduleymt >= curymt)
+            {
+                if((sheduleymt - curymt) >= 2)
+                {
+                    MessageBox.Show("future month shedule will not be allowed.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+            }
+
+            if(sheduleymt < curymt)
+            {
+                MessageBox.Show("Previous month shedule would not be allowed.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            ///
 
             Cursor.Current = Cursors.WaitCursor;
 

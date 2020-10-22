@@ -249,7 +249,11 @@ namespace Attendance.Forms
                 err += "Please enter required data.." + Environment.NewLine;
             }
     
-   
+            if(string.IsNullOrEmpty(txtRemarks.Text.Trim().ToString()))
+            {
+                err += "Please enter Remark/Reason.." + Environment.NewLine;
+            }
+
             return err;
         }
 
