@@ -391,10 +391,9 @@ namespace Attendance.Forms
                 "<tr><td>Date And Time</td><td>" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "</td></tr>" +
                 "</table><br/><br/> " +
                  "*This is Auto-generated notification, do not reply on this e-mail id. </body></html>";
-                
-                
-            string err = EmailHelper.Email(to, cc, bcc, thead + tbody, tsubject, Globals.G_DefaultMailID,
-                        Globals.G_DefaultMailID, "", "");
+
+
+            string err = EmailHelper.Email(to, cc, bcc, thead + tbody, tsubject, Globals.G_DefaultMailID, Globals.G_DefaultMailDisplayName, "", "");
             
             MessageBox.Show(mailtype + " : Notification : Status : " + err,"Information",MessageBoxButtons.OK,MessageBoxIcon.Information );
 

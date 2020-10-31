@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txtAttdWebApiHost = new DevExpress.XtraEditors.TextEdit();
             this.chkJobNotification = new System.Windows.Forms.CheckBox();
             this.txtJobNotificationEmail = new DevExpress.XtraEditors.TextEdit();
             this.label13 = new System.Windows.Forms.Label();
@@ -55,7 +57,6 @@
             this.txtEmailID = new DevExpress.XtraEditors.TextEdit();
             this.label9 = new System.Windows.Forms.Label();
             this.btnUpdateNetwork = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnTimeDel = new System.Windows.Forms.Button();
@@ -111,9 +112,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtSanDayLimit = new DevExpress.XtraEditors.SpinEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.label23 = new System.Windows.Forms.Label();
-            this.txtAttdWebApiHost = new DevExpress.XtraEditors.TextEdit();
+            this.txtDisplayName = new DevExpress.XtraEditors.TextEdit();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttdWebApiHost.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).BeginInit();
@@ -155,11 +157,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtAttdWebApiHost.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDisplayName.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.txtDisplayName);
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.txtAttdWebApiHost);
             this.groupBox3.Controls.Add(this.chkJobNotification);
@@ -188,13 +192,31 @@
             this.groupBox3.Controls.Add(this.txtEmailID);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.btnUpdateNetwork);
-            this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Location = new System.Drawing.Point(14, 206);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(840, 308);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Default Network/Scheduling Configuration";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(7, 194);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(120, 14);
+            this.label23.TabIndex = 27;
+            this.label23.Text = "Attd Web Api Host :";
+            // 
+            // txtAttdWebApiHost
+            // 
+            this.txtAttdWebApiHost.Location = new System.Drawing.Point(138, 192);
+            this.txtAttdWebApiHost.Name = "txtAttdWebApiHost";
+            this.txtAttdWebApiHost.Properties.Mask.EditMask = "[a-zA-Z0-9@./:]+";
+            this.txtAttdWebApiHost.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtAttdWebApiHost.Properties.Mask.ShowPlaceHolders = false;
+            this.txtAttdWebApiHost.Size = new System.Drawing.Size(464, 20);
+            this.txtAttdWebApiHost.TabIndex = 6;
             // 
             // chkJobNotification
             // 
@@ -444,11 +466,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(74, 33);
+            this.label9.Location = new System.Drawing.Point(31, 34);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(58, 14);
+            this.label9.Size = new System.Drawing.Size(101, 14);
             this.label9.TabIndex = 3;
-            this.label9.Text = "Email ID :";
+            this.label9.Text = "Sender Email ID :";
             // 
             // btnUpdateNetwork
             // 
@@ -459,15 +481,6 @@
             this.btnUpdateNetwork.Text = "UpDate";
             this.btnUpdateNetwork.UseVisualStyleBackColor = true;
             this.btnUpdateNetwork.Click += new System.EventHandler(this.btnUpdateNetwork_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(392, 33);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(212, 14);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "* Manual report distribution on behalf";
             // 
             // groupBox2
             // 
@@ -1175,27 +1188,27 @@
             this.xtraTabPage2.Controls.Add(this.groupBox5);
             this.xtraTabPage2.Controls.Add(this.groupBox4);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(871, 504);
+            this.xtraTabPage2.Size = new System.Drawing.Size(871, 521);
             this.xtraTabPage2.Text = "Schedular";
             // 
-            // label23
+            // txtDisplayName
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(7, 194);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(120, 14);
-            this.label23.TabIndex = 27;
-            this.label23.Text = "Attd Web Api Host :";
+            this.txtDisplayName.Location = new System.Drawing.Point(586, 31);
+            this.txtDisplayName.Name = "txtDisplayName";
+            this.txtDisplayName.Properties.Mask.EditMask = "[a-zA-Z0-9@_./:]+";
+            this.txtDisplayName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDisplayName.Properties.Mask.ShowPlaceHolders = false;
+            this.txtDisplayName.Size = new System.Drawing.Size(248, 20);
+            this.txtDisplayName.TabIndex = 28;
             // 
-            // txtAttdWebApiHost
+            // label10
             // 
-            this.txtAttdWebApiHost.Location = new System.Drawing.Point(138, 192);
-            this.txtAttdWebApiHost.Name = "txtAttdWebApiHost";
-            this.txtAttdWebApiHost.Properties.Mask.EditMask = "[a-zA-Z0-9@./:]+";
-            this.txtAttdWebApiHost.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtAttdWebApiHost.Properties.Mask.ShowPlaceHolders = false;
-            this.txtAttdWebApiHost.Size = new System.Drawing.Size(464, 20);
-            this.txtAttdWebApiHost.TabIndex = 6;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(448, 34);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(129, 14);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "Sender Display Name :";
             // 
             // frmOtherConfig
             // 
@@ -1209,6 +1222,7 @@
             this.Load += new System.EventHandler(this.frmOtherConfig_Load);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtAttdWebApiHost.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtJobNotificationEmail.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdateChkPath.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtAutoDelExpEmpTime.Properties)).EndInit();
@@ -1254,7 +1268,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtLateComeSec.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSanDayLimit.Properties)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtAttdWebApiHost.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDisplayName.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1265,7 +1279,6 @@
         private DevExpress.XtraEditors.TextEdit txtEmailID;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnUpdateNetwork;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.TextEdit txtSMTPIP;
         private System.Windows.Forms.Label label3;
@@ -1346,5 +1359,7 @@
         private DevExpress.XtraEditors.SpinEdit txtGlobalExclude;
         private System.Windows.Forms.Label label23;
         private DevExpress.XtraEditors.TextEdit txtAttdWebApiHost;
+        private System.Windows.Forms.Label label10;
+        private DevExpress.XtraEditors.TextEdit txtDisplayName;
     }
 }

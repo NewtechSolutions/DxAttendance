@@ -263,6 +263,7 @@ namespace Attendance.Forms
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtEmailID.Text = dr["DefaultMailID"].ToString();
+                    txtDisplayName.Text = dr["MailDisplayName"].ToString();
                     txtSMTPIP.Text = dr["SmtpHostIP"].ToString();
                     txtReportServiceURL.Text = dr["ReportServiceURL"].ToString();
                     txtReportSerExeURL.Text = dr["ReportSerExeURL"].ToString();
@@ -379,11 +380,20 @@ namespace Attendance.Forms
                 return;
             }
 
+            if (string.IsNullOrEmpty(txtDisplayName.Text.Trim()))
+            {
+                MessageBox.Show("Please Specify Sender Display Name...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (string.IsNullOrEmpty(txtSMTPIP.Text.Trim()))
             {
                 MessageBox.Show("Please Specify SMTP Host IP...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            
+
 
             if (string.IsNullOrEmpty(txtReportServiceURL.Text.Trim()))
             {
@@ -454,6 +464,7 @@ namespace Attendance.Forms
                         string sql = "";
                         
                             sql = "Update MastNetwork Set DefaultMailID = '" + txtEmailID.Text.ToString() + "'," +
+                                " DefaultMailDisplayName = '" + txtDisplayName.Text.ToString() + "'," +
                             " SmtpHostIP ='" + txtSMTPIP.Text.ToString() + "', " +
                             " ReportServiceURL='" + txtReportServiceURL.Text.ToString() + "', " +
                             " ReportSerExeURL='" + txtReportSerExeURL.Text.ToString() + "', " +

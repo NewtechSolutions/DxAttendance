@@ -1687,7 +1687,7 @@ namespace Attendance.Forms
                              try
                              {
                                  cn.Open();
-                                 sql = "Update LeaveBal Set AVL ='" + LeaveAVL.ToString() + "', UpdDt = GetDate(), UpdID ='" + Utils.User.GUserID + "' Where " +
+                                 sql = "Update LeaveBal Set AVL ='" + LeaveAVL.ToString() + "',BAL = (OPN - " + LeaveAVL.ToString() + " + Enc), UpdDt = GetDate(), UpdID ='" + Utils.User.GUserID + "' Where " +
                                      " EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' and " +
                                      " tYear ='" + dr["tYear"].ToString() + "' and " +
                                      " WrkGrp ='" + dr["WrkGrp"].ToString() + "' And " +

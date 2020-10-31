@@ -646,7 +646,7 @@ namespace Attendance.Classes
         {
 
             DataSet ds = new DataSet();
-            string sql = "select * From MastCostCode where CostCode ='" + tCostCode.Trim() + "'";
+            string sql = "select * From MastCostCode where CostCode ='" + tCostCode.Trim() + "' and active = 1";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -847,7 +847,7 @@ namespace Attendance.Classes
             //check for CostCode ..
             if(this.CostCode.Trim() != "")
             {
-                string tsql1 = "select CostCode from MastCostCode where CostCode ='" + this.CostCode + "' " ;
+                string tsql1 = "select CostCode from MastCostCode where CostCode ='" + this.CostCode + "' and active = 1 " ;
                 string t3 = Utils.Helper.GetDescription(tsql1,Utils.Helper.constr);
                 if(string.IsNullOrEmpty(t3)){
                     err += "Invalid CostCode.." + Environment.NewLine;

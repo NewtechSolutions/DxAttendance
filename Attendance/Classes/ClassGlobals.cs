@@ -56,6 +56,8 @@ namespace Attendance.Classes
         public static string G_ReportServiceURL;
         public static string G_ReportSerExeUrl;
         public static string G_DefaultMailID;
+        public static string G_DefaultMailDisplayName;
+
         public static string G_SmtpHostIP;
         public static string G_ServerWorkerIP;
 
@@ -180,6 +182,7 @@ namespace Attendance.Classes
                     G_ReportServiceURL = dr["ReportServiceURL"].ToString();
                     G_ReportSerExeUrl = dr["ReportSerExeURL"].ToString();
                     G_DefaultMailID = dr["DefaultMailID"].ToString();
+                    G_DefaultMailDisplayName = dr["MailDisplayName"].ToString();
                     G_SmtpHostIP = dr["SmtpHostIP"].ToString();
                     G_ServerWorkerIP = dr["ServerWorkerIP"].ToString();                    
                     G_NetworkDomain = dr["NetworkDomain"].ToString();

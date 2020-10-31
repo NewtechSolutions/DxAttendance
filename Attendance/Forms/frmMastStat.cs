@@ -122,7 +122,7 @@ namespace Attendance.Forms
             //txtDeptDesc.Text = "";
             txtStatCode.Text = "";
             txtStatDesc.Text = "";
-            txtStatMail.Text = "";
+            txtStatEmail.Text = "";
             oldCode = "";
         }
 
@@ -501,7 +501,7 @@ namespace Attendance.Forms
                             txtStatCode.Text.Trim().ToString(),
                             txtStatDesc.Text.Trim().ToString(),                           
                             Utils.User.GUserID,
-                             txtStatMail.Text.Trim().ToString()
+                             txtStatEmail.Text.Trim().ToString()
                             );
 
                         cmd.CommandText = sql;
@@ -540,7 +540,7 @@ namespace Attendance.Forms
                             " Where CompCode = '{3}' and WrkGrp = '{4}' and UnitCode = '{5}' and DeptCode = '{6}'  and StatCode = '{7}'";
 
                         sql = string.Format(sql, txtStatDesc.Text.ToString().Trim(),
-                             Utils.User.GUserID, txtStatMail.Text.Trim().ToString(), txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
+                             Utils.User.GUserID, txtStatEmail.Text.Trim().ToString(), txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
                              txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim(),txtStatCode.Text.Trim()
                            );
 
@@ -873,7 +873,7 @@ namespace Attendance.Forms
                     
                     txtStatCode.Text = dr["StatCode"].ToString();
                     txtStatDesc.Text = dr["StatDesc"].ToString();
-                    txtStatMail.Text = dr["StatEMail"].ToString();
+                    txtStatEmail.Text = dr["StatEMail"].ToString();
 
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);

@@ -210,7 +210,7 @@ namespace Attendance.Forms
                         results = rsExec.Render(format, deviceInfo, out extension, out mimeType, out encoding,out warnings, out streamIDs);
                         MailAttachment m = new MailAttachment(results, "Monthly Attendance Report.xls");
                         Email(row["EmailTo"].ToString(), row["EmailCopy"].ToString(), row["BCCTo"].ToString(),
-                            "Monthly Attendance Report" , substr1, "attendance.ipu@jindalsaw.com", "Attendance IPU", "", "",subscrid, m );
+                            "Monthly Attendance Report", substr1, Globals.G_DefaultMailID, Globals.G_DefaultMailDisplayName, "", "", subscrid, m);
 
                         break; /* optional */
 
@@ -234,7 +234,7 @@ namespace Attendance.Forms
                         results = rsExec.Render(format, deviceInfo, out extension, out mimeType, out encoding,out warnings, out streamIDs);
                         MailAttachment m1 = new MailAttachment(results, "Daily Performance Report.xls");
                         Email(row["EmailTo"].ToString(), row["EmailCopy"].ToString(), row["BCCTo"].ToString(),
-                            "Daily Performance Report",substr2, "attendance.ipu@jindalsaw.com", "Attendance IPU", "", "", subscrid,m1);
+                            "Daily Performance Report", substr2, Globals.G_DefaultMailID, Globals.G_DefaultMailDisplayName, "", "", subscrid, m1);
 
                         break; /* optional */
                     case "Monthly Lunch Halfday Report":
@@ -262,7 +262,7 @@ namespace Attendance.Forms
                         results = rsExec.Render(format, deviceInfo, out extension, out mimeType, out encoding,out warnings, out streamIDs);
                         MailAttachment m2 = new MailAttachment(results, "Monthly Lunch Halfday Report.xls");
                         Email(row["EmailTo"].ToString(), row["EmailCopy"].ToString(), row["BCCTo"].ToString(),
-                            "Monthly Lunch Halfday Report", substr3, "attendance.ipu@jindalsaw.com", "Attendance IPU", "", "",subscrid, m2);
+                            "Monthly Lunch Halfday Report", substr3, Globals.G_DefaultMailID, Globals.G_DefaultMailDisplayName, "", "",subscrid, m2);
 
 
 
