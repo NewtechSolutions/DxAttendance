@@ -1958,13 +1958,30 @@ namespace Attendance.Classes
                             string ProType = dr["ProcessType"].ToString();
 
                             if (ProType == "ATTD")
+                            {
                                 pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
+                                
+                            }
                             else if (ProType == "LUNCHINOUT")
+                            {
                                 pro.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out tres);
+                                
+                            }                                
                             else if (ProType == "MESS")
+                            {
                                 pro.LunchProcess(tEmpUnqID, tFromDt, tToDt, out tres);
+                                
+                            }
                             else if (ProType == "EMPCOSTCODERPT")
+                            {
                                 pro.EmpCostCodeRpt_Process(tEmpUnqID, tFromDt, out tres, out err);
+                                
+                            }
+                            else if (ProType == "TRIPODDATA")
+                            {
+                                pro.TripodDataProcess(tEmpUnqID, tFromDt, tToDt, out tres);
+                               
+                            }
                             else
                                 pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
                             
