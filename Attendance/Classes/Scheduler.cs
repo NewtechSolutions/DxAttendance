@@ -174,6 +174,7 @@ namespace Attendance.Classes
             RegSchedule_DownloadPunch();
             RegSchedule_BlockUnBlockProcess();
             RegSchedule_GatePassPunchProcess();
+            RegSchedule_WDMSPunchTransferProcess();
             _ShutDown = false;  
         }
 
@@ -542,6 +543,275 @@ namespace Attendance.Classes
                     
                 }
             }
+        }
+
+
+        public void RegSchedule_WDMSPunchTransferProcess()
+        {
+            string jobid = "WDMSPunchTransferProcess";
+            string triggerid = "Trigger_WDMSPunchTransfer";
+
+            // define the job and tie it to our HelloJob class
+            IJobDetail job = JobBuilder.Create<WDMSPunchTransfer>()
+                    .WithDescription("Transfer of WDMS/iClock Punch")
+                .WithIdentity(jobid, "WDMSPunchTransfer")
+                .Build();
+
+            // Trigger the job to run every 3 minute
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity(triggerid, "TRG_WDMSPunchTransfer")
+                .StartNow()
+                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/15 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
+                .Build();
+
+            // Tell quartz to schedule the job using our trigger
+            scheduler.ScheduleJob(job, trigger);
+
+            ServerMsg tMsg = new ServerMsg();
+            tMsg.MsgType = "Job Building";
+            tMsg.MsgTime = DateTime.Now;
+            tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
+            Scheduler.Publish(tMsg);
+        }
+
+
+        public class WDMSPunchTransfer : IJob
+        {
+            public void Execute(IJobExecutionContext context)
+            {
+
+                string cnerr = string.Empty;
+
+                string wdms_cnstr = string.Empty, wdms_SrcPunchTable = string.Empty, wdms_PunchQuery = string.Empty;
+                string wdms_SyncUpdFieldName = string.Empty, wdms_AttdDestTableName = string.Empty;
+
+                wdms_cnstr = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='iClockConnStr'", Utils.Helper.constr, out cnerr);
+                wdms_SrcPunchTable = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='iClockSrcPunchTable'", Utils.Helper.constr, out cnerr);
+                wdms_PunchQuery = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='iClockPunchQuery'", Utils.Helper.constr, out cnerr);
+                wdms_SyncUpdFieldName = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='iClockSyncUpdFieldName'", Utils.Helper.constr, out cnerr);
+                wdms_AttdDestTableName = Utils.Helper.GetDescription("Select Config_Val from Mast_OtherConfig where Config_Key ='iClockAttdDestTableName'", Utils.Helper.constr, out cnerr);
+
+
+
+                if (string.IsNullOrEmpty(wdms_cnstr.Trim()))
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "Please Configure : iClockConnStr";
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(wdms_SrcPunchTable.Trim()))
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "Please Configure : iClockSrcPunchTable";
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(wdms_PunchQuery.Trim()))
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "Please Configure : iClockPunchQuery";
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(wdms_SyncUpdFieldName.Trim()))
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "Please Configure : iClockSyncUpdFieldName";
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(wdms_AttdDestTableName.Trim()))
+                {
+                    ServerMsg tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "Please Configure : iClockAttdDestTableName";
+                    Scheduler.Publish(tMsg);
+                    return;
+                }
+
+                string err = string.Empty;
+                DataSet dsMachine = Utils.Helper.GetData(wdms_PunchQuery, wdms_cnstr, out err);
+                bool hasRows = dsMachine.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+
+                if (hasRows)
+                {
+                    #region Destination
+
+                    foreach (DataRow dr in dsMachine.Tables[0].Rows)
+                    {
+                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                        {
+                            try
+                            {
+                                cn.Open();
+                            }
+                            catch (Exception ex)
+                            {
+                                ServerMsg tMsg = new ServerMsg();
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                                tMsg.Message = ex.Message;
+                                Scheduler.Publish(tMsg);
+                                return;
+                            }
+
+                            string sql = "Insert into [" + wdms_AttdDestTableName + "] (Punchdate,EmpUnqid,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1date,AddDt,AddID) Values (" +
+                                "'" + Convert.ToDateTime(dr["PunchDate"]).ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                                "'" + dr["EmpUnqID"].ToString().Trim() + "'," +
+                                "'" + dr["IOFLG"].ToString().Trim() + "'," +
+                                "'" + dr["MachineIP"].ToString().Trim() + "'," +
+                                "'" + dr["LunchFlg"].ToString().Trim() + "'," +
+                                "'" + dr["tYear"].ToString().Trim() + "'," +
+                                "'" + dr["tYearMT"].ToString().Trim() + "'," +
+                                "'" + Convert.ToDateTime(dr["t1date"]).ToString("yyyy-MM-dd") + "'," +
+                                " GetDate(),'iClock')";
+
+
+                            using (SqlCommand cmd = new SqlCommand())
+                            {
+                                try
+                                {
+                                    cmd.Connection = cn;
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+
+                                    dr[wdms_SyncUpdFieldName] = "1";
+
+                                    //schedule a process attd/lunch
+                                    if (dr["IOFLG"].ToString().Trim() == "B")
+                                    {
+                                        sql = "Insert into AttdWorker (EmpUnqID,FromDt,ToDt,Workerid,DoneFlg,PushFlg,AddDt,AddId,ProcessType) values" +
+                                        " ('" + dr["EmpUnqID"].ToString().Trim() + "','" + Convert.ToDateTime(dr["t1date"]).AddDays(-1).ToString("yyyy-MM-dd") + "' " +
+                                        " ,'" + Convert.ToDateTime(dr["t1date"]).ToString("yyyy-MM-dd") + "','SERVER',0,0,GetDate(),'SERVER','MESS')";
+                                    }
+                                    else
+                                    {
+                                        sql = "Insert into AttdWorker (EmpUnqID,FromDt,ToDt,Workerid,DoneFlg,PushFlg,AddDt,AddId,ProcessType) values" +
+                                        " ('" + dr["EmpUnqID"].ToString().Trim() + "','" + Convert.ToDateTime(dr["t1date"]).AddDays(-1).ToString("yyyy-MM-dd") + "' " +
+                                        " ,'" + Convert.ToDateTime(dr["t1date"]).ToString("yyyy-MM-dd") + "','SERVER',0,0,GetDate(),'SERVER','ATTD')";
+                                    }
+
+                                    cmd.CommandText = sql;
+                                    cmd.ExecuteNonQuery();
+
+                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                                    tMsg.Message = "importing wdms punch->ID :" + dr["id"].ToString() + "--" + dr["EmpUnqID"].ToString();
+                                    Scheduler.Publish(tMsg);
+                                }
+                                catch (Exception ex)
+                                {
+                                    dr[wdms_SyncUpdFieldName] = "0";
+                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                                    tMsg.Message = "importing wdms punch-> Error " + dr["id"].ToString() + "--" + dr["EmpUnqID"].ToString() + "--" + ex.Message.ToString();
+                                    Scheduler.Publish(tMsg);
+
+                                    if (ex.Message.Contains("Cannot insert duplicate key in object 'dbo.ATTDLOG'"))
+                                    {
+                                        dr[wdms_SyncUpdFieldName] = "1";
+                                    }
+                                }
+
+                            }//using command
+
+                            dsMachine.Tables[0].AcceptChanges();
+
+                        } //using connection
+
+
+                    }//for each loop
+                    #endregion
+
+                    #region srcupdate
+
+                    foreach (DataRow dr in dsMachine.Tables[0].Rows)
+                    {
+                        using (SqlConnection cn = new SqlConnection(wdms_cnstr))
+                        {
+                            try
+                            {
+                                cn.Open();
+                            }
+                            catch (Exception ex)
+                            {
+                                ServerMsg tMsg = new ServerMsg();
+                                tMsg.MsgTime = DateTime.Now;
+                                tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update Err";
+                                tMsg.Message = ex.Message;
+                                Scheduler.Publish(tMsg);
+                                return;
+                            }
+
+                            string sql = string.Empty;
+                            if (dr[wdms_SyncUpdFieldName].ToString() == "1")
+                            {
+                                sql = "Update [" + wdms_SrcPunchTable + "] " +
+                                " SET " + wdms_SyncUpdFieldName + " = '1'  Where id ='" + dr["id"].ToString() + "'";
+                            }
+                            else
+                            {
+                                sql = "Update [" + wdms_SrcPunchTable + "] " +
+                                " SET " + wdms_SyncUpdFieldName + " = null  Where id ='" + dr["id"].ToString() + "'";
+                            }
+
+
+
+                            using (SqlCommand cmd = new SqlCommand(sql, cn))
+                            {
+                                try
+                                {
+                                    cmd.ExecuteNonQuery();
+
+
+                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update";
+                                    tMsg.Message = wdms_SyncUpdFieldName + "->wdms table-> id :" + dr["id"].ToString();
+                                    Scheduler.Publish(tMsg);
+                                }
+                                catch (Exception ex)
+                                {
+                                    dr[wdms_SyncUpdFieldName] = 0;
+                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg.MsgTime = DateTime.Now;
+                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update Err";
+                                    tMsg.Message = wdms_SyncUpdFieldName + "->wdms table-> id :" + dr["id"].ToString() + " Error " + ex.Message.ToString();
+                                    Scheduler.Publish(tMsg);
+                                }
+
+                            }//using command
+
+
+
+                        } //using connection
+
+
+                    }//for each loop
+
+
+                    #endregion
+
+                }//if has rows
+
+            }// execute
+
         }
 
         public class AutoDeleteLeftEmp : IJob
@@ -1997,7 +2267,7 @@ namespace Attendance.Classes
                                     }
 
                                     tMsg.MsgTime = DateTime.Now;
-                                    tMsg.MsgType = "Auto Process";
+                                    tMsg.MsgType = "Auto Process->" + ProType;
                                     tMsg.Message = tEmpUnqID + ": Error=>" + err;
                                     Scheduler.Publish(tMsg);
                                 }

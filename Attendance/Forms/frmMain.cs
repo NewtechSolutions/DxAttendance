@@ -175,6 +175,7 @@ namespace Attendance
                 Globals.G_myscheduler.RegSchedule_DownloadPunch();
                 Globals.G_myscheduler.RegSchedule_BlockUnBlockProcess();
                 Globals.G_myscheduler.RegSchedule_GatePassPunchProcess();
+                Globals.G_myscheduler.RegSchedule_WDMSPunchTransferProcess();
             }
             else
             {
