@@ -150,6 +150,7 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.btnSetUserAccGroup = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -687,6 +688,7 @@
             // grpButtons1
             // 
             this.grpButtons1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons1.Controls.Add(this.btnSetUserAccGroup);
             this.grpButtons1.Controls.Add(this.optMachineType);
             this.grpButtons1.Controls.Add(this.btnUnBlock);
             this.grpButtons1.Controls.Add(this.btnBlock);
@@ -1772,6 +1774,17 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
+            // btnSetUserAccGroup
+            // 
+            this.btnSetUserAccGroup.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetUserAccGroup.Appearance.Options.UseFont = true;
+            this.btnSetUserAccGroup.Location = new System.Drawing.Point(472, 13);
+            this.btnSetUserAccGroup.Name = "btnSetUserAccGroup";
+            this.btnSetUserAccGroup.Size = new System.Drawing.Size(128, 27);
+            this.btnSetUserAccGroup.TabIndex = 12;
+            this.btnSetUserAccGroup.Text = "&Set User AccGroup";
+            this.btnSetUserAccGroup.Click += new System.EventHandler(this.btnSetUserAccGroup_Click);
+            // 
             // frmMastUserManagement
             // 
             this.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1980,5 +1993,6 @@
         private System.Windows.Forms.Button btnDownloadPhotos;
         private System.Windows.Forms.Button btnSetUserGroup;
         private System.Windows.Forms.Button btnSetUserFace;
+        private DevExpress.XtraEditors.SimpleButton btnSetUserAccGroup;
     }
 }

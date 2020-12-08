@@ -2175,6 +2175,59 @@ namespace Attendance.Forms
             this.Cursor = Cursors.Default;
             UnLockCtrl();
         }
+
+        private void btnSetUserAccGroup_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Machine not connected..");
+                    return;
+                }
+                List<UserBioInfo> tUsers = new List<UserBioInfo>();
+                m.DownloadAllUsers_QuickReport(out err, out tUsers);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                    return;
+                }
+
+                foreach (UserBioInfo b in tUsers)
+                {
+                    string err2 = string.Empty;
+                    bool vret = m.SetUserGroup(Convert.ToInt32(b.UserID), 1, out err2);
+                    
+                    Application.DoEvents();
+                }
+                m.RefreshData();
+                m.DisConnect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks","Group Set Complete");
+            }//for loop
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
+
+        }
         
     }
 
