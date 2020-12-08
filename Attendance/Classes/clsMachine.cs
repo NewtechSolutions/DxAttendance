@@ -1931,8 +1931,9 @@ namespace Attendance.Classes
             int _prev=0, _useridInt=0, _bkpno=0, _isenable=0, _machineno=0;
             string sUserID, sName, sPassword, sCardNumber;
             bool bEnabled = false;
-            //bool vRet = false;
-            bool vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
+            bool vRet = false;
+            
+            vRet = this.CZKEM1.ReadAllUserID(_machineno); // 'read all the user information to the memory
             if (!vRet)
             {
                 err = "Error : Can not read All UserID";

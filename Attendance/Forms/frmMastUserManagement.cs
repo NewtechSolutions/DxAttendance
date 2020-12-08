@@ -2228,6 +2228,12 @@ namespace Attendance.Forms
             MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tUserList.Clear();
+            grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
+        }
         
     }
 

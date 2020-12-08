@@ -67,6 +67,7 @@
             this.tbp_Main = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Main = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons1 = new System.Windows.Forms.GroupBox();
+            this.btnSetUserAccGroup = new DevExpress.XtraEditors.SimpleButton();
             this.optMachineType = new DevExpress.XtraEditors.RadioGroup();
             this.btnUnBlock = new DevExpress.XtraEditors.SimpleButton();
             this.btnBlock = new DevExpress.XtraEditors.SimpleButton();
@@ -150,7 +151,7 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnSetUserAccGroup = new DevExpress.XtraEditors.SimpleButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -225,9 +226,9 @@
             this.tblp.Location = new System.Drawing.Point(0, 0);
             this.tblp.Name = "tblp";
             this.tblp.RowCount = 3;
-            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 228F));
+            this.tblp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 234F));
             this.tblp.Size = new System.Drawing.Size(1142, 522);
             this.tblp.TabIndex = 0;
             // 
@@ -239,7 +240,7 @@
             this.grpButtons12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons12.Location = new System.Drawing.Point(3, 3);
             this.grpButtons12.Name = "grpButtons12";
-            this.grpButtons12.Size = new System.Drawing.Size(314, 66);
+            this.grpButtons12.Size = new System.Drawing.Size(314, 60);
             this.grpButtons12.TabIndex = 0;
             this.grpButtons12.TabStop = false;
             this.grpButtons12.Text = "Download Users";
@@ -274,6 +275,7 @@
             // 
             // grpButtons13
             // 
+            this.grpButtons13.Controls.Add(this.button1);
             this.grpButtons13.Controls.Add(this.btnDelEmp);
             this.grpButtons13.Controls.Add(this.btnAddEmp);
             this.grpButtons13.Controls.Add(this.label4);
@@ -300,7 +302,7 @@
             this.grpButtons13.Controls.Add(this.txtEmpUnqID);
             this.grpButtons13.Controls.Add(this.txtWrkGrpCode);
             this.grpButtons13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons13.Location = new System.Drawing.Point(3, 75);
+            this.grpButtons13.Location = new System.Drawing.Point(3, 69);
             this.grpButtons13.Name = "grpButtons13";
             this.grpButtons13.Size = new System.Drawing.Size(314, 216);
             this.grpButtons13.TabIndex = 1;
@@ -578,9 +580,9 @@
             // 
             this.groupBox3.Controls.Add(this.grd_Emp);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(3, 297);
+            this.groupBox3.Location = new System.Drawing.Point(3, 291);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(314, 222);
+            this.groupBox3.Size = new System.Drawing.Size(314, 228);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "List of Employee";
@@ -591,7 +593,7 @@
             this.grd_Emp.Location = new System.Drawing.Point(3, 18);
             this.grd_Emp.MainView = this.gv_Emp;
             this.grd_Emp.Name = "grd_Emp";
-            this.grd_Emp.Size = new System.Drawing.Size(308, 201);
+            this.grd_Emp.Size = new System.Drawing.Size(308, 207);
             this.grd_Emp.TabIndex = 4;
             this.grd_Emp.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Emp});
@@ -701,6 +703,17 @@
             this.grpButtons1.Size = new System.Drawing.Size(798, 74);
             this.grpButtons1.TabIndex = 0;
             this.grpButtons1.TabStop = false;
+            // 
+            // btnSetUserAccGroup
+            // 
+            this.btnSetUserAccGroup.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetUserAccGroup.Appearance.Options.UseFont = true;
+            this.btnSetUserAccGroup.Location = new System.Drawing.Point(472, 13);
+            this.btnSetUserAccGroup.Name = "btnSetUserAccGroup";
+            this.btnSetUserAccGroup.Size = new System.Drawing.Size(128, 27);
+            this.btnSetUserAccGroup.TabIndex = 12;
+            this.btnSetUserAccGroup.Text = "&Set User AccGroup";
+            this.btnSetUserAccGroup.Click += new System.EventHandler(this.btnSetUserAccGroup_Click);
             // 
             // optMachineType
             // 
@@ -1774,16 +1787,16 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
-            // btnSetUserAccGroup
+            // button1
             // 
-            this.btnSetUserAccGroup.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetUserAccGroup.Appearance.Options.UseFont = true;
-            this.btnSetUserAccGroup.Location = new System.Drawing.Point(472, 13);
-            this.btnSetUserAccGroup.Name = "btnSetUserAccGroup";
-            this.btnSetUserAccGroup.Size = new System.Drawing.Size(128, 27);
-            this.btnSetUserAccGroup.TabIndex = 12;
-            this.btnSetUserAccGroup.Text = "&Set User AccGroup";
-            this.btnSetUserAccGroup.Click += new System.EventHandler(this.btnSetUserAccGroup_Click);
+            this.button1.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(5, 194);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(52, 22);
+            this.button1.TabIndex = 95;
+            this.button1.Text = "Clear All";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmMastUserManagement
             // 
@@ -1994,5 +2007,6 @@
         private System.Windows.Forms.Button btnSetUserGroup;
         private System.Windows.Forms.Button btnSetUserFace;
         private DevExpress.XtraEditors.SimpleButton btnSetUserAccGroup;
+        private System.Windows.Forms.Button button1;
     }
 }
