@@ -654,6 +654,7 @@ namespace Attendance.Classes
                         t.tYearMt = Convert.ToInt32(t.t1Date.Year.ToString() + t.t1Date.Month.ToString("00"));
                         t.AddID = Utils.User.GUserID;
                         t.AddDt = DateTime.Now;
+                        t.VerifyMode = idwVerifyMode;
                         t.TableName = _tableName;
                         AttdLogRec.Add(t);
                         
@@ -682,6 +683,7 @@ namespace Attendance.Classes
                         t.AddID = Utils.User.GUserID;
                         t.AddDt = DateTime.Now;
                         t.TableName = _tableName;
+                        t.VerifyMode = idwVerifyMode;
                         AttdLogRec.Add(t);                        
                     }
                 }
@@ -2523,15 +2525,15 @@ namespace Attendance.Classes
             }
             else
             {
-                if (this.CZKEM1.SSR_GetUserInfo(_machineno, tEmpUnqID, out tmpuser, out tmppass, out tmppre, out tmpenable))
-                {
+                
                     //this.CZKEM1.SSR_DeleteEnrollData(_machineno, tEmpUnqID, 0);
-                    this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
+                    
                     this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, tEmpUnqID, 12);
+                    //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(tEmpUnqID), _machineno, 0);
                     this.CZKEM1.DelUserFace(_machineno, tEmpUnqID, 50);
 
                     StoreHistoryinDB(tEmpUnqID, false);
-                }
+                
             }
 
                  
@@ -2569,7 +2571,7 @@ namespace Attendance.Classes
             //    }
             //}
 
-            //this.CZKEM1.EnableDevice(_machineno, false);
+            this.CZKEM1.EnableDevice(_machineno, false);
 
             foreach (UserBioInfo emp in tUserList)
             {
@@ -2593,17 +2595,12 @@ namespace Attendance.Classes
                     {
                        
                         string tmpuser = string.Empty, tmppass = string.Empty;
-                        int tmppre = 0 ;
-                        bool tmpenable = false;
 
-                        if(this.CZKEM1.SSR_GetUserInfo(_machineno, emp.UserID,out tmpuser, out tmppass, out tmppre, out tmpenable))
-                        {
-                            this.CZKEM1.SSR_DeleteEnrollData(_machineno, emp.UserID, 0);
-                            this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
-                            this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
-                            this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
-                            StoreHistoryinDB(emp.UserID, false);
-                        }
+                        this.CZKEM1.SSR_DeleteEnrollDataExt(_machineno, emp.UserID, 12);
+                        //this.CZKEM1.DeleteEnrollData(_machineno, Convert.ToInt32(emp.UserID), _machineno, 0);
+                        this.CZKEM1.DelUserFace(_machineno, emp.UserID, 50);
+                        StoreHistoryinDB(emp.UserID, false);
+                        
                         
                     }
                 }// if no errors found 
@@ -2611,8 +2608,8 @@ namespace Attendance.Classes
             }//end foreach
 
 
-            //this.CZKEM1.RefreshData(_machineno);
-            //this.CZKEM1.EnableDevice(_machineno, true);
+            this.CZKEM1.RefreshData(_machineno);
+            this.CZKEM1.EnableDevice(_machineno, true);
 
             RetUserList = tUserList;
 

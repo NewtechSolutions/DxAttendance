@@ -837,6 +837,8 @@ namespace Attendance.Forms
                 m.EnableDevice(false);
                 foreach (UserBioInfo emp in tUserList)
                 {
+                    
+
                     m.Register(emp.UserID, out err);
                     if (!string.IsNullOrEmpty(err))
                     {
@@ -2233,6 +2235,88 @@ namespace Attendance.Forms
         {
             tUserList.Clear();
             grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
+        }
+
+        private void btnDelLeftUser_Click(object sender, EventArgs e)
+        {
+            ResetRemarks();
+            LockCtrl();
+            Cursor.Current = Cursors.WaitCursor;
+
+            for (int i = 0; i < gv_avbl.DataRowCount; i++)
+            {
+                string tsel = gv_avbl.GetRowCellValue(i, "SEL").ToString();
+                if (!Convert.ToBoolean(tsel))
+                    continue;
+
+                string ip = gv_avbl.GetRowCellValue(i, "MachineIP").ToString();
+                string ioflg = gv_avbl.GetRowCellValue(i, "IOFLG").ToString().Trim();
+                gv_avbl.SetRowCellValue(i, "Remarks", "Connecting");
+
+                clsMachine m = new clsMachine(ip, ioflg);
+                string err = string.Empty;
+
+                //try to connect
+                m.Connect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", err);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", "Machine not connected..");
+                    return;
+                }
+                List<UserBioInfo> tUsers = new List<UserBioInfo>();
+                m.DownloadAllUsers_QuickReport(out err, out tUsers);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    gv_avbl.SetRowCellValue(i, "Remarks", err);
+                    return;
+                }
+
+                int leftcnt = 0;
+
+                
+                foreach (UserBioInfo b in tUsers)
+                {
+                    bool tActive = false;
+                    bool tBlocked = false;
+                    bool tEmpFound = false;
+
+                    DataSet ds = Utils.Helper.GetData("Select EmpUnqID,Active,PunchingBlocked from MastEmp where Empunqid ='" + b.UserID + "'", Utils.Helper.constr, out err);
+
+                    bool hasRows = ds.Tables.Cast<DataTable>() .Any(table => table.Rows.Count != 0);
+
+                    if (hasRows)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        tActive = Convert.ToBoolean(dr["Active"]);
+                        tBlocked = Convert.ToBoolean(dr["PunchingBlocked"]);
+                        tEmpFound = true;
+                    }
+                    else
+                    {
+                        tActive = false;
+                        tBlocked = true;
+                        tEmpFound = false;
+                    }
+
+                    if (tActive == false || tBlocked == true)
+                    {
+                        leftcnt = leftcnt + 1;
+                        m.DeleteUser(b.UserID, out err);
+                    }
+
+                    
+                }
+
+                m.RefreshData();
+                m.DisConnect(out err);
+                gv_avbl.SetRowCellValue(i, "Remarks", "Deleted :" + Convert.ToString(leftcnt) + ", New Count : " + (tUsers.Count - leftcnt).ToString() );
+
+            }//for loop
+
+            UnLockCtrl();
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
         
     }

@@ -34,6 +34,7 @@
             this.cmbListMachine1 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btn_MasterDownload = new System.Windows.Forms.Button();
             this.grpButtons13 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnDelEmp = new System.Windows.Forms.Button();
             this.btnAddEmp = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -151,7 +152,7 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnDelLeftUser = new DevExpress.XtraEditors.SimpleButton();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -308,6 +309,17 @@
             this.grpButtons13.TabIndex = 1;
             this.grpButtons13.TabStop = false;
             this.grpButtons13.Text = "Add Emp. To Register/Delete/Block";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(5, 194);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(52, 22);
+            this.button1.TabIndex = 95;
+            this.button1.Text = "Clear All";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnDelEmp
             // 
@@ -690,6 +702,7 @@
             // grpButtons1
             // 
             this.grpButtons1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons1.Controls.Add(this.btnDelLeftUser);
             this.grpButtons1.Controls.Add(this.btnSetUserAccGroup);
             this.grpButtons1.Controls.Add(this.optMachineType);
             this.grpButtons1.Controls.Add(this.btnUnBlock);
@@ -1787,16 +1800,16 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
-            // button1
+            // btnDelLeftUser
             // 
-            this.button1.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(5, 194);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 22);
-            this.button1.TabIndex = 95;
-            this.button1.Text = "Clear All";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnDelLeftUser.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelLeftUser.Appearance.Options.UseFont = true;
+            this.btnDelLeftUser.Location = new System.Drawing.Point(606, 13);
+            this.btnDelLeftUser.Name = "btnDelLeftUser";
+            this.btnDelLeftUser.Size = new System.Drawing.Size(128, 27);
+            this.btnDelLeftUser.TabIndex = 13;
+            this.btnDelLeftUser.Text = "&Delete Left Employee";
+            this.btnDelLeftUser.Click += new System.EventHandler(this.btnDelLeftUser_Click);
             // 
             // frmMastUserManagement
             // 
@@ -2008,5 +2021,6 @@
         private System.Windows.Forms.Button btnSetUserFace;
         private DevExpress.XtraEditors.SimpleButton btnSetUserAccGroup;
         private System.Windows.Forms.Button button1;
+        private DevExpress.XtraEditors.SimpleButton btnDelLeftUser;
     }
 }

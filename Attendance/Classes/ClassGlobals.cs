@@ -913,10 +913,11 @@ namespace Attendance.Classes
         public string AddID;
         public string TableName;
         public string Error;
+        public int VerifyMode;
 
         public override string ToString()
         {
-            return IOFLG.ToString() + ";" + PunchDate.ToString("yyyy-MM-dd HH:mm:ss") + ";" + EmpUnqID.ToString() + ";" + MachineIP + ";" + ((LunchFlg) ? "1" : "0");
+            return IOFLG.ToString() + ";" + PunchDate.ToString("yyyy-MM-dd HH:mm:ss") + ";" + EmpUnqID.ToString() + ";" + MachineIP + ";" + ((LunchFlg) ? "1" : "0") + ";" + VerifyMode.ToString();
         }
 
         public string GetDBWriteString()
@@ -925,11 +926,11 @@ namespace Attendance.Classes
             if (this.TableName == string.Empty)
                 this.TableName = "AttdLog";
 
-            dbstr = "Insert into " + this.TableName.Trim() + " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
+            dbstr = "Insert into " + this.TableName.Trim() + " (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,verifymode) Values (" +
                 " '" + this.PunchDate.ToString("yyyy-MM-dd HH:mm:ss") + "','" + this.EmpUnqID + "','" + this.IOFLG + "','" + this.MachineIP + "'," +
                 " '" + ((this.LunchFlg) ? "1" : "0") + "','" + this.tYear.ToString() + "'," +
                 " '" + this.tYearMt.ToString() + "','" + this.t1Date.ToString("yyyy-MM-dd") + "'," +
-                " '" + this.AddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + Utils.User.GUserID + "');";
+                " '" + this.AddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + Utils.User.GUserID + "','" + this.VerifyMode.ToString() + "');";
 
             if (this.PunchDate.Year == 2000)
             {
@@ -948,11 +949,11 @@ namespace Attendance.Classes
             string dbstr = string.Empty;
            
             //if duplicate punch found place in errAttdLog
-            dbstr = "Insert into errATTDLOG (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID) Values (" +
+            dbstr = "Insert into errATTDLOG (PunchDate,EmpUnqID,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1Date,AddDt,AddID,verifymode) Values (" +
                 " '" + this.PunchDate.ToString("yyyy-MM-dd HH:mm:ss") + "','" + this.EmpUnqID + "','" + this.IOFLG + "','" + this.MachineIP + "'," +
                 " '" + ((this.LunchFlg) ? "1" : "0") + "','" + this.tYear.ToString() + "'," +
                 " '" + this.tYearMt.ToString() + "','" + this.t1Date.ToString("yyyy-MM-dd") + "'," +
-                " '" + this.AddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + Utils.User.GUserID + "');";
+                " '" + this.AddDt.ToString("yyyy-MM-dd HH:mm:ss") + "','" + Utils.User.GUserID + "','" + this.VerifyMode.ToString() +"');";
 
             return dbstr;
         }

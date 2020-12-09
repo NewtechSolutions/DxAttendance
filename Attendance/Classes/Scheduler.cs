@@ -561,7 +561,7 @@ namespace Attendance.Classes
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerid, "TRG_WDMSPunchTransfer")
                 .StartNow()
-                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/15 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
+                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/3 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
                 .Build();
 
             // Tell quartz to schedule the job using our trigger
