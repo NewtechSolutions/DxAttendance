@@ -2545,7 +2545,7 @@ namespace Attendance.Classes
                     {
                         connected = false;
                         string machineip = MainRow["MachineIP"].ToString();
-                        CZKEM tmpMachine = new CZKEM();    
+                        zkemkeeper.CZKEM tmpMachine = new zkemkeeper.CZKEM();    
                         //check if any pending machine operation if yes do it....
                         #region newmachinejob
                         sql = "Select  * from MastMachineUserOperation where DoneFlg = 0 and Operation ='BLOCK' And MachineIP ='" + machineip + "'";
@@ -2574,28 +2574,13 @@ namespace Attendance.Classes
 
                                     if (!isTft)
                                     {
-                                        Deleted = tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
-                                        
+                                        Deleted = tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);                                        
                                         Deleted = true;
                                     }
                                     else
-                                    {
-                                        
-                                        //tmpMachine.SSR_DeleteEnrollData(1, emp, 0);          
-                                        if (machineip.Contains(".99."))
-                                        {
-                                            Deleted = tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
-                                            tmpMachine.DelUserFace(1, emp, 50);
-                                        }
-                                        else
-                                        {
-                                            tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
-                                            tmpMachine.DelUserFace(1, emp, 50);
-                                            tmpMachine.SSR_DeleteEnrollData(1, emp, 0);
-                                            tmpMachine.DeleteEnrollData(1, Convert.ToInt32(emp), 1, 0);
-                                            Deleted = true;
-                                        }
-
+                                    {                                        
+                                        Deleted = tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
+                                        tmpMachine.DelUserFace(1, emp, 50);                                        
                                         tmpMachine.RefreshData(1);
                                     }
 
@@ -2636,6 +2621,7 @@ namespace Attendance.Classes
                         }
                         if (connected)
                         {
+                            tmpMachine.RefreshData(1);
                             tmpMachine.Disconnect();
                         }
                         #endregion
