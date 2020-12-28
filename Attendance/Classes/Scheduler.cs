@@ -669,7 +669,7 @@ namespace Attendance.Classes
                                 return;
                             }
 
-                            string sql = "Insert into [" + wdms_AttdDestTableName + "] (Punchdate,EmpUnqid,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1date,AddDt,AddID) Values (" +
+                            string sql = "Insert into [" + wdms_AttdDestTableName + "] (Punchdate,EmpUnqid,IOFLG,MachineIP,LunchFlg,tYear,tYearMt,t1date,AddDt,AddID,verifymode) Values (" +
                                 "'" + Convert.ToDateTime(dr["PunchDate"]).ToString("yyyy-MM-dd HH:mm:ss") + "'," +
                                 "'" + dr["EmpUnqID"].ToString().Trim() + "'," +
                                 "'" + dr["IOFLG"].ToString().Trim() + "'," +
@@ -678,7 +678,7 @@ namespace Attendance.Classes
                                 "'" + dr["tYear"].ToString().Trim() + "'," +
                                 "'" + dr["tYearMT"].ToString().Trim() + "'," +
                                 "'" + Convert.ToDateTime(dr["t1date"]).ToString("yyyy-MM-dd") + "'," +
-                                " GetDate(),'iClock')";
+                                " GetDate(),'" + dr["AddID"].ToString().Trim()  + "','" + dr["verifymode"].ToString() + "')";
 
 
                             using (SqlCommand cmd = new SqlCommand())
@@ -768,7 +768,7 @@ namespace Attendance.Classes
                             else
                             {
                                 sql = "Update [" + wdms_SrcPunchTable + "] " +
-                                " SET " + wdms_SyncUpdFieldName + " = null  Where id ='" + dr["id"].ToString() + "'";
+                                " SET " + wdms_SyncUpdFieldName + " = 0  Where id ='" + dr["id"].ToString() + "'";
                             }
 
 

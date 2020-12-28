@@ -751,9 +751,13 @@ namespace Attendance
                                                 drAttd["EarlyCome"] = "";
                                                 break;
                                             default:
-                                                if (drAttd["ConsIn"] is DateTime)
+                                                if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
                                                 {
                                                     drAttd["HalfDay"] = 1;
+                                                }
+                                                else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                {
+                                                    drAttd["HalfDay"] = 0;
                                                 }
                                                 break;
                                         }
@@ -774,9 +778,13 @@ namespace Attendance
                                                 drAttd["EarlyCome"] = "";
                                                 break;
                                             default:
-                                                if (drAttd["ConsIn"] is DateTime)
+                                                if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
                                                 {
                                                     drAttd["Status"] = "A";
+                                                    drAttd["HalfDay"] = 0;
+                                                }
+                                                else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                {
                                                     drAttd["HalfDay"] = 0;
                                                 }
                                                 break;
@@ -799,6 +807,10 @@ namespace Attendance
                                             )
                                         {
                                             drAttd["HalfDay"] = 1;
+                                        }
+                                        else
+                                        {
+                                            drAttd["HalfDay"] = 0;
                                         }
 
 
