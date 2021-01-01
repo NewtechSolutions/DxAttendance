@@ -69,6 +69,15 @@ namespace Utils
             return dir;
         }
 
+        static public string GetWDMSLogFilePath()
+        {
+            string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dir = System.IO.Path.Combine(dir, "WDMSLog");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
         static public string GetUserDataPath()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

@@ -409,8 +409,7 @@ namespace Attendance.Classes
 
            
         }
-
-
+        
         public void RegSchedule_WorkerProcess()
         {
             string jobid = "WorkerProcess";
@@ -544,8 +543,7 @@ namespace Attendance.Classes
                 }
             }
         }
-
-
+       
         public void RegSchedule_WDMSPunchTransferProcess()
         {
             string jobid = "WDMSPunchTransferProcess";
@@ -557,11 +555,11 @@ namespace Attendance.Classes
                 .WithIdentity(jobid, "WDMSPunchTransfer")
                 .Build();
 
-            // Trigger the job to run every 3 minute
+            // Trigger the job to run every 5 minute
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(triggerid, "TRG_WDMSPunchTransfer")
                 .StartNow()
-                .WithSchedule(CronScheduleBuilder.CronSchedule("0 0/3 * * * ?").WithMisfireHandlingInstructionFireAndProceed())
+                .WithSchedule(SimpleScheduleBuilder.RepeatSecondlyForever(120).RepeatForever().WithMisfireHandlingInstructionFireNow())
                 .Build();
 
             // Tell quartz to schedule the job using our trigger
@@ -573,12 +571,16 @@ namespace Attendance.Classes
             tMsg.Message = string.Format("Building Job Job ID : {0} And Trigger ID : {1}", jobid, triggerid);
             Scheduler.Publish(tMsg);
         }
-
-
+        
         public class WDMSPunchTransfer : IJob
         {
             public void Execute(IJobExecutionContext context)
             {
+                ServerMsg tMsg = new ServerMsg();
+                tMsg.MsgTime = DateTime.Now;
+                tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                tMsg.Message = "WDMS Punch Transfer starting";
+                Scheduler.Publish(tMsg);
 
                 string cnerr = string.Empty;
 
@@ -595,7 +597,7 @@ namespace Attendance.Classes
 
                 if (string.IsNullOrEmpty(wdms_cnstr.Trim()))
                 {
-                    ServerMsg tMsg = new ServerMsg();
+                    tMsg = new ServerMsg();
                     tMsg.MsgTime = DateTime.Now;
                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                     tMsg.Message = "Please Configure : iClockConnStr";
@@ -605,7 +607,7 @@ namespace Attendance.Classes
 
                 if (string.IsNullOrEmpty(wdms_SrcPunchTable.Trim()))
                 {
-                    ServerMsg tMsg = new ServerMsg();
+                    tMsg = new ServerMsg();
                     tMsg.MsgTime = DateTime.Now;
                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                     tMsg.Message = "Please Configure : iClockSrcPunchTable";
@@ -615,7 +617,7 @@ namespace Attendance.Classes
 
                 if (string.IsNullOrEmpty(wdms_PunchQuery.Trim()))
                 {
-                    ServerMsg tMsg = new ServerMsg();
+                    tMsg = new ServerMsg();
                     tMsg.MsgTime = DateTime.Now;
                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                     tMsg.Message = "Please Configure : iClockPunchQuery";
@@ -625,7 +627,7 @@ namespace Attendance.Classes
 
                 if (string.IsNullOrEmpty(wdms_SyncUpdFieldName.Trim()))
                 {
-                    ServerMsg tMsg = new ServerMsg();
+                    tMsg = new ServerMsg();
                     tMsg.MsgTime = DateTime.Now;
                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                     tMsg.Message = "Please Configure : iClockSyncUpdFieldName";
@@ -635,7 +637,7 @@ namespace Attendance.Classes
 
                 if (string.IsNullOrEmpty(wdms_AttdDestTableName.Trim()))
                 {
-                    ServerMsg tMsg = new ServerMsg();
+                    tMsg = new ServerMsg();
                     tMsg.MsgTime = DateTime.Now;
                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                     tMsg.Message = "Please Configure : iClockAttdDestTableName";
@@ -649,6 +651,12 @@ namespace Attendance.Classes
 
                 if (hasRows)
                 {
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = dsMachine.Tables[0].Rows.Count.ToString() + " Records Found";
+                    Scheduler.Publish(tMsg);
+                    
                     #region Destination
 
                     foreach (DataRow dr in dsMachine.Tables[0].Rows)
@@ -661,7 +669,7 @@ namespace Attendance.Classes
                             }
                             catch (Exception ex)
                             {
-                                ServerMsg tMsg = new ServerMsg();
+                                tMsg = new ServerMsg();
                                 tMsg.MsgTime = DateTime.Now;
                                 tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                                 tMsg.Message = ex.Message;
@@ -680,6 +688,11 @@ namespace Attendance.Classes
                                 "'" + Convert.ToDateTime(dr["t1date"]).ToString("yyyy-MM-dd") + "'," +
                                 " GetDate(),'" + dr["AddID"].ToString().Trim()  + "','" + dr["verifymode"].ToString() + "')";
 
+                            //tMsg = new ServerMsg();
+                            //tMsg.MsgTime = DateTime.Now;
+                            //tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                            //tMsg.Message = sql;
+                            //Scheduler.Publish(tMsg);
 
                             using (SqlCommand cmd = new SqlCommand())
                             {
@@ -708,7 +721,7 @@ namespace Attendance.Classes
                                     cmd.CommandText = sql;
                                     cmd.ExecuteNonQuery();
 
-                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg = new ServerMsg();
                                     tMsg.MsgTime = DateTime.Now;
                                     tMsg.MsgType = "WDMS->WDMSPunchTransfer";
                                     tMsg.Message = "importing wdms punch->ID :" + dr["id"].ToString() + "--" + dr["EmpUnqID"].ToString();
@@ -717,15 +730,19 @@ namespace Attendance.Classes
                                 catch (Exception ex)
                                 {
                                     dr[wdms_SyncUpdFieldName] = "0";
-                                    ServerMsg tMsg = new ServerMsg();
-                                    tMsg.MsgTime = DateTime.Now;
-                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
-                                    tMsg.Message = "importing wdms punch-> Error " + dr["id"].ToString() + "--" + dr["EmpUnqID"].ToString() + "--" + ex.Message.ToString();
-                                    Scheduler.Publish(tMsg);
+                                    
 
                                     if (ex.Message.Contains("Cannot insert duplicate key in object 'dbo.ATTDLOG'"))
                                     {
                                         dr[wdms_SyncUpdFieldName] = "1";
+                                    }
+                                    else
+                                    {
+                                        tMsg = new ServerMsg();
+                                        tMsg.MsgTime = DateTime.Now;
+                                        tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                                        tMsg.Message = "importing wdms punch-> Error " + dr["id"].ToString() + "--" + dr["EmpUnqID"].ToString() + "--" + ex.Message.ToString();
+                                        Scheduler.Publish(tMsg);
                                     }
                                 }
 
@@ -751,7 +768,7 @@ namespace Attendance.Classes
                             }
                             catch (Exception ex)
                             {
-                                ServerMsg tMsg = new ServerMsg();
+                                tMsg = new ServerMsg();
                                 tMsg.MsgTime = DateTime.Now;
                                 tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update Err";
                                 tMsg.Message = ex.Message;
@@ -780,16 +797,16 @@ namespace Attendance.Classes
                                     cmd.ExecuteNonQuery();
 
 
-                                    ServerMsg tMsg = new ServerMsg();
-                                    tMsg.MsgTime = DateTime.Now;
-                                    tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update";
-                                    tMsg.Message = wdms_SyncUpdFieldName + "->wdms table-> id :" + dr["id"].ToString();
-                                    Scheduler.Publish(tMsg);
+                                    //tMsg = new ServerMsg();
+                                    //tMsg.MsgTime = DateTime.Now;
+                                    //tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update";
+                                    //tMsg.Message = wdms_SyncUpdFieldName + "->wdms table-> id :" + dr["id"].ToString();
+                                    //Scheduler.Publish(tMsg);
                                 }
                                 catch (Exception ex)
                                 {
                                     dr[wdms_SyncUpdFieldName] = 0;
-                                    ServerMsg tMsg = new ServerMsg();
+                                    tMsg = new ServerMsg();
                                     tMsg.MsgTime = DateTime.Now;
                                     tMsg.MsgType = "WDMS->WDMSPunchTransfer->Source Update Err";
                                     tMsg.Message = wdms_SyncUpdFieldName + "->wdms table-> id :" + dr["id"].ToString() + " Error " + ex.Message.ToString();
@@ -808,7 +825,21 @@ namespace Attendance.Classes
 
                     #endregion
 
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "WDMS Transfer Complete";
+                    Scheduler.Publish(tMsg);
+
                 }//if has rows
+                else
+                {
+                    tMsg = new ServerMsg();
+                    tMsg.MsgTime = DateTime.Now;
+                    tMsg.MsgType = "WDMS->WDMSPunchTransfer";
+                    tMsg.Message = "WDMS No Records Founds";
+                    Scheduler.Publish(tMsg);
+                }
 
             }// execute
 

@@ -27,7 +27,7 @@ namespace Attendance.Forms
         private static string pcname = Utils.Helper.GetLocalPCName();
         private static IMqttClient mqtc;
         private static string TraceFilePath = Utils.Helper.GetTraceFilePath();
-
+        private static string WDMSFilePath = Utils.Helper.GetWDMSLogFilePath();
         public frmServerStatus()
         {
             InitializeComponent();
@@ -55,9 +55,18 @@ namespace Attendance.Forms
 
                     rtxtLoginMessage.Select(0, 0);
                     rtxtLoginMessage.SelectedText = text + Environment.NewLine;
+                    string filenminfo = string.Empty, fullpath2 = string.Empty;
 
-                    string filenminfo = "ServerStatus_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-                    string fullpath2 = Path.Combine(TraceFilePath, filenminfo);
+                    if (text.Contains("WDMS->"))
+                    {
+                        filenminfo = "WDMS_Status_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                        fullpath2 = Path.Combine(WDMSFilePath, filenminfo);
+                    }else
+                    {
+                        filenminfo = "ServerStatus_Info_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                        fullpath2 = Path.Combine(TraceFilePath, filenminfo);
+                    }
+                    
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(fullpath2, true))
                     {
                         file.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "-" + text);

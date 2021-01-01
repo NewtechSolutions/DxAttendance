@@ -738,6 +738,7 @@ namespace Attendance
                                     double.TryParse(drAttd["ConsWrkHrs"].ToString(), out tconswrkhrs);
                                     if (tconswrkhrs >= 4 && tconswrkhrs < 6 && drAttd["Status"].ToString() == "P")
                                     {
+                                        
                                         switch (drAttd["LeaveTyp"].ToString())
                                         {
                                             case "WO":
@@ -778,15 +779,30 @@ namespace Attendance
                                                 drAttd["EarlyCome"] = "";
                                                 break;
                                             default:
-                                                if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                if (drAttd["LeaveTyp"].ToString() != "")
                                                 {
-                                                    drAttd["Status"] = "A";
-                                                    drAttd["HalfDay"] = 0;
+                                                    if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                    {
+                                                        drAttd["Status"] = "A";
+                                                        drAttd["HalfDay"] = 0;
+                                                    }
+                                                    else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                    {
+                                                        drAttd["HalfDay"] = 0;
+                                                    }
                                                 }
-                                                else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                else
                                                 {
-                                                    drAttd["HalfDay"] = 0;
+                                                    
+                                                        drAttd["Status"] = "A";
+                                                        drAttd["HalfDay"] = 0;
+                                                        drAttd["LateCome"] = "";
+                                                        drAttd["EarlyGoing"] = "";
+                                                        drAttd["EarlyCome"] = "";
+                                                        
+                                                    
                                                 }
+                                                
                                                 break;
                                         }
                                         daAttdData.Update(dsAttdData, "AttdData");
