@@ -752,14 +752,18 @@ namespace Attendance
                                                 drAttd["EarlyCome"] = "";
                                                 break;
                                             default:
-                                                if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                if (drAttd["LeaveTyp"].ToString() != "")
                                                 {
-                                                    drAttd["HalfDay"] = 1;
+                                                    if (drAttd["ConsIn"] is DateTime && Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                    {
+                                                        drAttd["HalfDay"] = 1;
+                                                    }
+                                                    else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
+                                                    {
+                                                        drAttd["HalfDay"] = 0;
+                                                    }
                                                 }
-                                                else if (drAttd["ConsIn"] is DateTime && !Convert.ToBoolean(drAttd["LeaveHalf"]))
-                                                {
-                                                    drAttd["HalfDay"] = 0;
-                                                }
+                                                
                                                 break;
                                         }
                                         daAttdData.Update(dsAttdData, "AttdData");

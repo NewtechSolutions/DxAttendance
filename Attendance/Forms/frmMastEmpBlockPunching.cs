@@ -252,12 +252,35 @@ namespace Attendance.Forms
 
                             sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,Remarks) Values ('" + tmaxid + "','" +
                                 tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','UNBLOCK',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'" + txtRemarks.Text.Trim().ToString() + "')";
-                            
+
                             cmd.CommandText = sql;
                             cmd.ExecuteNonQuery();
 
                         }
-                        
+
+                        //NEW ADDED AUTO REGISTER IN ATTENDANCE MACHINE Whenever employee unblocked , at same location 
+                                                
+                        sql = "select id,MachineIP,EmpUnqID,IOFLG FROM MastMachineUserOperation " +
+                              " where EmpUnqID = '" + tEmpUnqID + "'" +
+                                " and Operation = 'BLOCK' " +
+                                " and MachineIp in (select MachineIP from ReaderConFig) " +
+                                " and id in (select max(id) from MastMachineUserOperation where EmpUnqID = '" + tEmpUnqID + "'" +
+                                " and Operation = 'BLOCK')";
+
+                        ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+                       
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+
+                            sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,Remarks) Values ('" + tmaxid + "','" +
+                                tEmpUnqID + "','" + dr["MachineIP"].ToString() + "','" + dr["IOFLG"].ToString() + "','REGISTER',GetDate(),'" + Utils.User.GUserID + "',0,GetDate(),'Auto Register by Unblock')";
+
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
+
+                        }
+
 
                         cmd.CommandText = "Update MastEmp Set PunchingBlocked = 0 where CompCode = '01' and EmpUnqID = '" + tEmpUnqID + "'";
                         cmd.ExecuteNonQuery();
