@@ -388,33 +388,35 @@ namespace Attendance.Forms
                         Application.DoEvents();
                         m.Register(tEmpUnqID, out err);
 
-                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                        if (string.IsNullOrEmpty(err))
                         {
-                            using (SqlCommand cmd = new SqlCommand())
+                            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
                             {
-                                try
+                                using (SqlCommand cmd = new SqlCommand())
                                 {
-                                    cn.Open();
-                                    cmd.Connection = cn;
+                                    try
+                                    {
+                                        cn.Open();
+                                        cmd.Connection = cn;
 
-                                    int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
+                                        int tmaxid = Convert.ToInt32(Utils.Helper.GetDescription("Select isnull(Max(ID),0) + 1 from MastMachineUserOperation", Utils.Helper.constr));
 
-                                    string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
-                                        tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKREGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'Completed')";
-
-
-                                    cmd.CommandText = sql;
-                                    cmd.ExecuteNonQuery();
-
-                                }
-                                catch (Exception ex)
-                                {
-
-                                }
-                            }//using command
-                        }//using connection
+                                        string sql = "insert into MastMachineUserOperation (ID,EmpUnqID,MachineIP,IOFLG,Operation,ReqDt,ReqBy,DoneFlg,AddDt,LastError) Values ('" + tmaxid + "','" +
+                                            tEmpUnqID + "','" + ip + "','" + ioflg + "','BULKREGISTER',GetDate(),'" + Utils.User.GUserID + "',1,GetDate(),'" + err + "')";
 
 
+                                        cmd.CommandText = sql;
+                                        cmd.ExecuteNonQuery();
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }//using command
+                            }//using connection
+                        }
+                        
                         dr["Remarks"] = (!string.IsNullOrEmpty(err) ? err : "Registered");
 
                     }
