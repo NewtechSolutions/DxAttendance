@@ -68,6 +68,7 @@
             this.tbp_Main = new DevExpress.XtraTab.XtraTabPage();
             this.tblp_Main = new System.Windows.Forms.TableLayoutPanel();
             this.grpButtons1 = new System.Windows.Forms.GroupBox();
+            this.btnDelLeftUser = new DevExpress.XtraEditors.SimpleButton();
             this.btnSetUserAccGroup = new DevExpress.XtraEditors.SimpleButton();
             this.optMachineType = new DevExpress.XtraEditors.RadioGroup();
             this.btnUnBlock = new DevExpress.XtraEditors.SimpleButton();
@@ -152,7 +153,7 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnDelLeftUser = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDownloadSpTemp = new System.Windows.Forms.Button();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -716,6 +717,17 @@
             this.grpButtons1.Size = new System.Drawing.Size(798, 74);
             this.grpButtons1.TabIndex = 0;
             this.grpButtons1.TabStop = false;
+            // 
+            // btnDelLeftUser
+            // 
+            this.btnDelLeftUser.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelLeftUser.Appearance.Options.UseFont = true;
+            this.btnDelLeftUser.Location = new System.Drawing.Point(606, 13);
+            this.btnDelLeftUser.Name = "btnDelLeftUser";
+            this.btnDelLeftUser.Size = new System.Drawing.Size(128, 27);
+            this.btnDelLeftUser.TabIndex = 13;
+            this.btnDelLeftUser.Text = "&Delete Left Employee";
+            this.btnDelLeftUser.Click += new System.EventHandler(this.btnDelLeftUser_Click);
             // 
             // btnSetUserAccGroup
             // 
@@ -1349,6 +1361,7 @@
             // grpButtons4
             // 
             this.grpButtons4.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpButtons4.Controls.Add(this.btnDownloadSpTemp);
             this.grpButtons4.Controls.Add(this.btnDownloadPhotos);
             this.grpButtons4.Controls.Add(this.lblReqNo);
             this.grpButtons4.Controls.Add(this.label14);
@@ -1653,7 +1666,7 @@
             // 
             // btnSetUserFace
             // 
-            this.btnSetUserFace.Location = new System.Drawing.Point(702, 23);
+            this.btnSetUserFace.Location = new System.Drawing.Point(632, 23);
             this.btnSetUserFace.Name = "btnSetUserFace";
             this.btnSetUserFace.Size = new System.Drawing.Size(68, 48);
             this.btnSetUserFace.TabIndex = 97;
@@ -1663,7 +1676,7 @@
             // 
             // btnSetUserGroup
             // 
-            this.btnSetUserGroup.Location = new System.Drawing.Point(628, 24);
+            this.btnSetUserGroup.Location = new System.Drawing.Point(558, 24);
             this.btnSetUserGroup.Name = "btnSetUserGroup";
             this.btnSetUserGroup.Size = new System.Drawing.Size(68, 48);
             this.btnSetUserGroup.TabIndex = 96;
@@ -1673,7 +1686,7 @@
             // 
             // btnBulkDelete
             // 
-            this.btnBulkDelete.Location = new System.Drawing.Point(509, 50);
+            this.btnBulkDelete.Location = new System.Drawing.Point(439, 50);
             this.btnBulkDelete.Name = "btnBulkDelete";
             this.btnBulkDelete.Size = new System.Drawing.Size(113, 23);
             this.btnBulkDelete.TabIndex = 95;
@@ -1684,7 +1697,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(105, 55);
+            this.label5.Location = new System.Drawing.Point(35, 56);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 14);
             this.label5.TabIndex = 94;
@@ -1692,7 +1705,7 @@
             // 
             // cmbListMachine2
             // 
-            this.cmbListMachine2.Location = new System.Drawing.Point(208, 52);
+            this.cmbListMachine2.Location = new System.Drawing.Point(138, 53);
             this.cmbListMachine2.Name = "cmbListMachine2";
             this.cmbListMachine2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1701,7 +1714,7 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(548, 23);
+            this.btnExport.Location = new System.Drawing.Point(478, 23);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(74, 23);
             this.btnExport.TabIndex = 4;
@@ -1711,7 +1724,7 @@
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(468, 23);
+            this.btnPreview.Location = new System.Drawing.Point(398, 23);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(74, 23);
             this.btnPreview.TabIndex = 3;
@@ -1721,7 +1734,7 @@
             // 
             // btnBulkUpload
             // 
-            this.btnBulkUpload.Location = new System.Drawing.Point(387, 50);
+            this.btnBulkUpload.Location = new System.Drawing.Point(317, 50);
             this.btnBulkUpload.Name = "btnBulkUpload";
             this.btnBulkUpload.Size = new System.Drawing.Size(113, 23);
             this.btnBulkUpload.TabIndex = 2;
@@ -1731,7 +1744,7 @@
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(387, 23);
+            this.btnBrowse.Location = new System.Drawing.Point(317, 23);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(74, 23);
             this.btnBrowse.TabIndex = 1;
@@ -1743,7 +1756,7 @@
             // 
             this.txtBrowse.Location = new System.Drawing.Point(9, 24);
             this.txtBrowse.Name = "txtBrowse";
-            this.txtBrowse.Size = new System.Drawing.Size(372, 22);
+            this.txtBrowse.Size = new System.Drawing.Size(302, 22);
             this.txtBrowse.TabIndex = 0;
             // 
             // grpButtons11
@@ -1800,16 +1813,15 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
-            // btnDelLeftUser
+            // btnDownloadSpTemp
             // 
-            this.btnDelLeftUser.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelLeftUser.Appearance.Options.UseFont = true;
-            this.btnDelLeftUser.Location = new System.Drawing.Point(606, 13);
-            this.btnDelLeftUser.Name = "btnDelLeftUser";
-            this.btnDelLeftUser.Size = new System.Drawing.Size(128, 27);
-            this.btnDelLeftUser.TabIndex = 13;
-            this.btnDelLeftUser.Text = "&Delete Left Employee";
-            this.btnDelLeftUser.Click += new System.EventHandler(this.btnDelLeftUser_Click);
+            this.btnDownloadSpTemp.Location = new System.Drawing.Point(445, 21);
+            this.btnDownloadSpTemp.Name = "btnDownloadSpTemp";
+            this.btnDownloadSpTemp.Size = new System.Drawing.Size(112, 53);
+            this.btnDownloadSpTemp.TabIndex = 75;
+            this.btnDownloadSpTemp.Text = "Download Special Templates";
+            this.btnDownloadSpTemp.UseVisualStyleBackColor = true;
+            this.btnDownloadSpTemp.Click += new System.EventHandler(this.btnDownloadSpTemp_Click);
             // 
             // frmMastUserManagement
             // 
@@ -2022,5 +2034,6 @@
         private DevExpress.XtraEditors.SimpleButton btnSetUserAccGroup;
         private System.Windows.Forms.Button button1;
         private DevExpress.XtraEditors.SimpleButton btnDelLeftUser;
+        private System.Windows.Forms.Button btnDownloadSpTemp;
     }
 }

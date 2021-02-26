@@ -88,7 +88,19 @@ namespace Attendance.Classes
                 ret = false;
                 _machinedesc = "Not Found...";
                 _machineno = 1;
-                
+                _istft = this.CZKEM1.IsTFTMachine(_machineno);
+                if (_istft)
+                {
+                    _rfid = true;
+                    _face = true;
+                    _finger = true;
+                }
+                else
+                {
+                    _rfid = true;
+                    _face = false;
+                    _finger = false;
+                }
                 _messflg = false;
                 _autoclear = false;
                 _lunchinout = false;
@@ -105,7 +117,6 @@ namespace Attendance.Classes
         {
             _ip = IPAddress;
             _ioflg = ioflg;
-
             _connected = false;
             _port = 4370;
             _LastErrCode = 0;
@@ -1437,7 +1448,7 @@ namespace Attendance.Classes
             
             //store registration info in db....
             StoreHistoryinDB(emp.UserID, true);
-
+            _istft = this.CZKEM1.IsTFTMachine(1);
             if (!_istft)
             {
                 this.CZKEM1.set_CardNumber(0, Convert.ToInt32(emp.CardNumber));
@@ -1455,40 +1466,31 @@ namespace Attendance.Classes
                 //if it not used in Mess set user face and finger
                 if (_messflg == false)
                 {
-                    //if (_face)
-                    //{
+                   
                         if (!string.IsNullOrEmpty(emp.FaceTemp))
                         {
                             this.CZKEM1.SetUserFaceStr(_machineno, emp.UserID, 50, emp.FaceTemp, emp.FaceLength);
                         }
-                    //}
+                   
+                   
+                        string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
+                              " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
+                              " and EmpUnqID = '" + emp.UserID + "'";
 
-                        if (!string.IsNullOrEmpty(emp.FingerTemp))
+                        DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+                        bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (hasrows)
                         {
-                            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(emp.FingerIndex), 1, emp.FingerTemp);  
+
+                            foreach (DataRow dr in ds.Tables[0].Rows)
+                            {
+                                if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
+                                {
+                                    //'upload templates information to the device
+                                    this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  
+                                }
+                            }
                         }
-
-                    //if (_finger)
-                    //{
-                        //string sql = "Select EmpUnqID,idx,Tmpdata,[length] from EmpBioData " +
-                        //      " where [type] = 'FINGER' AND TMPDATA IS NOT NULL AND MACHINEIP = 'Master' and MachineNo = '9999' " +
-                        //      " and EmpUnqID = '" + emp.UserID + "'";
-
-                        //DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-                        //bool hasrows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
-                        //if (hasrows)
-                        //{
-
-                        //    foreach (DataRow dr in ds.Tables[0].Rows)
-                        //    {
-                        //        if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
-                        //        {
-                        //            'upload templates information to the device
-                        //            this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  
-                        //        }
-                        //    }
-                        //}
-                    //}
                     
                     //this.CZKEM1.SetUserInfoEx(_machineno, Convert.ToInt32(emp.UserID), 146, 0);
                 }
@@ -1502,7 +1504,7 @@ namespace Attendance.Classes
             this.CZKEM1.EnableDevice(_machineno, isEnabled);
         }
 
-        public bool BeginBathUpload()
+        public bool BeginBatchUpload()
         {
             
             
@@ -1514,7 +1516,7 @@ namespace Attendance.Classes
             return this.CZKEM1.BeginBatchUpdate(_machineno, 1);
         }
 
-        public bool BathUpload()
+        public bool BatchUpload()
         {
             if (!_connected)
             {
@@ -2061,7 +2063,33 @@ namespace Attendance.Classes
         }
 
 
-       
+        public bool Get_UserFaceTempByIndex(string userid, int idx, out int templength, out string temp)
+        {
+            templength = 0;
+            temp = string.Empty;
+           
+            bool result = false;
+            if(_istft && _connected)
+            {
+               result = this.CZKEM1.GetUserFaceStr(1, userid,idx, ref temp,ref templength);
+            }
+
+            return result;
+        }
+
+        public bool Get_UserFingerTempByIndex(string userid, int idx, out int templength, out int Flag, out string temp)
+        {
+            templength = 0;
+            temp = string.Empty;
+            Flag = 0;
+            bool result = false;
+            if (_istft && _connected)
+            {
+                result = this.CZKEM1.GetUserTmpExStr(1, userid, idx,out Flag, out temp, out templength);
+            }
+
+            return result;
+        }
 
 
         /// <summary>

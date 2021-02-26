@@ -2320,6 +2320,86 @@ namespace Attendance.Forms
             Cursor.Current = Cursors.Default;
             MessageBox.Show("Completed", "Info", MessageBoxButtons.OK);
         }
+
+        private void btnDownloadSpTemp_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtIPAdd1.Text.Trim()))
+            {
+                MessageBox.Show("Please Enter IP Address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string ip = txtIPAdd1.Text.Trim().ToString();
+            string ioflg = "B";
+            clsMachine m = new clsMachine(ip, ioflg);
+            
+            string err = string.Empty;
+            m.Connect(out err);
+            if (!string.IsNullOrEmpty(err))
+            {
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            LockCtrl();
+
+            this.Cursor = Cursors.WaitCursor;
+
+            List<UserBioInfo> tmpuser = new List<UserBioInfo>();
+            m.DownloadAllUsers_QuickReport(out err, out tmpuser);
+
+            
+
+            if (tmpuser.Count > 0)
+            {
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    try
+                    {
+                        cn.Open();
+                        
+                        string sql = string.Empty;
+
+                        SqlCommand cmd = new SqlCommand();
+
+                        foreach (UserBioInfo emp in tmpuser)
+                        {
+
+                            sql = "Delete From tmp_templates where MachineIP='" + ip + "' And EmpUnqID ='" + emp.UserID + "' and tmptype ='RFID' ; " +
+                            " Insert Into tmp_templates (MachineIP,EmpUnqID,tmptype,tmpidx,tmplen,template,AddDt,AddID )" +
+                            " Values ('" + ip + "','" + emp.UserID + "','RFID',0,0,'" + emp.CardNumber + "',GetDate(),'" + Utils.User.GUserID + "')";
+
+                            cmd = new SqlCommand(sql, cn);
+                            cmd.ExecuteNonQuery();
+                            int templen = 0; string tempate = string.Empty;
+                            bool x = m.Get_UserFaceTempByIndex(emp.UserID, 50, out templen, out tempate);
+                            if (x)
+                            {
+                                sql = "Delete From tmp_templates where MachineIP='" + ip + "' And EmpUnqID ='" + emp.UserID + "' and tmptype ='FACE' and tmpIdx ='50' ; " +
+                                     " Insert Into tmp_templates (MachineIP,EmpUnqID,tmptype,tmpidx,tmplen,template,AddDt,AddID )" +
+                                     " Values ('" + ip + "','" + emp.UserID + "','FACE','50','" + templen + "','" + tempate + "',GetDate(),'" + Utils.User.GUserID + "')";
+
+                                cmd = new SqlCommand(sql, cn);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        m.DisConnect(out err);
+                        UnLockCtrl();
+                        this.Cursor = Cursors.Default;
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+            m.DisConnect(out err);
+            UnLockCtrl();
+            this.Cursor = Cursors.Default;
+            MessageBox.Show("template downloaded", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
         
     }
 

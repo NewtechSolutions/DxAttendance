@@ -2198,7 +2198,11 @@ namespace Attendance
                     #endregion SchShiftCalc
                 }
 
-                
+                if (Convert.ToDecimal(drAttd["ConsWrkHrs"]) > 4 && Convert.ToDecimal(drAttd["ConsWrkHrs"]) <= 6 && eGradeCode <= Globals.G_GlobalGradeExclude)
+                {
+                    drAttd["Halfday"] = 1;
+                    daAttdData.Update(dsAttdData, "AttdData");
+                }
 
 
                 #region OTCalc
