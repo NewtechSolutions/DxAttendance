@@ -113,6 +113,14 @@ namespace Attendance.Forms
             {
                 err = err + "Please Enter EmpUnqID..." + Environment.NewLine;
             }
+            else
+            {
+                if (ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() == Utils.User.GUserID)
+                {
+                    err = err + "Self Sanction is not allowed..." + Environment.NewLine;
+                    return err;
+                }
+            }
 
             if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid )
             {

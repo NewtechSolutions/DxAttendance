@@ -741,6 +741,12 @@ namespace Attendance.Forms
             {
                 dr["Remarks"] = "Processing";
                 string tEmpUnqID = dr["EmpUnqID"].ToString();
+
+                if (tEmpUnqID == Utils.User.GUserID)
+                {
+                    dr["Remarks"] = "Self Sanction is not allowed";
+                    continue;
+                }
                 string status = string.Empty;
 
                 if(GType == "WO")

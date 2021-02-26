@@ -86,7 +86,14 @@ namespace Attendance.Forms
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
             }
-
+            else
+            {
+                if (t.EmpUnqID == Utils.User.GUserID)
+                {
+                    err = err + "Self Sanction is not allowed..." + Environment.NewLine;
+                    return err;
+                }
+            }
             return err;
         }
 
