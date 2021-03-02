@@ -770,6 +770,9 @@ namespace Attendance
                                                         {
                                                             drAttd["Status"] = "A";
                                                             drAttd["halfday"] = 0;
+                                                            drAttd["LateCome"] = "";
+                                                            drAttd["EarlyGoing"] = "";
+                                                            drAttd["EarlyCome"] = "";
                                                         }
                                                     }
                                                 }
