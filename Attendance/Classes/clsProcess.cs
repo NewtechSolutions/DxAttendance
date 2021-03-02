@@ -762,7 +762,18 @@ namespace Attendance
                                                     {
                                                         drAttd["HalfDay"] = 0;
                                                     }
+                                                }else
+                                                {
+                                                    if (Emp.WrkGrp != "COMP" && drAttd["Status"].ToString() == "P")
+                                                    {
+                                                        if (tconswrkhrs < 6 )
+                                                        {
+                                                            drAttd["Status"] = "A";
+                                                            drAttd["halfday"] = 0;
+                                                        }
+                                                    }
                                                 }
+
                                                 
                                                 break;
                                         }
@@ -1569,6 +1580,7 @@ namespace Attendance
                                             drAttd["EarlyGoing"] = "";
 
                                         }
+                                        
                                         
                                     }
                                 }
