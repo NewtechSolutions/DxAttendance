@@ -1402,7 +1402,13 @@ namespace Attendance.Classes
                                 {
                                     if (!string.IsNullOrEmpty(dr["TmpData"].ToString()))
                                     {
-                                        this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  //'upload templates information to the device
+                                       bool x = this.CZKEM1.SetUserTmpExStr(_machineno, emp.UserID, Convert.ToInt32(dr["idx"]), 1, dr["TmpData"].ToString());  //'upload templates information to the device
+
+                                       if (!x)
+                                       {
+                                           err = "finger not registered....";
+                                       }
+                                    
                                     }
                                 }
                             }
@@ -2325,7 +2331,6 @@ namespace Attendance.Classes
             {
                 if (_istft)
                 {
-                    this.CZKEM1.ReadAllTemplate(_machineno);
 
                     foreach (UserBioInfo emp in tUserList)
                     {
@@ -2363,74 +2368,43 @@ namespace Attendance.Classes
                             }
                         }
 
-                        //if (_finger)
-                        //{
-                        //    double fpversion = 0;
-                        //    double.TryParse(_fingerprintversion, out fpversion);
-                        //    if (fpversion >= 10)
-                        //    {
-
-                        //        //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
-                        //        for (int i = 0; i <= 9; i++)
-                        //        {
-                        //            UserBioInfo tmpuser2 = new UserBioInfo();
-                        //            tmpuser2.CardNumber = emp.CardNumber;
-                        //            tmpuser2.UserID = emp.UserID;
-                        //            tmpuser2.Password = emp.Password;
-                        //            tmpuser2.Previlege = emp.Previlege;
-                        //            tmpuser2.Enabled = emp.Enabled;
-                        //            if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
-                        //            {
-                        //                tmpuser2.FingerIndex = i;
-                        //                tmpuser2.FingerLength = _fingerlength;
-                        //                tmpuser2.FingerTemp = _fingertemp;
-                        //                fingerusers.Add(tmpuser2);
-                        //            }
-                        //        }  
+                        if (_finger)
+                        {
+                            double fpversion = 0;
+                            double.TryParse(_fingerprintversion, out fpversion);
+                            if (this.CZKEM1.ReadAllTemplate(_machineno))
+                            {
                                 
-                        //        ///this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, 0, out _fingerflg, out _fingertemp, out _fingerlength);
-
-                        //    }
-                        //    else if (fpversion == 9)
-                        //    {
-
-                        //        //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
-                        //        for (int i = 0; i <= 9; i++)
-                        //        {
-                        //            UserBioInfo tmpuser2 = new UserBioInfo();
-                        //            tmpuser2.CardNumber = emp.CardNumber;
-                        //            tmpuser2.UserID = emp.UserID;
-                        //            tmpuser2.Password = emp.Password;
-                        //            tmpuser2.Previlege = emp.Previlege;
-                        //            tmpuser2.Enabled = emp.Enabled;
-                        //            if (this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength))
-                        //            {
-                        //                tmpuser2.FingerIndex = i;
-                        //                tmpuser2.FingerLength = _fingerlength;
-                        //                tmpuser2.FingerTemp = _fingertemp;
-                        //                fingerusers.Add(tmpuser2);
-                        //            }
-                        //        }  
+                                for (int i = 0; i <= 9; i++)
+                                {
+                                    UserBioInfo tmpuser2 = new UserBioInfo();
+                                    tmpuser2.CardNumber = emp.CardNumber;
+                                    tmpuser2.UserID = emp.UserID;
+                                    tmpuser2.Password = emp.Password;
+                                    tmpuser2.Previlege = emp.Previlege;
+                                    tmpuser2.Enabled = emp.Enabled;
+                                    //if (CZKEM1.SSR_GetUserTmpStr(_machineno, _userid, i,  out _fingertemp, out _fingerlength))
+                                    if (this.CZKEM1.GetUserTmpExStr(_machineno, emp.UserID, i, out _fingerflg, out _fingertemp, out _fingerlength))
+                                    {
+                                        tmpuser2.FingerIndex = i;
+                                        tmpuser2.FingerLength = _fingerlength;
+                                        tmpuser2.FingerTemp = _fingertemp;
+                                        emp.FingerIndex = i;
+                                        emp.FingerTemp = _fingertemp;
+                                        emp.FingerLength = _fingerlength;
+                                        fingerusers.Add(tmpuser2);
+                                    }
+                                }
+                            }
                                 
-                        //        //this.CZKEM1.GetUserTmpStr(_machineno, Convert.ToInt32(emp.UserID), 0, ref _fingertemp, ref _fingerlength);
-                        //    }
-                        //    else
-                        //    {
-                        //        emp.err += emp.err + "Can not determine Finger print version" + Environment.NewLine;
-                        //        continue;
-                        //    }
+                            if (string.IsNullOrEmpty(emp.FingerTemp))
+                            {
+                                emp.err += emp.err + "Finger Template Not Found..." + Environment.NewLine;
+                            }
+                        }
 
-                        //    emp.FingerTemp = _fingertemp;
-                        //    emp.FingerLength = _fingerlength;
-                        //    if (string.IsNullOrEmpty(_fingertemp))
-                        //    {
-                        //        emp.err += emp.err + "Finger Template Not Found..." + Environment.NewLine;
-                        //    }
-                        //}
-
-                    }//end foreach loop
+                    }//end foreach main given employee 
                     
-
                 }
                 else
                 {
@@ -2458,25 +2432,18 @@ namespace Attendance.Classes
             }
             else
             {
-                foreach(UserBioInfo t in fingerusers)
-                {
-                    tUserList.Add(t);
-                }
-                
                 RetUserList = tUserList;
                 err = "Can not read all users";
                 return;
             }
+            
             //save to db
-
             foreach (UserBioInfo emp in tUserList)
             {
                 if (_rfid)
                 {
                     if (!string.IsNullOrEmpty(emp.CardNumber))
                     {
-                       
-                        //emp.UserName = "";
                         emp.StoreToDb(1, out err);
                         emp.err += err;
                     }
@@ -2486,21 +2453,24 @@ namespace Attendance.Classes
                 {
                     if (!string.IsNullOrEmpty(emp.FaceTemp))
                     {
-                        //emp.UserName = "";
                         emp.StoreToDb(2, out err);
                         emp.err += err;
                     }
                 }
 
-                //if (_finger)
-                //{
-                //    if (!string.IsNullOrEmpty(emp.FingerTemp))
-                //    {
-                //        emp.UserName = "";
-                //        emp.StoreToDb(3, out err);
-                //        emp.err += err;
-                //    }
-                //}
+                if (_finger)
+                {
+                    //there is multiple finger available so we are using fingeruser list
+                    foreach (UserBioInfo t in fingerusers)
+                    {
+                        if (!string.IsNullOrEmpty(t.FingerTemp))
+                        {
+                            t.UserName = "";
+                            t.StoreToDb(3, out err);
+                            emp.err += err;
+                        }
+                    }
+                }
 
             }//end foreach store to db
 
