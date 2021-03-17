@@ -1752,52 +1752,25 @@ namespace Attendance.Classes
                     //make sure to check version there are difference in get fingerprint
                     if(this._finger)
                     {
-                        if(Convert.ToDouble(_version) >= 6.6)
-                        {
-                            //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
-                            for (int i = 0; i <= 9; i++)
-                            {
-                                UserBioInfo tmpuser2 = new UserBioInfo();
-                                tmpuser2.CardNumber = tmpuser.CardNumber;
-                                tmpuser2.UserID = tmpuser.UserID;
-                                tmpuser2.Password = _password;
-                                tmpuser2.Previlege = _prev;
-                                tmpuser2.Enabled = _enabled;
-                                if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
-                                {
-                                    tmpuser2.FingerIndex = i;
-                                    tmpuser2.FingerLength = _fingerlength;
-                                    tmpuser2.FingerTemp = _fingertemp;
-                                    tUsers.Add(tmpuser2);    
-                                }
-                            }                               
                         
-                        }
-                        else if (Convert.ToDouble(_version) < 6.6 )
+                        //if(CZKEM1.SSR_GetUserTmpStr(_machineno,_userid,0,out _fingertemp out _fingerlength))
+                        for (int i = 0; i <= 9; i++)
                         {
-                            if(int.TryParse(_userid,out _useridInt))
+                            UserBioInfo tmpuser2 = new UserBioInfo();
+                            tmpuser2.CardNumber = tmpuser.CardNumber;
+                            tmpuser2.UserID = tmpuser.UserID;
+                            tmpuser2.Password = _password;
+                            tmpuser2.Previlege = _prev;
+                            tmpuser2.Enabled = _enabled;
+                            if (CZKEM1.GetUserTmpExStr(_machineno, _userid, i, out _fingerflg, out _fingertemp, out _fingerlength))
                             {
-                                for (int i = 0; i <= 9; i++)
-                                {
-                                    UserBioInfo tmpuser2 = new UserBioInfo();
-                                    tmpuser2.UserID = tmpuser.UserID;
-                                    tmpuser2.CardNumber = tmpuser.CardNumber;
-                                    tmpuser2.Password = _password;
-                                    tmpuser2.Previlege = _prev;
-                                    tmpuser2.Enabled = _enabled;
-                                    if (CZKEM1.GetUserTmpStr(_machineno, _useridInt, 0, ref _fingertemp, ref _fingerlength))
-                                    {
-                                        tmpuser.FingerIndex = i;
-                                        tmpuser2.FingerLength = _fingerlength;
-                                        tmpuser2.FingerTemp = _fingertemp;
-                                        tUsers.Add(tmpuser2);
-                                    }
-                                }
+                                tmpuser2.FingerIndex = i;
+                                tmpuser2.FingerLength = _fingerlength;
+                                tmpuser2.FingerTemp = _fingertemp;
+                                tUsers.Add(tmpuser2);    
                             }
                         }
                     }
-
-                    
 	            }//end while loop                  
                 
             }
