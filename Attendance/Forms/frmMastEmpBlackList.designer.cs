@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtUnBlockRemarks = new DevExpress.XtraEditors.TextEdit();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtBlockRemark = new DevExpress.XtraEditors.TextEdit();
             this.txtUpdID = new DevExpress.XtraEditors.TextEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.txtUpdDt = new DevExpress.XtraEditors.DateEdit();
@@ -45,6 +49,8 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnBlockRemarks.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBlockRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdDt.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdDt.Properties)).BeginInit();
@@ -58,6 +64,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtUnBlockRemarks);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtBlockRemark);
             this.groupBox1.Controls.Add(this.txtUpdID);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtUpdDt);
@@ -69,9 +79,55 @@
             this.groupBox1.Controls.Add(this.txtAdharNo);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(452, 179);
+            this.groupBox1.Size = new System.Drawing.Size(452, 211);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(8, 161);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 18);
+            this.label3.TabIndex = 105;
+            this.label3.Text = "UnBlock Remarks :";
+            // 
+            // txtUnBlockRemarks
+            // 
+            this.txtUnBlockRemarks.EditValue = "";
+            this.txtUnBlockRemarks.Location = new System.Drawing.Point(122, 159);
+            this.txtUnBlockRemarks.Name = "txtUnBlockRemarks";
+            this.txtUnBlockRemarks.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUnBlockRemarks.Properties.Appearance.Options.UseFont = true;
+            this.txtUnBlockRemarks.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtUnBlockRemarks.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtUnBlockRemarks.Properties.Mask.EditMask = "[A-Z .]+";
+            this.txtUnBlockRemarks.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtUnBlockRemarks.Properties.MaxLength = 50;
+            this.txtUnBlockRemarks.Size = new System.Drawing.Size(282, 20);
+            this.txtUnBlockRemarks.TabIndex = 104;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(16, 135);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 18);
+            this.label2.TabIndex = 103;
+            this.label2.Text = "Block Remarks :";
+            // 
+            // txtBlockRemark
+            // 
+            this.txtBlockRemark.EditValue = "";
+            this.txtBlockRemark.Location = new System.Drawing.Point(122, 133);
+            this.txtBlockRemark.Name = "txtBlockRemark";
+            this.txtBlockRemark.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBlockRemark.Properties.Appearance.Options.UseFont = true;
+            this.txtBlockRemark.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtBlockRemark.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtBlockRemark.Properties.Mask.EditMask = "[A-Z .]+";
+            this.txtBlockRemark.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtBlockRemark.Properties.MaxLength = 50;
+            this.txtBlockRemark.Size = new System.Drawing.Size(282, 20);
+            this.txtBlockRemark.TabIndex = 102;
             // 
             // txtUpdID
             // 
@@ -86,8 +142,7 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 100);
+            this.label1.Location = new System.Drawing.Point(62, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 15);
             this.label1.TabIndex = 100;
@@ -96,7 +151,7 @@
             // txtUpdDt
             // 
             this.txtUpdDt.EditValue = null;
-            this.txtUpdDt.Location = new System.Drawing.Point(103, 97);
+            this.txtUpdDt.Location = new System.Drawing.Point(122, 97);
             this.txtUpdDt.Name = "txtUpdDt";
             this.txtUpdDt.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUpdDt.Properties.Appearance.Options.UseFont = true;
@@ -107,7 +162,7 @@
             this.txtUpdDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtUpdDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtUpdDt.Properties.ReadOnly = true;
-            this.txtUpdDt.Size = new System.Drawing.Size(129, 20);
+            this.txtUpdDt.Size = new System.Drawing.Size(110, 20);
             this.txtUpdDt.TabIndex = 99;
             // 
             // txtAddID
@@ -123,8 +178,7 @@
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(29, 74);
+            this.label22.Location = new System.Drawing.Point(62, 74);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(52, 15);
             this.label22.TabIndex = 97;
@@ -133,7 +187,7 @@
             // txtAddDt
             // 
             this.txtAddDt.EditValue = null;
-            this.txtAddDt.Location = new System.Drawing.Point(103, 71);
+            this.txtAddDt.Location = new System.Drawing.Point(122, 71);
             this.txtAddDt.Name = "txtAddDt";
             this.txtAddDt.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAddDt.Properties.Appearance.Options.UseFont = true;
@@ -144,32 +198,32 @@
             this.txtAddDt.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
             this.txtAddDt.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtAddDt.Properties.ReadOnly = true;
-            this.txtAddDt.Size = new System.Drawing.Size(129, 20);
+            this.txtAddDt.Size = new System.Drawing.Size(110, 20);
             this.txtAddDt.TabIndex = 96;
             // 
             // chkActive
             // 
-            this.chkActive.Location = new System.Drawing.Point(101, 46);
+            this.chkActive.Location = new System.Drawing.Point(122, 46);
             this.chkActive.Name = "chkActive";
             this.chkActive.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkActive.Properties.Appearance.Options.UseFont = true;
             this.chkActive.Properties.Caption = "Balck Listed";
-            this.chkActive.Size = new System.Drawing.Size(105, 19);
+            this.chkActive.Size = new System.Drawing.Size(84, 19);
             this.chkActive.TabIndex = 95;
             this.chkActive.TabStop = false;
             // 
             // label20
             // 
-            this.label20.Location = new System.Drawing.Point(6, 22);
+            this.label20.Location = new System.Drawing.Point(37, 22);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(93, 18);
+            this.label20.Size = new System.Drawing.Size(81, 18);
             this.label20.TabIndex = 94;
             this.label20.Text = "Aadhaar No :";
             // 
             // txtAdharNo
             // 
             this.txtAdharNo.EditValue = "123456789012";
-            this.txtAdharNo.Location = new System.Drawing.Point(103, 20);
+            this.txtAdharNo.Location = new System.Drawing.Point(124, 20);
             this.txtAdharNo.Name = "txtAdharNo";
             this.txtAdharNo.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAdharNo.Properties.Appearance.Options.UseFont = true;
@@ -178,7 +232,7 @@
             this.txtAdharNo.Properties.Mask.EditMask = "[0-9]+";
             this.txtAdharNo.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtAdharNo.Properties.MaxLength = 12;
-            this.txtAdharNo.Size = new System.Drawing.Size(301, 20);
+            this.txtAdharNo.Size = new System.Drawing.Size(280, 20);
             this.txtAdharNo.TabIndex = 93;
             this.txtAdharNo.Validated += new System.EventHandler(this.txtAdharNo_Validated);
             // 
@@ -189,7 +243,7 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 197);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 229);
             this.grpUserRights.Name = "grpUserRights";
             this.grpUserRights.Size = new System.Drawing.Size(452, 52);
             this.grpUserRights.TabIndex = 3;
@@ -254,7 +308,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(472, 255);
+            this.ClientSize = new System.Drawing.Size(471, 283);
             this.Controls.Add(this.grpUserRights);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -262,7 +316,8 @@
             this.Text = "AdharCard Black List";
             this.Load += new System.EventHandler(this.frmMastEmpBlackList_Load);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtUnBlockRemarks.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBlockRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdID.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdDt.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtUpdDt.Properties)).EndInit();
@@ -294,5 +349,9 @@
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.DateEdit txtUpdDt;
         private DevExpress.XtraEditors.TextEdit txtAddID;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraEditors.TextEdit txtBlockRemark;
+        private System.Windows.Forms.Label label3;
+        private DevExpress.XtraEditors.TextEdit txtUnBlockRemarks;
     }
 }

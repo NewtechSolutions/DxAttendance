@@ -72,6 +72,8 @@ namespace Attendance.Forms
             txtAddID.Text = "";
             txtUpdDt.EditValue = null;
             txtUpdID.Text = "";
+            txtBlockRemark.Text = "";
+            txtUnBlockRemarks.Text = "";
             oldCode = "";
             mode = "NEW";
         }
@@ -85,6 +87,21 @@ namespace Attendance.Forms
                 err = err + "Please Enter AdharNo" + Environment.NewLine;
             }
 
+            if (mode == "OLD" && chkActive.Checked == false)
+            {
+                if (string.IsNullOrEmpty(txtUnBlockRemarks.Text))
+                {
+                    err = err + "Please Enter Unblock Remarks" + Environment.NewLine;
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(txtBlockRemark.Text))
+                {
+                    err = err + "Please Enter block Remarks" + Environment.NewLine;
+                }
+            }
+
             return err;
         }
 
@@ -96,6 +113,9 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            
+
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
                 using (SqlCommand cmd = new SqlCommand())
@@ -104,8 +124,8 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastEmpBlackList (AdharNo,BlackList,AddDt,AddID) Values ('{0}','{1}',GetDate(),'{2}')";
-                        sql = string.Format(sql, txtAdharNo.Text.Trim(),1,Utils.User.GUserID);
+                        string sql = "Insert into MastEmpBlackList (AdharNo,BlackList,BlockRemarks,AddDt,AddID) Values ('{0}','{1}','{2}',GetDate(),'{3}')";
+                        sql = string.Format(sql, txtAdharNo.Text.Trim(),1,txtBlockRemark.Text.Trim().ToString(), Utils.User.GUserID);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -147,6 +167,8 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+           
+
             using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
             {
                 using (SqlCommand cmd = new SqlCommand())
@@ -155,8 +177,8 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastEmpBlackList Set BlackList = '{0}',UpdDt = GetDate(),UpdID = '{1}' Where AdharNo ='{2}'";
-                        sql = string.Format(sql, (chkActive.Checked ? 1 : 0), Utils.User.GUserID,txtAdharNo.Text);
+                        string sql = "Update MastEmpBlackList Set BlackList = '{0}',UpdDt = GetDate(),UpdID = '{1}' , BlockRemarks = '{3}' , UnBlockRemarks = '{4}' Where AdharNo ='{5}'";
+                        sql = string.Format(sql, (chkActive.Checked ? 1 : 0), Utils.User.GUserID,txtBlockRemark.Text.Trim().ToString(),txtUnBlockRemarks.Text.Trim().ToString(), txtAdharNo.Text);
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
@@ -188,6 +210,7 @@ namespace Attendance.Forms
 
             if (hasRows)
             {
+                mode = "OLD";
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     txtAdharNo.Text = dr["AdharNo"].ToString();
@@ -197,6 +220,8 @@ namespace Attendance.Forms
                     {
                         txtUpdDt.DateTime = Convert.ToDateTime(dr["UpdDt"]);
                         txtUpdID.Text = dr["UpdID"].ToString();
+                        txtBlockRemark.Text = dr["BlockRemarks"].ToString();
+                        txtUnBlockRemarks.Text = dr["UnBlockRemarks"].ToString();
                     }
                     chkActive.Checked = Convert.ToBoolean(dr["BlackList"]);
                     oldCode = dr["AdharNo"].ToString();
@@ -210,6 +235,9 @@ namespace Attendance.Forms
 
                 txtAddDt.EditValue = null;
                 txtAddID.Text = "";
+                txtBlockRemark.Text = "";
+                txtUnBlockRemarks.Text = "";
+
                 txtUpdDt.EditValue = null;
                 txtUpdID.Text = "";
                 
@@ -217,6 +245,8 @@ namespace Attendance.Forms
 
             SetRights();
         }
+
+       
 
         
     }
