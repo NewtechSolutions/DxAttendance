@@ -1336,6 +1336,25 @@ namespace Attendance.Forms
                 return;
             }
 
+            //added : 2021-03-18
+            //check for avoid duplicate card no of existing active employee code
+            //as per requirement where rfid card is used
+            //not suitable for all version
+            //Optional->based on customization
+            string err;
+            string tsql = "Select top 1 EmpUnqID,EmpName,CardNo from MastEmp Where Active = 1 and CardNo ='" + txtNewRFID.Text.Trim().ToString() + "' And EmpUnqID <> '" + txtEmpUnqID.Text.Trim().ToString() + "'";
+            DataSet ds = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            if (hasRows)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];
+                string allemp = dr["EmpUnqID"].ToString();
+                string allname = dr["EmpName"].ToString();
+                MessageBox.Show("New RFID Card No is already alloted to " + allemp + " " + allname, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             if(!Globals.GetWrkGrpRights(655,txtWrkGrpCode.Text.Trim(),txtEmpUnqID.Text.Trim()))
             {
                 MessageBox.Show("You are not authorised for this kind of employee..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1366,7 +1385,9 @@ namespace Attendance.Forms
                     }
                     else
                     {
-                        sql = "Update EmpBioData Set RFIDNO = '" + txtNewRFID.Text.Trim() + "' where Type in ('RFID','FACE','FINGER') And EmpUnqID ='" + tEmpUnqID + "' and MachineIP='Master' and MachineNo = '9999' ";
+                        sql = "Update EmpBioData Set RFIDNO = '" + txtNewRFID.Text.Trim() + "' where Type in ('RFID','FACE','FINGER') And " +
+                            " EmpUnqID ='" + tEmpUnqID + "' and MachineIP='Master' and MachineNo = '9999'" +
+                            "; Update MastEmp Set CardNo ='" + txtNewRFID.Text.Trim().ToString() + "' where EmpUnqID = '" + tEmpUnqID + "'";
                     
                     }
                     

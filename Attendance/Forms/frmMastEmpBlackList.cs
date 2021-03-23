@@ -177,7 +177,7 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastEmpBlackList Set BlackList = '{0}',UpdDt = GetDate(),UpdID = '{1}' , BlockRemarks = '{3}' , UnBlockRemarks = '{4}' Where AdharNo ='{5}'";
+                        string sql = "Update MastEmpBlackList Set BlackList = '{0}',UpdDt = GetDate(),UpdID = '{1}' , BlockRemarks = '{2}' , UnBlockRemarks = '{3}' Where AdharNo ='{4}'";
                         sql = string.Format(sql, (chkActive.Checked ? 1 : 0), Utils.User.GUserID,txtBlockRemark.Text.Trim().ToString(),txtUnBlockRemarks.Text.Trim().ToString(), txtAdharNo.Text);
 
                         cmd.CommandText = sql;
