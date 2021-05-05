@@ -2332,7 +2332,7 @@ namespace Attendance.Classes
                     {
                         //check if any pending machine operation if yes do it....
                         #region newmachinejob
-                        sql = "Select top 10 * from MastMachineUserOperation where DoneFlg = 0 and Operation not in ('BLOCK','UNBLOCK') " +
+                        sql = "Select top 100 * from MastMachineUserOperation where DoneFlg = 0 and Operation not in ('BLOCK','UNBLOCK') " +
                             " And MachineIP not in (Select MachineIP From TRIPODReaderConFig) order by MachineIP ";
                         DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
@@ -2484,8 +2484,17 @@ namespace Attendance.Classes
                                                 }
                                                 else
                                                 {
-                                                    sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "',UpdID = 'ATTDServer' " +
+                                                    if (err.Contains("Block"))
+                                                    {
+                                                        sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "', DoneFlg = 1, DoneDt = GetDate(), UpdID = 'ATTDServer' " +
+                                                       " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" + dr["EmpUnqID"].ToString() + "';";
+                                                    }
+                                                    else
+                                                    {
+                                                        sql = "Update MastMachineUserOperation Set UpdDt=GetDate(), LastError = '" + err + "',UpdID = 'ATTDServer' " +
                                                         " where ID ='" + dr["ID"].ToString() + "' and MachineIP = '" + dr["MachineIP"].ToString() + "' and Operation = '" + dr["Operation"].ToString() + "' and EmpUnqID ='" + dr["EmpUnqID"].ToString() + "';";
+                                                    }
+                                                    
                                                 }
                                                 cmd.CommandText = sql;
                                                 cmd.ExecuteNonQuery();

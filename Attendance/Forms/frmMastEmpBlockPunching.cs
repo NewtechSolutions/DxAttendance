@@ -320,7 +320,8 @@ namespace Attendance.Forms
         private void LoadGrid()
         {
             DataSet ds = new DataSet();
-            string sql = "select * "
+            string sql = "select ID,EmpUnqID,MachineIP,IOFLG,Operation,convert(varchar, ReqDt, 20) as ReqDt ,ReqBy,DoneFlg,convert(varchar, DoneDt, 20) as DoneDt," + 
+                " LastError,convert(varchar, AddDt, 20) as AddDt,UpdDt,Remarks,ValidTo,UpdID "
             + " From  MastMachineUserOperation "
             + " where EmpUnqID = '" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "' Order By ID Desc";
            
