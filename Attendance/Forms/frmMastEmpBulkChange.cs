@@ -270,17 +270,17 @@ namespace Attendance.Forms
                                 #region PERMENENT_ADDRESS
 
 
-                                if (!string.IsNullOrEmpty(dr["PermenantAdd1"].ToString()))
-                                    sql += " PerAdd1='" + dr["PermenantAdd1"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PermenantArea"].ToString()))
+                                    sql += " PerAdd1='" + dr["PermenantArea"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PermenantAdd2"].ToString()))
-                                    sql += " PerAdd2='" + dr["PermenantAdd2"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PermenantSociety"].ToString()))
+                                    sql += " PerAdd2='" + dr["PermenantSociety"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PermenantAdd3"].ToString()))
-                                    sql += " PerAdd3='" + dr["PermenantAdd3"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PermenantVillage"].ToString()))
+                                    sql += " PerAdd3='" + dr["PermenantVillage"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PermenantAdd4"].ToString()))
-                                    sql += " PerAdd4='" + dr["PermenantAdd4"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PermenantTaluka"].ToString()))
+                                    sql += " PerAdd4='" + dr["PermenantTaluka"].ToString() + "',";
 
                                 if (!string.IsNullOrEmpty(dr["PermenantDistrict"].ToString()))
                                     sql += " PerDistrict='" + dr["PermenantDistrict"].ToString() + "',";
@@ -297,17 +297,17 @@ namespace Attendance.Forms
 
                                 #region Present_Address
 
-                                if (!string.IsNullOrEmpty(dr["PresantAdd1"].ToString()))
-                                    sql += " PreAdd1='" + dr["PresantAdd1"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PresantArea"].ToString()))
+                                    sql += " PreAdd1='" + dr["PresantArea"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PresantAdd2"].ToString()))
-                                    sql += " PreAdd2='" + dr["PresantAdd2"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PresantSociety"].ToString()))
+                                    sql += " PreAdd2='" + dr["PresantSociety"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PresantAdd3"].ToString()))
-                                    sql += " PreAdd3='" + dr["PresantAdd3"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PresantVillage"].ToString()))
+                                    sql += " PreAdd3='" + dr["PresantVillage"].ToString() + "',";
 
-                                if (!string.IsNullOrEmpty(dr["PresantAdd4"].ToString()))
-                                    sql += " PreAdd4='" + dr["PresantAdd4"].ToString() + "',";
+                                if (!string.IsNullOrEmpty(dr["PresantTaluka"].ToString()))
+                                    sql += " PreAdd4='" + dr["PresantTaluka"].ToString() + "',";
 
                                 if (!string.IsNullOrEmpty(dr["PresantDistrict"].ToString()))
                                     sql += " PreDistrict='" + dr["PresantDistrict"].ToString() + "',";
@@ -417,8 +417,8 @@ namespace Attendance.Forms
             {
                 string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL,LeftDt, " +
                     "BANKNAME,IFSCCODE,ACCOUNTNO,PANCARD,UANNO,MobileNo,EmailID,BloodGroup, " +
-                    "PermenantAdd1,PermenantAdd2,PermenantAdd3,PermenantAdd4,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
-                    "PresantAdd1,PresantAdd2,PresantAdd3,PresantAdd4,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
+                    "PermenantAdd1 as PermenantArea,PermenantAdd2 as PermenantSociety,PermenantAdd3 as PermenantVillage,PermenantAdd4 as PermenantTaluka,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
+                    "PresantAdd1 as PresantArea,PresantAdd2 as PresantSociety,PresantAdd3 as PresantVillage,PresantAdd4 as PresantTaluka,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
                     " '' as Remarks from " + sheetname;
 
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);

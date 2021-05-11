@@ -37,6 +37,9 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.label54 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -64,7 +67,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.txtpPhone = new DevExpress.XtraEditors.TextEdit();
             this.txtpPinCode = new DevExpress.XtraEditors.TextEdit();
             this.txtpState = new DevExpress.XtraEditors.TextEdit();
@@ -164,6 +166,10 @@
             this.gridExp = new DevExpress.XtraGrid.GridControl();
             this.gvExp = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -350,6 +356,9 @@
             // 
             // xtraTabPage1
             // 
+            this.xtraTabPage1.Controls.Add(this.label54);
+            this.xtraTabPage1.Controls.Add(this.label53);
+            this.xtraTabPage1.Controls.Add(this.label52);
             this.xtraTabPage1.Controls.Add(this.label9);
             this.xtraTabPage1.Controls.Add(this.label8);
             this.xtraTabPage1.Controls.Add(this.label7);
@@ -374,6 +383,33 @@
             this.xtraTabPage1.Name = "xtraTabPage1";
             this.xtraTabPage1.Size = new System.Drawing.Size(1095, 295);
             this.xtraTabPage1.Text = "Present Address";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(45, 104);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(50, 14);
+            this.label54.TabIndex = 23;
+            this.label54.Text = "Taluka :";
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(45, 75);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(49, 14);
+            this.label53.TabIndex = 22;
+            this.label53.Text = "Village :";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(39, 47);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(55, 14);
+            this.label52.TabIndex = 21;
+            this.label52.Text = "Society :";
             // 
             // label9
             // 
@@ -441,7 +477,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 131);
+            this.label2.Location = new System.Drawing.Point(59, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 14);
             this.label2.TabIndex = 13;
@@ -450,11 +486,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 20);
+            this.label1.Location = new System.Drawing.Point(54, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 14);
+            this.label1.Size = new System.Drawing.Size(40, 14);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Address :";
+            this.label1.Text = "Area :";
             // 
             // txtPoliceST
             // 
@@ -578,12 +614,15 @@
             // 
             // xtraTabPage2
             // 
+            this.xtraTabPage2.Controls.Add(this.label18);
+            this.xtraTabPage2.Controls.Add(this.label55);
+            this.xtraTabPage2.Controls.Add(this.label56);
+            this.xtraTabPage2.Controls.Add(this.label57);
             this.xtraTabPage2.Controls.Add(this.label13);
             this.xtraTabPage2.Controls.Add(this.label14);
             this.xtraTabPage2.Controls.Add(this.label15);
             this.xtraTabPage2.Controls.Add(this.label16);
             this.xtraTabPage2.Controls.Add(this.label17);
-            this.xtraTabPage2.Controls.Add(this.label18);
             this.xtraTabPage2.Controls.Add(this.txtpPhone);
             this.xtraTabPage2.Controls.Add(this.txtpPinCode);
             this.xtraTabPage2.Controls.Add(this.txtpState);
@@ -641,15 +680,6 @@
             this.label17.Size = new System.Drawing.Size(35, 14);
             this.label17.TabIndex = 25;
             this.label17.Text = "City :";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(134, 18);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(58, 14);
-            this.label18.TabIndex = 24;
-            this.label18.Text = "Address :";
             // 
             // txtpPhone
             // 
@@ -1768,6 +1798,42 @@
             this.ctrlEmp1.Size = new System.Drawing.Size(1088, 184);
             this.ctrlEmp1.TabIndex = 0;
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(143, 103);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(50, 14);
+            this.label18.TabIndex = 33;
+            this.label18.Text = "Taluka :";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(143, 74);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(49, 14);
+            this.label55.TabIndex = 32;
+            this.label55.Text = "Village :";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(137, 46);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(55, 14);
+            this.label56.TabIndex = 31;
+            this.label56.Text = "Society :";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(152, 18);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(40, 14);
+            this.label57.TabIndex = 30;
+            this.label57.Text = "Area :";
+            // 
             // frmMastEmpPerInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1918,7 +1984,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage5;
@@ -2008,5 +2073,12 @@
         private System.Windows.Forms.Label label50;
         private DevExpress.XtraEditors.TextEdit txtBankACNo;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Label label57;
     }
 }
