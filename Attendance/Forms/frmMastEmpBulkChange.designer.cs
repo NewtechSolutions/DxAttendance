@@ -48,18 +48,18 @@
             this.MobileNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.EmailID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.BloodGroup = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PermenantAdd1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PermenantAdd2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PermenantAdd3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PermenantAdd4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantArea = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantSociety = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantVillage = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PermenantTaluka = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PermenantDistrict = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PermenantCity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PermenantState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PermenantPinCode = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PresantAdd1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PresantAdd2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PresantAdd3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PresantAdd4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantArea = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantSociety = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantVillage = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PresantTaluka = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PresantDistrict = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PresantCity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PresantState = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -138,18 +138,18 @@
             this.MobileNo,
             this.EmailID,
             this.BloodGroup,
-            this.PermenantAdd1,
-            this.PermenantAdd2,
-            this.PermenantAdd3,
-            this.PermenantAdd4,
+            this.PermenantArea,
+            this.PermenantSociety,
+            this.PermenantVillage,
+            this.PermenantTaluka,
             this.PermenantDistrict,
             this.PermenantCity,
             this.PermenantState,
             this.PermenantPinCode,
-            this.PresantAdd1,
-            this.PresantAdd2,
-            this.PresantAdd3,
-            this.PresantAdd4,
+            this.PresantArea,
+            this.PresantSociety,
+            this.PresantVillage,
+            this.PresantTaluka,
             this.PresantDistrict,
             this.PresantCity,
             this.PresantState,
@@ -348,41 +348,41 @@
             this.BloodGroup.Visible = true;
             this.BloodGroup.VisibleIndex = 15;
             // 
-            // PermenantAdd1
+            // PermenantArea
             // 
-            this.PermenantAdd1.Caption = "PermenantAdd1";
-            this.PermenantAdd1.FieldName = "PermenantAdd1";
-            this.PermenantAdd1.Name = "PermenantAdd1";
-            this.PermenantAdd1.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PermenantAdd1.Visible = true;
-            this.PermenantAdd1.VisibleIndex = 16;
+            this.PermenantArea.Caption = "PermenantArea";
+            this.PermenantArea.FieldName = "PermenantArea";
+            this.PermenantArea.Name = "PermenantArea";
+            this.PermenantArea.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantArea.Visible = true;
+            this.PermenantArea.VisibleIndex = 16;
             // 
-            // PermenantAdd2
+            // PermenantSociety
             // 
-            this.PermenantAdd2.Caption = "PermenantAdd2";
-            this.PermenantAdd2.FieldName = "PermenantAdd2";
-            this.PermenantAdd2.Name = "PermenantAdd2";
-            this.PermenantAdd2.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PermenantAdd2.Visible = true;
-            this.PermenantAdd2.VisibleIndex = 17;
+            this.PermenantSociety.Caption = "PermenantSociety";
+            this.PermenantSociety.FieldName = "PermenantSociety";
+            this.PermenantSociety.Name = "PermenantSociety";
+            this.PermenantSociety.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantSociety.Visible = true;
+            this.PermenantSociety.VisibleIndex = 17;
             // 
-            // PermenantAdd3
+            // PermenantVillage
             // 
-            this.PermenantAdd3.Caption = "PermenantAdd3";
-            this.PermenantAdd3.FieldName = "PermenantAdd3";
-            this.PermenantAdd3.Name = "PermenantAdd3";
-            this.PermenantAdd3.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PermenantAdd3.Visible = true;
-            this.PermenantAdd3.VisibleIndex = 18;
+            this.PermenantVillage.Caption = "PermenantVillage";
+            this.PermenantVillage.FieldName = "PermenantVillage";
+            this.PermenantVillage.Name = "PermenantVillage";
+            this.PermenantVillage.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantVillage.Visible = true;
+            this.PermenantVillage.VisibleIndex = 18;
             // 
-            // PermenantAdd4
+            // PermenantTaluka
             // 
-            this.PermenantAdd4.Caption = "PermenantAdd4";
-            this.PermenantAdd4.FieldName = "PermenantAdd4";
-            this.PermenantAdd4.Name = "PermenantAdd4";
-            this.PermenantAdd4.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PermenantAdd4.Visible = true;
-            this.PermenantAdd4.VisibleIndex = 19;
+            this.PermenantTaluka.Caption = "PermenantTaluka";
+            this.PermenantTaluka.FieldName = "PermenantTaluka";
+            this.PermenantTaluka.Name = "PermenantTaluka";
+            this.PermenantTaluka.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PermenantTaluka.Visible = true;
+            this.PermenantTaluka.VisibleIndex = 19;
             // 
             // PermenantDistrict
             // 
@@ -420,41 +420,41 @@
             this.PermenantPinCode.Visible = true;
             this.PermenantPinCode.VisibleIndex = 23;
             // 
-            // PresantAdd1
+            // PresantArea
             // 
-            this.PresantAdd1.Caption = "PresantAdd1";
-            this.PresantAdd1.FieldName = "PresantAdd1";
-            this.PresantAdd1.Name = "PresantAdd1";
-            this.PresantAdd1.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PresantAdd1.Visible = true;
-            this.PresantAdd1.VisibleIndex = 24;
+            this.PresantArea.Caption = "PresantArea";
+            this.PresantArea.FieldName = "PresantArea";
+            this.PresantArea.Name = "PresantArea";
+            this.PresantArea.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantArea.Visible = true;
+            this.PresantArea.VisibleIndex = 24;
             // 
-            // PresantAdd2
+            // PresantSociety
             // 
-            this.PresantAdd2.Caption = "PresantAdd2";
-            this.PresantAdd2.FieldName = "PresantAdd2";
-            this.PresantAdd2.Name = "PresantAdd2";
-            this.PresantAdd2.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PresantAdd2.Visible = true;
-            this.PresantAdd2.VisibleIndex = 25;
+            this.PresantSociety.Caption = "PresantSociety";
+            this.PresantSociety.FieldName = "PresantSociety";
+            this.PresantSociety.Name = "PresantSociety";
+            this.PresantSociety.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantSociety.Visible = true;
+            this.PresantSociety.VisibleIndex = 25;
             // 
-            // PresantAdd3
+            // PresantVillage
             // 
-            this.PresantAdd3.Caption = "PresantAdd3";
-            this.PresantAdd3.FieldName = "PresantAdd3";
-            this.PresantAdd3.Name = "PresantAdd3";
-            this.PresantAdd3.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PresantAdd3.Visible = true;
-            this.PresantAdd3.VisibleIndex = 26;
+            this.PresantVillage.Caption = "PresantVillage";
+            this.PresantVillage.FieldName = "PresantVillage";
+            this.PresantVillage.Name = "PresantVillage";
+            this.PresantVillage.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantVillage.Visible = true;
+            this.PresantVillage.VisibleIndex = 26;
             // 
-            // PresantAdd4
+            // PresantTaluka
             // 
-            this.PresantAdd4.Caption = "PresantAdd4";
-            this.PresantAdd4.FieldName = "PresantAdd4";
-            this.PresantAdd4.Name = "PresantAdd4";
-            this.PresantAdd4.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.PresantAdd4.Visible = true;
-            this.PresantAdd4.VisibleIndex = 27;
+            this.PresantTaluka.Caption = "PresantTaluka";
+            this.PresantTaluka.FieldName = "PresantTaluka";
+            this.PresantTaluka.Name = "PresantTaluka";
+            this.PresantTaluka.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.PresantTaluka.Visible = true;
+            this.PresantTaluka.VisibleIndex = 27;
             // 
             // PresantDistrict
             // 
@@ -621,18 +621,18 @@
         private DevExpress.XtraGrid.Columns.GridColumn MobileNo;
         private DevExpress.XtraGrid.Columns.GridColumn EmailID;
         private DevExpress.XtraGrid.Columns.GridColumn BloodGroup;
-        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd1;
-        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd2;
-        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd3;
-        private DevExpress.XtraGrid.Columns.GridColumn PermenantAdd4;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantArea;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantSociety;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantVillage;
+        private DevExpress.XtraGrid.Columns.GridColumn PermenantTaluka;
         private DevExpress.XtraGrid.Columns.GridColumn PermenantDistrict;
         private DevExpress.XtraGrid.Columns.GridColumn PermenantCity;
         private DevExpress.XtraGrid.Columns.GridColumn PermenantState;
         private DevExpress.XtraGrid.Columns.GridColumn PermenantPinCode;
-        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd1;
-        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd2;
-        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd3;
-        private DevExpress.XtraGrid.Columns.GridColumn PresantAdd4;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantArea;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantSociety;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantVillage;
+        private DevExpress.XtraGrid.Columns.GridColumn PresantTaluka;
         private DevExpress.XtraGrid.Columns.GridColumn PresantDistrict;
         private DevExpress.XtraGrid.Columns.GridColumn PresantCity;
         private DevExpress.XtraGrid.Columns.GridColumn PresantState;
