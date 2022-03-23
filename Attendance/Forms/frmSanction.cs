@@ -26,7 +26,8 @@ namespace Attendance.Forms
         private static string GateRights = "XXXV" ; //'used for Gate In/Out Punch prapance
         private static string LunchInOutConvertRights = "XXXV";
         private static string GatePassRights = "XXXV";
-        
+        private static string SheduleDelRights = "XXXV";
+
         private int rSanDayLimit = 0;
 
 
@@ -102,6 +103,7 @@ namespace Attendance.Forms
             GateRights = Attendance.Classes.Globals.GetFormRights("Tran Gate Punch");
             GatePassRights = Attendance.Classes.Globals.GetFormRights("Tran GatePass Punch");
             LunchInOutConvertRights = Attendance.Classes.Globals.GetFormRights("Tran Convert Lunch InOut Punch To GatePass InOut");
+            SheduleDelRights = Attendance.Classes.Globals.GetFormRights("Tran DeleteShiftSchedule");
 
             MeFormID = Convert.ToInt32("0" + Utils.Helper.GetDescription("Select FormID from MastFrm Where FormName = 'frmSanction'", Utils.Helper.constr));
 
@@ -468,7 +470,7 @@ namespace Attendance.Forms
             btnGatePass_IO_Del.Enabled = false;
             btnGatePass_IO_San.Enabled = false;
             btnConvertToGatePass.Enabled = false;
-
+            btnDeleteShiftSch.Enabled = false;
             //attd
             txtInOut.Text = "";
             
@@ -543,6 +545,7 @@ namespace Attendance.Forms
             btnGatePass_IO_Del.Enabled = false;
             btnGatePass_IO_San.Enabled = false;
             btnConvertToGatePass.Enabled = false;
+            btnDeleteShiftSch.Enabled = false;
 
 
             #region Sanction_Add_Delete_300
@@ -658,6 +661,42 @@ namespace Attendance.Forms
                 }
             }
 
+
+            #endregion
+
+
+            #region DeleteShiftSchDel
+            if (SheduleDelRights.Contains("D"))
+            {
+                //shift schedule delete rights employee -workgrp
+
+                if (Globals.GetWrkGrpRights(1090, Emp.WrkGrp, Emp.EmpUnqID))
+                {
+                    //btnDeleteShiftSch.Enabled = true;
+                    
+                    if(txtSanDt.EditValue != null)
+                    {
+                        //check if schedule exist or not
+                        int yearmt = int.Parse(txtSanDt.DateTime.Date.ToString("yyyyMM"));
+                        string sql = "Select Count(*) from mastShiftSchedule where Empunqid = '" + Emp.EmpUnqID + "' And YearMt = '" + yearmt.ToString() + "'";
+                        string err = string.Empty;
+                        string strcnt = Utils.Helper.GetDescription(sql, Utils.Helper.constr, out err);
+                        if (string.IsNullOrEmpty(err))
+                        {
+                            int cnt = 0;
+                            int.TryParse(strcnt, out cnt);
+                            if (cnt >= 1)
+                            {
+                                if(Emp.WrkGrp.Trim().ToUpper() == "CONT")
+                                    btnDeleteShiftSch.Enabled = true;
+                            }
+                        }
+
+                    }
+
+
+                }
+            }
 
             #endregion
 
@@ -2395,6 +2434,62 @@ namespace Attendance.Forms
 
 
             }
+        }
+
+        private void btnDeleteShiftSch_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure to delete Shift Schedule for the month of " + txtSanDt.DateTime.Date.ToString("yyyyMM") + " ?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.No)
+            {
+                return;
+            }
+            
+
+            //call the strore procedure Delete_ShiftSchedule
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    cn.Open();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Could not connect to server/database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                SqlCommand cmd = new SqlCommand();
+                
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "Delete_ShiftSchedule";
+
+                SqlParameter spout = new SqlParameter();
+                spout.Direction = ParameterDirection.Output;
+                spout.DbType = DbType.Int32;
+                spout.ParameterName = "@result";
+                int tout = 0;
+                spout.Value = tout;
+                cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                cmd.Parameters.AddWithValue("@pYearMt", Convert.ToInt32(txtSanDt.DateTime.Date.ToString("yyyyMM")) );
+                cmd.Parameters.Add(spout);
+                cmd.CommandTimeout = 0;
+                cmd.ExecuteNonQuery();
+                //get the output
+                int result = (int)cmd.Parameters["@result"].Value;
+
+                if (result == 0)
+                {
+                    MessageBox.Show("System does not allow to delete shift schedule,please contact administrator..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Shift Schedule Deleted..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+            }
+
         }
 
         

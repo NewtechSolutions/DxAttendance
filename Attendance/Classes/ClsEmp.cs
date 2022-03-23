@@ -863,7 +863,7 @@ namespace Attendance.Classes
                 return retval;
             }
 
-            if (this.PayrollFlg && this.CostCode.Trim() == "")
+            if (this.CostCode.Trim() == "")
             {
                 err += "Please Enter CostCode.." + Environment.NewLine;
                 retval = false;
@@ -879,12 +879,6 @@ namespace Attendance.Classes
                 return retval;
             }
 
-            if (this.ContFlg && this.CostCode.Trim() == "")
-            {
-                err += "Please Enter CostCode.." + Environment.NewLine;
-                retval = false;
-                return retval;
-            }
 
             if (!this.Active)
             {
@@ -1036,6 +1030,13 @@ namespace Attendance.Classes
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
                         retval = true;
+
+
+                        //set employee costcode in mastcostcode -- dt 2022-02-02
+                        sql = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values('" + this.EmpUnqID + "','" + tJoinDt.ToString("yyyy-MM-dd") + "','" + this.CostCode + "',GetDate(),'" + Utils.User.GUserID + "')";
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
                         tr.Commit();
 
                         try
@@ -1066,20 +1067,7 @@ namespace Attendance.Classes
 
                             }
 
-                            //-added on 04-10-2017 for costcenter wise manpower calculation
-                            if(!string.IsNullOrEmpty(this.CostCode)) 
-                            {
-
-
-                                cmd.CommandText = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('" + this.EmpUnqID + "','" + Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd") + "','" + this.CostCode + "',GetDate(),'" + Utils.User.GUserID + "')";
-                                
-
-                                cmd.CommandText = "Update AttdData Set CostCode ='" + this.CostCode + "' Where EmpUnqID = '" + this.EmpUnqID + "' and CompCode = '" + this.CompCode + "' and tDate >= '" + Convert.ToDateTime(this.JoinDt).ToString("yyyy-MM-dd") + "' ";
-                                cmd.ExecuteNonQuery();
-                                
-
-
-                            }
+                            
                             
 
 

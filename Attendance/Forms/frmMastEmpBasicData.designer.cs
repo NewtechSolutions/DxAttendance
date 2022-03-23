@@ -83,6 +83,10 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
+            this.txtCostDesc = new DevExpress.XtraEditors.TextEdit();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtCostCode = new DevExpress.XtraEditors.TextEdit();
+            this.label18 = new System.Windows.Forms.Label();
             this.GrpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtBAAll.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSplALL.Properties)).BeginInit();
@@ -116,10 +120,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             this.grpUserRights.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostDesc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostCode.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // GrpMain
             // 
+            this.GrpMain.Controls.Add(this.label18);
+            this.GrpMain.Controls.Add(this.txtCostDesc);
+            this.GrpMain.Controls.Add(this.label16);
+            this.GrpMain.Controls.Add(this.txtCostCode);
             this.GrpMain.Controls.Add(this.label15);
             this.GrpMain.Controls.Add(this.txtBAAll);
             this.GrpMain.Controls.Add(this.label14);
@@ -801,6 +811,45 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // txtCostDesc
+            // 
+            this.txtCostDesc.Location = new System.Drawing.Point(576, 240);
+            this.txtCostDesc.Name = "txtCostDesc";
+            this.txtCostDesc.Properties.MaxLength = 100;
+            this.txtCostDesc.Properties.ReadOnly = true;
+            this.txtCostDesc.Size = new System.Drawing.Size(237, 20);
+            this.txtCostDesc.TabIndex = 125;
+            this.txtCostDesc.TabStop = false;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(384, 242);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(67, 14);
+            this.label16.TabIndex = 126;
+            this.label16.Text = "CostCode :";
+            // 
+            // txtCostCode
+            // 
+            this.txtCostCode.Location = new System.Drawing.Point(457, 240);
+            this.txtCostCode.Name = "txtCostCode";
+            this.txtCostCode.Properties.Mask.EditMask = "[A-Z0-9]+";
+            this.txtCostCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtCostCode.Size = new System.Drawing.Size(114, 20);
+            this.txtCostCode.TabIndex = 124;
+            this.txtCostCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCostCode_KeyDown);
+            this.txtCostCode.Validated += new System.EventHandler(this.txtCostCode_Validated);
+            // 
+            // label18
+            // 
+            this.label18.Location = new System.Drawing.Point(454, 269);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(360, 34);
+            this.label18.TabIndex = 127;
+            this.label18.Text = "System does not allow to update CostCode from this module, kindly update from res" +
+    "pective module";
+            // 
             // frmMastEmpBasicData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -849,6 +898,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             this.grpUserRights.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostDesc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCostCode.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -910,5 +961,9 @@
         private DevExpress.XtraEditors.TextEdit txtBAAll;
         private System.Windows.Forms.Label label14;
         private DevExpress.XtraEditors.TextEdit txtSplALL;
+        private DevExpress.XtraEditors.TextEdit txtCostDesc;
+        private System.Windows.Forms.Label label16;
+        private DevExpress.XtraEditors.TextEdit txtCostCode;
+        private System.Windows.Forms.Label label18;
     }
 }

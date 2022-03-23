@@ -225,8 +225,11 @@ namespace Attendance.Forms
                 err = err + "This Adhar Card is Black Listed..." + Environment.NewLine;
                 return err;
             }
-            
-           
+
+            if (string.IsNullOrEmpty(txtCostCode.Text.Trim().ToString()) || string.IsNullOrEmpty(txtCostCode.Text.Trim().ToString()))
+            {
+                err = err + "CostCode Assignment is required..." + Environment.NewLine;
+            }
 
             return err;
         }
@@ -282,10 +285,10 @@ namespace Attendance.Forms
                         cmd.Connection = cn;
                         string sql = "Insert into MastEmp (CompCode,WrkGrp,EmpUnqID,EmpName,FatherName," +
                             " UnitCode,MessCode,MessGrpCode,BirthDt,JoinDt,ValidFrom,ValidTo," +
-                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired,SPLALL,BAALL) Values (" +
+                            " ADHARNO,IDPRF3,IDPRF3No,Sex,ContractFlg,PayrollFlg,OTFLG,Weekoff,Active,AddDt,AddID,Basic,ValidityExpired,SPLALL,BAALL,CostCode) Values (" +
                             "'{0}','{1}','{2}','{3}','{4}' ," +
                             " '{5}',{6},{7},'{8}','{9}',{10},{11}," +
-                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}','{22}','{23}')";
+                            " '{12}','ADHARCARD','{13}','{14}','{15}','{16}','{17}','{18}','1',GetDate(),'{19}','{20}','{21}','{22}','{23}','{24}')";
  
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim().ToString(),txtEmpUnqID.Text.Trim().ToString(),txtEmpName.Text.Trim().ToString(),txtFatherName.Text.Trim(),
                             txtUnitCode.Text.ToString(),((txtMessCode.Text.Trim() == "")? "null" :"'"+txtMessCode.Text.Trim()+"'"),
@@ -296,14 +299,17 @@ namespace Attendance.Forms
                              txtAdharNo.Text.Trim(),txtAdharNo.Text.Trim(),((Convert.ToBoolean(txtGender.EditValue))?1:0),
                             ((chkCont.Checked)?1:0),((chkComp.Checked)?1:0),((chkOTFlg.Checked)?1:0),txtWeekOff.Text.Trim(),
                             Utils.User.GUserID, txtBasic.Text.Trim().ToString(), 0,
-                            txtSplALL.Text.Trim().ToString(), txtBAAll.Text.Trim().ToString()
-                            
+                            txtSplALL.Text.Trim().ToString(), txtBAAll.Text.Trim().ToString(),
+                            txtCostCode.Text.Trim().ToString()
                             );
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
 
-                        
+                        //insert into costcode
+                        sql = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('" + txtEmpUnqID.Text.Trim().ToString() + "','" + txtJoinDt.DateTime.ToString("yyyy-MM-dd") + "','" + txtCostCode.Text.Trim().ToString() + "',GetDate(),'" + Utils.User.GUserID + "')";
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();        
 
                         //createmuster
                         clsEmp t = new clsEmp();
@@ -532,7 +538,8 @@ namespace Attendance.Forms
             txtEmpName.Text = "";
             txtFatherName.Text = "";
             txtAdharNo.Text = "";
-
+            txtCostDesc.Text = "";
+            txtCostCode.Text = "";
             txtWrkGrpCode.Text = "";
             txtWrkGrpDesc.Text = "";
             txtUnitCode.Text = "";
@@ -954,7 +961,9 @@ namespace Attendance.Forms
             txtValidTo.EditValue = cEmp.ValidTo;
             txtBirthDT.EditValue = cEmp.BirthDt;
             txtWeekOff.Text = cEmp.WeekOffDay;
-            
+            txtCostCode.Text = cEmp.CostCode;
+            txtCostDesc.Text = cEmp.CostDesc;
+
             
             if (cEmp.Active)
             {
@@ -973,6 +982,82 @@ namespace Attendance.Forms
             oldCode = cEmp.EmpUnqID;
         }
 
+        private void txtCostCode_Validated(object sender, EventArgs e)
+        {
+            if (txtCostCode.Text.Trim() == "")
+            {
+                return;
+            }
+
+            DataSet ds = new DataSet();
+            string sql = "select * from MastCostCode where CostCode ='" + txtCostCode.Text.Trim() + "'";
+
+            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            bool hasRows = ds.Tables.Cast<DataTable>()
+                           .Any(table => table.Rows.Count != 0);
+
+            if (hasRows)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    txtCostCode.Text = dr["CostCode"].ToString();
+                    txtCostDesc.Text = dr["CostDesc"].ToString();
+
+                }
+            }
+            else
+            {
+                txtCostCode.Text = "";
+                txtCostDesc.Text = "";
+            }
+
+        }
+
+        private void txtCostCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+
+                sql = "Select CostCode,CostDesc From MastCostCode Where Active = 1";
+                if (e.KeyCode == Keys.F1)
+                {
+
+                    obj = (List<string>)hlp.Show(sql, "CostCode", "CostCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                   100, 300, 400, 600, 100, 100);
+                }
+                else
+                {
+                    obj = (List<string>)hlp.Show(sql, "CostDesc", "CostDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                  100, 300, 400, 600, 100, 100);
+                }
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+
+                    txtCostCode.Text = obj.ElementAt(0).ToString();
+                    txtCostDesc.Text = obj.ElementAt(1).ToString();
+
+                }
+            }
+        }
 
         private void txtUnitCode_KeyDown(object sender, KeyEventArgs e)
         {

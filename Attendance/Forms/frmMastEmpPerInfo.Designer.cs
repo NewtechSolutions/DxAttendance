@@ -62,6 +62,10 @@
             this.txtAdd2 = new DevExpress.XtraEditors.TextEdit();
             this.txtAdd1 = new DevExpress.XtraEditors.TextEdit();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -166,10 +170,6 @@
             this.gridExp = new DevExpress.XtraGrid.GridControl();
             this.gvExp = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ctrlEmp1 = new Attendance.ctrlEmp();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -526,7 +526,7 @@
             // 
             this.txtPhone.Location = new System.Drawing.Point(100, 241);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
+            this.txtPhone.Properties.Mask.EditMask = "[0-9 -]+";
             this.txtPhone.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtPhone.Properties.MaxLength = 35;
             this.txtPhone.Size = new System.Drawing.Size(241, 20);
@@ -536,7 +536,7 @@
             // 
             this.txtPinCode.Location = new System.Drawing.Point(100, 213);
             this.txtPinCode.Name = "txtPinCode";
-            this.txtPinCode.Properties.Mask.EditMask = "[A-Z0-9 .,\\:-()-]+";
+            this.txtPinCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtPinCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtPinCode.Properties.MaxLength = 6;
             this.txtPinCode.Size = new System.Drawing.Size(241, 20);
@@ -636,6 +636,42 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(1095, 295);
             this.xtraTabPage2.Text = "Permanent Add.";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(143, 103);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(50, 14);
+            this.label18.TabIndex = 33;
+            this.label18.Text = "Taluka :";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(143, 74);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(49, 14);
+            this.label55.TabIndex = 32;
+            this.label55.Text = "Village :";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(137, 46);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(55, 14);
+            this.label56.TabIndex = 31;
+            this.label56.Text = "Society :";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(152, 18);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(40, 14);
+            this.label57.TabIndex = 30;
+            this.label57.Text = "Area :";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -685,7 +721,7 @@
             // 
             this.txtpPhone.Location = new System.Drawing.Point(198, 239);
             this.txtpPhone.Name = "txtpPhone";
-            this.txtpPhone.Properties.Mask.EditMask = "[A-Z0-9 .,@!/\\\\:-()-]+";
+            this.txtpPhone.Properties.Mask.EditMask = "[0-9 -]+";
             this.txtpPhone.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtpPhone.Properties.MaxLength = 35;
             this.txtpPhone.Size = new System.Drawing.Size(241, 20);
@@ -695,7 +731,7 @@
             // 
             this.txtpPinCode.Location = new System.Drawing.Point(198, 211);
             this.txtpPinCode.Name = "txtpPinCode";
-            this.txtpPinCode.Properties.Mask.EditMask = "[A-Z0-9:-()-]+";
+            this.txtpPinCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtpPinCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtpPinCode.Properties.MaxLength = 6;
             this.txtpPinCode.Size = new System.Drawing.Size(241, 20);
@@ -1251,7 +1287,7 @@
             // 
             this.txtFamName.Location = new System.Drawing.Point(108, 13);
             this.txtFamName.Name = "txtFamName";
-            this.txtFamName.Properties.Mask.EditMask = "[A-Z0-9:-()-]+";
+            this.txtFamName.Properties.Mask.EditMask = "[A-Z .]+";
             this.txtFamName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtFamName.Properties.MaxLength = 35;
             this.txtFamName.Size = new System.Drawing.Size(241, 20);
@@ -1797,42 +1833,6 @@
             this.ctrlEmp1.Name = "ctrlEmp1";
             this.ctrlEmp1.Size = new System.Drawing.Size(1088, 184);
             this.ctrlEmp1.TabIndex = 0;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(143, 103);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(50, 14);
-            this.label18.TabIndex = 33;
-            this.label18.Text = "Taluka :";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(143, 74);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(49, 14);
-            this.label55.TabIndex = 32;
-            this.label55.Text = "Village :";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(137, 46);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(55, 14);
-            this.label56.TabIndex = 31;
-            this.label56.Text = "Society :";
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(152, 18);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(40, 14);
-            this.label57.TabIndex = 30;
-            this.label57.Text = "Area :";
             // 
             // frmMastEmpPerInfo
             // 

@@ -116,6 +116,11 @@ namespace Attendance.Forms
             {
                 err += "Employee Already Blocked.";
             }
+
+            if (Globals.GetWrkGrpRights(1080, "", tdr["EmpUnqID"].ToString()) == false)
+            {
+                err += "Un-authorized";
+            }
             
             return err;
         }
@@ -181,31 +186,30 @@ namespace Attendance.Forms
 
                         if (!string.IsNullOrEmpty(err))
                         {
-                            if (err.Contains("Employee Already Blocked."))
-                            {
-                                DataRow mr = mailtb.NewRow();
-                                string WrkGrp = string.Empty;
-                                string Dept = string.Empty;
-                                string Stat = string.Empty;
-                                string EmpName = string.Empty;
+                            
+                            DataRow mr = mailtb.NewRow();
+                            string WrkGrp = string.Empty;
+                            string Dept = string.Empty;
+                            string Stat = string.Empty;
+                            string EmpName = string.Empty;
                                 
-                                bool t = GetEmpData(tEmpUnqID,out EmpName,out WrkGrp,out Dept,out Stat);
-                                if (t)
-                                {
-                                    mr["EmpUnqID"] = tEmpUnqID;
-                                    mr["EmpName"] = EmpName;
-                                    mr["WrkGrp"] = WrkGrp;
-                                    mr["Department"] = Dept;
-                                    mr["Station"] = Stat;
-                                    mr["Action"] = "Block";
-                                    mr["ActionBy"] = Utils.User.GUserID;
-                                    mr["Reason"] = dr["Reason"].ToString();
-                                    mr["ActionTime"] = DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
-                                    mr["Remarks"] = "Employee Already Blocked.";
-                                    mailtb.Rows.Add(mr);
-                                    mailtb.AcceptChanges();
-                                }
+                            bool t = GetEmpData(tEmpUnqID,out EmpName,out WrkGrp,out Dept,out Stat);
+                            if (t)
+                            {
+                                mr["EmpUnqID"] = tEmpUnqID;
+                                mr["EmpName"] = EmpName;
+                                mr["WrkGrp"] = WrkGrp;
+                                mr["Department"] = Dept;
+                                mr["Station"] = Stat;
+                                mr["Action"] = "Block";
+                                mr["ActionBy"] = Utils.User.GUserID;
+                                mr["Reason"] = dr["Reason"].ToString();
+                                mr["ActionTime"] = DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
+                                mr["Remarks"] = err;
+                                mailtb.Rows.Add(mr);
+                                mailtb.AcceptChanges();
                             }
+                            
                             dr["Remarks"] = err;
                             continue; 
                         }

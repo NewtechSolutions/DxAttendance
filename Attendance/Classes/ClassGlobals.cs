@@ -364,8 +364,8 @@ namespace Attendance.Classes
                     t.ShiftOutFrom = (TimeSpan)dr["ShiftOutFrom"];                   
                     t.ShiftOutTo = (TimeSpan)dr["ShiftOutTo"];
 
-                    t.BreakHrs = Convert.ToInt32(dr["BreakHrs"]);
-                    t.ShiftHrs = Convert.ToInt32(dr["ShiftHrs"]);
+                    t.BreakHrs = Convert.ToDouble(dr["BreakHrs"]);
+                    t.ShiftHrs = Convert.ToDouble(dr["ShiftHrs"]);
 
                     ShiftList.Add(t);
                     G_ShiftList = G_ShiftList + dr["ShiftCode"].ToString() + ",";
@@ -504,6 +504,75 @@ namespace Attendance.Classes
             return dataTable;
         }
 
+        public static string GetActualShift(DateTime intime)
+        {
+            DateTime tDate = intime.Date;
+            string tShift = string.Empty;
+            DateTime ShiftStart = new DateTime(), ShiftEnd = new DateTime(), ShiftInFrom = new DateTime(), ShiftInTo = new DateTime(), ShiftOutFrom = new DateTime(), ShiftOutTo = new DateTime();
+            double ShiftHrs = 0;
+            
+            DataView dvShift = new DataView(Globals.dtShift);
+            dvShift.Sort = "ShiftSeq ASC";
+
+            foreach (DataRowView drShift in dvShift)
+            {
+
+                #region Set_shiftvars
+                ShiftHrs = Convert.ToDouble(drShift["ShiftHrs"].ToString());
+               
+
+                ShiftStart = tDate.AddHours(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Hour)
+                    .AddMinutes(Convert.ToDateTime(drShift["ShiftStart"].ToString()).Minute);
+
+                ShiftEnd = Convert.ToDateTime(ShiftStart.AddHours(ShiftHrs));
+
+                ShiftInFrom = Convert.ToDateTime(tDate
+                    .AddHours(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Hour)
+                    .AddMinutes(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Minute)
+                    .AddSeconds(Convert.ToDateTime(drShift["ShiftInFrom"].ToString()).Second));
+
+                ShiftInTo = Convert.ToDateTime(tDate
+                    .AddHours(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Hour)
+                    .AddMinutes(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Minute)
+                    .AddSeconds(Convert.ToDateTime(drShift["ShiftInTo"].ToString()).Second));
+
+                if (!Convert.ToBoolean(drShift["NightFlg"]))
+                {
+                    //if not night shift
+                    ShiftOutFrom = Convert.ToDateTime(tDate
+                        .AddHours(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftOutFrom"].ToString()).Second));
+
+                    ShiftOutTo = Convert.ToDateTime(tDate
+                        .AddHours(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Second));
+                }
+                else
+                {
+                    //if shift is night shift
+                    ShiftOutFrom = Convert.ToDateTime(tDate
+                        .AddDays(1).AddHours(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Second));
+
+                    ShiftOutTo = Convert.ToDateTime(tDate.AddDays(1)
+                        .AddHours(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Hour)
+                        .AddMinutes(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Minute)
+                        .AddSeconds(Convert.ToDateTime(drShift["ShiftOutTo"].ToString()).Second));
+                }
+
+                #endregion Set_shiftvars
+                if (intime >= ShiftInFrom && intime <= ShiftInTo)
+                {
+                    tShift = drShift["ShiftCode"].ToString();
+                    break;
+                }
+            }//for loop
+
+            return tShift;
+        }
     }
 
     class ShiftData

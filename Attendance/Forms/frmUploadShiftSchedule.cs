@@ -132,7 +132,11 @@ namespace Attendance.Forms
 
             //added on 2020-10-01
             int sheduleymt = Convert.ToInt32(txtYearMT.DateTime.ToString("yyyyMM"));
-            int curymt = Convert.ToInt32(DateTime.Now.ToString("yyyyMM"));        
+            int curymt = Convert.ToInt32(DateTime.Now.ToString("yyyyMM"));
+
+            DateTime LastWODt = new DateTime();
+
+
             if(sheduleymt >= curymt)
             {
                 if((sheduleymt - curymt) >= 2)
@@ -385,6 +389,8 @@ namespace Attendance.Forms
                             string fldnm = "D" + date.ToString("dd");
                             string fldval = dr[fldnm].ToString().Trim().ToUpper();
 
+                            if (fldval == "WO")
+                                LastWODt = date;
 
                             try
                             {
@@ -475,6 +481,8 @@ namespace Attendance.Forms
 
                                 if (fldval == "WO")
                                 {
+                                    LastWODt = date;
+                                    
                                     string inssql = " Insert into MastLeaveSchedule " +
                                     " ( EmpUnqID,WrkGrp,tDate,SchLeave,Adddt,AddId )" +
                                     " Values ('" + Emp.EmpUnqID + "','" + Emp.WrkGrp + "','" + date.ToString("yyyy-MM-dd") + "','WO',GetDate(),'ShiftSch')";
@@ -516,15 +524,18 @@ namespace Attendance.Forms
                                 bool LeavPos = false;
                                 if (fldval == "WO")
                                 {
-                                
+                                    LastWODt = date;
                                     foreach (LeaveData t in leave)
                                     {
                                         //check if date is fall between leave posted
                                         if (date >= t.FromDt && date <= t.ToDt)
                                         {
                                             LeavPos = true;
+                                            
                                             date = t.ToDt;
                                             LastWO = t.ToDt;
+
+                                            
                                             break;                                            
                                         }
                                     }
@@ -673,6 +684,45 @@ namespace Attendance.Forms
 
                         try
                         {
+                           
+
+                            //new process : adjust wo from next month
+                            //and change default wo on empmaster
+                            // and re-create muster table from netxt month
+                            //added on 2021-08-31
+                            if (LastWODt != DateTime.MinValue)
+                            {
+                                cmd.Transaction = trn;
+                                cmd.CommandText = "Update MastEmp Set WeekOff ='" +LastWODt.ToString("ddd").ToUpper() + "' Where EmpUnqID ='" + tEmpUnqID + "'";
+                                cmd.ExecuteNonQuery();
+
+                                if(Convert.ToInt32(EndDt.ToString("yyyy")) != Convert.ToInt32(EndDt.AddDays(1).ToString("yyyy")))
+                                {
+                                    goto SkipNextYear;
+                                }
+
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.CommandText = "CreateMuster";
+
+                                SqlParameter spout = new SqlParameter();
+                                spout.Direction = ParameterDirection.Output;
+                                spout.DbType = DbType.Int32;
+                                spout.ParameterName = "@result";
+                                int tout = 0;
+                                spout.Value = tout;
+                                cmd.Parameters.AddWithValue("@pWrkGrp", Emp.WrkGrp);
+                                cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                                cmd.Parameters.AddWithValue("@pFromDt", EndDt.AddDays(1).ToString("yyyy-MM-dd"));
+                                cmd.Parameters.AddWithValue("@pToDt", EndDt.AddDays(1).ToString("yyyy") + "-12-31");
+                                cmd.Parameters.AddWithValue("@pWoDay", LastWODt.ToString("ddd"));
+                                cmd.Parameters.Add(spout);
+                                cmd.CommandTimeout = 0;
+                                cmd.ExecuteNonQuery();
+                                //get the output
+                                int result = (int)cmd.Parameters["@result"].Value;
+
+                            }
+SkipNextYear:
                             trn.Commit();
                             dr["Remarks"] = "Uploded";
 

@@ -2198,6 +2198,30 @@ namespace Attendance.Classes
 
         public class WorkerProcess : IJob
         {
+            public void UpdateProcessStatus(int jobID)
+            {
+                using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                {
+                    try
+                    {
+                        cn.Open();
+                        using (SqlCommand cmd = new SqlCommand())
+                        {
+                            cmd.Connection = cn;
+                            string upsql = "Update AttdWorker set doneflg = 1 , pushflg = 1,workerid ='Server' where msgid = '" + jobID.ToString() + "'";
+                            cmd.CommandText = upsql;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
+
+
             public void Execute(IJobExecutionContext context)
             {
                 if (_ShutDown)
@@ -2261,31 +2285,37 @@ namespace Attendance.Classes
                             if (ProType == "ATTD")
                             {
                                 pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
-                                
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
                             }
                             else if (ProType == "LUNCHINOUT")
                             {
                                 pro.LunchInOutProcess(tEmpUnqID, tFromDt, tToDt, out tres);
-                                
-                            }                                
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
+                            }
+                            else if (ProType == "GATEINOUT")
+                            {
+                                pro.GateInOutProcess(tEmpUnqID, tFromDt, out tres);
+                                pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
+                            }   
                             else if (ProType == "MESS")
                             {
                                 pro.LunchProcess(tEmpUnqID, tFromDt, tToDt, out tres);
-                                
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
                             }
                             else if (ProType == "EMPCOSTCODERPT")
                             {
                                 pro.EmpCostCodeRpt_Process(tEmpUnqID, tFromDt, out tres, out err);
-                                
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
                             }
                             else if (ProType == "TRIPODDATA")
                             {
                                 pro.TripodDataProcess(tEmpUnqID, tFromDt, tToDt, out tres);
-                               
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
                             }
                             else
                                 pro.AttdProcess(tEmpUnqID, tFromDt, tToDt, out tres, out err);
-                            
+                                UpdateProcessStatus(Convert.ToInt32(MsgID));
                                 if (!string.IsNullOrEmpty(err))
                                 {
 
@@ -2302,27 +2332,7 @@ namespace Attendance.Classes
                                     tMsg.Message = tEmpUnqID + ": Error=>" + err;
                                     Scheduler.Publish(tMsg);
                                 }
-                                else
-                                {
-                                    using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
-                                    {
-                                        try
-                                        {
-                                            cn.Open();
-                                            using (SqlCommand cmd = new SqlCommand())
-                                            {
-                                                cmd.Connection = cn;
-                                                string upsql = "Update AttdWorker set doneflg = 1 , pushflg = 1,workerid ='Server' where msgid = '" + MsgID + "'";
-                                                cmd.CommandText = upsql;
-                                                cmd.ExecuteNonQuery();
-                                            }
-                                        }
-                                        catch
-                                        {
-
-                                        }
-                                    }
-                                }
+                                
                         }
 
                         _StatusWorker = false;
@@ -2593,6 +2603,7 @@ namespace Attendance.Classes
                         hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
                         if (hasRows)
                         {
+                            connected = false;
                             connected = tmpMachine.Connect_Net(machineip, 4370);                            
                             if (connected)
                             {
@@ -2603,6 +2614,36 @@ namespace Attendance.Classes
                                 {
                                     string emp = dr["EmpUnqID"].ToString();
                                     int id = Convert.ToInt32(dr["ID"]);
+
+                                    //check if empblock status
+                                    // if current status is unblocked skip those records.
+                                    string err2 = string.Empty;
+                                    string empblockstat = Utils.Helper.GetDescription("Select PunchingBlocked from MastEmp Where EmpUnqID='" + emp + "'",Utils.Helper.constr,out err2);
+
+                                    if (!Convert.ToBoolean(empblockstat))
+                                    {
+                                        using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+                                        {
+                                            try
+                                            {
+                                                cn.Open();
+                                                using (SqlCommand cmd = new SqlCommand())
+                                                {
+                                                    sql = "Update MastMachineUserOperation Set DoneFlg = 1, DoneDt = GetDate(), LastError = 'already Unblocked before actual block from machine..' , " +
+                                                             " UpdDt=GetDate() where ID ='" + id.ToString() + "' and MachineIP = '" + machineip.ToString() + "' and Operation = 'BLOCK' and EmpUnqID ='" + emp.ToString() + "';";
+
+                                                    cmd.Connection = cn;
+                                                    cmd.CommandText = sql;
+                                                    cmd.ExecuteNonQuery();
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
+                                        }
+                                        continue;
+                                    }
 
                                     ServerMsg tMsg = new ServerMsg();
                                     tMsg.MsgTime = DateTime.Now;
@@ -2621,7 +2662,7 @@ namespace Attendance.Classes
                                     {                                        
                                         Deleted = tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
                                         tmpMachine.DelUserFace(1, emp, 50);                                        
-                                        tmpMachine.RefreshData(1);
+                                        
                                     }
 
                                     if (Deleted)
@@ -2655,15 +2696,12 @@ namespace Attendance.Classes
                                     }
                                     
                                 }//foreach
-                                
+                                tmpMachine.RefreshData(1);
+                                tmpMachine.Disconnect();
                             }//if connected
 
-                        }
-                        if (connected)
-                        {
-                            tmpMachine.RefreshData(1);
-                            tmpMachine.Disconnect();
-                        }
+                        }//for each machine's
+                        
                         #endregion
 
                         tmpMachine = null;

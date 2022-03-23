@@ -1654,7 +1654,7 @@ namespace Attendance.Forms
 
             this.Cursor = Cursors.WaitCursor;
 
-            string sql = "Select * from LeaveBal Where tYear= year(GetDate()) and EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'";
+            string sql = "Select * from LeaveBal Where tYear= '" + txtFromDt.DateTime.Year.ToString() + "' and EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'";
 
             //string sql = "Select * from LeaveBal Where tYear= 2018 and CompCode = '01' and WrkGrp = 'Comp' and EmpUnqID in (Select EmpUnqID From MastEmp Where Active = 1 and WrkGrp = 'Comp' and CompCode = '01')";
             
@@ -1669,15 +1669,15 @@ namespace Attendance.Forms
                     double LeaveFull = 0;
                     double LeaveAVL = 0;
 
-                    string sql2 = "Select Count(*) from AttdData Where LeaveTyp ='" + dr["LeaveTyp"].ToString() + "' " +
+                    string sql2 = "Select Count(*) from MastLeaveSchedule Where SchLeave ='" + dr["LeaveTyp"].ToString() + "' " +
                         " And tYear = '" + dr["tYear"].ToString() + "' And EmpUnqID ='" + dr["EmpUnqID"].ToString() + "'" +
-                        " And CompCode = '" + dr["CompCode"].ToString() + "' And WrkGrp ='" + dr["WrkGrp"].ToString() + "' and LeaveHalf = 0";
+                        " And WrkGrp ='" + dr["WrkGrp"].ToString() + "' and SchLeaveHalf = 0 " ;
 
                     LeaveFull = Convert.ToDouble(Utils.Helper.GetDescription(sql2, Utils.Helper.constr));
 
-                     sql2 = "Select Count(*) from AttdData Where LeaveTyp ='" + dr["LeaveTyp"].ToString() + "' " +
+                    sql2 = "Select Count(*) from MastLeaveSchedule Where SchLeave ='" + dr["LeaveTyp"].ToString() + "' " +
                         " And tYear = '" + dr["tYear"].ToString() + "' And EmpUnqID ='" + dr["EmpUnqID"].ToString() + "'" +
-                        " And CompCode = '" + dr["CompCode"].ToString() + "' And WrkGrp ='" + dr["WrkGrp"].ToString() + "' and LeaveHalf = 1";
+                        " And WrkGrp ='" + dr["WrkGrp"].ToString() + "' and SchLeaveHalf = 1 ";
 
                      LeaveHalf = Convert.ToDouble(Utils.Helper.GetDescription(sql2, Utils.Helper.constr));
 
@@ -1718,6 +1718,7 @@ namespace Attendance.Forms
             }//if
 
             this.Cursor = Cursors.Default;
+            MessageBox.Show("Re-Consilation is completed...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
     }

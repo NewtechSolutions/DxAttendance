@@ -199,6 +199,19 @@ namespace Attendance.Forms
                 return err;
             }
 
+            DateTime dt = DateTime.Now;
+
+            if (txtLeftDt.EditValue != null)
+            {
+                DateTime tdt = txtLeftDt.DateTime;
+
+                if (tdt > dt)
+                {
+                    err = err + "Left Date could not be future date.." + Environment.NewLine;
+                }
+            }
+
+
             return err;
         }
 

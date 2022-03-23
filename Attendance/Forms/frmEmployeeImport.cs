@@ -173,7 +173,20 @@ namespace Attendance.Forms
                             tdr["Remarks"] = "EmpUnqID is blank...";
                             continue;
                         }
-                            
+
+                        string err = string.Empty;
+                        string t = Utils.Helper.GetDescription("select Count(*) from MastEmp Where EmpUnqID='" + tEmpUnqID + "'", Utils.Helper.constr, out err);
+                        if (!string.IsNullOrEmpty(err))
+                        {
+                            tdr["Remarks"] = err;
+                            continue;
+                        }
+
+                        if (Convert.ToInt32(t) > 0)
+                        {
+                            tdr["Remarks"] = "Employee Already Exist...";
+                            continue;
+                        }
                         
                         string tWrkGrp = tdr["WrkGrp"].ToString();
                         string tUnitCode = tdr["UnitCode"].ToString();
@@ -246,7 +259,7 @@ namespace Attendance.Forms
                         DateTime tJoinDt = Convert.ToDateTime(tdr["JoinDt"]);
 
                         clsEmp emp = new clsEmp();
-                        string err = string.Empty;
+                        err = string.Empty;
 
                         bool iscreated = emp.CreateEmployee(tEmpUnqID, tWrkGrp,
                             tUnitCode, tEmpName, tFatherName,
@@ -264,7 +277,21 @@ namespace Attendance.Forms
                             tdr["Remarks"] = "Employee Created...";
                         else
                             tdr["Remarks"] = err;
-                        
+
+                        if (iscreated)
+                        {
+                            //-added on 04-10-2017 for costcenter wise manpower calculation
+                            if (!string.IsNullOrEmpty(tCostCode))
+                            {
+                                using (SqlCommand cmd = new SqlCommand())
+                                {
+                                    cmd.Connection = con;
+                                    cmd.CommandText = "Update AttdData Set CostCode ='" + tCostCode + "' Where EmpUnqID = '" + tEmpUnqID + "' and CompCode = '01' and tDate >= '" + Convert.ToDateTime(tJoinDt).ToString("yyyy-MM-dd") + "' ";
+                                    cmd.ExecuteNonQuery();
+                                }
+                                
+                            }
+                        }
                     }
 
                     con.Close();

@@ -631,14 +631,30 @@ namespace Attendance.Forms
 
                         foreach (string d in dtary)
                         {
-                            if (d == "A")
+                            string sql1 = string.Empty;
+                            switch (d.ToUpper())
                             {
-                                sql = "Update AttdData Set LeaveTyp = Null,Status = 'A' ,Rules = 1 Where EmpUnqID = '" + tEmpUnqID + "' " +
-                                " And tDate ='" + tmpDt.ToString("yyyy-MM-dd") + "' and ConsIn is null and ConsOut is null";
+                                case "A":
+                                    sql1 = "Update AttdData Set LeaveTyp = Null,Status = 'A' ,Rules = 1 Where EmpUnqID = '" + tEmpUnqID + "' " +
+                                    " And tDate ='" + tmpDt.ToString("yyyy-MM-dd") + "' and ConsIn is null and ConsOut is null";
+                                    break;
+                                case "LW":
+                                    sql1 = "Update AttdData Set LeaveTyp = 'LW',Status = 'P' ,Rules = 1 Where EmpUnqID = '" + tEmpUnqID + "' " +
+                                    " And tDate ='" + tmpDt.ToString("yyyy-MM-dd") + "' ";
+                                    break;
+                                
+                                default:
+                                    break;
+                            }
+                            
+                            if (!string.IsNullOrEmpty(sql1))
+                            {
+                                //sql = "Update AttdData Set LeaveTyp = Null,Status = 'A' ,Rules = 1 Where EmpUnqID = '" + tEmpUnqID + "' " +
+                                //" And tDate ='" + tmpDt.ToString("yyyy-MM-dd") + "' and ConsIn is null and ConsOut is null";
 
                                 try
                                 {
-                                    cmd.CommandText = sql;
+                                    cmd.CommandText = sql1;
                                     cmd.ExecuteNonQuery();
                                     
                                 }

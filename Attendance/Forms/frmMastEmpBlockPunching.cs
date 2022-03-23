@@ -19,7 +19,7 @@ namespace Attendance.Forms
         public string mode = "NEW";
         public string GRights = "XXXV";
         public string oldCode = "";
-
+        public int GFormID = 0;
         public frmMastEmpBlockPunching()
         {
             InitializeComponent();
@@ -51,6 +51,7 @@ namespace Attendance.Forms
         {
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
+            GFormID = Convert.ToInt32(Utils.Helper.GetDescription("Select FormId from MastFrm Where FormName ='" + this.Name + "'", Utils.Helper.constr));
             SetRights();
                        
         }
@@ -147,6 +148,16 @@ namespace Attendance.Forms
             }
 
             string tEmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim().ToString();
+            string tWrkGrp = ctrlEmp1.txtWrkGrpCode.Text.Trim().ToString();
+
+            //'added on 23/03/2022
+            if (Globals.GetWrkGrpRights(GFormID, "", tEmpUnqID) == false)
+            {
+                MessageBox.Show("You are not authorized for this Workgrp..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            
 
             //get if already blocked or not
             bool isBlocked = Convert.ToBoolean(Utils.Helper.GetDescription("Select PunchingBlocked from MastEmp where EmpUnqID ='" + tEmpUnqID + "'", Utils.Helper.constr));
@@ -224,6 +235,13 @@ namespace Attendance.Forms
             }
 
             string tEmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim().ToString();
+
+            //'added on 23/03/2022
+            if (Globals.GetWrkGrpRights(GFormID, "", tEmpUnqID) == false)
+            {
+                MessageBox.Show("You are not authorized for this Workgrp..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             ////get if already blocked or not
             bool isBlocked = Convert.ToBoolean(Utils.Helper.GetDescription("Select PunchingBlocked from MastEmp where EmpUnqID ='" + tEmpUnqID + "'",Utils.Helper.constr));

@@ -417,8 +417,8 @@ namespace Attendance.Forms
             {
                 string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL,LeftDt, " +
                     "BANKNAME,IFSCCODE,ACCOUNTNO,PANCARD,UANNO,MobileNo,EmailID,BloodGroup, " +
-                    "PermenantAdd1 as PermenantArea,PermenantAdd2 as PermenantSociety,PermenantAdd3 as PermenantVillage,PermenantAdd4 as PermenantTaluka,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
-                    "PresantAdd1 as PresantArea,PresantAdd2 as PresantSociety,PresantAdd3 as PresantVillage,PresantAdd4 as PresantTaluka,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
+                    "PermenantArea,PermenantSociety,PermenantVillage,PermenantTaluka,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
+                    "PresantArea,PresantSociety,PresantVillage,PresantTaluka,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
                     " '' as Remarks from " + sheetname;
 
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);

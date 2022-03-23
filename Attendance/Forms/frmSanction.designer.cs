@@ -133,6 +133,8 @@
             this.grd_Tripod = new DevExpress.XtraGrid.GridControl();
             this.gv_Tripod = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.btnDeleteShiftSch = new DevExpress.XtraEditors.SimpleButton();
             this.tblp_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xTabCtrl)).BeginInit();
             this.xTabCtrl.SuspendLayout();
@@ -604,6 +606,8 @@
             // grp_Sanction
             // 
             this.grp_Sanction.BackColor = System.Drawing.Color.Gainsboro;
+            this.grp_Sanction.Controls.Add(this.btnDeleteShiftSch);
+            this.grp_Sanction.Controls.Add(this.label19);
             this.grp_Sanction.Controls.Add(this.btn_San_Del);
             this.grp_Sanction.Controls.Add(this.label2);
             this.grp_Sanction.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1539,6 +1543,25 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(460, 18);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(290, 15);
+            this.label19.TabIndex = 15;
+            this.label19.Text = "* Delete Shift Sheduled (Contractual Employee only)";
+            // 
+            // btnDeleteShiftSch
+            // 
+            this.btnDeleteShiftSch.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteShiftSch.Image")));
+            this.btnDeleteShiftSch.Location = new System.Drawing.Point(756, 15);
+            this.btnDeleteShiftSch.Name = "btnDeleteShiftSch";
+            this.btnDeleteShiftSch.Size = new System.Drawing.Size(156, 26);
+            this.btnDeleteShiftSch.TabIndex = 16;
+            this.btnDeleteShiftSch.Text = "Delete Shift Schedule";
+            this.btnDeleteShiftSch.Click += new System.EventHandler(this.btnDeleteShiftSch_Click);
+            // 
             // frmSanction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1724,5 +1747,7 @@
         private DevExpress.XtraGrid.GridControl grd_Tripod;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_Tripod;
         private System.Windows.Forms.GroupBox groupBox2;
+        private DevExpress.XtraEditors.SimpleButton btnDeleteShiftSch;
+        private System.Windows.Forms.Label label19;
     }
 }

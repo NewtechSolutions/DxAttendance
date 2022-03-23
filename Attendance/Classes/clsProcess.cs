@@ -178,6 +178,75 @@ namespace Attendance
             }//using connection
         }
 
+        public void GateInOutProcess(string tEmpUnqID, DateTime tFromDt, out int result)
+        {
+            result = 0;
+
+            if (string.IsNullOrEmpty(tEmpUnqID))
+            {
+                return;
+            }
+
+
+            //call main store proce.
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                try
+                {
+                    clsEmp Emp = new clsEmp();
+                    Emp.CompCode = "01";
+                    Emp.EmpUnqID = tEmpUnqID;
+
+                    //check employee status
+                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    {
+                        return;
+
+                    }
+                    else
+                    {
+                        //if not active 
+                        if (!Emp.Active)
+                            return;
+                    }
+
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = cn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "GateInOutProcess";
+
+                        SqlParameter spout = new SqlParameter();
+                        spout.Direction = ParameterDirection.Output;
+                        spout.DbType = DbType.Int32;
+                        spout.ParameterName = "@result";
+                        int tout = 0;
+                        spout.Value = tout;
+
+                        tFromDt = tFromDt.AddHours(0).AddMinutes(1);
+                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
+                        cmd.Parameters.AddWithValue("@pFromDt", tFromDt);
+                        cmd.Parameters.Add(spout);
+                        cmd.CommandTimeout = 0;
+                        cmd.ExecuteNonQuery();
+
+                        //get the output
+                        result = (int)cmd.Parameters["@result"].Value;
+
+
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }//using connection
+        }
+
         public void EmpCostCodeRpt_Process(string tEmpUnqID, DateTime tFromDt, out int result, out string err)
         {
             result = 0;
@@ -249,7 +318,7 @@ namespace Attendance
             //trace setshift err
             string shifterr = string.Empty;
             string proerr = string.Empty;
-
+            string newwooterr = string.Empty;
             #region chk_primary
             if (string.IsNullOrEmpty(tEmpUnqID))
             {
@@ -382,7 +451,7 @@ namespace Attendance
                                 "Status,HalfDay,LeaveTyp,LeaveHalf,ActualStatus,Earlycome,EarlyGoing,GracePeriod," +
                                 "INPunch1,OutPunch1,WrkHrs1,INPunch2,OutPunch2,WrkHrs2,INPunch3,OutPunch3," +
                                 "WrkHrs3,INPunch4,OutPunch4,WrkHrs4,TotalWorkhrs,TotalINPunchCount," +
-                                "TotalOutPunchCount,LateCome,Rules,CalcOverTime,HalfDRule,partdate,CostCode,StdHrsOT,StdShftHrs,StdWrkHrs,StdWrkShift " +
+                                "TotalOutPunchCount,LateCome,Rules,CalcOverTime,HalfDRule,partdate,CostCode,StdHrsOT,StdShftHrs,StdWrkHrs,StdWrkShift,ActualShift " +
                                 " from AttdData where CompCode = '01' and tYear ='" + drDate["CalYear"].ToString() +
                                 "' and EmpUnqID = '" + Emp.EmpUnqID + "' and tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "'" +
                                 " And WrkGrp = '" + Emp.WrkGrp + "'  ";
@@ -515,21 +584,23 @@ namespace Attendance
                                     {
 
                                         #region Check_For_Continueous_Duty
+                                        bool chk_continue_duty = false;
 
                                         if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
                                         {
                                             if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
                                                 == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
                                             {
-                                                TimeSpan outdiff1 = Convert.ToDateTime(drAttd["OutPunch1"]) - Convert.ToDateTime(drAttd["InPunch2"]);
+                                                TimeSpan outdiff1 = Convert.ToDateTime(drAttd["InPunch2"]) - Convert.ToDateTime(drAttd["OutPunch1"]);
                                                 if (outdiff1.TotalMinutes <= 60 && outdiff1.TotalMinutes >= 0)
                                                 {
-                                                    TimeSpan outdiff2 = Convert.ToDateTime(drAttd["InPunch1"]) - Convert.ToDateTime(drAttd["OutPunch1"]);
+                                                    TimeSpan outdiff2 = Convert.ToDateTime(drAttd["OutPunch1"]) - Convert.ToDateTime(drAttd["InPunch1"]);
                                                     if (outdiff2.TotalHours >= 6)
                                                     {
                                                         drAttd["ConsIn"] = drAttd["InPunch1"];
                                                         drAttd["ConsOut"] = drAttd["OutPunch2"];
                                                         daAttdData.Update(dsAttdData, "AttdData");
+                                                        chk_continue_duty = true;
                                                     }
                                                 }
                                             }
@@ -537,32 +608,35 @@ namespace Attendance
                                         #endregion Check_For_Continueous_Duty
 
                                         #region Check_For_Maximum_Hours
-
-                                        if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
+                                        if (!chk_continue_duty)
                                         {
-                                            if (Convert.ToDateTime(drAttd["OutPunch2"]) > Convert.ToDateTime(drAttd["OutPunch1"]))
+                                            if (drAttd["InPunch1"] != DBNull.Value && drAttd["OutPunch1"] != DBNull.Value && drAttd["InPunch2"] != DBNull.Value && drAttd["OutPunch2"] != DBNull.Value)
                                             {
-                                                if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
-                                                == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
+                                                if (Convert.ToDateTime(drAttd["OutPunch2"]) > Convert.ToDateTime(drAttd["OutPunch1"]))
                                                 {
-                                                    if (Convert.ToDouble(drAttd["WrkHrs1"]) > Convert.ToDouble(drAttd["WrkHrs2"]))
+                                                    if (Convert.ToDateTime(drAttd["InPunch1"]).ToString("yyyy-MM-dd")
+                                                    == Convert.ToDateTime(drAttd["InPunch2"]).ToString("yyyy-MM-dd"))
                                                     {
-                                                        drAttd["ConsIn"] = drAttd["InPunch1"];
-                                                        drAttd["ConsOut"] = drAttd["OutPunch1"];
-                                                        drAttd["ConsWrkHrs"] = drAttd["WrkHrs1"];
-                                                        daAttdData.Update(dsAttdData, "AttdData");
+                                                        if (Convert.ToDouble(drAttd["WrkHrs1"]) > Convert.ToDouble(drAttd["WrkHrs2"]))
+                                                        {
+                                                            drAttd["ConsIn"] = drAttd["InPunch1"];
+                                                            drAttd["ConsOut"] = drAttd["OutPunch1"];
+                                                            drAttd["ConsWrkHrs"] = drAttd["WrkHrs1"];
+                                                            daAttdData.Update(dsAttdData, "AttdData");
+                                                        }
+                                                        else
+                                                        {
+                                                            drAttd["ConsIn"] = drAttd["InPunch2"];
+                                                            drAttd["ConsOut"] = drAttd["OutPunch2"];
+                                                            drAttd["ConsWrkHrs"] = drAttd["WrkHrs2"];
+                                                            daAttdData.Update(dsAttdData, "AttdData");
+                                                        }
                                                     }
-                                                    else
-                                                    {
-                                                        drAttd["ConsIn"] = drAttd["InPunch2"];
-                                                        drAttd["ConsOut"] = drAttd["OutPunch2"];
-                                                        drAttd["ConsWrkHrs"] = drAttd["WrkHrs2"];
-                                                        daAttdData.Update(dsAttdData, "AttdData");
-                                                    }
-                                                }
 
+                                                }
                                             }
                                         }
+                                        
                                         #endregion Check_For_Maximum_Hours
                                     }
 
@@ -937,15 +1011,17 @@ namespace Attendance
 
                                     #region GateInOutProcess_CONT
                                     if (Emp.WrkGrp == "CONT")
-                                    {
-                                        cmd = new SqlCommand();
-                                        cmd.Connection = cn;
-                                        cmd.CommandType = CommandType.StoredProcedure;
-                                        cmd.CommandText = "GateINOutProcess";
-                                        cmd.Parameters.AddWithValue("@pEmpUnqID", Emp.EmpUnqID);
-                                        cmd.Parameters.AddWithValue("@pDate", Convert.ToDateTime(drDate["Date"]));
-                                        cmd.CommandTimeout = 0;
-                                        cmd.ExecuteNonQuery();
+                                    {  
+                                        //NEW PROCESS DI SEGMENT - SCHEDULED EMP
+                                        //PROVIDE WO -> 8 HRS OT - IF NOT ACTUALLY COMES
+                                        //->A;WO;A ->RULE SHOULD BE APPLIED
+                                        //->Ref : Mail - Dated : 24/7/21 - K.K. Giri
+
+                                        ContScheduledManWO_OTCalc(tEmpUnqID, drAttd, out newwooterr);
+                                        
+                                        int res = 0;
+                                        GateInOutProcess(Emp.EmpUnqID, Convert.ToDateTime(drDate["Date"]), out res);
+
                                     }
                                     #endregion GateInOutProcess_CONT
 
@@ -963,7 +1039,12 @@ namespace Attendance
                     {
                         err = err + shifterr;
                     }
-                    
+
+                    if (!string.IsNullOrEmpty(newwooterr))
+                    {
+                        err = err + newwooterr;
+                    }
+
                     if(!string.IsNullOrEmpty(proerr))
                     {
                         err = err + proerr;
@@ -984,6 +1065,208 @@ namespace Attendance
                 }
             }
         }
+
+
+        public void ContScheduledManWO_OTCalc(string tEmpUnqID, DataRow drAttd,out string err)
+        {
+             err = string.Empty;
+             string err4;
+             DateTime curDt = Convert.ToDateTime(drAttd["tDate"]);
+             SqlConnection cn = new SqlConnection(Utils.Helper.constr);
+             try
+             {
+                 cn.Open();
+             }
+             catch (Exception ex)
+             {
+                 err = ex.ToString();
+                 return;
+             }
+
+            if (curDt >= Convert.ToDateTime("2021-07-26"))
+            {
+                DateTime nxtday = curDt.Date.AddDays(1);
+                DateTime preday = curDt.Date.AddDays(-1);
+
+                DataSet dsNxt = Utils.Helper.GetData("Select * from AttdData Where Empunqid ='" + tEmpUnqID + "' and tDate = '" + nxtday.Date.ToString("yyyy-MM-dd") + "'", Utils.Helper.constr, out err4);
+                if (!string.IsNullOrEmpty(err4))
+                {
+                    err += err4;
+                    return;
+                }
+                
+                DataSet dsPrv = Utils.Helper.GetData("Select * from AttdData Where Empunqid ='" + tEmpUnqID + "' and tDate = '" + preday.Date.ToString("yyyy-MM-dd") + "'", Utils.Helper.constr, out err4);
+                if (!string.IsNullOrEmpty(err4))
+                {
+                    err += err4;
+                    return;
+                }
+                
+                bool prvhasrow = dsPrv.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                if (prvhasrow)
+                {
+                    DataRow drprv = dsPrv.Tables[0].Rows[0];
+                    DataRow drnxt = dsNxt.Tables[0].Rows[0];
+
+                    string prvschshift = drprv["ScheduleShift"].ToString();
+
+                    string prvstatus = drprv["Status"].ToString();
+                    string curSchShift = drAttd["ScheduleShift"].ToString();
+                    string nxtSchShift = drnxt["ScheduleShift"].ToString();
+                    string curStatus = drAttd["Status"].ToString();
+                    string nxtStatus = drnxt["Status"].ToString();
+
+                    if (!string.IsNullOrEmpty(prvschshift) && !string.IsNullOrEmpty(curSchShift) && !string.IsNullOrEmpty(nxtSchShift))
+                    {
+                        if ((curSchShift == "WO" && prvstatus == "P" && nxtStatus == "P") || 
+                            (curSchShift == "WO" && prvstatus == "A" && nxtStatus == "P") ||
+                            (curSchShift == "WO" && prvstatus == "P" && nxtStatus == "A")
+                            )
+                        {
+                            //check sanction ot on wo days
+                            string tsql = "Select top 1 * from MastLeaveSchedule where Empunqid ='" + tEmpUnqID + "' and tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' and ConsOverTime is not null and SchLeave is null order by sanid desc";
+                            DataSet dsSanWo = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err4);
+                            if (!string.IsNullOrEmpty(err4))
+                            {
+                                err += err4;
+                                return;
+                            }
+                            bool sanhasrow = dsSanWo.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                            if (!sanhasrow)
+                            {
+                                //insert sanction overtime to 8 hrs
+                                //and set consovertime 8 hrs
+
+                                using (SqlCommand cmd1 = new SqlCommand())
+                                {
+                                    try
+                                    {
+                                        
+                                        cmd1.Connection = cn;
+                                        string sql1 = "Insert Into MastLeaveSchedule (tDate,EmpUnqID,WrkGrp,ConsOverTime,Remarks,AddId,AddDt) Values (" +
+                                        " '" + curDt.Date.ToString("yyyy-MM-dd") + "','" + tEmpUnqID + "','" + drAttd["WrkGrp"].ToString() + "',8,'8hr day off','Auto',GetDate())";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+                                        sql1 = "Update AttdData Set ConsOverTime = 8 where EmpUnqid = '" + tEmpUnqID + "' and tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' ";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                        return;
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                //update sanction overtime to 8 hrs
+                                DataRow drsan = dsSanWo.Tables[0].Rows[0];
+                                using (SqlCommand cmd1 = new SqlCommand())
+                                {
+                                    try
+                                    {
+                                        cmd1.Connection = cn;
+                                        //string sql1 = "update MastLeaveSchedule set ConsOverTime = 8 where SanId = '" + drsan["SanID"].ToString() + "'";
+                                        //cmd1.CommandText = sql1;
+                                        //cmd1.CommandTimeout = 0;
+                                        //cmd1.ExecuteNonQuery();
+                                        string sql1 = string.Empty;
+                                        sql1 = "Update AttdData Set ConsOverTime = '" + drsan["ConsOverTime"].ToString() + "' where EmpUnqid = '" + tEmpUnqID + "' and tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' ";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                        return;
+                                    }
+                                }
+
+                            }
+
+                        }
+                        
+                        else if (curSchShift == "WO" && prvstatus == "A" && nxtStatus == "A")
+                        {
+                            //delete if exist
+                            string tsql = "Select top 1 * from MastLeaveSchedule where Empunqid ='" + tEmpUnqID + "' and tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' and isnull(ConsOverTime,0) > 0 and SchLeave is null and AddId ='auto'";
+                            DataSet dsSanWo = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err4);
+
+                            if (!string.IsNullOrEmpty(err4))
+                            {
+                                err += err4;
+                                return;
+                            }
+
+                            bool sanhasrow = dsSanWo.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                            if (sanhasrow)
+                            {
+                                //update sanction overtime to 8 hrs
+                                DataRow drsan = dsSanWo.Tables[0].Rows[0];
+                                using (SqlCommand cmd1 = new SqlCommand())
+                                {
+                                    try
+                                    {
+                                        cmd1.Connection = cn;
+                                        string sql1 = "delete from MastLeaveSchedule where SanId = '" + drsan["SanID"].ToString() + "'";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+                                        sql1 = "Update AttdData Set ConsOverTime = 0 , Status = 'A',LeaveTyp = '' where EmpUnqid = '" + tEmpUnqID + "' tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' ";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                        return;
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                //mark status A, ot 0
+                                using (SqlCommand cmd1 = new SqlCommand())
+                                {
+                                    try
+                                    {
+                                        cmd1.Connection = cn;
+                                        string sql1 = "Update AttdData Set ConsOverTime = 0, Status = 'A', LeaveTyp = '' where EmpUnqid = '" + tEmpUnqID + "' and tDate ='" + curDt.Date.ToString("yyyy-MM-dd") + "' ";
+                                        cmd1.CommandText = sql1;
+                                        cmd1.CommandTimeout = 0;
+                                        cmd1.ExecuteNonQuery();
+
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        err += ex.ToString();
+                                        return;
+                                    }
+                                }
+
+                            }
+                        }
+                    }//end of shceduled contract employee
+                }
+
+            }//main add cont 8hrs function
+        }
+
 
         public void TripodDataProcess(string tEmpUnqID, DateTime tFromDt, DateTime tToDate, out int result)
         {
@@ -1284,6 +1567,8 @@ namespace Attendance
 
                 #endregion Setting_Vars
 
+                drAttd["ActualShift"] = Globals.GetActualShift(Convert.ToDateTime(drAttd["ConsIn"]));
+
                 if (drAttd["ConsIN"] is DateTime && tShift == "")
                 {
                     #region AutoSiftCalc
@@ -1348,7 +1633,7 @@ namespace Attendance
                         if (tInTime >= ShiftInFrom && tInTime <= ShiftInTo)
                         {
                             drAttd["ConsShift"] = drShift["ShiftCode"].ToString();
-
+                           
                             #region Set_LateComming
                             //'Calc LateCome,EarlyGone
                             TimeSpan tDiff = (tInTime - ShiftStart);
@@ -1677,7 +1962,7 @@ namespace Attendance
                 else
                 {
                     #region SchShiftCalc
-
+                    
                     DataRow[] drShiftC = Globals.dtShift.Select("ShiftCode = '" + tShift + "'");
 
                     // 'Resolve Type MisMatch Error : Added for if user wrongly entered sanction shift - using Bulk Sanction
@@ -2386,7 +2671,14 @@ namespace Attendance
 
                 }
 
-               
+                //NEW DEVELOPMENT, AS PER MAIL DT 09/08/21, VALLABH - HR, AUTO CALCULATION OF OVERTIME 
+                //SHOULD NOT BE POSTED
+                //
+                DateTime stopotdt = new DateTime(2021, 09, 07);
+                if (Emp.WrkGrp == "COMP" && tDate >= stopotdt)
+                {
+                    drAttd["ConsOverTime"] = 0;
+                }
 
 
                 daAttdData.Update(dsAttdData, "AttdData");
