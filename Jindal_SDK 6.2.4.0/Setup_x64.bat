@@ -1,11 +1,11 @@
-Copy /y commpro.dll %windir%\sysWOW64\
-Copy /y comms.dll %windir%\sysWOW64\
-Copy /y zkemsdk.dll %windir%\sysWOW64\
-Copy /y rscagent.dll %windir%\sysWOW64\
-Copy /y rscomm.dll %windir%\sysWOW64\
-Copy /y zkemkeeper.dll %windir%\sysWOW64\
-Copy /y tcpcomm.dll %windir%\sysWOW64\
-Copy /y usbcomm.dll %windir%\sysWOW64\
+Copy commpro.dll %windir%\sysWOW64\
+Copy comms.dll %windir%\sysWOW64\
+Copy zkemsdk.dll %windir%\sysWOW64\
+Copy rscagent.dll %windir%\sysWOW64\
+Copy rscomm.dll %windir%\sysWOW64\
+Copy zkemkeeper.dll %windir%\sysWOW64\
+Copy tcpcomm.dll %windir%\sysWOW64\
+Copy usbcomm.dll %windir%\sysWOW64\
 
 
 REGSVR32 %windir%\sysWOW64\zkemkeeper.dll

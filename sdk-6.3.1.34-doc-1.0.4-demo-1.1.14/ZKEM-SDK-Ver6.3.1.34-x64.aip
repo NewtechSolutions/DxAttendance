@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="14.0" version="14.0" Modules="architect" RootPath="." Language="en" Id="{8E600ADF-E11F-4C16-A211-7FEE9F039498}">
+  <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
+    <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;MsiThemeComponent;BackgroundImagesComponent;UpdaterComponent;SerValComponent;DigCertStoreComponent;MsiInstExSeqComponent;DictionaryComponent;MsiAppSearchComponent;MsiAssemblyComponent;MsiClassComponent;MsiOdbcDataSrcComponent;MsiServInstComponent;MsiOrgComponent;MsiExtComponent;CPLAppletComponent;ActSyncAppComponent;PreReqComponent;WebApplicationsComponent;TilesComponent;MsiJavaComponent;MsiDriverPackagesComponent;UserAccountsComponent;ScheduledTasksComponent;SqlConnectionComponent;AutorunComponent;FirewallExceptionComponent;GameUxComponent;MsiDirectEditorComponent;SharePointSlnComponent;SilverlightSlnComponent;MultipleInstancesComponent;SccmComponent;TilesComponent"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="ALLUSERS" Value="1"/>
+    <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPCONTACT" Value="anand.acharya@jindalsaw.com"/>
+    <ROW Property="Manufacturer" Value="Jindal Saw"/>
+    <ROW Property="ProductCode" Value="1033:{E5FEDC3B-66B0-49DA-8979-E09376BFAAB0} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1033"/>
+    <ROW Property="ProductName" Value="ZKEM-SDK-Ver6.3.1.34-x64"/>
+    <ROW Property="ProductVersion" Value="6.3.1.34" Type="32"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
+    <ROW Property="UpgradeCode" Value="{B9F27CA0-E116-45D2-8B94-1546F0CC7E5F}"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="SystemFolder" Directory_Parent="TARGETDIR" DefaultDir="SYSTEM~1|SystemFolder" IsPseudoRoot="1"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="ProductInformation" ComponentId="{57DB7D4C-8011-4DCF-A99E-DFD646DDFA00}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="commpro.dll" ComponentId="{815B8A86-94D5-474A-95F7-D10D9695782F}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="commpro.dll"/>
+    <ROW Component="comms.dll" ComponentId="{2CD90F81-B635-4583-8708-9DE9D63DD2EC}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="comms.dll"/>
+    <ROW Component="plcommpro.dll" ComponentId="{1CAB92B0-172C-438E-890F-B2FEC566454B}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="plcommpro.dll"/>
+    <ROW Component="plcomms.dll" ComponentId="{91DF709E-E88B-4BEE-A125-BB37E527BF03}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="plcomms.dll"/>
+    <ROW Component="plrscagent.dll" ComponentId="{A5ED2176-58E3-4D92-88FA-12DE288E903F}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="plrscagent.dll"/>
+    <ROW Component="plrscomm.dll" ComponentId="{A05B7F8A-8A1E-4D28-9BBA-B0C6E65FD82F}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="plrscomm.dll"/>
+    <ROW Component="pltcpcomm.dll" ComponentId="{0D3B8178-FA9D-4371-9375-9FF92FC9FC6E}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="pltcpcomm.dll"/>
+    <ROW Component="plusbcomm.dll" ComponentId="{E81D9802-75C6-4EA0-A577-3F261B133901}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="plusbcomm.dll"/>
+    <ROW Component="rscagent.dll" ComponentId="{0075C9C6-6279-4BC6-AC44-F4C018EA2F08}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="rscagent.dll"/>
+    <ROW Component="rscomm.dll" ComponentId="{A0BFCF83-C922-4E2F-88DE-44629707BF93}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="rscomm.dll"/>
+    <ROW Component="tcpcomm.dll" ComponentId="{0BEDF5A6-C52D-46E0-B404-40E9570E716D}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="tcpcomm.dll"/>
+    <ROW Component="usbcomm.dll" ComponentId="{12D0DE73-EF35-4DD8-9332-B245A42E71F0}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="usbcomm.dll"/>
+    <ROW Component="usbstd.dll" ComponentId="{6519BE0C-CDA9-4935-85A7-32AD1796114E}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="usbstd.dll"/>
+    <ROW Component="zkemkeeper.dll" ComponentId="{B926FF94-1B4F-4A8D-A32A-ED38DEA0BFD2}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="zkemkeeper.dll"/>
+    <ROW Component="zkemsdk.dll" ComponentId="{C13910C4-401B-4809-938C-1C85BA23460C}" Directory_="SystemFolder" Attributes="256" Condition="VersionNT64" KeyPath="zkemsdk.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="commpro.dll comms.dll plcommpro.dll plcomms.dll plrscagent.dll plrscomm.dll pltcpcomm.dll plusbcomm.dll rscagent.dll rscomm.dll tcpcomm.dll usbcomm.dll usbstd.dll zkemkeeper.dll zkemsdk.dll"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ProductInformation"/>
+    <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="commpro.dll" Component_="commpro.dll" FileName="commpro.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\commpro.dll" SelfReg="false" NextFile="comms.dll"/>
+    <ROW File="comms.dll" Component_="comms.dll" FileName="comms.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\comms.dll" SelfReg="false" NextFile="plcommpro.dll"/>
+    <ROW File="plcommpro.dll" Component_="plcommpro.dll" FileName="PLCOMM~1.DLL|plcommpro.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\plcommpro.dll" SelfReg="false" NextFile="plcomms.dll"/>
+    <ROW File="plcomms.dll" Component_="plcomms.dll" FileName="plcomms.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\plcomms.dll" SelfReg="false" NextFile="plrscagent.dll"/>
+    <ROW File="plrscagent.dll" Component_="plrscagent.dll" FileName="PLRSCA~1.DLL|plrscagent.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\plrscagent.dll" SelfReg="false" NextFile="plrscomm.dll"/>
+    <ROW File="plrscomm.dll" Component_="plrscomm.dll" FileName="plrscomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\plrscomm.dll" SelfReg="false" NextFile="pltcpcomm.dll"/>
+    <ROW File="pltcpcomm.dll" Component_="pltcpcomm.dll" FileName="PLTCPC~1.DLL|pltcpcomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\pltcpcomm.dll" SelfReg="false" NextFile="plusbcomm.dll"/>
+    <ROW File="plusbcomm.dll" Component_="plusbcomm.dll" FileName="PLUSBC~1.DLL|plusbcomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\plusbcomm.dll" SelfReg="false" NextFile="rscagent.dll"/>
+    <ROW File="rscagent.dll" Component_="rscagent.dll" FileName="rscagent.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\rscagent.dll" SelfReg="false" NextFile="rscomm.dll"/>
+    <ROW File="rscomm.dll" Component_="rscomm.dll" FileName="rscomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\rscomm.dll" SelfReg="false" NextFile="tcpcomm.dll"/>
+    <ROW File="tcpcomm.dll" Component_="tcpcomm.dll" FileName="tcpcomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\tcpcomm.dll" SelfReg="false" NextFile="usbcomm.dll"/>
+    <ROW File="usbcomm.dll" Component_="usbcomm.dll" FileName="usbcomm.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\usbcomm.dll" SelfReg="false" NextFile="usbstd.dll"/>
+    <ROW File="usbstd.dll" Component_="usbstd.dll" FileName="usbstd.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\usbstd.dll" SelfReg="false" NextFile="zkemkeeper.dll"/>
+    <ROW File="zkemkeeper.dll" Component_="zkemkeeper.dll" FileName="ZKEMKE~1.DLL|zkemkeeper.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\zkemkeeper.dll" SelfReg="true" NextFile="zkemsdk.dll"/>
+    <ROW File="zkemsdk.dll" Component_="zkemsdk.dll" FileName="zkemsdk.dll" Attributes="0" SourcePath="SDK-Ver6.3.1.34\64bit\zkemsdk.dll" SelfReg="false"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="en" InstallationType="4" CabsLocation="1" PackageType="1" UseLargeSchema="true" MsiPackageType="AI_ALL"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
+    <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\FolderDlg.aip"/>
+    <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceTypeDlg.aip"/>
+    <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;classic\fragments\UI.aip"/>
+    <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
+    <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRemoveDlg.aip"/>
+    <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
+    <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
+    <ROW Feature_="AI64BitFiles" Level="0" Condition="NOT VersionNT64"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="198"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="202"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="ChangeButton" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="501"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RemoveButton" Event="NewDialog" Argument="VerifyRemoveDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RepairButton" Event="NewDialog" Argument="VerifyRepairDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="1"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="399" Options="1"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="299" Options="1"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
+    <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
+    <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
+    <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
+    <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
+    <ROW Action="AI_SETPROGRAMFILES" Type="51" Source="AI_ProgramFiles" Target="[ProgramFilesFolder]"/>
+    <ROW Action="AI_SETPROGRAMFILES64" Type="51" Source="AI_ProgramFiles" Target="[ProgramFiles64Folder]"/>
+    <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_ProgramFiles][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="747"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETPROGRAMFILES64" Condition="VersionNT64" Sequence="748"/>
+    <ROW Action="AI_SETPROGRAMFILES" Condition="NOT VersionNT64" Sequence="749"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="747"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
+    <ROW Action="AI_DpiContentScale" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETPROGRAMFILES64" Condition="VersionNT64" Sequence="748"/>
+    <ROW Action="AI_SETPROGRAMFILES" Condition="NOT VersionNT64" Sequence="749"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT64 OR ((VersionNT &lt;&gt; 501) OR (ServicePackLevel = 3))) AND ((VersionNT &lt;&gt; 502) OR (ServicePackLevel = 2))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="This package can only be run from a bootstrapper." DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
+    <ATTRIBUTE name="UsedTheme" value="classic"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="[|ProductVersion]" Attributes="257" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+</DOCUMENT>

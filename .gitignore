@@ -187,3 +187,17 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+4720 Parameter tool.exe
+.gitignore
+OtherTools/4720 Parameters_pushsdk.txt
+UserManual*/
+OtherTools*/
+sdkmanual*/
+SampleData\OldRFID*/
+SampleData\OldRFID*/
+Reports*/
+SampleData\OldRFID*/
+SampleData/OldRFID/converted_user.dat
+SampleData/OldRFID/new_user.dat
+SampleData/OldRFID/user.dat
+/New folder

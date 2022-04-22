@@ -1,0 +1,90 @@
+[OPTIONS]
+Compiled file=../../SDKAPI.chm
+Compatibility=1.1
+Full-text search=Yes
+Contents file=index.hhc
+Default Window=main
+Default topic=index.html
+Index file=index.hhk
+Language=0x409 English (United States)
+Binary TOC=YES
+Title=Standalone SDK API Doc
+
+[WINDOWS]
+main="Standalone SDK API Doc","index.hhc","index.hhk","index.html","index.html",,,,,0x23520,,0x70387e,,,,,,,,0
+
+[FILES]
+1_8_terminal_8h.html
+2_8_property_8h.html
+3_801_8_data-_user_8h.html
+3_802_8_data-_record_8h.html
+3_803_8_data-_verify_style_8h.html
+3_804_8_data-_short_key_8h.html
+3_805_8_data-_work_code_8h.html
+3_806_8_data-_s_m_s_8h.html
+3_807_8_data-_bell_8h.html
+3_808_8_data-_photo_8h.html
+3_809_8_data-_voice_8h.html
+3_810_8_data-_valid_date_8h.html
+3_811_8_data-_theme_8h.html
+3_812_8_data-_app_8h.html
+3_813_8_data-_biometric_8h.html
+3_814_8_data-_other_8h.html
+4_8_access_8h.html
+5_8_r_t_event_8h.html
+6_8_other_8h.html
+7_8_change_log_8h.html
+graph_legend.html
+dir_5cd7f7d6ad9f7a5c02a45f3e597dbafa.html
+index.html
+files.html
+globals.html
+globals_b.html
+globals_c.html
+globals_d.html
+globals_e.html
+globals_f.html
+globals_g.html
+globals_i.html
+globals_m.html
+globals_n.html
+globals_o.html
+globals_p.html
+globals_q.html
+globals_r.html
+globals_s.html
+globals_t.html
+globals_u.html
+globals_w.html
+globals_func.html
+globals_func_b.html
+globals_func_c.html
+globals_func_d.html
+globals_func_e.html
+globals_func_f.html
+globals_func_g.html
+globals_func_i.html
+globals_func_m.html
+globals_func_o.html
+globals_func_p.html
+globals_func_q.html
+globals_func_r.html
+globals_func_s.html
+globals_func_t.html
+globals_func_u.html
+globals_func_w.html
+globals_vars.html
+tab_a.png
+tab_b.png
+tab_h.png
+tab_s.png
+nav_h.png
+nav_f.png
+bc_s.png
+doxygen.png
+closed.png
+open.png
+bdwn.png
+sync_on.png
+sync_off.png
+graph_legend.png

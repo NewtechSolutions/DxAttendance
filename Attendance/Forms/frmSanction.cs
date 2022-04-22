@@ -264,6 +264,12 @@ namespace Attendance.Forms
                 err += "Please enter Remark/Reason.." + Environment.NewLine;
             }
 
+            //added dt 22/04/22 - as per audit point
+            if(txtSanDt.DateTime.Date < Convert.ToDateTime(Emp.JoinDt).Date)
+            {
+                err += "Sanction Date could not be less than joining date" + Environment.NewLine;
+            }
+
             return err;
         }
 

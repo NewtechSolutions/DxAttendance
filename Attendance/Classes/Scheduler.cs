@@ -2661,8 +2661,8 @@ namespace Attendance.Classes
                                     else
                                     {                                        
                                         Deleted = tmpMachine.SSR_DeleteEnrollDataExt(1, emp, 12);
-                                        tmpMachine.DelUserFace(1, emp, 50);                                        
-                                        
+                                        tmpMachine.DelUserFace(1, emp, 50);
+                                        Deleted = true;
                                     }
 
                                     if (Deleted)
@@ -2760,8 +2760,7 @@ namespace Attendance.Classes
                             string tsql = "select MachineIP,IOFLG from ReaderConFig where canteenflg = 0  and [master] = 0 and compcode = '01' and MachineIP in " +
                                 "( " +
                                 "select Distinct MachineIP from AttdLog where EmpUnqID = '" + dr["EmpUnqID"].ToString() + "' and Punchdate between DATEADD(day,-60,getdate()) and DateAdd(day,1,GETDATE()) " +
-                                ")" +
-                                " Union Select MachineIP,IOFLG From TripodReaderConfig  ";
+                                ")";
 
                             string err = string.Empty;
                             DataSet empIPds = Utils.Helper.GetData(tsql, Utils.Helper.constr, out err);

@@ -916,8 +916,20 @@ namespace Attendance
                                         {
                                             drAttd["HalfDay"] = 1;
                                         }
-                                        else
+
+                                        if (Convert.ToBoolean(drAttd["LeaveHalf"])
+                                            && tconswrkhrs >= 0 && tconswrkhrs <= 4                                             
+                                            )
                                         {
+                                            drAttd["Status"] = "P";
+                                            drAttd["HalfDay"] = 1;
+                                        }
+
+                                        if (Convert.ToBoolean(drAttd["LeaveHalf"])
+                                            && tconswrkhrs > 4                                            
+                                            )
+                                        {
+                                            drAttd["Status"] = "P";
                                             drAttd["HalfDay"] = 0;
                                         }
 
