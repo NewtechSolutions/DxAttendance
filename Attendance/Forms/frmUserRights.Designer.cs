@@ -32,6 +32,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.GridRights = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkSuperUser = new System.Windows.Forms.CheckBox();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
             this.chkAdd = new System.Windows.Forms.CheckBox();
             this.txtModName = new System.Windows.Forms.TextBox();
             this.txtModID = new System.Windows.Forms.TextBox();
-            this.chkSuperUser = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridRights)).BeginInit();
@@ -115,6 +115,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "User";
+            // 
+            // chkSuperUser
+            // 
+            this.chkSuperUser.AutoSize = true;
+            this.chkSuperUser.Location = new System.Drawing.Point(410, 22);
+            this.chkSuperUser.Name = "chkSuperUser";
+            this.chkSuperUser.Size = new System.Drawing.Size(88, 19);
+            this.chkSuperUser.TabIndex = 10;
+            this.chkSuperUser.Text = "Super User";
+            this.chkSuperUser.UseVisualStyleBackColor = true;
             // 
             // chkActive
             // 
@@ -284,16 +294,6 @@
             this.txtModID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtModID_KeyDown);
             this.txtModID.Validated += new System.EventHandler(this.txtModID_Validated);
             // 
-            // chkSuperUser
-            // 
-            this.chkSuperUser.AutoSize = true;
-            this.chkSuperUser.Location = new System.Drawing.Point(410, 22);
-            this.chkSuperUser.Name = "chkSuperUser";
-            this.chkSuperUser.Size = new System.Drawing.Size(88, 19);
-            this.chkSuperUser.TabIndex = 10;
-            this.chkSuperUser.Text = "Super User";
-            this.chkSuperUser.UseVisualStyleBackColor = true;
-            // 
             // frmUserRights
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -304,6 +304,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmUserRights";
             this.Text = "User Rights";
+            this.Load += new System.EventHandler(this.frmUserRights_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridRights)).EndInit();

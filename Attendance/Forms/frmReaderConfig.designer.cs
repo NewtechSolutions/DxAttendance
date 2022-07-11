@@ -29,7 +29,14 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.grpUserRights = new System.Windows.Forms.GroupBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.txtRestAPI = new DevExpress.XtraEditors.TextEdit();
             this.chkRestPost = new DevExpress.XtraEditors.CheckEdit();
@@ -59,14 +66,8 @@
             this.Group2 = new System.Windows.Forms.GroupBox();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.grpUserRights = new System.Windows.Forms.GroupBox();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            this.grpUserRights.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRestAPI.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkRestPost.Properties)).BeginInit();
@@ -89,7 +90,6 @@
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            this.grpUserRights.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -106,8 +106,77 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.77155F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.22846F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1150, 508);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1150, 342);
             this.tableLayoutPanel1.TabIndex = 24;
+            // 
+            // grpUserRights
+            // 
+            this.grpUserRights.Controls.Add(this.btnClose);
+            this.grpUserRights.Controls.Add(this.btnCancel);
+            this.grpUserRights.Controls.Add(this.btnDelete);
+            this.grpUserRights.Controls.Add(this.btnUpdate);
+            this.grpUserRights.Controls.Add(this.btnAdd);
+            this.grpUserRights.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpUserRights.Location = new System.Drawing.Point(3, 296);
+            this.grpUserRights.Name = "grpUserRights";
+            this.grpUserRights.Size = new System.Drawing.Size(494, 43);
+            this.grpUserRights.TabIndex = 26;
+            this.grpUserRights.TabStop = false;
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnClose.Location = new System.Drawing.Point(349, 14);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 32);
+            this.btnClose.TabIndex = 5;
+            this.btnClose.Text = "Clos&e";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnCancel.Location = new System.Drawing.Point(265, 14);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 32);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "&Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnDelete.Location = new System.Drawing.Point(184, 14);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 32);
+            this.btnDelete.TabIndex = 3;
+            this.btnDelete.Text = "&Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnUpdate.Location = new System.Drawing.Point(103, 14);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
+            this.btnUpdate.TabIndex = 2;
+            this.btnUpdate.Text = "&Update";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnAdd.Location = new System.Drawing.Point(22, 14);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 32);
+            this.btnAdd.TabIndex = 1;
+            this.btnAdd.Text = "&Add";
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // groupBox1
             // 
@@ -141,9 +210,18 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(494, 429);
+            this.groupBox1.Size = new System.Drawing.Size(494, 287);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(124, 124);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(197, 15);
+            this.label9.TabIndex = 30;
+            this.label9.Text = "( Post Punch Details on REST API )";
             // 
             // label8
             // 
@@ -170,7 +248,7 @@
             this.chkRestPost.Name = "chkRestPost";
             this.chkRestPost.Properties.Caption = "REST Post";
             this.chkRestPost.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkRestPost.Size = new System.Drawing.Size(104, 19);
+            this.chkRestPost.Size = new System.Drawing.Size(104, 20);
             this.chkRestPost.TabIndex = 27;
             // 
             // label7
@@ -196,7 +274,7 @@
             this.chkMaster.Name = "chkMaster";
             this.chkMaster.Properties.Caption = "Master Machine :";
             this.chkMaster.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkMaster.Size = new System.Drawing.Size(110, 19);
+            this.chkMaster.Size = new System.Drawing.Size(110, 20);
             this.chkMaster.TabIndex = 12;
             // 
             // chkActive
@@ -205,7 +283,7 @@
             this.chkActive.Name = "chkActive";
             this.chkActive.Properties.Caption = "Active :";
             this.chkActive.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkActive.Size = new System.Drawing.Size(110, 19);
+            this.chkActive.Size = new System.Drawing.Size(110, 20);
             this.chkActive.TabIndex = 13;
             // 
             // label6
@@ -225,8 +303,9 @@
             this.chkGateInOut.Name = "chkGateInOut";
             this.chkGateInOut.Properties.Caption = "For Gate In/Out :";
             this.chkGateInOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkGateInOut.Size = new System.Drawing.Size(110, 19);
+            this.chkGateInOut.Size = new System.Drawing.Size(110, 20);
             this.chkGateInOut.TabIndex = 10;
+            this.chkGateInOut.Visible = false;
             // 
             // chkFinger
             // 
@@ -234,7 +313,7 @@
             this.chkFinger.Name = "chkFinger";
             this.chkFinger.Properties.Caption = "Finger Scan :";
             this.chkFinger.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkFinger.Size = new System.Drawing.Size(90, 19);
+            this.chkFinger.Size = new System.Drawing.Size(90, 20);
             this.chkFinger.TabIndex = 8;
             // 
             // chkLunchInOut
@@ -243,8 +322,9 @@
             this.chkLunchInOut.Name = "chkLunchInOut";
             this.chkLunchInOut.Properties.Caption = "For Lunch In/Out :";
             this.chkLunchInOut.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkLunchInOut.Size = new System.Drawing.Size(110, 19);
+            this.chkLunchInOut.Size = new System.Drawing.Size(110, 20);
             this.chkLunchInOut.TabIndex = 9;
+            this.chkLunchInOut.Visible = false;
             // 
             // chkMessUse
             // 
@@ -252,8 +332,9 @@
             this.chkMessUse.Name = "chkMessUse";
             this.chkMessUse.Properties.Caption = "For Canteen Use :";
             this.chkMessUse.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkMessUse.Size = new System.Drawing.Size(110, 19);
+            this.chkMessUse.Size = new System.Drawing.Size(110, 20);
             this.chkMessUse.TabIndex = 11;
+            this.chkMessUse.Visible = false;
             // 
             // chkFace
             // 
@@ -261,7 +342,7 @@
             this.chkFace.Name = "chkFace";
             this.chkFace.Properties.Caption = "Face Reader :";
             this.chkFace.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkFace.Size = new System.Drawing.Size(90, 19);
+            this.chkFace.Size = new System.Drawing.Size(90, 20);
             this.chkFace.TabIndex = 7;
             // 
             // chkRFID
@@ -270,7 +351,7 @@
             this.chkRFID.Name = "chkRFID";
             this.chkRFID.Properties.Caption = "RFID :";
             this.chkRFID.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkRFID.Size = new System.Drawing.Size(90, 19);
+            this.chkRFID.Size = new System.Drawing.Size(90, 20);
             this.chkRFID.TabIndex = 6;
             // 
             // label5
@@ -306,7 +387,7 @@
             this.chkAuto.Name = "chkAuto";
             this.chkAuto.Properties.Caption = "Auto Clear :";
             this.chkAuto.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkAuto.Size = new System.Drawing.Size(110, 19);
+            this.chkAuto.Size = new System.Drawing.Size(110, 20);
             this.chkAuto.TabIndex = 14;
             // 
             // txtINOut
@@ -396,7 +477,7 @@
             this.Group2.Location = new System.Drawing.Point(503, 3);
             this.Group2.Name = "Group2";
             this.tableLayoutPanel1.SetRowSpan(this.Group2, 2);
-            this.Group2.Size = new System.Drawing.Size(683, 502);
+            this.Group2.Size = new System.Drawing.Size(683, 336);
             this.Group2.TabIndex = 4;
             this.Group2.TabStop = false;
             // 
@@ -407,7 +488,7 @@
             this.grid.MainView = this.gridView1;
             this.grid.Name = "grid";
             this.grid.Padding = new System.Windows.Forms.Padding(3);
-            this.grid.Size = new System.Drawing.Size(677, 482);
+            this.grid.Size = new System.Drawing.Size(677, 316);
             this.grid.TabIndex = 0;
             this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -428,7 +509,6 @@
             this.gridView1.OptionsFilter.AllowFilterEditor = false;
             this.gridView1.OptionsFilter.AllowFilterIncrementalSearch = false;
             this.gridView1.OptionsFilter.AllowMRUFilterList = false;
-            this.gridView1.OptionsFilter.FilterEditorUseMenuForOperandsAndOperators = false;
             this.gridView1.OptionsFind.AllowFindPanel = false;
             this.gridView1.OptionsMenu.EnableColumnMenu = false;
             this.gridView1.OptionsMenu.EnableFooterMenu = false;
@@ -443,94 +523,17 @@
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.DoubleClick += new System.EventHandler(this.gridView1_DoubleClick);
             // 
-            // grpUserRights
-            // 
-            this.grpUserRights.Controls.Add(this.btnClose);
-            this.grpUserRights.Controls.Add(this.btnCancel);
-            this.grpUserRights.Controls.Add(this.btnDelete);
-            this.grpUserRights.Controls.Add(this.btnUpdate);
-            this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpUserRights.Location = new System.Drawing.Point(3, 438);
-            this.grpUserRights.Name = "grpUserRights";
-            this.grpUserRights.Size = new System.Drawing.Size(494, 67);
-            this.grpUserRights.TabIndex = 26;
-            this.grpUserRights.TabStop = false;
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnClose.Location = new System.Drawing.Point(349, 14);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 32);
-            this.btnClose.TabIndex = 5;
-            this.btnClose.Text = "Clos&e";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnCancel.Location = new System.Drawing.Point(265, 14);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 32);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnDelete.Location = new System.Drawing.Point(184, 14);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 32);
-            this.btnDelete.TabIndex = 3;
-            this.btnDelete.Text = "&Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnUpdate.Location = new System.Drawing.Point(103, 14);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
-            this.btnUpdate.TabIndex = 2;
-            this.btnUpdate.Text = "&Update";
-            this.btnUpdate.UseVisualStyleBackColor = false;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnAdd.Location = new System.Drawing.Point(22, 14);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 32);
-            this.btnAdd.TabIndex = 1;
-            this.btnAdd.Text = "&Add";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(124, 124);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(197, 15);
-            this.label9.TabIndex = 30;
-            this.label9.Text = "( Post Punch Details on REST API )";
-            // 
             // frmReaderConfig
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1150, 508);
+            this.ClientSize = new System.Drawing.Size(1150, 342);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmReaderConfig";
             this.Text = "Machine/Reader Configuration Master";
             this.Load += new System.EventHandler(this.frmReaderConfig_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.grpUserRights.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtRestAPI.Properties)).EndInit();
@@ -554,7 +557,6 @@
             this.Group2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            this.grpUserRights.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -76,9 +76,9 @@ namespace Attendance.Forms
         {
             string err = string.Empty;
             clsEmp t = new clsEmp();
-            t.CompCode = "01";
+            
             t.EmpUnqID = tEmpUnqID;
-            if (!t.GetEmpDetails(t.CompCode,t.EmpUnqID))
+            if (!t.GetEmpDetails(t.EmpUnqID))
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
             }

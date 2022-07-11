@@ -498,7 +498,7 @@ namespace Attendance.Forms
             if (txtWrkGrpCode.Text.Trim() == "")
                 return;
             
-            string sql = "Select CONVERT(BIT,0) as SEL, EmpUnqID,EmpName From MastEmp Where CompCode = '01' And ";
+            string sql = "Select CONVERT(BIT,0) as SEL, EmpUnqID,EmpName From v_EmpMast Where CompCode = '01' And ";
 
             if (!string.IsNullOrEmpty(txtWrkGrpCode.Text.Trim()))
             {

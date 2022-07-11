@@ -16,7 +16,7 @@ namespace Attendance.Forms
         public string mode = "NEW";
         public string GRights = "XXXV";
         public string oldCode = "";
-
+        private DataSet GridSrc;
         public frmMastDept()
         {
             InitializeComponent();
@@ -27,7 +27,12 @@ namespace Attendance.Forms
             ResetCtrl();
             GRights = Attendance.Classes.Globals.GetFormRights(this.Name);
             SetRights();
-            
+
+            GridSrc = Utils.Helper.GetData("Select * from v_MastDept Where 1=1", Utils.Helper.constr);
+            grid.DataSource = GridSrc;
+            grid.DataMember = GridSrc.Tables[0].TableName;
+
+
         }
 
         private string DataValidate()
@@ -106,14 +111,14 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Insert into MastDept (CompCode,WrkGrp,UnitCode,DeptCode,DeptDesc,AddDt,AddID,DeptEMail) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}','{6}')";
+                        string sql = "Insert into MastDept (CompCode,WrkGrp,UnitCode,DeptCode,DeptDesc,AddDt,AddID) Values ('{0}','{1}','{2}','{3}','{4}',GetDate(),'{5}')";
                         sql = string.Format(sql, txtCompCode.Text.Trim().ToString(), 
                             txtWrkGrpCode.Text.Trim().ToString(),
                             txtUnitCode.Text.Trim().ToString(),
                             txtDeptCode.Text.Trim().ToString(),
                             txtDeptDesc.Text.Trim().ToString(),
-                            Utils.User.GUserID,
-                            txtDeptEmail.Text.Trim().ToString()
+                            Utils.User.GUserID
+                            
                             );
 
                         cmd.CommandText = sql;
@@ -148,7 +153,7 @@ namespace Attendance.Forms
             //txtUnitDesc.Text = "";
             txtDeptCode.Text = "";
             txtDeptDesc.Text = "";
-            txtDeptEmail.Text = "";
+            grid.Refresh();
             oldCode = "";
         }
 
@@ -250,7 +255,10 @@ namespace Attendance.Forms
                 }
             }
 
-            
+            GridSrc = Utils.Helper.GetData("Select * from v_MastDept Where WrkGrp='" + txtWrkGrpCode.Text.Trim() + "'", Utils.Helper.constr);
+            grid.DataSource = GridSrc;
+            grid.DataMember = GridSrc.Tables[0].TableName;
+
         }
 
         private void txtCompCode_Validated(object sender, EventArgs e)
@@ -341,11 +349,11 @@ namespace Attendance.Forms
                     {
                         cn.Open();
                         cmd.Connection = cn;
-                        string sql = "Update MastDept Set DeptDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}', DeptEMail ='{2}' " +
-                            " Where CompCode = '{3}' and WrkGrp = '{4}' and UnitCode = '{5}' and DeptCode = '{6}' ";
+                        string sql = "Update MastDept Set DeptDesc = '{0}', UpdDt = GetDate(), UpdID = '{1}'  " +
+                            " Where CompCode = '{2}' and WrkGrp = '{3}' and UnitCode = '{4}' and DeptCode = '{5}' ";
 
                         sql = string.Format(sql, txtDeptDesc.Text.ToString(),
-                             Utils.User.GUserID, txtDeptEmail.Text.Trim().ToString(), txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
+                             Utils.User.GUserID, txtCompCode.Text.Trim().ToString(), txtWrkGrpCode.Text.Trim(),
                              txtUnitCode.Text.Trim(), txtDeptCode.Text.Trim()
                            );
 
@@ -495,6 +503,10 @@ namespace Attendance.Forms
                     
                 }
             }
+
+            GridSrc = Utils.Helper.GetData("Select * from v_MastDept Where WrkGrp='" + txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim().ToString() + "'", Utils.Helper.constr);
+            grid.DataSource = GridSrc;
+            grid.DataMember = GridSrc.Tables[0].TableName;
         }
 
        
@@ -582,7 +594,7 @@ namespace Attendance.Forms
                     txtUnitCode.Text = dr["UnitCode"].ToString();
                     txtDeptCode.Text = dr["DeptCode"].ToString();
                     txtDeptDesc.Text = dr["DeptDesc"].ToString();
-                    txtDeptEmail.Text = dr["DeptEMail"].ToString();
+                    
                     txtCompCode_Validated(sender, e);
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);

@@ -12,11 +12,42 @@ namespace Attendance.Forms
 {
     public partial class frmUserRights : Form
     {
-        public static string mode = "";
+        public string mode = "NEW";
+        public string UserCreateRights = "XXXV";
+        public string UserRights = "XXXV";
         
+
         public frmUserRights()
         {
             InitializeComponent();
+        }
+
+        private void ResetCtrl()
+        {
+            UserCreateRights = Attendance.Classes.Globals.GetFormRights("frmUserCreate");
+            UserRights = Attendance.Classes.Globals.GetFormRights("frmUserRights");
+
+            if(UserCreateRights.Contains("AUDV") )
+            {
+                txtPassword.Visible = true;
+                btnSave.Enabled = true;
+            }
+            else
+            {
+                txtPassword.Visible = false;
+                btnSave.Enabled = false;
+            }
+
+            if (UserRights.Contains("AUDV"))
+            {
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+            }
+            else
+            {
+                btnAdd.Enabled = false;
+                btnDelete.Enabled = false;
+            }
         }
 
         private void txtUserID_KeyDown(object sender, KeyEventArgs e)
@@ -29,7 +60,7 @@ namespace Attendance.Forms
                 string sql = "";
 
 
-                sql = "Select UserID,UserName,Pass,Active From MastUser Where Active = 'Y'  ";
+                sql = "Select UserID,UserName,Pass,Active,isAdmin From MastUser Where 1 = 1  ";
                 if (e.KeyCode == Keys.F1)
                 {                   
 
@@ -71,6 +102,15 @@ namespace Attendance.Forms
                     }else
                     {
                         chkActive.Checked = false;
+                    }
+
+                    if(obj.ElementAt(4).ToString().Trim().ToUpper() == "TRUE")
+                    {
+                        chkSuperUser.Checked = true; 
+                    }
+                    else
+                    {
+                        chkSuperUser.Checked = false;
                     }
                     mode = "OLD";
                 }
@@ -387,6 +427,11 @@ namespace Attendance.Forms
             }
 
             
+        }
+
+        private void frmUserRights_Load(object sender, EventArgs e)
+        {
+            ResetCtrl();
         }
     }
 }

@@ -98,10 +98,11 @@ namespace Attendance.Forms
                             + "'" + txtCompSName.Text.Trim().ToString() + "',"
                             + "'" + txtAdd1.Text.Trim().ToString() + "',"
                             + "'" + txtAdd2.Text.Trim().ToString() + "'," 
-                            + "'" + txtCity.Text.Trim().ToString() + "'"
-                            + "'" + txtPinCode.Text.Trim().ToString() + "'"
-                            + "'" + txtState.Text.Trim().ToString() + "'"
-                            + "'" + txtCountry.Text.Trim().ToString() + "',GetDate(),'" + Utils.User.GUserID + "')";
+                            + "'" + txtCity.Text.Trim().ToString() + "',"
+                            + "'" + txtPinCode.Text.Trim().ToString() + "',"
+                            + "'" + txtCountry.Text.Trim().ToString() + "',"
+                            + "'" + txtState.Text.Trim().ToString() + "',"
+                            + " GetDate(),'" + Utils.User.GUserID + "')";
                             
 
                         }

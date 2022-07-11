@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Attendance</RootNamespace>
-    <AssemblyName>Attendance</AssemblyName>
+    <AssemblyName>DxAttendance</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -68,7 +68,7 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>if_clock_299080.ico</ApplicationIcon>
+    <ApplicationIcon>clock.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -126,6 +126,7 @@
     <Reference Include="DevExpress.Data.Desktop.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.TreeMap.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -147,6 +148,8 @@
     <Reference Include="DevExpress.XtraPrinting.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.XtraTreeMap.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeMap.v21.2.UI, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Help_F1F2">
       <HintPath>..\..\Help_F1F2\bin\Release\Help_F1F2.dll</HintPath>
     </Reference>
@@ -218,41 +221,23 @@
     <Compile Include="Forms\frmAutoMailSender.designer.cs">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBulkCostCodePlannedManPower.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmBulkCostCodePlannedManPower.designer.cs">
-      <DependentUpon>frmBulkCostCodePlannedManPower.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmBulkCostCodeSanManPower.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmBulkCostCodeSanManPower.designer.cs">
-      <DependentUpon>frmBulkCostCodeSanManPower.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmBulkEmpBlockPunching.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmBulkEmpBlockPunching.designer.cs">
       <DependentUpon>frmBulkEmpBlockPunching.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBulkLeaveUpload.cs">
+    <Compile Include="Forms\frmTranBulkLeavePost.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBulkLeaveUpload.designer.cs">
-      <DependentUpon>frmBulkLeaveUpload.cs</DependentUpon>
+    <Compile Include="Forms\frmTranBulkLeavePost.designer.cs">
+      <DependentUpon>frmTranBulkLeavePost.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBulkLunchPunchSanction.cs">
+    <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBulkLunchPunchSanction.designer.cs">
-      <DependentUpon>frmBulkLunchPunchSanction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmBulkLunchInOutSanction.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmBulkLunchInOutSanction.designer.cs">
-      <DependentUpon>frmBulkLunchInOutSanction.cs</DependentUpon>
+    <Compile Include="Forms\frmMain.designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastConfigKeys.cs">
       <SubType>Form</SubType>
@@ -260,41 +245,35 @@
     <Compile Include="Forms\frmMastConfigKeys.designer.cs">
       <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMastCostCodePlannedManPower.cs">
+    <Compile Include="Forms\frmMastEmpBulkIdentity.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMastCostCodePlannedManPower.designer.cs">
-      <DependentUpon>frmMastCostCodePlannedManPower.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpBulkIdentity.designer.cs">
+      <DependentUpon>frmMastEmpBulkIdentity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMastManPowerGroup.cs">
+    <Compile Include="Forms\frmMastEmpBulkAddress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMastManPowerGroup.designer.cs">
-      <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpBulkAddress.designer.cs">
+      <DependentUpon>frmMastEmpBulkAddress.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMastManPowerGroupDt.cs">
+    <Compile Include="Forms\frmTranLeaveEncash.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMastManPowerGroupDt.designer.cs">
-      <DependentUpon>frmMastManPowerGroupDt.cs</DependentUpon>
+    <Compile Include="Forms\frmTranLeaveEncash.designer.cs">
+      <DependentUpon>frmTranLeaveEncash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpJobProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMastEmpJobProfile.designer.cs">
+      <DependentUpon>frmMastEmpJobProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmAutoMailSubScription.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmAutoMailSubScription.designer.cs">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmBulkGateInOutSanction.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmBulkGateInOutSanction.designer.cs">
-      <DependentUpon>frmBulkGateInOutSanction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastPreMedical.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastPreMedical.designer.cs">
-      <DependentUpon>frmMastPreMedical.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastEmpBulkChange.cs">
       <SubType>Form</SubType>
@@ -320,11 +299,11 @@
     <Compile Include="Forms\frmMastEmpBlockPunching.designer.cs">
       <DependentUpon>frmMastEmpBlockPunching.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMastEmpBlackList.cs">
+    <Compile Include="Forms\frmTranEmpBlackList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMastEmpBlackList.designer.cs">
-      <DependentUpon>frmMastEmpBlackList.cs</DependentUpon>
+    <Compile Include="Forms\frmTranEmpBlackList.designer.cs">
+      <DependentUpon>frmTranEmpBlackList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmHalfDayCheck.cs">
       <SubType>Form</SubType>
@@ -362,17 +341,11 @@
     <Compile Include="Forms\frmMastWrkGrpCopy.designer.cs">
       <DependentUpon>frmMastWrkGrpCopy.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMessInOutMachine.cs">
+    <Compile Include="Forms\frmTranLeaveRulesCheck.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMessInOutMachine.Designer.cs">
-      <DependentUpon>frmMessInOutMachine.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmRulesCheck.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmRulesCheck.designer.cs">
-      <DependentUpon>frmRulesCheck.cs</DependentUpon>
+    <Compile Include="Forms\frmTranLeaveRulesCheck.designer.cs">
+      <DependentUpon>frmTranLeaveRulesCheck.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmServerStatus.cs">
       <SubType>Form</SubType>
@@ -380,59 +353,47 @@
     <Compile Include="Forms\frmServerStatus.Designer.cs">
       <DependentUpon>frmServerStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmUploadShiftSchedule.cs">
+    <Compile Include="Forms\frmTranShiftScheduleUpload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmUploadShiftSchedule.designer.cs">
-      <DependentUpon>frmUploadShiftSchedule.cs</DependentUpon>
+    <Compile Include="Forms\frmTranShiftScheduleUpload.designer.cs">
+      <DependentUpon>frmTranShiftScheduleUpload.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmBulkSanction.cs">
+    <Compile Include="Forms\frmTranBulkSanction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmBulkSanction.designer.cs">
-      <DependentUpon>frmBulkSanction.cs</DependentUpon>
+    <Compile Include="Forms\frmTranBulkSanction.designer.cs">
+      <DependentUpon>frmTranBulkSanction.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmEmployeeImport.cs">
+    <Compile Include="Forms\frmMastEmpBulkEmployeeImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmEmployeeImport.designer.cs">
-      <DependentUpon>frmEmployeeImport.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpBulkEmployeeImport.designer.cs">
+      <DependentUpon>frmMastEmpBulkEmployeeImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLunchHalfDaypost.cs">
+    <Compile Include="Forms\frmMastEmpLeaveBalEntry.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLunchHalfDaypost.designer.cs">
-      <DependentUpon>frmLunchHalfDaypost.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpLeaveBalEntry.designer.cs">
+      <DependentUpon>frmMastEmpLeaveBalEntry.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLeaveBalEntry.cs">
+    <Compile Include="Forms\frmTranLeaveEntry.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLeaveBalEntry.designer.cs">
-      <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    <Compile Include="Forms\frmTranLeaveEntry.designer.cs">
+      <DependentUpon>frmTranLeaveEntry.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLeaveEntry.cs">
+    <Compile Include="Forms\frmTranSanction.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLeaveEntry.designer.cs">
-      <DependentUpon>frmLeaveEntry.cs</DependentUpon>
+    <Compile Include="Forms\frmTranSanction.designer.cs">
+      <DependentUpon>frmTranSanction.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmSanction.cs">
+    <Compile Include="Forms\frmMastEmpMisConduct.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSanction.designer.cs">
-      <DependentUpon>frmSanction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMisConduct.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMisConduct.designer.cs">
-      <DependentUpon>frmMisConduct.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastEmpJobProfile.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastEmpJobProfile.designer.cs">
-      <DependentUpon>frmMastEmpJobProfile.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpMisConduct.designer.cs">
+      <DependentUpon>frmMastEmpMisConduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastEmpBasicData.cs">
       <SubType>Form</SubType>
@@ -446,23 +407,23 @@
     <Compile Include="Forms\frmMastEmpPerInfo.Designer.cs">
       <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmOtherConfig.cs">
+    <Compile Include="Forms\frmMastOtherConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmOtherConfig.Designer.cs">
-      <DependentUpon>frmOtherConfig.cs</DependentUpon>
+    <Compile Include="Forms\frmMastOtherConfig.Designer.cs">
+      <DependentUpon>frmMastOtherConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmProcess.cs">
+    <Compile Include="Forms\frmTranDataProcess.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmProcess.Designer.cs">
-      <DependentUpon>frmProcess.cs</DependentUpon>
+    <Compile Include="Forms\frmTranDataProcess.Designer.cs">
+      <DependentUpon>frmTranDataProcess.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmUploadLeaveBal.cs">
+    <Compile Include="Forms\frmMastEmpBulkLeaveBal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmUploadLeaveBal.designer.cs">
-      <DependentUpon>frmUploadLeaveBal.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpBulkLeaveBal.designer.cs">
+      <DependentUpon>frmMastEmpBulkLeaveBal.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmUserSpRights.cs">
       <SubType>Form</SubType>
@@ -476,11 +437,11 @@
     <Compile Include="Forms\frmMastStat.designer.cs">
       <DependentUpon>frmMastStat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmCreateMuster.cs">
+    <Compile Include="Forms\frmMastEmpCreateMuster.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCreateMuster.designer.cs">
-      <DependentUpon>frmCreateMuster.cs</DependentUpon>
+    <Compile Include="Forms\frmMastEmpCreateMuster.designer.cs">
+      <DependentUpon>frmMastEmpCreateMuster.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmValidityExtend.cs">
       <SubType>Form</SubType>
@@ -493,24 +454,6 @@
     </Compile>
     <Compile Include="Forms\frmBulkCostCodeUpdate.designer.cs">
       <DependentUpon>frmBulkCostCodeUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeSanManPower.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeSanManPower.designer.cs">
-      <DependentUpon>frmMastCostCodeSanManPower.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeEmp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeEmp.designer.cs">
-      <DependentUpon>frmMastCostCodeEmp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeProcess.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastCostCodeProcess.designer.cs">
-      <DependentUpon>frmMastCostCodeProcess.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastComp.cs">
       <SubType>Form</SubType>
@@ -530,11 +473,11 @@
     <Compile Include="Forms\frmMastHoliday.designer.cs">
       <DependentUpon>frmMastHoliday.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMastRules.cs">
+    <Compile Include="Forms\frmMastLeaveRules.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMastRules.designer.cs">
-      <DependentUpon>frmMastRules.cs</DependentUpon>
+    <Compile Include="Forms\frmMastLeaveRules.designer.cs">
+      <DependentUpon>frmMastLeaveRules.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastLeave.cs">
       <SubType>Form</SubType>
@@ -553,48 +496,6 @@
     </Compile>
     <Compile Include="Forms\frmMastCostCode.designer.cs">
       <DependentUpon>frmMastCostCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmReaderConfigMess.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmReaderConfigMess.designer.cs">
-      <DependentUpon>frmReaderConfigMess.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastMessTime.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastMessTime.designer.cs">
-      <DependentUpon>frmMastMessTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastMessRate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastMessRate.designer.cs">
-      <DependentUpon>frmMastMessRate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastMessFood.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastMessFood.designer.cs">
-      <DependentUpon>frmMastMessFood.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastMessGrp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastMessGrp.designer.cs">
-      <DependentUpon>frmMastMessGrp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastMess.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastMess.designer.cs">
-      <DependentUpon>frmMastMess.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMastEmpType.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMastEmpType.designer.cs">
-      <DependentUpon>frmMastEmpType.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMastGrade.cs">
       <SubType>Form</SubType>
@@ -662,11 +563,11 @@
     <Compile Include="Forms\frmLogin.designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMain.cs">
+    <Compile Include="Forms\frmMain1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <Compile Include="Forms\frmMain1.Designer.cs">
+      <DependentUpon>frmMain1.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmUserRights.cs">
       <SubType>Form</SubType>
@@ -693,44 +594,32 @@
     <EmbeddedResource Include="Forms\frmAutoMailSender.resx">
       <DependentUpon>frmAutoMailSender.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkCostCodePlannedManPower.resx">
-      <DependentUpon>frmBulkCostCodePlannedManPower.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkCostCodeSanManPower.resx">
-      <DependentUpon>frmBulkCostCodeSanManPower.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkEmpBlockPunching.resx">
       <DependentUpon>frmBulkEmpBlockPunching.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkLeaveUpload.resx">
-      <DependentUpon>frmBulkLeaveUpload.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranBulkLeavePost.resx">
+      <DependentUpon>frmTranBulkLeavePost.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkLunchPunchSanction.resx">
-      <DependentUpon>frmBulkLunchPunchSanction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkLunchInOutSanction.resx">
-      <DependentUpon>frmBulkLunchInOutSanction.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastConfigKeys.resx">
       <DependentUpon>frmMastConfigKeys.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastCostCodePlannedManPower.resx">
-      <DependentUpon>frmMastCostCodePlannedManPower.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpBulkAddress.resx">
+      <DependentUpon>frmMastEmpBulkAddress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastManPowerGroup.resx">
-      <DependentUpon>frmMastManPowerGroup.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpBulkIdentity.resx">
+      <DependentUpon>frmMastEmpBulkIdentity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastManPowerGroupDt.resx">
-      <DependentUpon>frmMastManPowerGroupDt.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranLeaveEncash.resx">
+      <DependentUpon>frmTranLeaveEncash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMastEmpJobProfile.resx">
+      <DependentUpon>frmMastEmpJobProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAutoMailSubScription.resx">
       <DependentUpon>frmAutoMailSubScription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkGateInOutSanction.resx">
-      <DependentUpon>frmBulkGateInOutSanction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastPreMedical.resx">
-      <DependentUpon>frmMastPreMedical.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpBulkChange.resx">
       <DependentUpon>frmMastEmpBulkChange.cs</DependentUpon>
@@ -744,8 +633,8 @@
     <EmbeddedResource Include="Forms\frmMastEmpBlockPunching.resx">
       <DependentUpon>frmMastEmpBlockPunching.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastEmpBlackList.resx">
-      <DependentUpon>frmMastEmpBlackList.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranEmpBlackList.resx">
+      <DependentUpon>frmTranEmpBlackList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHalfDayCheck.resx">
       <DependentUpon>frmHalfDayCheck.cs</DependentUpon>
@@ -765,41 +654,32 @@
     <EmbeddedResource Include="Forms\frmMastWrkGrpCopy.resx">
       <DependentUpon>frmMastWrkGrpCopy.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMessInOutMachine.resx">
-      <DependentUpon>frmMessInOutMachine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmRulesCheck.resx">
-      <DependentUpon>frmRulesCheck.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranLeaveRulesCheck.resx">
+      <DependentUpon>frmTranLeaveRulesCheck.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmServerStatus.resx">
       <DependentUpon>frmServerStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmUploadShiftSchedule.resx">
-      <DependentUpon>frmUploadShiftSchedule.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranShiftScheduleUpload.resx">
+      <DependentUpon>frmTranShiftScheduleUpload.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmBulkSanction.resx">
-      <DependentUpon>frmBulkSanction.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranBulkSanction.resx">
+      <DependentUpon>frmTranBulkSanction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmEmployeeImport.resx">
-      <DependentUpon>frmEmployeeImport.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpBulkEmployeeImport.resx">
+      <DependentUpon>frmMastEmpBulkEmployeeImport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLunchHalfDaypost.resx">
-      <DependentUpon>frmLunchHalfDaypost.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpLeaveBalEntry.resx">
+      <DependentUpon>frmMastEmpLeaveBalEntry.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLeaveBalEntry.resx">
-      <DependentUpon>frmLeaveBalEntry.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranLeaveEntry.resx">
+      <DependentUpon>frmTranLeaveEntry.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLeaveEntry.resx">
-      <DependentUpon>frmLeaveEntry.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranSanction.resx">
+      <DependentUpon>frmTranSanction.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmSanction.resx">
-      <DependentUpon>frmSanction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMisConduct.resx">
-      <DependentUpon>frmMisConduct.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastEmpJobProfile.resx">
-      <DependentUpon>frmMastEmpJobProfile.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpMisConduct.resx">
+      <DependentUpon>frmMastEmpMisConduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastEmpBasicData.resx">
       <DependentUpon>frmMastEmpBasicData.cs</DependentUpon>
@@ -807,14 +687,14 @@
     <EmbeddedResource Include="Forms\frmMastEmpPerInfo.resx">
       <DependentUpon>frmMastEmpPerInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmOtherConfig.resx">
-      <DependentUpon>frmOtherConfig.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastOtherConfig.resx">
+      <DependentUpon>frmMastOtherConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmProcess.resx">
-      <DependentUpon>frmProcess.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmTranDataProcess.resx">
+      <DependentUpon>frmTranDataProcess.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmUploadLeaveBal.resx">
-      <DependentUpon>frmUploadLeaveBal.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpBulkLeaveBal.resx">
+      <DependentUpon>frmMastEmpBulkLeaveBal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUserSpRights.resx">
       <DependentUpon>frmUserSpRights.cs</DependentUpon>
@@ -822,23 +702,14 @@
     <EmbeddedResource Include="Forms\frmMastStat.resx">
       <DependentUpon>frmMastStat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCreateMuster.resx">
-      <DependentUpon>frmCreateMuster.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastEmpCreateMuster.resx">
+      <DependentUpon>frmMastEmpCreateMuster.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmValidityExtend.resx">
       <DependentUpon>frmValidityExtend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmBulkCostCodeUpdate.resx">
       <DependentUpon>frmBulkCostCodeUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastCostCodeSanManPower.resx">
-      <DependentUpon>frmMastCostCodeSanManPower.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastCostCodeEmp.resx">
-      <DependentUpon>frmMastCostCodeEmp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastCostCodeProcess.resx">
-      <DependentUpon>frmMastCostCodeProcess.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastComp.resx">
       <DependentUpon>frmMastComp.cs</DependentUpon>
@@ -849,8 +720,8 @@
     <EmbeddedResource Include="Forms\frmMastHoliday.resx">
       <DependentUpon>frmMastHoliday.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastRules.resx">
-      <DependentUpon>frmMastRules.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMastLeaveRules.resx">
+      <DependentUpon>frmMastLeaveRules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastLeave.resx">
       <DependentUpon>frmMastLeave.cs</DependentUpon>
@@ -860,27 +731,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastCostCode.resx">
       <DependentUpon>frmMastCostCode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmReaderConfigMess.resx">
-      <DependentUpon>frmReaderConfigMess.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastMessTime.resx">
-      <DependentUpon>frmMastMessTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastMessRate.resx">
-      <DependentUpon>frmMastMessRate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastMessFood.resx">
-      <DependentUpon>frmMastMessFood.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastMessGrp.resx">
-      <DependentUpon>frmMastMessGrp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastMess.resx">
-      <DependentUpon>frmMastMess.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMastEmpType.resx">
-      <DependentUpon>frmMastEmpType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMastGrade.resx">
       <DependentUpon>frmMastGrade.cs</DependentUpon>
@@ -915,8 +765,8 @@
     <EmbeddedResource Include="Forms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmMain1.resx">
+      <DependentUpon>frmMain1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUserRights.resx">
       <DependentUpon>frmUserRights.cs</DependentUpon>
@@ -1113,7 +963,10 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="if_clock_299080.ico" />
+    <Content Include="clock.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="time-care-logo-design_412311-3843.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

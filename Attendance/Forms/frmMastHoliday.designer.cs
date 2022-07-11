@@ -122,8 +122,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtDate.Properties.CalendarTimeProperties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.F4);
-            this.txtDate.Properties.CalendarTimeProperties.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Default;
             this.txtDate.Size = new System.Drawing.Size(138, 20);
             this.txtDate.TabIndex = 3;
             this.txtDate.EditValueChanged += new System.EventHandler(this.txtDate_EditValueChanged);
@@ -358,7 +356,6 @@
             this.gridView1.OptionsFilter.AllowFilterEditor = false;
             this.gridView1.OptionsFilter.AllowFilterIncrementalSearch = false;
             this.gridView1.OptionsFilter.AllowMRUFilterList = false;
-            this.gridView1.OptionsFilter.FilterEditorUseMenuForOperandsAndOperators = false;
             this.gridView1.OptionsFind.AllowFindPanel = false;
             this.gridView1.OptionsMenu.EnableColumnMenu = false;
             this.gridView1.OptionsMenu.EnableFooterMenu = false;

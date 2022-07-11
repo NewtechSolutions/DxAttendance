@@ -1,0 +1,679 @@
+﻿++Solution 'Attendance' ‎(2 of 2 projects)
+i:{00000000-0000-0000-0000-000000000000}:Attendance.sln
+++Attendance
+i:{00000000-0000-0000-0000-000000000000}:Attendance
+++Service References
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\service references\
+++Properties
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\
+++References
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++Web References
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\web references\
+++Classes
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\
+++CustomControls
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\customcontrols\
+++ctrlEmp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\customcontrols\ctrlemp.cs
+++Forms
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\
+++frmAutoMailSender.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsender.cs
+++frmAutoMailSubScription.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsubscription.cs
+++frmBulkCostCodePlannedManPower.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeplannedmanpower.cs
+++frmBulkCostCodeSanManPower.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodesanmanpower.cs
+++frmBulkCostCodeUpdate.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeupdate.cs
+++frmBulkEmpBlockPunching.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkempblockpunching.cs
+++frmBulkGateInOutSanction.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkgateinoutsanction.cs
+++frmBulkLeaveUpload.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkleaveupload.cs
+++frmBulkLunchInOutSanction.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchinoutsanction.cs
+++frmBulkLunchPunchSanction.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchpunchsanction.cs
+++frmBulkSanction.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulksanction.cs
+++frmBulkWOChange.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkwochange.cs
+++frmChangePass.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmchangepass.cs
+++FrmConnection.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmconnection.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\frmconnection.cs
+++frmCreateMuster.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmcreatemuster.cs
+++frmDataDownload.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdatadownload.cs
+++frmDomainConfig.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdomainconfig.cs
+++frmEmployeeImport.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmemployeeimport.cs
+++frmHalfDayCheck.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmhalfdaycheck.cs
+++frmLeaveBalEntry.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleavebalentry.cs
+++frmLeaveEntry.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleaveentry.cs
+++frmLogin.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlogin.cs
+++frmLunchHalfDaypost.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlunchhalfdaypost.cs
+++frmMain.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain.cs
+++frmMain1.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain1.cs
+++frmMastCat.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcat.cs
+++frmMastComp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcomp.cs
+++frmMastConfigKeys.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastconfigkeys.cs
+++frmMastCont.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcont.cs
+++frmMastCostCode.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcode.cs
+++frmMastCostCodeEmp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeemp.cs
+++frmMastCostCodePlannedManPower.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeplannedmanpower.cs
+++frmMastCostCodeProcess.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeprocess.cs
+++frmMastCostCodeSanManPower.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodesanmanpower.cs
+++frmMastDept.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdept.cs
+++frmMastDesg.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdesg.cs
+++frmMastEmpBasicData.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbasicdata.cs
+++frmMastEmpBlackList.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblacklist.cs
+++frmMastEmpBlockPunching.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblockpunching.cs
+++frmMastEmpBulkChange.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbulkchange.cs
+++frmMastEmpJobProfile.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempjobprofile.cs
+++frmMastEmpPerInfo.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempperinfo.cs
+++frmMastEmpType.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastemptype.cs
+++frmMastException.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastexception.cs
+++frmMastGrade.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastgrade.cs
+++frmMastHoliday.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholiday.cs
+++frmMastHolidayOpt.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholidayopt.cs
+++frmMastLeave.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastleave.cs
+++frmMastManPowerGroup.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroup.cs
+++frmMastManPowerGroupDt.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroupdt.cs
+++frmMastMess.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmess.cs
+++frmMastMessFood.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessfood.cs
+++frmMastMessGrp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessgrp.cs
+++frmMastMessRate.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessrate.cs
+++frmMastMessTime.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmesstime.cs
+++frmMastPreMedical.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastpremedical.cs
+++frmMastRules.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastrules.cs
+++frmMastShift.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastshift.cs
+++frmMastStat.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststat.cs
+++frmMastStatSec.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststatsec.cs
+++frmMastUnit.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastunit.cs
+++frmMastUserManagement.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastusermanagement.cs
+++frmMastWrkGrp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrp.cs
+++frmMastWrkGrpCopy.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrpcopy.cs
+++frmMessInOutMachine.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmessinoutmachine.cs
+++frmMisConduct.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmisconduct.cs
+++frmOtherConfig.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmotherconfig.cs
+++frmProcess.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmprocess.cs
+++frmReaderConfig.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfig.cs
+++frmReaderConfigMess.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfigmess.cs
+++frmRulesCheck.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmrulescheck.cs
+++frmSanction.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmsanction.cs
+++frmServerStatus.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmserverstatus.cs
+++frmUploadLeaveBal.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadleavebal.cs
+++frmUploadShiftSchedule.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadshiftschedule.cs
+++frmUserRights.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuserrights.cs
+++frmUserSpRights.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmusersprights.cs
+++frmValidityExtend.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmvalidityextend.cs
+++app.config
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\app.config
+++Attendance_TemporaryKey.pfx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\attendance_temporarykey.pfx
+++ClassDiagram1.cd
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classdiagram1.cd
+++if_clock_299080.ico
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\if_clock_299080.ico
+++job_scheduling_data_2_0.xsd
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\job_scheduling_data_2_0.xsd
+++packages.config
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\packages.config
+++Program.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\program.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\program.cs
+++app.manifest
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\app.manifest
+++AssemblyInfo.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\assemblyinfo.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\assemblyinfo.cs
+++licenses.licx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\licenses.licx
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\licenses.licx
+++Resources.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\resources.resx
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\resources.resx
+++Settings.settings
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\settings.settings
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\settings.settings
+++Common.Logging
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Common.Logging.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.BonusSkins.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.Data.Desktop.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.Data.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.Office.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.Pdf.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.Printing.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.RichEdit.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.RichEdit.v21.2.Export
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.Sparkline.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.TreeMap.v21.2.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.Utils.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.XtraBars.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.XtraEditors.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.XtraGrid.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.XtraLayout.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.XtraNavBar.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.XtraPrinting.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++DevExpress.XtraTreeMap.v21.2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++DevExpress.XtraTreeMap.v21.2.UI
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Help_F1F2
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Interop.zkemkeeper
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Microsoft.CSharp
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++MQTTnet
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Newtonsoft.Json
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++Quartz
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.ComponentModel.Composition
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Core
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Data
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Data.DataSetExtensions
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Deployment
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Drawing
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.EnterpriseServices
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.IO.Compression.FileSystem
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Net
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Net.Http
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Net.Http.Formatting
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Numerics
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Runtime.Serialization
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.ServiceModel
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Web.Services
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+++System.Windows.Forms
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Xml
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++System.Xml.Linq
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:
+++RE2005
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\web references\re2005\
+++RS2005
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\web references\rs2005\
+++ClassGlobals.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\classglobals.cs
+++ClsEmp.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\clsemp.cs
+++clsMachine.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\clsmachine.cs
+++clsProcess.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\clsprocess.cs
+++Helper.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\helper.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\helper.cs
+++MailAttachment.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\mailattachment.cs
+++Scheduler.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\scheduler.cs
+++UNCAccessWithCredentials.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\classes\uncaccesswithcredentials.cs
+++ctrlEmp.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\customcontrols\ctrlemp.designer.cs
+++ctrlEmp.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\customcontrols\ctrlemp.resx
+++frmAutoMailSender.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsender.designer.cs
+++frmAutoMailSender.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsender.resx
+++frmAutoMailSubScription.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsubscription.designer.cs
+++frmAutoMailSubScription.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmautomailsubscription.resx
+++frmBulkCostCodePlannedManPower.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeplannedmanpower.designer.cs
+++frmBulkCostCodePlannedManPower.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeplannedmanpower.resx
+++frmBulkCostCodeSanManPower.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodesanmanpower.designer.cs
+++frmBulkCostCodeSanManPower.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodesanmanpower.resx
+++frmBulkCostCodeUpdate.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeupdate.designer.cs
+++frmBulkCostCodeUpdate.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkcostcodeupdate.resx
+++frmBulkEmpBlockPunching.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkempblockpunching.designer.cs
+++frmBulkEmpBlockPunching.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkempblockpunching.resx
+++frmBulkGateInOutSanction.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkgateinoutsanction.designer.cs
+++frmBulkGateInOutSanction.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkgateinoutsanction.resx
+++frmBulkLeaveUpload.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkleaveupload.designer.cs
+++frmBulkLeaveUpload.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkleaveupload.resx
+++frmBulkLunchInOutSanction.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchinoutsanction.designer.cs
+++frmBulkLunchInOutSanction.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchinoutsanction.resx
+++frmBulkLunchPunchSanction.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchpunchsanction.designer.cs
+++frmBulkLunchPunchSanction.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulklunchpunchsanction.resx
+++frmBulkSanction.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulksanction.designer.cs
+++frmBulkSanction.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulksanction.resx
+++frmBulkWOChange.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkwochange.designer.cs
+++frmBulkWOChange.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmbulkwochange.resx
+++frmChangePass.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmchangepass.designer.cs
+++frmChangePass.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmchangepass.resx
+++FrmConnection.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmconnection.designer.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\frmconnection.designer.cs
+++FrmConnection.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmconnection.resx
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\frmconnection.resx
+++frmCreateMuster.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmcreatemuster.designer.cs
+++frmCreateMuster.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmcreatemuster.resx
+++frmDataDownload.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdatadownload.designer.cs
+++frmDataDownload.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdatadownload.resx
+++frmDomainConfig.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdomainconfig.designer.cs
+++frmDomainConfig.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmdomainconfig.resx
+++frmEmployeeImport.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmemployeeimport.designer.cs
+++frmEmployeeImport.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmemployeeimport.resx
+++frmHalfDayCheck.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmhalfdaycheck.designer.cs
+++frmHalfDayCheck.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmhalfdaycheck.resx
+++frmLeaveBalEntry.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleavebalentry.designer.cs
+++frmLeaveBalEntry.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleavebalentry.resx
+++frmLeaveEntry.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleaveentry.designer.cs
+++frmLeaveEntry.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmleaveentry.resx
+++frmLogin.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlogin.designer.cs
+++frmLogin.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlogin.resx
+++frmLunchHalfDaypost.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlunchhalfdaypost.designer.cs
+++frmLunchHalfDaypost.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmlunchhalfdaypost.resx
+++frmMain.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain.designer.cs
+++frmMain.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain.resx
+++frmMain1.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain1.designer.cs
+++frmMain1.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmain1.resx
+++frmMastCat.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcat.designer.cs
+++frmMastCat.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcat.resx
+++frmMastComp.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcomp.designer.cs
+++frmMastComp.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcomp.resx
+++frmMastConfigKeys.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastconfigkeys.designer.cs
+++frmMastConfigKeys.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastconfigkeys.resx
+++frmMastCont.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcont.designer.cs
+++frmMastCont.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcont.resx
+++frmMastCostCode.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcode.designer.cs
+++frmMastCostCode.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcode.resx
+++frmMastCostCodeEmp.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeemp.designer.cs
+++frmMastCostCodeEmp.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeemp.resx
+++frmMastCostCodePlannedManPower.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeplannedmanpower.designer.cs
+++frmMastCostCodePlannedManPower.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeplannedmanpower.resx
+++frmMastCostCodeProcess.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeprocess.designer.cs
+++frmMastCostCodeProcess.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodeprocess.resx
+++frmMastCostCodeSanManPower.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodesanmanpower.designer.cs
+++frmMastCostCodeSanManPower.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastcostcodesanmanpower.resx
+++frmMastDept.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdept.designer.cs
+++frmMastDept.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdept.resx
+++frmMastDesg.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdesg.designer.cs
+++frmMastDesg.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastdesg.resx
+++frmMastEmpBasicData.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbasicdata.designer.cs
+++frmMastEmpBasicData.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbasicdata.resx
+++frmMastEmpBlackList.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblacklist.designer.cs
+++frmMastEmpBlackList.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblacklist.resx
+++frmMastEmpBlockPunching.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblockpunching.designer.cs
+++frmMastEmpBlockPunching.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempblockpunching.resx
+++frmMastEmpBulkChange.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbulkchange.designer.cs
+++frmMastEmpBulkChange.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempbulkchange.resx
+++frmMastEmpJobProfile.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempjobprofile.designer.cs
+++frmMastEmpJobProfile.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempjobprofile.resx
+++frmMastEmpPerInfo.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempperinfo.designer.cs
+++frmMastEmpPerInfo.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastempperinfo.resx
+++frmMastEmpType.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastemptype.designer.cs
+++frmMastEmpType.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastemptype.resx
+++frmMastException.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastexception.designer.cs
+++frmMastException.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastexception.resx
+++frmMastGrade.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastgrade.designer.cs
+++frmMastGrade.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastgrade.resx
+++frmMastHoliday.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholiday.designer.cs
+++frmMastHoliday.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholiday.resx
+++frmMastHolidayOpt.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholidayopt.designer.cs
+++frmMastHolidayOpt.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastholidayopt.resx
+++frmMastLeave.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastleave.designer.cs
+++frmMastLeave.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastleave.resx
+++frmMastManPowerGroup.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroup.designer.cs
+++frmMastManPowerGroup.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroup.resx
+++frmMastManPowerGroupDt.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroupdt.designer.cs
+++frmMastManPowerGroupDt.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmanpowergroupdt.resx
+++frmMastMess.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmess.designer.cs
+++frmMastMess.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmess.resx
+++frmMastMessFood.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessfood.designer.cs
+++frmMastMessFood.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessfood.resx
+++frmMastMessGrp.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessgrp.designer.cs
+++frmMastMessGrp.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessgrp.resx
+++frmMastMessRate.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessrate.designer.cs
+++frmMastMessRate.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmessrate.resx
+++frmMastMessTime.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmesstime.designer.cs
+++frmMastMessTime.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastmesstime.resx
+++frmMastPreMedical.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastpremedical.designer.cs
+++frmMastPreMedical.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastpremedical.resx
+++frmMastRules.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastrules.designer.cs
+++frmMastRules.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastrules.resx
+++frmMastShift.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastshift.designer.cs
+++frmMastShift.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastshift.resx
+++frmMastStat.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststat.designer.cs
+++frmMastStat.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststat.resx
+++frmMastStatSec.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststatsec.designer.cs
+++frmMastStatSec.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmaststatsec.resx
+++frmMastUnit.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastunit.designer.cs
+++frmMastUnit.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastunit.resx
+++frmMastUserManagement.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastusermanagement.designer.cs
+++frmMastUserManagement.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastusermanagement.resx
+++frmMastWrkGrp.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrp.designer.cs
+++frmMastWrkGrp.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrp.resx
+++frmMastWrkGrpCopy.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrpcopy.designer.cs
+++frmMastWrkGrpCopy.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmastwrkgrpcopy.resx
+++frmMessInOutMachine.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmessinoutmachine.designer.cs
+++frmMessInOutMachine.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmessinoutmachine.resx
+++frmMisConduct.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmisconduct.designer.cs
+++frmMisConduct.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmmisconduct.resx
+++frmOtherConfig.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmotherconfig.designer.cs
+++frmOtherConfig.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmotherconfig.resx
+++frmProcess.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmprocess.designer.cs
+++frmProcess.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmprocess.resx
+++frmReaderConfig.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfig.designer.cs
+++frmReaderConfig.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfig.resx
+++frmReaderConfigMess.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfigmess.designer.cs
+++frmReaderConfigMess.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmreaderconfigmess.resx
+++frmRulesCheck.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmrulescheck.designer.cs
+++frmRulesCheck.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmrulescheck.resx
+++frmSanction.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmsanction.designer.cs
+++frmSanction.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmsanction.resx
+++frmServerStatus.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmserverstatus.designer.cs
+++frmServerStatus.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmserverstatus.resx
+++frmUploadLeaveBal.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadleavebal.designer.cs
+++frmUploadLeaveBal.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadleavebal.resx
+++frmUploadShiftSchedule.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadshiftschedule.designer.cs
+++frmUploadShiftSchedule.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuploadshiftschedule.resx
+++frmUserRights.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuserrights.designer.cs
+++frmUserRights.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmuserrights.resx
+++frmUserSpRights.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmusersprights.designer.cs
+++frmUserSpRights.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmusersprights.resx
+++frmValidityExtend.designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmvalidityextend.designer.cs
+++frmValidityExtend.resx
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\forms\frmvalidityextend.resx
+++Resources.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\resources.designer.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\resources.designer.cs
+++Settings.Designer.cs
+i:{19e14c23-c9b1-4fd9-9766-cd61c085707d}:e:\sourcecode\visual studio 2022\attendance\attendance\properties\settings.designer.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\properties\settings.designer.cs
+++AttdLog_TxtToDB
+i:{00000000-0000-0000-0000-000000000000}:AttdLog_TxtToDB
+++App.config
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\app.config
+++Form1.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\form1.cs
+++Globals.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\globals.cs
+++Form1.Designer.cs
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\form1.designer.cs
+++Form1.resx
+i:{ee9af715-4158-40b5-814b-eae68d78a80a}:e:\sourcecode\visual studio 2022\attendance\attdlog_txttodb\form1.resx

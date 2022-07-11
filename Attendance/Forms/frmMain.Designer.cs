@@ -1,4 +1,4 @@
-﻿namespace Attendance
+﻿namespace Attendance.Forms
 {
     partial class frmMain
     {
@@ -28,996 +28,707 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.mnuAdmin = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDBConn = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCreateUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUserRights = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastComp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCopyWrkGrpToOther = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastWrkGrp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastUnit = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMessConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuReaderConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuReaderMessAsign = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastShift = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastLeave = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMessInOutMachine = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDomainConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuOtherConfig = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuConfig_KeyVal = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuChangePass = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLogOff = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMast = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUserSpRights = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUserDSRights = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUserEmpRights = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPreMedicalMast = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuProfile = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastEmpType = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastCat = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastDept = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastStat = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastStatSec = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastDesg = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastGrade = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastCont = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastHoliday = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastHolidayOpt = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAutoMail = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCreateMuster = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastRules = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastManPowerGroup = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastManPowerGroupDT = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmployee = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastEmp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastEmpPer = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastJob = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuImportEmp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuValidityMass = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMisConduct = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastException = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmpBulkChange = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastMessGrp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastFood = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastTime = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMastRate = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBlackListAdhar = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPunchingBlock = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCent = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCodeMast = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmpCostCode = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCodeSanManPower = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCodePlannedManPower = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEmpCostCodeBulk = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkDailyCostCodePlannedManpower = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkCostCodeSanManpower = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCodeManPowerProcess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuCostCodeManPowerUpdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTranS = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeave = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeaveEntry = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeaveBalUpload = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeaveBalEntry = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLeaveEntryLunch = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuShift = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuShiftSchUpload = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSanction = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuManualSan = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuWeekoffSan = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuShiftChange = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkSan = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkGateInOutSanction = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkLunchInOutSanction = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkLunchPunchSanction = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkLeavePost = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAutoMailSender = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuData = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataProcess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLunchInOutProcess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuRulesCheck = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuHalfDayCheck = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMessDataProcess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuBulkMessDataProcess = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDataDownload = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuRFIDUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuStatus = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuServerStat = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.stsUserID = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.stsUserDesc = new System.Windows.Forms.ToolStripStatusLabel();
-            this.stsExtra = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mnuBulkEmpBlock = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            this.mnuMastDept = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastStat = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastUnit = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastCat = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastGrade = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastDesg = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastWrkGrp = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastCont = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastComp = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastCostCode = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonExit = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuDBConn = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuDomainConfig = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuConfig_KeyVal = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuOtherConfig = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastShift = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastLeave = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuUserRights = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastEmp = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastJob = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuCreateMuster = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuImportEmp = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuEmpBulkChange = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastEmpPer = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuBulkEmpAddress = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuBulkEmpIdentity = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuLeaveBalEntry = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastHoliday = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastHolidayOpt = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuLeaveBalUpload = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuTranLeaveEntry = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuTranLeaveEncash = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMastLeaveRules = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuDataProcess = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuManualSan = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuBulkSan = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuBulkLeavePost = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuReaderConfig = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuDataDownload = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuMachineManagement = new DevExpress.XtraBars.BarButtonItem();
+            this.barStaticItem1 = new DevExpress.XtraBars.BarStaticItem();
+            this.barStaticItem2 = new DevExpress.XtraBars.BarStaticItem();
+            this.barStaticItem3 = new DevExpress.XtraBars.BarStaticItem();
+            this.mnuWeekoffSan = new DevExpress.XtraBars.BarButtonItem();
+            this.mnuShiftSchUpload = new DevExpress.XtraBars.BarButtonItem();
+            this.rbnAdmin = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup13 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.rbnMaster = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup10 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.rbnEmployee = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup7 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.rbnLeave = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup9 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup11 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup12 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup14 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.ribbonPageGroup8 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // ribbon
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAdmin,
-            this.mnuUser,
-            this.mnuMast,
-            this.mnuCostCent,
-            this.mnuTranS,
-            this.mnuData,
-            this.mnuStatus,
-            this.mnuHelp});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1100, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // mnuAdmin
-            // 
-            this.mnuAdmin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuDBConn,
-            this.mnuCreateUser,
-            this.mnuUserRights,
-            this.mnuConfig,
-            this.mnuDomainConfig,
-            this.mnuOtherConfig,
-            this.mnuConfig_KeyVal});
-            this.mnuAdmin.Name = "mnuAdmin";
-            this.mnuAdmin.Size = new System.Drawing.Size(55, 20);
-            this.mnuAdmin.Text = "&Admin";
-            // 
-            // mnuDBConn
-            // 
-            this.mnuDBConn.Name = "mnuDBConn";
-            this.mnuDBConn.Size = new System.Drawing.Size(193, 22);
-            this.mnuDBConn.Text = "Database Connection";
-            this.mnuDBConn.Click += new System.EventHandler(this.mnuDBConn_Click);
-            // 
-            // mnuCreateUser
-            // 
-            this.mnuCreateUser.Name = "mnuCreateUser";
-            this.mnuCreateUser.Size = new System.Drawing.Size(193, 22);
-            this.mnuCreateUser.Text = "Create User";
-            this.mnuCreateUser.Click += new System.EventHandler(this.mnuCreateUser_Click);
-            // 
-            // mnuUserRights
-            // 
-            this.mnuUserRights.Name = "mnuUserRights";
-            this.mnuUserRights.Size = new System.Drawing.Size(193, 22);
-            this.mnuUserRights.Text = "User Rights";
-            this.mnuUserRights.Click += new System.EventHandler(this.mnuUserRights_Click);
-            // 
-            // mnuConfig
-            // 
-            this.mnuConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMastComp,
-            this.mnuCopyWrkGrpToOther,
-            this.mnuMastWrkGrp,
-            this.mnuMastUnit,
-            this.mnuMessConfig,
-            this.MnuReaderConfig,
-            this.mnuReaderMessAsign,
-            this.mnuMastShift,
-            this.mnuMastLeave,
-            this.mnuMessInOutMachine});
-            this.mnuConfig.Name = "mnuConfig";
-            this.mnuConfig.Size = new System.Drawing.Size(193, 22);
-            this.mnuConfig.Text = "Configuration";
-            this.mnuConfig.Click += new System.EventHandler(this.mnuConfig_Click);
-            // 
-            // mnuMastComp
-            // 
-            this.mnuMastComp.Name = "mnuMastComp";
-            this.mnuMastComp.Size = new System.Drawing.Size(268, 22);
-            this.mnuMastComp.Text = "Company Master";
-            this.mnuMastComp.Click += new System.EventHandler(this.mnuMastComp_Click);
-            // 
-            // mnuCopyWrkGrpToOther
-            // 
-            this.mnuCopyWrkGrpToOther.Name = "mnuCopyWrkGrpToOther";
-            this.mnuCopyWrkGrpToOther.Size = new System.Drawing.Size(268, 22);
-            this.mnuCopyWrkGrpToOther.Text = "Create WrkGrp ->Copy From Other";
-            this.mnuCopyWrkGrpToOther.Click += new System.EventHandler(this.mnuCopyWrkGrpToOther_Click);
-            // 
-            // mnuMastWrkGrp
-            // 
-            this.mnuMastWrkGrp.Name = "mnuMastWrkGrp";
-            this.mnuMastWrkGrp.Size = new System.Drawing.Size(268, 22);
-            this.mnuMastWrkGrp.Text = "WrkGrp Master";
-            this.mnuMastWrkGrp.Click += new System.EventHandler(this.mnuMastWrkGrp_Click);
-            // 
-            // mnuMastUnit
-            // 
-            this.mnuMastUnit.Name = "mnuMastUnit";
-            this.mnuMastUnit.Size = new System.Drawing.Size(268, 22);
-            this.mnuMastUnit.Text = "Unit Master";
-            this.mnuMastUnit.Click += new System.EventHandler(this.mnuMastUnit_Click);
-            // 
-            // mnuMessConfig
-            // 
-            this.mnuMessConfig.Name = "mnuMessConfig";
-            this.mnuMessConfig.Size = new System.Drawing.Size(268, 22);
-            this.mnuMessConfig.Text = "Mess Config";
-            this.mnuMessConfig.Click += new System.EventHandler(this.mnuMessConfig_Click);
-            // 
-            // MnuReaderConfig
-            // 
-            this.MnuReaderConfig.Name = "MnuReaderConfig";
-            this.MnuReaderConfig.Size = new System.Drawing.Size(268, 22);
-            this.MnuReaderConfig.Text = "Reader Config";
-            this.MnuReaderConfig.Click += new System.EventHandler(this.MnuReaderConfig_Click);
-            // 
-            // mnuReaderMessAsign
-            // 
-            this.mnuReaderMessAsign.Name = "mnuReaderMessAsign";
-            this.mnuReaderMessAsign.Size = new System.Drawing.Size(268, 22);
-            this.mnuReaderMessAsign.Text = "Assign Readers to Mess";
-            this.mnuReaderMessAsign.Click += new System.EventHandler(this.mnuReaderMessAsign_Click);
-            // 
-            // mnuMastShift
-            // 
-            this.mnuMastShift.Name = "mnuMastShift";
-            this.mnuMastShift.Size = new System.Drawing.Size(268, 22);
-            this.mnuMastShift.Text = "Shift/WrkHrs Config";
-            this.mnuMastShift.Click += new System.EventHandler(this.mnuMastShift_Click);
-            // 
-            // mnuMastLeave
-            // 
-            this.mnuMastLeave.Name = "mnuMastLeave";
-            this.mnuMastLeave.Size = new System.Drawing.Size(268, 22);
-            this.mnuMastLeave.Text = "Leave Type Config";
-            this.mnuMastLeave.Click += new System.EventHandler(this.mnuMastLeave_Click);
-            // 
-            // mnuMessInOutMachine
-            // 
-            this.mnuMessInOutMachine.Name = "mnuMessInOutMachine";
-            this.mnuMessInOutMachine.Size = new System.Drawing.Size(268, 22);
-            this.mnuMessInOutMachine.Text = "Mess In-Out and Time Configuration";
-            this.mnuMessInOutMachine.Click += new System.EventHandler(this.mnuMessInOutMachine_Click);
-            // 
-            // mnuDomainConfig
-            // 
-            this.mnuDomainConfig.Name = "mnuDomainConfig";
-            this.mnuDomainConfig.Size = new System.Drawing.Size(193, 22);
-            this.mnuDomainConfig.Text = "Domain Configuration";
-            this.mnuDomainConfig.Click += new System.EventHandler(this.mnuDomainConfig_Click);
-            // 
-            // mnuOtherConfig
-            // 
-            this.mnuOtherConfig.Name = "mnuOtherConfig";
-            this.mnuOtherConfig.Size = new System.Drawing.Size(193, 22);
-            this.mnuOtherConfig.Text = "Other Config";
-            this.mnuOtherConfig.Click += new System.EventHandler(this.mnuOtherConfig_Click);
-            // 
-            // mnuConfig_KeyVal
-            // 
-            this.mnuConfig_KeyVal.Name = "mnuConfig_KeyVal";
-            this.mnuConfig_KeyVal.Size = new System.Drawing.Size(193, 22);
-            this.mnuConfig_KeyVal.Text = "Config Keys";
-            this.mnuConfig_KeyVal.Click += new System.EventHandler(this.mnuConfig_KeyVal_Click);
-            // 
-            // mnuUser
-            // 
-            this.mnuUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuChangePass,
-            this.mnuLogOff});
-            this.mnuUser.Name = "mnuUser";
-            this.mnuUser.Size = new System.Drawing.Size(71, 20);
-            this.mnuUser.Text = "&Users Info";
-            // 
-            // mnuChangePass
-            // 
-            this.mnuChangePass.Name = "mnuChangePass";
-            this.mnuChangePass.Size = new System.Drawing.Size(168, 22);
-            this.mnuChangePass.Text = "Change &Password";
-            this.mnuChangePass.Click += new System.EventHandler(this.mnuChangePass_Click);
-            // 
-            // mnuLogOff
-            // 
-            this.mnuLogOff.Name = "mnuLogOff";
-            this.mnuLogOff.Size = new System.Drawing.Size(168, 22);
-            this.mnuLogOff.Text = "&Log Off";
-            this.mnuLogOff.Click += new System.EventHandler(this.mnuLogOff_Click);
-            // 
-            // mnuMast
-            // 
-            this.mnuMast.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuUserSpRights,
-            this.mnuUserDSRights,
-            this.mnuUserEmpRights,
-            this.mnuPreMedicalMast,
-            this.mnuProfile,
-            this.mnuEmployee,
-            this.mnuMess,
-            this.mnuBlackListAdhar,
-            this.mnuPunchingBlock,
-            this.mnuBulkEmpBlock});
-            this.mnuMast.Name = "mnuMast";
-            this.mnuMast.Size = new System.Drawing.Size(60, 20);
-            this.mnuMast.Text = "&Masters";
-            // 
-            // mnuUserSpRights
-            // 
-            this.mnuUserSpRights.Name = "mnuUserSpRights";
-            this.mnuUserSpRights.Size = new System.Drawing.Size(209, 22);
-            this.mnuUserSpRights.Text = "User WorkGrp Rights";
-            this.mnuUserSpRights.Click += new System.EventHandler(this.mnuUserSpRights_Click);
-            // 
-            // mnuUserDSRights
-            // 
-            this.mnuUserDSRights.Name = "mnuUserDSRights";
-            this.mnuUserDSRights.Size = new System.Drawing.Size(209, 22);
-            this.mnuUserDSRights.Text = "User Dept/Section Rights";
-            this.mnuUserDSRights.Click += new System.EventHandler(this.mnuUserDSRights_Click);
-            // 
-            // mnuUserEmpRights
-            // 
-            this.mnuUserEmpRights.Name = "mnuUserEmpRights";
-            this.mnuUserEmpRights.Size = new System.Drawing.Size(209, 22);
-            this.mnuUserEmpRights.Text = "User Emp Rights";
-            this.mnuUserEmpRights.Click += new System.EventHandler(this.mnuUserEmpRights_Click);
-            // 
-            // mnuPreMedicalMast
-            // 
-            this.mnuPreMedicalMast.Name = "mnuPreMedicalMast";
-            this.mnuPreMedicalMast.Size = new System.Drawing.Size(209, 22);
-            this.mnuPreMedicalMast.Text = "Pre-Medical Master";
-            this.mnuPreMedicalMast.Click += new System.EventHandler(this.mnuPreMedicalMast_Click);
-            // 
-            // mnuProfile
-            // 
-            this.mnuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMastEmpType,
-            this.mnuMastCat,
+            this.ribbon.ExpandCollapseItem.Id = 0;
+            this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbon.ExpandCollapseItem,
+            this.ribbon.SearchEditItem,
             this.mnuMastDept,
             this.mnuMastStat,
-            this.mnuMastStatSec,
-            this.mnuMastDesg,
+            this.mnuMastUnit,
+            this.mnuMastCat,
             this.mnuMastGrade,
+            this.mnuMastDesg,
+            this.mnuMastWrkGrp,
             this.mnuMastCont,
+            this.mnuMastComp,
+            this.mnuMastCostCode,
+            this.barButtonExit,
+            this.mnuDBConn,
+            this.mnuDomainConfig,
+            this.mnuConfig_KeyVal,
+            this.mnuOtherConfig,
+            this.mnuMastShift,
+            this.mnuMastLeave,
+            this.mnuUserRights,
+            this.mnuMastEmp,
+            this.mnuMastJob,
+            this.mnuCreateMuster,
+            this.mnuImportEmp,
+            this.mnuEmpBulkChange,
+            this.mnuMastEmpPer,
+            this.mnuBulkEmpAddress,
+            this.mnuBulkEmpIdentity,
+            this.mnuLeaveBalEntry,
             this.mnuMastHoliday,
             this.mnuMastHolidayOpt,
-            this.mnuAutoMail,
-            this.mnuCreateMuster,
-            this.mnuMastRules,
-            this.mnuMastManPowerGroup,
-            this.mnuMastManPowerGroupDT});
-            this.mnuProfile.Name = "mnuProfile";
-            this.mnuProfile.Size = new System.Drawing.Size(209, 22);
-            this.mnuProfile.Text = "Profile Master";
-            // 
-            // mnuMastEmpType
-            // 
-            this.mnuMastEmpType.Name = "mnuMastEmpType";
-            this.mnuMastEmpType.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastEmpType.Text = "EmpType Master";
-            this.mnuMastEmpType.Click += new System.EventHandler(this.mnuMastEmpType_Click);
-            // 
-            // mnuMastCat
-            // 
-            this.mnuMastCat.Name = "mnuMastCat";
-            this.mnuMastCat.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastCat.Text = "Catagory Master";
-            this.mnuMastCat.Click += new System.EventHandler(this.mnuMastCat_Click);
+            this.mnuLeaveBalUpload,
+            this.mnuTranLeaveEntry,
+            this.mnuTranLeaveEncash,
+            this.mnuMastLeaveRules,
+            this.mnuDataProcess,
+            this.mnuManualSan,
+            this.mnuBulkSan,
+            this.mnuBulkLeavePost,
+            this.mnuReaderConfig,
+            this.mnuDataDownload,
+            this.mnuMachineManagement,
+            this.barStaticItem1,
+            this.barStaticItem2,
+            this.barStaticItem3,
+            this.mnuWeekoffSan,
+            this.mnuShiftSchUpload});
+            this.ribbon.Location = new System.Drawing.Point(0, 0);
+            this.ribbon.MaxItemId = 46;
+            this.ribbon.Name = "ribbon";
+            this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
+            this.rbnAdmin,
+            this.rbnMaster,
+            this.rbnEmployee,
+            this.rbnLeave});
+            this.ribbon.QuickToolbarItemLinks.Add(this.barButtonExit);
+            this.ribbon.ShowSearchItem = true;
+            this.ribbon.Size = new System.Drawing.Size(877, 158);
+            this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // mnuMastDept
             // 
+            this.mnuMastDept.Caption = "Departments";
+            this.mnuMastDept.Id = 1;
+            this.mnuMastDept.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastDept.ImageOptions.Image")));
+            this.mnuMastDept.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastDept.ImageOptions.LargeImage")));
             this.mnuMastDept.Name = "mnuMastDept";
-            this.mnuMastDept.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastDept.Text = "Department Master";
-            this.mnuMastDept.Click += new System.EventHandler(this.mnuMastDept_Click);
+            this.mnuMastDept.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastDept_ItemClick);
             // 
             // mnuMastStat
             // 
+            this.mnuMastStat.Caption = "Sections";
+            this.mnuMastStat.Id = 2;
+            this.mnuMastStat.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastStat.ImageOptions.Image")));
+            this.mnuMastStat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastStat.ImageOptions.LargeImage")));
             this.mnuMastStat.Name = "mnuMastStat";
-            this.mnuMastStat.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastStat.Text = "Station Master";
-            this.mnuMastStat.Click += new System.EventHandler(this.mnuMastStat_Click);
+            this.mnuMastStat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastStat_ItemClick);
             // 
-            // mnuMastStatSec
+            // mnuMastUnit
             // 
-            this.mnuMastStatSec.Name = "mnuMastStatSec";
-            this.mnuMastStatSec.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastStatSec.Text = "Section Master";
-            this.mnuMastStatSec.Click += new System.EventHandler(this.mnuMastStatSec_Click);
+            this.mnuMastUnit.Caption = "Units";
+            this.mnuMastUnit.Id = 3;
+            this.mnuMastUnit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastUnit.ImageOptions.Image")));
+            this.mnuMastUnit.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastUnit.ImageOptions.LargeImage")));
+            this.mnuMastUnit.Name = "mnuMastUnit";
+            this.mnuMastUnit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastUnit_ItemClick);
             // 
-            // mnuMastDesg
+            // mnuMastCat
             // 
-            this.mnuMastDesg.Name = "mnuMastDesg";
-            this.mnuMastDesg.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastDesg.Text = "Designation Mast";
-            this.mnuMastDesg.Click += new System.EventHandler(this.mnuMastDesg_Click);
+            this.mnuMastCat.Caption = "Catagories";
+            this.mnuMastCat.Id = 4;
+            this.mnuMastCat.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastCat.ImageOptions.Image")));
+            this.mnuMastCat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastCat.ImageOptions.LargeImage")));
+            this.mnuMastCat.Name = "mnuMastCat";
+            this.mnuMastCat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastCat_ItemClick);
             // 
             // mnuMastGrade
             // 
+            this.mnuMastGrade.Caption = "Grades";
+            this.mnuMastGrade.Id = 5;
+            this.mnuMastGrade.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastGrade.ImageOptions.Image")));
+            this.mnuMastGrade.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastGrade.ImageOptions.LargeImage")));
             this.mnuMastGrade.Name = "mnuMastGrade";
-            this.mnuMastGrade.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastGrade.Text = "Grade Master";
-            this.mnuMastGrade.Click += new System.EventHandler(this.mnuMastGrade_Click);
+            this.mnuMastGrade.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastGrade_ItemClick);
+            // 
+            // mnuMastDesg
+            // 
+            this.mnuMastDesg.Caption = "Job Titles";
+            this.mnuMastDesg.Id = 6;
+            this.mnuMastDesg.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastDesg.ImageOptions.Image")));
+            this.mnuMastDesg.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastDesg.ImageOptions.LargeImage")));
+            this.mnuMastDesg.Name = "mnuMastDesg";
+            this.mnuMastDesg.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastDesg_ItemClick);
+            // 
+            // mnuMastWrkGrp
+            // 
+            this.mnuMastWrkGrp.Caption = "Employee Groups";
+            this.mnuMastWrkGrp.Id = 7;
+            this.mnuMastWrkGrp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastWrkGrp.ImageOptions.Image")));
+            this.mnuMastWrkGrp.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastWrkGrp.ImageOptions.LargeImage")));
+            this.mnuMastWrkGrp.Name = "mnuMastWrkGrp";
+            this.mnuMastWrkGrp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastWrkGrp_ItemClick);
             // 
             // mnuMastCont
             // 
+            this.mnuMastCont.Caption = "Suppliers";
+            this.mnuMastCont.Id = 8;
+            this.mnuMastCont.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastCont.ImageOptions.Image")));
+            this.mnuMastCont.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastCont.ImageOptions.LargeImage")));
             this.mnuMastCont.Name = "mnuMastCont";
-            this.mnuMastCont.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastCont.Text = "Contractor Master";
-            this.mnuMastCont.Click += new System.EventHandler(this.mnuMastCont_Click);
+            this.mnuMastCont.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastCont_ItemClick);
             // 
-            // mnuMastHoliday
+            // mnuMastComp
             // 
-            this.mnuMastHoliday.Name = "mnuMastHoliday";
-            this.mnuMastHoliday.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastHoliday.Text = "Holiday Calendar";
-            this.mnuMastHoliday.Click += new System.EventHandler(this.mnuMastHoliday_Click);
+            this.mnuMastComp.Caption = "Compnies";
+            this.mnuMastComp.Id = 9;
+            this.mnuMastComp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastComp.ImageOptions.Image")));
+            this.mnuMastComp.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastComp.ImageOptions.LargeImage")));
+            this.mnuMastComp.Name = "mnuMastComp";
+            this.mnuMastComp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastComp_ItemClick);
             // 
-            // mnuMastHolidayOpt
+            // mnuMastCostCode
             // 
-            this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
-            this.mnuMastHolidayOpt.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastHolidayOpt.Text = "Optional Holidy Calendar";
-            this.mnuMastHolidayOpt.Click += new System.EventHandler(this.mnuMastHolidayOpt_Click);
+            this.mnuMastCostCode.Caption = "Cost Centers";
+            this.mnuMastCostCode.Id = 10;
+            this.mnuMastCostCode.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastCostCode.ImageOptions.Image")));
+            this.mnuMastCostCode.Name = "mnuMastCostCode";
+            this.mnuMastCostCode.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastCostCode_ItemClick);
             // 
-            // mnuAutoMail
+            // barButtonExit
             // 
-            this.mnuAutoMail.Name = "mnuAutoMail";
-            this.mnuAutoMail.Size = new System.Drawing.Size(209, 22);
-            this.mnuAutoMail.Text = "AutoMail SubScription";
-            this.mnuAutoMail.Click += new System.EventHandler(this.mnuAutoMail_Click);
+            this.barButtonExit.Caption = "Logoff";
+            this.barButtonExit.Id = 11;
+            this.barButtonExit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonExit.ImageOptions.Image")));
+            this.barButtonExit.Name = "barButtonExit";
+            this.barButtonExit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonExit_ItemClick);
             // 
-            // mnuCreateMuster
+            // mnuDBConn
             // 
-            this.mnuCreateMuster.Name = "mnuCreateMuster";
-            this.mnuCreateMuster.Size = new System.Drawing.Size(209, 22);
-            this.mnuCreateMuster.Text = "Create Muster Table";
-            this.mnuCreateMuster.Click += new System.EventHandler(this.mnuCreateMuster_Click);
+            this.mnuDBConn.Caption = "DB Config";
+            this.mnuDBConn.Id = 12;
+            this.mnuDBConn.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuDBConn.ImageOptions.Image")));
+            this.mnuDBConn.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuDBConn.ImageOptions.LargeImage")));
+            this.mnuDBConn.Name = "mnuDBConn";
+            this.mnuDBConn.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuDBConn_ItemClick);
             // 
-            // mnuMastRules
+            // mnuDomainConfig
             // 
-            this.mnuMastRules.Name = "mnuMastRules";
-            this.mnuMastRules.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastRules.Text = "Rules Master";
-            this.mnuMastRules.Click += new System.EventHandler(this.mnuMastRules_Click);
+            this.mnuDomainConfig.Caption = "Network Config";
+            this.mnuDomainConfig.Id = 13;
+            this.mnuDomainConfig.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuDomainConfig.ImageOptions.Image")));
+            this.mnuDomainConfig.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuDomainConfig.ImageOptions.LargeImage")));
+            this.mnuDomainConfig.Name = "mnuDomainConfig";
+            this.mnuDomainConfig.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuDomainConfig_ItemClick);
             // 
-            // mnuMastManPowerGroup
+            // mnuConfig_KeyVal
             // 
-            this.mnuMastManPowerGroup.Name = "mnuMastManPowerGroup";
-            this.mnuMastManPowerGroup.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastManPowerGroup.Text = "Man Power Group Master";
-            this.mnuMastManPowerGroup.Click += new System.EventHandler(this.mnuMastManPowerGroup_Click);
+            this.mnuConfig_KeyVal.Caption = "Key Para Config";
+            this.mnuConfig_KeyVal.Id = 14;
+            this.mnuConfig_KeyVal.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuConfig_KeyVal.ImageOptions.Image")));
+            this.mnuConfig_KeyVal.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuConfig_KeyVal.ImageOptions.LargeImage")));
+            this.mnuConfig_KeyVal.Name = "mnuConfig_KeyVal";
+            this.mnuConfig_KeyVal.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuConfig_KeyVal_ItemClick);
             // 
-            // mnuMastManPowerGroupDT
+            // mnuOtherConfig
             // 
-            this.mnuMastManPowerGroupDT.Name = "mnuMastManPowerGroupDT";
-            this.mnuMastManPowerGroupDT.Size = new System.Drawing.Size(209, 22);
-            this.mnuMastManPowerGroupDT.Text = "Man Power Group Details";
-            this.mnuMastManPowerGroupDT.Click += new System.EventHandler(this.mnuMastManPowerGroupDT_Click);
+            this.mnuOtherConfig.Caption = "Global Settings";
+            this.mnuOtherConfig.Id = 15;
+            this.mnuOtherConfig.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuOtherConfig.ImageOptions.Image")));
+            this.mnuOtherConfig.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuOtherConfig.ImageOptions.LargeImage")));
+            this.mnuOtherConfig.Name = "mnuOtherConfig";
+            this.mnuOtherConfig.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuOtherConfig_ItemClick);
             // 
-            // mnuEmployee
+            // mnuMastShift
             // 
-            this.mnuEmployee.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMastEmp,
-            this.mnuMastEmpPer,
-            this.mnuMastJob,
-            this.mnuImportEmp,
-            this.mnuValidityMass,
-            this.mnuMisConduct,
-            this.mnuMastException,
-            this.mnuEmpBulkChange});
-            this.mnuEmployee.Name = "mnuEmployee";
-            this.mnuEmployee.Size = new System.Drawing.Size(209, 22);
-            this.mnuEmployee.Text = "Employee";
+            this.mnuMastShift.Caption = "Shift Configuration";
+            this.mnuMastShift.Id = 16;
+            this.mnuMastShift.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastShift.ImageOptions.Image")));
+            this.mnuMastShift.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastShift.ImageOptions.LargeImage")));
+            this.mnuMastShift.Name = "mnuMastShift";
+            this.mnuMastShift.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastShift_ItemClick);
+            // 
+            // mnuMastLeave
+            // 
+            this.mnuMastLeave.Caption = "Leave Type Config";
+            this.mnuMastLeave.Id = 17;
+            this.mnuMastLeave.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastLeave.ImageOptions.Image")));
+            this.mnuMastLeave.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastLeave.ImageOptions.LargeImage")));
+            this.mnuMastLeave.Name = "mnuMastLeave";
+            this.mnuMastLeave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastLeave_ItemClick);
+            // 
+            // mnuUserRights
+            // 
+            this.mnuUserRights.Caption = "User/Rights";
+            this.mnuUserRights.Id = 18;
+            this.mnuUserRights.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuUserRights.ImageOptions.Image")));
+            this.mnuUserRights.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuUserRights.ImageOptions.LargeImage")));
+            this.mnuUserRights.Name = "mnuUserRights";
+            this.mnuUserRights.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuUserRights_ItemClick);
             // 
             // mnuMastEmp
             // 
+            this.mnuMastEmp.Caption = "Employee";
+            this.mnuMastEmp.Id = 19;
+            this.mnuMastEmp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastEmp.ImageOptions.Image")));
+            this.mnuMastEmp.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastEmp.ImageOptions.LargeImage")));
             this.mnuMastEmp.Name = "mnuMastEmp";
-            this.mnuMastEmp.Size = new System.Drawing.Size(196, 22);
-            this.mnuMastEmp.Text = "Employee Master";
-            this.mnuMastEmp.Click += new System.EventHandler(this.mnuMastEmp_Click);
-            // 
-            // mnuMastEmpPer
-            // 
-            this.mnuMastEmpPer.Name = "mnuMastEmpPer";
-            this.mnuMastEmpPer.Size = new System.Drawing.Size(196, 22);
-            this.mnuMastEmpPer.Text = "Personal Info";
-            this.mnuMastEmpPer.Click += new System.EventHandler(this.mnuMastEmpPer_Click);
+            this.mnuMastEmp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuEmpMast_ItemClick);
             // 
             // mnuMastJob
             // 
+            this.mnuMastJob.Caption = "Employee Attributes";
+            this.mnuMastJob.Id = 20;
+            this.mnuMastJob.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastJob.ImageOptions.Image")));
+            this.mnuMastJob.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastJob.ImageOptions.LargeImage")));
             this.mnuMastJob.Name = "mnuMastJob";
-            this.mnuMastJob.Size = new System.Drawing.Size(196, 22);
-            this.mnuMastJob.Text = "Job Profile";
-            this.mnuMastJob.Click += new System.EventHandler(this.mnuMastJob_Click);
+            this.mnuMastJob.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastJob_ItemClick);
+            // 
+            // mnuCreateMuster
+            // 
+            this.mnuCreateMuster.Caption = "Employee Muster";
+            this.mnuCreateMuster.Id = 21;
+            this.mnuCreateMuster.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuCreateMuster.ImageOptions.Image")));
+            this.mnuCreateMuster.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuCreateMuster.ImageOptions.LargeImage")));
+            this.mnuCreateMuster.Name = "mnuCreateMuster";
+            this.mnuCreateMuster.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuCreateMuster_ItemClick);
             // 
             // mnuImportEmp
             // 
+            this.mnuImportEmp.Caption = "Import Employees";
+            this.mnuImportEmp.Id = 22;
+            this.mnuImportEmp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuImportEmp.ImageOptions.Image")));
+            this.mnuImportEmp.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuImportEmp.ImageOptions.LargeImage")));
             this.mnuImportEmp.Name = "mnuImportEmp";
-            this.mnuImportEmp.Size = new System.Drawing.Size(196, 22);
-            this.mnuImportEmp.Text = "Import Employee";
-            this.mnuImportEmp.Click += new System.EventHandler(this.mnuImportEmp_Click);
-            // 
-            // mnuValidityMass
-            // 
-            this.mnuValidityMass.Name = "mnuValidityMass";
-            this.mnuValidityMass.Size = new System.Drawing.Size(196, 22);
-            this.mnuValidityMass.Text = "Mass Validity Update";
-            this.mnuValidityMass.Click += new System.EventHandler(this.mnuValidityMass_Click);
-            // 
-            // mnuMisConduct
-            // 
-            this.mnuMisConduct.Name = "mnuMisConduct";
-            this.mnuMisConduct.Size = new System.Drawing.Size(196, 22);
-            this.mnuMisConduct.Text = "MisConduct Register";
-            this.mnuMisConduct.Click += new System.EventHandler(this.mnuMisConduct_Click);
-            // 
-            // mnuMastException
-            // 
-            this.mnuMastException.Name = "mnuMastException";
-            this.mnuMastException.Size = new System.Drawing.Size(196, 22);
-            this.mnuMastException.Text = "Exception Master";
-            this.mnuMastException.Click += new System.EventHandler(this.mnuMastException_Click);
+            this.mnuImportEmp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuImportEmp_ItemClick);
             // 
             // mnuEmpBulkChange
             // 
+            this.mnuEmpBulkChange.Caption = "Bulk Attribute Changes";
+            this.mnuEmpBulkChange.Id = 23;
+            this.mnuEmpBulkChange.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuEmpBulkChange.ImageOptions.Image")));
+            this.mnuEmpBulkChange.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuEmpBulkChange.ImageOptions.LargeImage")));
             this.mnuEmpBulkChange.Name = "mnuEmpBulkChange";
-            this.mnuEmpBulkChange.Size = new System.Drawing.Size(196, 22);
-            this.mnuEmpBulkChange.Text = "Bulk Employee Change";
-            this.mnuEmpBulkChange.Click += new System.EventHandler(this.mnuEmpBulkChange_Click);
+            this.mnuEmpBulkChange.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuEmpBulkChange_ItemClick);
             // 
-            // mnuMess
+            // mnuMastEmpPer
             // 
-            this.mnuMess.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMastMessGrp,
-            this.mnuMastFood,
-            this.mnuMastTime,
-            this.mnuMastRate});
-            this.mnuMess.Name = "mnuMess";
-            this.mnuMess.Size = new System.Drawing.Size(209, 22);
-            this.mnuMess.Text = "Mess";
+            this.mnuMastEmpPer.Caption = "Employee Identity ";
+            this.mnuMastEmpPer.Id = 24;
+            this.mnuMastEmpPer.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastEmpPer.ImageOptions.Image")));
+            this.mnuMastEmpPer.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastEmpPer.ImageOptions.LargeImage")));
+            this.mnuMastEmpPer.Name = "mnuMastEmpPer";
+            this.mnuMastEmpPer.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastEmpPer_ItemClick);
             // 
-            // mnuMastMessGrp
+            // mnuBulkEmpAddress
             // 
-            this.mnuMastMessGrp.Name = "mnuMastMessGrp";
-            this.mnuMastMessGrp.Size = new System.Drawing.Size(150, 22);
-            this.mnuMastMessGrp.Text = "Group Master";
-            this.mnuMastMessGrp.Click += new System.EventHandler(this.mnuMastMessGrp_Click);
+            this.mnuBulkEmpAddress.Caption = "Import Employee Address";
+            this.mnuBulkEmpAddress.Id = 25;
+            this.mnuBulkEmpAddress.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuBulkEmpAddress.ImageOptions.Image")));
+            this.mnuBulkEmpAddress.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuBulkEmpAddress.ImageOptions.LargeImage")));
+            this.mnuBulkEmpAddress.Name = "mnuBulkEmpAddress";
+            this.mnuBulkEmpAddress.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuBulkEmpAddress_ItemClick);
             // 
-            // mnuMastFood
+            // mnuBulkEmpIdentity
             // 
-            this.mnuMastFood.Name = "mnuMastFood";
-            this.mnuMastFood.Size = new System.Drawing.Size(150, 22);
-            this.mnuMastFood.Text = "Food Master";
-            this.mnuMastFood.Click += new System.EventHandler(this.mnuMastFood_Click);
-            // 
-            // mnuMastTime
-            // 
-            this.mnuMastTime.Name = "mnuMastTime";
-            this.mnuMastTime.Size = new System.Drawing.Size(150, 22);
-            this.mnuMastTime.Text = "Timing Master";
-            this.mnuMastTime.Click += new System.EventHandler(this.mnuMastTime_Click);
-            // 
-            // mnuMastRate
-            // 
-            this.mnuMastRate.Name = "mnuMastRate";
-            this.mnuMastRate.Size = new System.Drawing.Size(150, 22);
-            this.mnuMastRate.Text = "Rate Master";
-            this.mnuMastRate.Click += new System.EventHandler(this.mnuMastRate_Click);
-            // 
-            // mnuBlackListAdhar
-            // 
-            this.mnuBlackListAdhar.Name = "mnuBlackListAdhar";
-            this.mnuBlackListAdhar.Size = new System.Drawing.Size(209, 22);
-            this.mnuBlackListAdhar.Text = "BlackList Aadhaar Card";
-            this.mnuBlackListAdhar.Click += new System.EventHandler(this.mnuBlackListAdhar_Click);
-            // 
-            // mnuPunchingBlock
-            // 
-            this.mnuPunchingBlock.Name = "mnuPunchingBlock";
-            this.mnuPunchingBlock.Size = new System.Drawing.Size(209, 22);
-            this.mnuPunchingBlock.Text = "Punching  Block/UnBlock";
-            this.mnuPunchingBlock.Click += new System.EventHandler(this.mnuPunchingBlock_Click);
-            // 
-            // mnuCostCent
-            // 
-            this.mnuCostCent.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuCostCodeMast,
-            this.mnuEmpCostCode,
-            this.mnuCostCodeSanManPower,
-            this.mnuCostCodePlannedManPower,
-            this.mnuEmpCostCodeBulk,
-            this.mnuBulkDailyCostCodePlannedManpower,
-            this.mnuBulkCostCodeSanManpower,
-            this.mnuCostCodeManPowerProcess,
-            this.mnuCostCodeManPowerUpdate});
-            this.mnuCostCent.Name = "mnuCostCent";
-            this.mnuCostCent.Size = new System.Drawing.Size(83, 20);
-            this.mnuCostCent.Text = "&CostCenters";
-            // 
-            // mnuCostCodeMast
-            // 
-            this.mnuCostCodeMast.Name = "mnuCostCodeMast";
-            this.mnuCostCodeMast.Size = new System.Drawing.Size(363, 22);
-            this.mnuCostCodeMast.Text = "Cost Center Master";
-            this.mnuCostCodeMast.Click += new System.EventHandler(this.mnuCostCodeMast_Click);
-            // 
-            // mnuEmpCostCode
-            // 
-            this.mnuEmpCostCode.Name = "mnuEmpCostCode";
-            this.mnuEmpCostCode.Size = new System.Drawing.Size(363, 22);
-            this.mnuEmpCostCode.Text = "Update Employee CostCode";
-            this.mnuEmpCostCode.Click += new System.EventHandler(this.mnuEmpCostCode_Click);
-            // 
-            // mnuCostCodeSanManPower
-            // 
-            this.mnuCostCodeSanManPower.Name = "mnuCostCodeSanManPower";
-            this.mnuCostCodeSanManPower.Size = new System.Drawing.Size(363, 22);
-            this.mnuCostCodeSanManPower.Text = "CostCenter wise Sanc. Manpower Master";
-            this.mnuCostCodeSanManPower.Click += new System.EventHandler(this.mnuCostCodeSanManPower_Click);
-            // 
-            // mnuCostCodePlannedManPower
-            // 
-            this.mnuCostCodePlannedManPower.Name = "mnuCostCodePlannedManPower";
-            this.mnuCostCodePlannedManPower.Size = new System.Drawing.Size(363, 22);
-            this.mnuCostCodePlannedManPower.Text = "CostCenter wise Plan. Manpower Master";
-            this.mnuCostCodePlannedManPower.Click += new System.EventHandler(this.mnuCostCodePlannedManPower_Click);
-            // 
-            // mnuEmpCostCodeBulk
-            // 
-            this.mnuEmpCostCodeBulk.Name = "mnuEmpCostCodeBulk";
-            this.mnuEmpCostCodeBulk.Size = new System.Drawing.Size(363, 22);
-            this.mnuEmpCostCodeBulk.Text = "Bulk Update Employee CostCode";
-            this.mnuEmpCostCodeBulk.Click += new System.EventHandler(this.mnuEmpCostCodeBulk_Click);
-            // 
-            // mnuBulkDailyCostCodePlannedManpower
-            // 
-            this.mnuBulkDailyCostCodePlannedManpower.Name = "mnuBulkDailyCostCodePlannedManpower";
-            this.mnuBulkDailyCostCodePlannedManpower.Size = new System.Drawing.Size(363, 22);
-            this.mnuBulkDailyCostCodePlannedManpower.Text = "Bulk Update Daily CostCenter Wise Planned Manpower";
-            this.mnuBulkDailyCostCodePlannedManpower.Click += new System.EventHandler(this.mnuBulkDailyCostCodePlannedManpower_Click);
-            // 
-            // mnuBulkCostCodeSanManpower
-            // 
-            this.mnuBulkCostCodeSanManpower.Name = "mnuBulkCostCodeSanManpower";
-            this.mnuBulkCostCodeSanManpower.Size = new System.Drawing.Size(363, 22);
-            this.mnuBulkCostCodeSanManpower.Text = "Bulk Update CostCenter Wise Sanc. Manpower";
-            this.mnuBulkCostCodeSanManpower.Click += new System.EventHandler(this.mnuBulkCostCodeSanManpower_Click);
-            // 
-            // mnuCostCodeManPowerProcess
-            // 
-            this.mnuCostCodeManPowerProcess.Name = "mnuCostCodeManPowerProcess";
-            this.mnuCostCodeManPowerProcess.Size = new System.Drawing.Size(363, 22);
-            this.mnuCostCodeManPowerProcess.Text = "CostCenter Manpower Report Process";
-            this.mnuCostCodeManPowerProcess.Click += new System.EventHandler(this.mnuCostCodeManPowerProcess_Click);
-            // 
-            // mnuCostCodeManPowerUpdate
-            // 
-            this.mnuCostCodeManPowerUpdate.Name = "mnuCostCodeManPowerUpdate";
-            this.mnuCostCodeManPowerUpdate.Size = new System.Drawing.Size(363, 22);
-            this.mnuCostCodeManPowerUpdate.Text = "CostCenter Manpower Report Update";
-            // 
-            // mnuTranS
-            // 
-            this.mnuTranS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLeave,
-            this.mnuShift,
-            this.mnuSanction,
-            this.mnuAutoMailSender});
-            this.mnuTranS.Name = "mnuTranS";
-            this.mnuTranS.Size = new System.Drawing.Size(79, 20);
-            this.mnuTranS.Text = "&Transaction";
-            // 
-            // mnuLeave
-            // 
-            this.mnuLeave.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLeaveEntry,
-            this.mnuLeaveBalUpload,
-            this.mnuLeaveBalEntry,
-            this.mnuLeaveEntryLunch});
-            this.mnuLeave.Name = "mnuLeave";
-            this.mnuLeave.Size = new System.Drawing.Size(136, 22);
-            this.mnuLeave.Text = "Leave";
-            // 
-            // mnuLeaveEntry
-            // 
-            this.mnuLeaveEntry.Name = "mnuLeaveEntry";
-            this.mnuLeaveEntry.Size = new System.Drawing.Size(210, 22);
-            this.mnuLeaveEntry.Text = "Leave Entry";
-            this.mnuLeaveEntry.Click += new System.EventHandler(this.mnuLeaveEntry_Click);
-            // 
-            // mnuLeaveBalUpload
-            // 
-            this.mnuLeaveBalUpload.Name = "mnuLeaveBalUpload";
-            this.mnuLeaveBalUpload.Size = new System.Drawing.Size(210, 22);
-            this.mnuLeaveBalUpload.Text = "Leave Balance Upload";
-            this.mnuLeaveBalUpload.Click += new System.EventHandler(this.mnuLeaveBalUpload_Click);
+            this.mnuBulkEmpIdentity.Caption = "Import Employee Identities";
+            this.mnuBulkEmpIdentity.Id = 26;
+            this.mnuBulkEmpIdentity.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuBulkEmpIdentity.ImageOptions.Image")));
+            this.mnuBulkEmpIdentity.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuBulkEmpIdentity.ImageOptions.LargeImage")));
+            this.mnuBulkEmpIdentity.Name = "mnuBulkEmpIdentity";
+            this.mnuBulkEmpIdentity.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuBulkEmpIdentity_ItemClick);
             // 
             // mnuLeaveBalEntry
             // 
+            this.mnuLeaveBalEntry.Caption = "Employee Leave Balance";
+            this.mnuLeaveBalEntry.Id = 27;
+            this.mnuLeaveBalEntry.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuLeaveBalEntry.ImageOptions.Image")));
+            this.mnuLeaveBalEntry.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuLeaveBalEntry.ImageOptions.LargeImage")));
             this.mnuLeaveBalEntry.Name = "mnuLeaveBalEntry";
-            this.mnuLeaveBalEntry.Size = new System.Drawing.Size(210, 22);
-            this.mnuLeaveBalEntry.Text = "Leave Balance Entry";
-            this.mnuLeaveBalEntry.Click += new System.EventHandler(this.mnuLeaveBalEntry_Click);
+            this.mnuLeaveBalEntry.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuLeaveBalEntry_ItemClick);
             // 
-            // mnuLeaveEntryLunch
+            // mnuMastHoliday
             // 
-            this.mnuLeaveEntryLunch.Name = "mnuLeaveEntryLunch";
-            this.mnuLeaveEntryLunch.Size = new System.Drawing.Size(210, 22);
-            this.mnuLeaveEntryLunch.Text = "Leave Lunch Halfday Post";
-            this.mnuLeaveEntryLunch.Click += new System.EventHandler(this.mnuLeaveEntryLunch_Click);
+            this.mnuMastHoliday.Caption = "Holiday Calendar";
+            this.mnuMastHoliday.Id = 28;
+            this.mnuMastHoliday.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastHoliday.ImageOptions.Image")));
+            this.mnuMastHoliday.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastHoliday.ImageOptions.LargeImage")));
+            this.mnuMastHoliday.Name = "mnuMastHoliday";
+            this.mnuMastHoliday.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastHoliday_ItemClick);
             // 
-            // mnuShift
+            // mnuMastHolidayOpt
             // 
-            this.mnuShift.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuShiftSchUpload});
-            this.mnuShift.Name = "mnuShift";
-            this.mnuShift.Size = new System.Drawing.Size(136, 22);
-            this.mnuShift.Text = "Shift";
+            this.mnuMastHolidayOpt.Caption = "Optional Holidays";
+            this.mnuMastHolidayOpt.Id = 29;
+            this.mnuMastHolidayOpt.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastHolidayOpt.ImageOptions.Image")));
+            this.mnuMastHolidayOpt.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastHolidayOpt.ImageOptions.LargeImage")));
+            this.mnuMastHolidayOpt.Name = "mnuMastHolidayOpt";
+            this.mnuMastHolidayOpt.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastHolidayOpt_ItemClick);
             // 
-            // mnuShiftSchUpload
+            // mnuLeaveBalUpload
             // 
-            this.mnuShiftSchUpload.Name = "mnuShiftSchUpload";
-            this.mnuShiftSchUpload.Size = new System.Drawing.Size(190, 22);
-            this.mnuShiftSchUpload.Text = "Shift Schedule Upload";
-            this.mnuShiftSchUpload.Click += new System.EventHandler(this.mnuShiftSchUpload_Click);
+            this.mnuLeaveBalUpload.Caption = "Import Leave Balance";
+            this.mnuLeaveBalUpload.Id = 30;
+            this.mnuLeaveBalUpload.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuLeaveBalUpload.ImageOptions.Image")));
+            this.mnuLeaveBalUpload.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuLeaveBalUpload.ImageOptions.LargeImage")));
+            this.mnuLeaveBalUpload.Name = "mnuLeaveBalUpload";
+            this.mnuLeaveBalUpload.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuLeaveBalUpload_ItemClick);
             // 
-            // mnuSanction
+            // mnuTranLeaveEntry
             // 
-            this.mnuSanction.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuManualSan,
-            this.mnuWeekoffSan,
-            this.mnuShiftChange,
-            this.mnuBulkSan,
-            this.mnuBulkGateInOutSanction,
-            this.mnuBulkLunchInOutSanction,
-            this.mnuBulkLunchPunchSanction,
-            this.mnuBulkLeavePost});
-            this.mnuSanction.Name = "mnuSanction";
-            this.mnuSanction.Size = new System.Drawing.Size(136, 22);
-            this.mnuSanction.Text = "Sanction";
+            this.mnuTranLeaveEntry.Caption = "Leave Entry";
+            this.mnuTranLeaveEntry.Id = 31;
+            this.mnuTranLeaveEntry.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuTranLeaveEntry.ImageOptions.Image")));
+            this.mnuTranLeaveEntry.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuTranLeaveEntry.ImageOptions.LargeImage")));
+            this.mnuTranLeaveEntry.Name = "mnuTranLeaveEntry";
+            this.mnuTranLeaveEntry.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTranLeaveEntry_ItemClick);
             // 
-            // mnuManualSan
+            // mnuTranLeaveEncash
             // 
-            this.mnuManualSan.Name = "mnuManualSan";
-            this.mnuManualSan.Size = new System.Drawing.Size(219, 22);
-            this.mnuManualSan.Text = "Manual Sanction";
-            this.mnuManualSan.Click += new System.EventHandler(this.mnuManualSan_Click);
+            this.mnuTranLeaveEncash.Caption = "Leave Encash";
+            this.mnuTranLeaveEncash.Id = 32;
+            this.mnuTranLeaveEncash.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuTranLeaveEncash.ImageOptions.Image")));
+            this.mnuTranLeaveEncash.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuTranLeaveEncash.ImageOptions.LargeImage")));
+            this.mnuTranLeaveEncash.Name = "mnuTranLeaveEncash";
+            this.mnuTranLeaveEncash.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTranLeaveEncash_ItemClick);
             // 
-            // mnuWeekoffSan
+            // mnuMastLeaveRules
             // 
-            this.mnuWeekoffSan.Name = "mnuWeekoffSan";
-            this.mnuWeekoffSan.Size = new System.Drawing.Size(219, 22);
-            this.mnuWeekoffSan.Text = "Weekoff Change";
-            this.mnuWeekoffSan.Click += new System.EventHandler(this.mnuWeekoffSan_Click);
-            // 
-            // mnuShiftChange
-            // 
-            this.mnuShiftChange.Name = "mnuShiftChange";
-            this.mnuShiftChange.Size = new System.Drawing.Size(219, 22);
-            this.mnuShiftChange.Text = "Shift Change";
-            this.mnuShiftChange.Click += new System.EventHandler(this.mnuShiftChange_Click);
-            // 
-            // mnuBulkSan
-            // 
-            this.mnuBulkSan.Name = "mnuBulkSan";
-            this.mnuBulkSan.Size = new System.Drawing.Size(219, 22);
-            this.mnuBulkSan.Text = "Bulk Sanction";
-            this.mnuBulkSan.Click += new System.EventHandler(this.mnuBulkSan_Click);
-            // 
-            // mnuBulkGateInOutSanction
-            // 
-            this.mnuBulkGateInOutSanction.Name = "mnuBulkGateInOutSanction";
-            this.mnuBulkGateInOutSanction.Size = new System.Drawing.Size(219, 22);
-            this.mnuBulkGateInOutSanction.Text = "Bulk Gate In Out Sanction";
-            this.mnuBulkGateInOutSanction.Click += new System.EventHandler(this.mnuBulkGateInOutSanction_Click);
-            // 
-            // mnuBulkLunchInOutSanction
-            // 
-            this.mnuBulkLunchInOutSanction.Name = "mnuBulkLunchInOutSanction";
-            this.mnuBulkLunchInOutSanction.Size = new System.Drawing.Size(219, 22);
-            this.mnuBulkLunchInOutSanction.Text = "Bulk Lunch In Out Sanction";
-            this.mnuBulkLunchInOutSanction.Click += new System.EventHandler(this.mnuBulkLunchInOutSanction_Click);
-            // 
-            // mnuBulkLunchPunchSanction
-            // 
-            this.mnuBulkLunchPunchSanction.Name = "mnuBulkLunchPunchSanction";
-            this.mnuBulkLunchPunchSanction.Size = new System.Drawing.Size(219, 22);
-            this.mnuBulkLunchPunchSanction.Text = "Bulk Lunch Punch Sanction";
-            this.mnuBulkLunchPunchSanction.Click += new System.EventHandler(this.mnuBulkLunchPunchSanction_Click);
-            // 
-            // mnuBulkLeavePost
-            // 
-            this.mnuBulkLeavePost.Name = "mnuBulkLeavePost";
-            this.mnuBulkLeavePost.Size = new System.Drawing.Size(219, 22);
-            this.mnuBulkLeavePost.Text = "Bulk Leave Posting";
-            this.mnuBulkLeavePost.Click += new System.EventHandler(this.mnuBulkLeavePost_Click);
-            // 
-            // mnuAutoMailSender
-            // 
-            this.mnuAutoMailSender.Name = "mnuAutoMailSender";
-            this.mnuAutoMailSender.Size = new System.Drawing.Size(136, 22);
-            this.mnuAutoMailSender.Text = "Mail Sender";
-            this.mnuAutoMailSender.Click += new System.EventHandler(this.mnuAutoMailSender_Click);
-            // 
-            // mnuData
-            // 
-            this.mnuData.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuDataProcess,
-            this.mnuLunchInOutProcess,
-            this.mnuRulesCheck,
-            this.mnuHalfDayCheck,
-            this.mnuMessDataProcess,
-            this.mnuBulkMessDataProcess,
-            this.mnuDataDownload,
-            this.mnuRFIDUser});
-            this.mnuData.Name = "mnuData";
-            this.mnuData.Size = new System.Drawing.Size(100, 20);
-            this.mnuData.Text = "&Data Collection";
+            this.mnuMastLeaveRules.Caption = "Attendance Leave Rules";
+            this.mnuMastLeaveRules.Id = 33;
+            this.mnuMastLeaveRules.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMastLeaveRules.ImageOptions.Image")));
+            this.mnuMastLeaveRules.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMastLeaveRules.ImageOptions.LargeImage")));
+            this.mnuMastLeaveRules.Name = "mnuMastLeaveRules";
+            this.mnuMastLeaveRules.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMastLeaveRules_ItemClick);
             // 
             // mnuDataProcess
             // 
+            this.mnuDataProcess.Caption = "Data Process";
+            this.mnuDataProcess.Id = 34;
+            this.mnuDataProcess.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuDataProcess.ImageOptions.Image")));
+            this.mnuDataProcess.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuDataProcess.ImageOptions.LargeImage")));
             this.mnuDataProcess.Name = "mnuDataProcess";
-            this.mnuDataProcess.Size = new System.Drawing.Size(251, 22);
-            this.mnuDataProcess.Text = "Atn. Data Process";
-            this.mnuDataProcess.Click += new System.EventHandler(this.mnuDataProcess_Click);
+            this.mnuDataProcess.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuDataProcess_ItemClick);
             // 
-            // mnuLunchInOutProcess
+            // mnuManualSan
             // 
-            this.mnuLunchInOutProcess.Name = "mnuLunchInOutProcess";
-            this.mnuLunchInOutProcess.Size = new System.Drawing.Size(251, 22);
-            this.mnuLunchInOutProcess.Text = "Lunch In/Out Process";
-            this.mnuLunchInOutProcess.Click += new System.EventHandler(this.mnuLunchInOutProcess_Click);
+            this.mnuManualSan.Caption = "Attendance View/Update";
+            this.mnuManualSan.Id = 35;
+            this.mnuManualSan.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuManualSan.ImageOptions.Image")));
+            this.mnuManualSan.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuManualSan.ImageOptions.LargeImage")));
+            this.mnuManualSan.Name = "mnuManualSan";
+            this.mnuManualSan.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuManualSan_ItemClick);
             // 
-            // mnuRulesCheck
+            // mnuBulkSan
             // 
-            this.mnuRulesCheck.Name = "mnuRulesCheck";
-            this.mnuRulesCheck.Size = new System.Drawing.Size(251, 22);
-            this.mnuRulesCheck.Text = "Absent Rules Check/Apply";
-            this.mnuRulesCheck.Click += new System.EventHandler(this.mnuRulesCheck_Click);
+            this.mnuBulkSan.Caption = "Mass Update";
+            this.mnuBulkSan.Id = 36;
+            this.mnuBulkSan.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuBulkSan.ImageOptions.Image")));
+            this.mnuBulkSan.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuBulkSan.ImageOptions.LargeImage")));
+            this.mnuBulkSan.Name = "mnuBulkSan";
+            this.mnuBulkSan.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuBulkSan_ItemClick);
             // 
-            // mnuHalfDayCheck
+            // mnuBulkLeavePost
             // 
-            this.mnuHalfDayCheck.Name = "mnuHalfDayCheck";
-            this.mnuHalfDayCheck.Size = new System.Drawing.Size(251, 22);
-            this.mnuHalfDayCheck.Text = "Half Day Rules Check/Apply";
-            this.mnuHalfDayCheck.Click += new System.EventHandler(this.mnuHalfDayCheck_Click);
+            this.mnuBulkLeavePost.Caption = "Mass Leave Upload";
+            this.mnuBulkLeavePost.Id = 37;
+            this.mnuBulkLeavePost.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuBulkLeavePost.ImageOptions.Image")));
+            this.mnuBulkLeavePost.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuBulkLeavePost.ImageOptions.LargeImage")));
+            this.mnuBulkLeavePost.Name = "mnuBulkLeavePost";
+            this.mnuBulkLeavePost.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuBulkLeavePost_ItemClick);
             // 
-            // mnuMessDataProcess
+            // mnuReaderConfig
             // 
-            this.mnuMessDataProcess.Name = "mnuMessDataProcess";
-            this.mnuMessDataProcess.Size = new System.Drawing.Size(251, 22);
-            this.mnuMessDataProcess.Text = "Mess Data Process (Emp/WrkGrp)";
-            this.mnuMessDataProcess.Click += new System.EventHandler(this.mnuMessDataProcess_Click);
-            // 
-            // mnuBulkMessDataProcess
-            // 
-            this.mnuBulkMessDataProcess.Name = "mnuBulkMessDataProcess";
-            this.mnuBulkMessDataProcess.Size = new System.Drawing.Size(251, 22);
-            this.mnuBulkMessDataProcess.Text = "Mess Data Process (ALL)";
-            this.mnuBulkMessDataProcess.Click += new System.EventHandler(this.mnuBulkMessDataProcess_Click);
+            this.mnuReaderConfig.Caption = "Attendance Readers";
+            this.mnuReaderConfig.Id = 38;
+            this.mnuReaderConfig.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuReaderConfig.ImageOptions.Image")));
+            this.mnuReaderConfig.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuReaderConfig.ImageOptions.LargeImage")));
+            this.mnuReaderConfig.Name = "mnuReaderConfig";
+            this.mnuReaderConfig.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuReaderConfig_ItemClick);
             // 
             // mnuDataDownload
             // 
+            this.mnuDataDownload.Caption = "Download Punches";
+            this.mnuDataDownload.Id = 39;
+            this.mnuDataDownload.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuDataDownload.ImageOptions.Image")));
+            this.mnuDataDownload.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuDataDownload.ImageOptions.LargeImage")));
             this.mnuDataDownload.Name = "mnuDataDownload";
-            this.mnuDataDownload.Size = new System.Drawing.Size(251, 22);
-            this.mnuDataDownload.Text = "Data Download";
-            this.mnuDataDownload.Click += new System.EventHandler(this.mnuDataDownload_Click);
+            this.mnuDataDownload.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuDataDownload_ItemClick);
             // 
-            // mnuRFIDUser
+            // mnuMachineManagement
             // 
-            this.mnuRFIDUser.Name = "mnuRFIDUser";
-            this.mnuRFIDUser.Size = new System.Drawing.Size(251, 22);
-            this.mnuRFIDUser.Text = "User Management";
-            this.mnuRFIDUser.Click += new System.EventHandler(this.mnuRFIDUser_Click);
+            this.mnuMachineManagement.Caption = "Machine Management";
+            this.mnuMachineManagement.Id = 40;
+            this.mnuMachineManagement.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuMachineManagement.ImageOptions.Image")));
+            this.mnuMachineManagement.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuMachineManagement.ImageOptions.LargeImage")));
+            this.mnuMachineManagement.Name = "mnuMachineManagement";
+            this.mnuMachineManagement.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuMachineManagement_ItemClick);
             // 
-            // mnuStatus
+            // barStaticItem1
             // 
-            this.mnuStatus.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuServerStat});
-            this.mnuStatus.Name = "mnuStatus";
-            this.mnuStatus.Size = new System.Drawing.Size(86, 20);
-            this.mnuStatus.Text = "Server Status";
+            this.barStaticItem1.Caption = "Newtech Service";
+            this.barStaticItem1.Id = 41;
+            this.barStaticItem1.Name = "barStaticItem1";
             // 
-            // mnuServerStat
+            // barStaticItem2
             // 
-            this.mnuServerStat.Name = "mnuServerStat";
-            this.mnuServerStat.Size = new System.Drawing.Size(153, 22);
-            this.mnuServerStat.Text = "Status Window";
-            this.mnuServerStat.Click += new System.EventHandler(this.mnuServerStat_Click);
+            this.barStaticItem2.Caption = "Version : 4.3";
+            this.barStaticItem2.Id = 42;
+            this.barStaticItem2.Name = "barStaticItem2";
             // 
-            // mnuHelp
+            // barStaticItem3
             // 
-            this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAbout,
-            this.mnuReports});
-            this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(44, 20);
-            this.mnuHelp.Text = "Help";
+            this.barStaticItem3.Caption = "@2022";
+            this.barStaticItem3.Id = 43;
+            this.barStaticItem3.Name = "barStaticItem3";
             // 
-            // mnuAbout
+            // mnuWeekoffSan
             // 
-            this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(114, 22);
-            this.mnuAbout.Text = "About";
-            this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
+            this.mnuWeekoffSan.Caption = "Week Off Change";
+            this.mnuWeekoffSan.Id = 44;
+            this.mnuWeekoffSan.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuWeekoffSan.ImageOptions.Image")));
+            this.mnuWeekoffSan.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuWeekoffSan.ImageOptions.LargeImage")));
+            this.mnuWeekoffSan.Name = "mnuWeekoffSan";
+            this.mnuWeekoffSan.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuWeekoffSan_ItemClick);
             // 
-            // mnuReports
+            // mnuShiftSchUpload
             // 
-            this.mnuReports.Name = "mnuReports";
-            this.mnuReports.Size = new System.Drawing.Size(114, 22);
-            this.mnuReports.Text = "Reports";
-            this.mnuReports.Click += new System.EventHandler(this.mnuReports_Click);
+            this.mnuShiftSchUpload.Caption = "Shift Schedule";
+            this.mnuShiftSchUpload.Id = 45;
+            this.mnuShiftSchUpload.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuShiftSchUpload.ImageOptions.Image")));
+            this.mnuShiftSchUpload.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuShiftSchUpload.ImageOptions.LargeImage")));
+            this.mnuShiftSchUpload.Name = "mnuShiftSchUpload";
+            this.mnuShiftSchUpload.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuShiftSchUpload_ItemClick);
             // 
-            // statusStrip1
+            // rbnAdmin
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.stsUserID,
-            this.toolStripStatusLabel3,
-            this.stsUserDesc,
-            this.stsExtra});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 678);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1100, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.rbnAdmin.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup1,
+            this.ribbonPageGroup2,
+            this.ribbonPageGroup3,
+            this.ribbonPageGroup13});
+            this.rbnAdmin.Name = "rbnAdmin";
+            this.rbnAdmin.Text = "Admin Config";
             // 
-            // toolStripStatusLabel1
+            // ribbonPageGroup1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(53, 17);
-            this.toolStripStatusLabel1.Text = "User ID : ";
+            this.ribbonPageGroup1.ItemLinks.Add(this.mnuDBConn);
+            this.ribbonPageGroup1.ItemLinks.Add(this.mnuDomainConfig);
+            this.ribbonPageGroup1.ItemLinks.Add(this.mnuConfig_KeyVal);
+            this.ribbonPageGroup1.ItemLinks.Add(this.mnuOtherConfig);
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
+            this.ribbonPageGroup1.Text = "Config";
             // 
-            // stsUserID
+            // ribbonPageGroup2
             // 
-            this.stsUserID.Name = "stsUserID";
-            this.stsUserID.Size = new System.Drawing.Size(49, 17);
-            this.stsUserID.Text = "GUserID";
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastComp);
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastUnit);
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastWrkGrp);
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastShift);
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastLeave);
+            this.ribbonPageGroup2.ItemLinks.Add(this.mnuMastLeaveRules);
+            this.ribbonPageGroup2.Name = "ribbonPageGroup2";
+            this.ribbonPageGroup2.Text = "Master Data";
             // 
-            // toolStripStatusLabel3
+            // ribbonPageGroup3
             // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(74, 17);
-            this.toolStripStatusLabel3.Text = "User Name : ";
+            this.ribbonPageGroup3.ItemLinks.Add(this.mnuUserRights);
+            this.ribbonPageGroup3.Name = "ribbonPageGroup3";
+            this.ribbonPageGroup3.Text = "Users";
             // 
-            // stsUserDesc
+            // ribbonPageGroup13
             // 
-            this.stsUserDesc.Name = "stsUserDesc";
-            this.stsUserDesc.Size = new System.Drawing.Size(70, 17);
-            this.stsUserDesc.Text = "GUserName";
+            this.ribbonPageGroup13.ItemLinks.Add(this.mnuReaderConfig);
+            this.ribbonPageGroup13.Name = "ribbonPageGroup13";
+            this.ribbonPageGroup13.Text = "Reader Configuration";
             // 
-            // stsExtra
+            // rbnMaster
             // 
-            this.stsExtra.Name = "stsExtra";
-            this.stsExtra.Size = new System.Drawing.Size(0, 17);
+            this.rbnMaster.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup4,
+            this.ribbonPageGroup5,
+            this.ribbonPageGroup10});
+            this.rbnMaster.Name = "rbnMaster";
+            this.rbnMaster.Text = "Masters";
             // 
-            // mnuBulkEmpBlock
+            // ribbonPageGroup4
             // 
-            this.mnuBulkEmpBlock.Name = "mnuBulkEmpBlock";
-            this.mnuBulkEmpBlock.Size = new System.Drawing.Size(209, 22);
-            this.mnuBulkEmpBlock.Text = "Bulk Punching Block";
-            this.mnuBulkEmpBlock.Click += new System.EventHandler(this.mnuBulkEmpBlock_Click);
+            this.ribbonPageGroup4.ItemLinks.Add(this.mnuMastDept);
+            this.ribbonPageGroup4.ItemLinks.Add(this.mnuMastStat);
+            this.ribbonPageGroup4.ItemLinks.Add(this.mnuMastCostCode);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
+            this.ribbonPageGroup4.Text = "Org. Structure";
+            // 
+            // ribbonPageGroup5
+            // 
+            this.ribbonPageGroup5.ItemLinks.Add(this.mnuMastCat);
+            this.ribbonPageGroup5.ItemLinks.Add(this.mnuMastGrade);
+            this.ribbonPageGroup5.ItemLinks.Add(this.mnuMastDesg);
+            this.ribbonPageGroup5.ItemLinks.Add(this.mnuMastCont);
+            this.ribbonPageGroup5.Name = "ribbonPageGroup5";
+            this.ribbonPageGroup5.Text = "Employee Attributes";
+            // 
+            // ribbonPageGroup10
+            // 
+            this.ribbonPageGroup10.ItemLinks.Add(this.mnuMastHoliday);
+            this.ribbonPageGroup10.ItemLinks.Add(this.mnuMastHolidayOpt);
+            this.ribbonPageGroup10.Name = "ribbonPageGroup10";
+            this.ribbonPageGroup10.Text = "Holidays";
+            // 
+            // rbnEmployee
+            // 
+            this.rbnEmployee.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup6,
+            this.ribbonPageGroup7});
+            this.rbnEmployee.Name = "rbnEmployee";
+            this.rbnEmployee.Text = "Employees";
+            // 
+            // ribbonPageGroup6
+            // 
+            this.ribbonPageGroup6.ItemLinks.Add(this.mnuMastEmp);
+            this.ribbonPageGroup6.ItemLinks.Add(this.mnuMastJob);
+            this.ribbonPageGroup6.ItemLinks.Add(this.mnuCreateMuster);
+            this.ribbonPageGroup6.ItemLinks.Add(this.mnuMastEmpPer);
+            this.ribbonPageGroup6.ItemLinks.Add(this.mnuLeaveBalEntry);
+            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
+            this.ribbonPageGroup6.Text = "Employees";
+            // 
+            // ribbonPageGroup7
+            // 
+            this.ribbonPageGroup7.ItemLinks.Add(this.mnuImportEmp);
+            this.ribbonPageGroup7.ItemLinks.Add(this.mnuBulkEmpAddress);
+            this.ribbonPageGroup7.ItemLinks.Add(this.mnuEmpBulkChange);
+            this.ribbonPageGroup7.ItemLinks.Add(this.mnuBulkEmpIdentity);
+            this.ribbonPageGroup7.Name = "ribbonPageGroup7";
+            this.ribbonPageGroup7.Text = "Import/Change Employee Data";
+            // 
+            // rbnLeave
+            // 
+            this.rbnLeave.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup9,
+            this.ribbonPageGroup11,
+            this.ribbonPageGroup12,
+            this.ribbonPageGroup14});
+            this.rbnLeave.Name = "rbnLeave";
+            this.rbnLeave.Text = "Transactions";
+            // 
+            // ribbonPageGroup9
+            // 
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuLeaveBalUpload);
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuTranLeaveEntry);
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuTranLeaveEncash);
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuBulkLeavePost);
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuWeekoffSan);
+            this.ribbonPageGroup9.ItemLinks.Add(this.mnuShiftSchUpload);
+            this.ribbonPageGroup9.Name = "ribbonPageGroup9";
+            this.ribbonPageGroup9.Text = "Leave / Week Off / Scheduling";
+            // 
+            // ribbonPageGroup11
+            // 
+            this.ribbonPageGroup11.ItemLinks.Add(this.mnuManualSan);
+            this.ribbonPageGroup11.ItemLinks.Add(this.mnuDataProcess);
+            this.ribbonPageGroup11.ItemLinks.Add(this.mnuBulkSan);
+            this.ribbonPageGroup11.Name = "ribbonPageGroup11";
+            this.ribbonPageGroup11.Text = "Transactions";
+            // 
+            // ribbonPageGroup12
+            // 
+            this.ribbonPageGroup12.ItemLinks.Add(this.mnuDataDownload);
+            this.ribbonPageGroup12.ItemLinks.Add(this.mnuMachineManagement);
+            this.ribbonPageGroup12.Name = "ribbonPageGroup12";
+            this.ribbonPageGroup12.Text = "Reader Management";
+            // 
+            // ribbonPageGroup14
+            // 
+            this.ribbonPageGroup14.ItemLinks.Add(this.barStaticItem1);
+            this.ribbonPageGroup14.ItemLinks.Add(this.barStaticItem2);
+            this.ribbonPageGroup14.ItemLinks.Add(this.barStaticItem3);
+            this.ribbonPageGroup14.Name = "ribbonPageGroup14";
+            this.ribbonPageGroup14.Text = "About";
+            // 
+            // ribbonStatusBar
+            // 
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 431);
+            this.ribbonStatusBar.Name = "ribbonStatusBar";
+            this.ribbonStatusBar.Ribbon = this.ribbon;
+            this.ribbonStatusBar.Size = new System.Drawing.Size(877, 24);
+            // 
+            // ribbonPageGroup8
+            // 
+            this.ribbonPageGroup8.Name = "ribbonPageGroup8";
+            this.ribbonPageGroup8.Text = "Employee Leave Balance";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1100, 700);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
+            this.ClientSize = new System.Drawing.Size(877, 455);
+            this.Controls.Add(this.ribbonStatusBar);
+            this.Controls.Add(this.ribbon);
+            this.IconOptions.Icon = ((System.Drawing.Icon)(resources.GetObject("frmMain.IconOptions.Icon")));
             this.IsMdiContainer = true;
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
-            this.Text = "Attendance System";
+            this.Ribbon = this.ribbon;
+            this.StatusBar = this.ribbonStatusBar;
+            this.Text = "Dx Time And Attendance";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1025,115 +736,70 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem mnuAdmin;
-        private System.Windows.Forms.ToolStripMenuItem mnuCreateUser;
-        private System.Windows.Forms.ToolStripMenuItem mnuUserRights;
-        private System.Windows.Forms.ToolStripMenuItem mnuConfig;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastComp;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastWrkGrp;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastUnit;
-        private System.Windows.Forms.ToolStripMenuItem mnuMessConfig;
-        private System.Windows.Forms.ToolStripMenuItem MnuReaderConfig;
-        private System.Windows.Forms.ToolStripMenuItem mnuReaderMessAsign;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastShift;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastLeave;
-        private System.Windows.Forms.ToolStripMenuItem mnuUser;
-        private System.Windows.Forms.ToolStripMenuItem mnuChangePass;
-        private System.Windows.Forms.ToolStripMenuItem mnuLogOff;
-        private System.Windows.Forms.ToolStripMenuItem mnuMast;
-        private System.Windows.Forms.ToolStripMenuItem mnuUserSpRights;
-        private System.Windows.Forms.ToolStripMenuItem mnuUserDSRights;
-        private System.Windows.Forms.ToolStripMenuItem mnuUserEmpRights;
-        private System.Windows.Forms.ToolStripMenuItem mnuProfile;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastEmpType;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastCat;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastDept;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastStat;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastDesg;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastGrade;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastCont;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastHoliday;
-        private System.Windows.Forms.ToolStripMenuItem mnuAutoMail;
-        private System.Windows.Forms.ToolStripMenuItem mnuCreateMuster;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastRules;
-        private System.Windows.Forms.ToolStripMenuItem mnuEmployee;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastEmp;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastEmpPer;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastJob;
-        private System.Windows.Forms.ToolStripMenuItem mnuImportEmp;
-        private System.Windows.Forms.ToolStripMenuItem mnuValidityMass;
-        private System.Windows.Forms.ToolStripMenuItem mnuMisConduct;
-        private System.Windows.Forms.ToolStripMenuItem mnuMess;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastMessGrp;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastFood;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastTime;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastRate;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCent;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCodeMast;
-        private System.Windows.Forms.ToolStripMenuItem mnuEmpCostCode;
-        private System.Windows.Forms.ToolStripMenuItem mnuEmpCostCodeBulk;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCodeSanManPower;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCodeManPowerProcess;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCodeManPowerUpdate;
-        private System.Windows.Forms.ToolStripMenuItem mnuTranS;
-        private System.Windows.Forms.ToolStripMenuItem mnuLeave;
-        private System.Windows.Forms.ToolStripMenuItem mnuLeaveBalUpload;
-        private System.Windows.Forms.ToolStripMenuItem mnuLeaveBalEntry;
-        private System.Windows.Forms.ToolStripMenuItem mnuLeaveEntryLunch;
-        private System.Windows.Forms.ToolStripMenuItem mnuLeaveEntry;
-        private System.Windows.Forms.ToolStripMenuItem mnuShift;
-        private System.Windows.Forms.ToolStripMenuItem mnuShiftSchUpload;
-        private System.Windows.Forms.ToolStripMenuItem mnuSanction;
-        private System.Windows.Forms.ToolStripMenuItem mnuManualSan;
-        private System.Windows.Forms.ToolStripMenuItem mnuWeekoffSan;
-        private System.Windows.Forms.ToolStripMenuItem mnuShiftChange;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkSan;
-        private System.Windows.Forms.ToolStripMenuItem mnuData;
-        private System.Windows.Forms.ToolStripMenuItem mnuDataProcess;
-        private System.Windows.Forms.ToolStripMenuItem mnuLunchInOutProcess;
-        private System.Windows.Forms.ToolStripMenuItem mnuRulesCheck;
-        private System.Windows.Forms.ToolStripMenuItem mnuHalfDayCheck;
-        private System.Windows.Forms.ToolStripMenuItem mnuMessDataProcess;
-        private System.Windows.Forms.ToolStripMenuItem mnuDataDownload;
-        private System.Windows.Forms.ToolStripMenuItem mnuRFIDUser;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel stsUserID;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel stsUserDesc;
-        private System.Windows.Forms.ToolStripStatusLabel stsExtra;
-        private System.Windows.Forms.ToolStripMenuItem mnuDBConn;
-        private System.Windows.Forms.ToolStripMenuItem mnuDomainConfig;
-        private System.Windows.Forms.ToolStripMenuItem mnuOtherConfig;
-        private System.Windows.Forms.ToolStripMenuItem mnuMessInOutMachine;
-        private System.Windows.Forms.ToolStripMenuItem mnuAutoMailSender;
-        private System.Windows.Forms.ToolStripMenuItem mnuStatus;
-        private System.Windows.Forms.ToolStripMenuItem mnuServerStat;
-        private System.Windows.Forms.ToolStripMenuItem mnuHelp;
-        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastStatSec;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastHolidayOpt;
-        private System.Windows.Forms.ToolStripMenuItem mnuBlackListAdhar;
-        private System.Windows.Forms.ToolStripMenuItem mnuCopyWrkGrpToOther;
-        private System.Windows.Forms.ToolStripMenuItem mnuPunchingBlock;
-        private System.Windows.Forms.ToolStripMenuItem mnuEmpBulkChange;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkGateInOutSanction;
-        private System.Windows.Forms.ToolStripMenuItem mnuReports;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastException;
-        private System.Windows.Forms.ToolStripMenuItem mnuPreMedicalMast;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastManPowerGroup;
-        private System.Windows.Forms.ToolStripMenuItem mnuMastManPowerGroupDT;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkLunchInOutSanction;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkLunchPunchSanction;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkMessDataProcess;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkLeavePost;
-        private System.Windows.Forms.ToolStripMenuItem mnuConfig_KeyVal;
-        private System.Windows.Forms.ToolStripMenuItem mnuCostCodePlannedManPower;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkDailyCostCodePlannedManpower;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkCostCodeSanManpower;
-        private System.Windows.Forms.ToolStripMenuItem mnuBulkEmpBlock;
-
-
+        private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
+        private DevExpress.XtraBars.Ribbon.RibbonPage rbnAdmin;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
+        private DevExpress.XtraBars.BarButtonItem mnuMastDept;
+        private DevExpress.XtraBars.BarButtonItem mnuMastStat;
+        private DevExpress.XtraBars.BarButtonItem mnuMastUnit;
+        private DevExpress.XtraBars.BarButtonItem mnuMastCat;
+        private DevExpress.XtraBars.BarButtonItem mnuMastGrade;
+        private DevExpress.XtraBars.BarButtonItem mnuMastDesg;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
+        private DevExpress.XtraBars.Ribbon.RibbonPage rbnMaster;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
+        private DevExpress.XtraBars.BarButtonItem mnuMastWrkGrp;
+        private DevExpress.XtraBars.BarButtonItem mnuMastCont;
+        private DevExpress.XtraBars.BarButtonItem mnuMastComp;
+        private DevExpress.XtraBars.BarButtonItem mnuMastCostCode;
+        private DevExpress.XtraBars.BarButtonItem barButtonExit;
+        private DevExpress.XtraBars.BarButtonItem mnuDBConn;
+        private DevExpress.XtraBars.BarButtonItem mnuDomainConfig;
+        private DevExpress.XtraBars.BarButtonItem mnuConfig_KeyVal;
+        private DevExpress.XtraBars.BarButtonItem mnuOtherConfig;
+        private DevExpress.XtraBars.BarButtonItem mnuMastShift;
+        private DevExpress.XtraBars.BarButtonItem mnuMastLeave;
+        private DevExpress.XtraBars.BarButtonItem mnuUserRights;
+        private DevExpress.XtraBars.BarButtonItem mnuMastEmp;
+        private DevExpress.XtraBars.BarButtonItem mnuMastJob;
+        private DevExpress.XtraBars.BarButtonItem mnuCreateMuster;
+        private DevExpress.XtraBars.Ribbon.RibbonPage rbnEmployee;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
+        private DevExpress.XtraBars.BarButtonItem mnuImportEmp;
+        private DevExpress.XtraBars.BarButtonItem mnuEmpBulkChange;
+        private DevExpress.XtraBars.BarButtonItem mnuMastEmpPer;
+        private DevExpress.XtraBars.BarButtonItem mnuBulkEmpAddress;
+        private DevExpress.XtraBars.BarButtonItem mnuBulkEmpIdentity;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup7;
+        private DevExpress.XtraBars.Ribbon.RibbonPage rbnLeave;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup8;
+        private DevExpress.XtraBars.BarButtonItem mnuLeaveBalEntry;
+        private DevExpress.XtraBars.BarButtonItem mnuMastHoliday;
+        private DevExpress.XtraBars.BarButtonItem mnuMastHolidayOpt;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup10;
+        private DevExpress.XtraBars.BarButtonItem mnuLeaveBalUpload;
+        private DevExpress.XtraBars.BarButtonItem mnuTranLeaveEntry;
+        private DevExpress.XtraBars.BarButtonItem mnuTranLeaveEncash;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup9;
+        private DevExpress.XtraBars.BarButtonItem mnuMastLeaveRules;
+        private DevExpress.XtraBars.BarButtonItem mnuDataProcess;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup11;
+        private DevExpress.XtraBars.BarButtonItem mnuManualSan;
+        private DevExpress.XtraBars.BarButtonItem mnuBulkSan;
+        private DevExpress.XtraBars.BarButtonItem mnuBulkLeavePost;
+        private DevExpress.XtraBars.BarButtonItem mnuReaderConfig;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup13;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup12;
+        private DevExpress.XtraBars.BarButtonItem mnuDataDownload;
+        private DevExpress.XtraBars.BarButtonItem mnuMachineManagement;
+        private DevExpress.XtraBars.BarStaticItem barStaticItem1;
+        private DevExpress.XtraBars.BarStaticItem barStaticItem2;
+        private DevExpress.XtraBars.BarStaticItem barStaticItem3;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup14;
+        private DevExpress.XtraBars.BarButtonItem mnuWeekoffSan;
+        private DevExpress.XtraBars.BarButtonItem mnuShiftSchUpload;
     }
 }

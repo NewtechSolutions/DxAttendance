@@ -42,7 +42,7 @@ namespace Attendance
                     Emp.EmpUnqID = tEmpUnqID;
 
                     //check employee status
-                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    if (!Emp.GetEmpDetails( Emp.EmpUnqID))
                     {
                         return;
                     }
@@ -118,7 +118,7 @@ namespace Attendance
                     Emp.EmpUnqID = tEmpUnqID;
 
                     //check employee status
-                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    if (!Emp.GetEmpDetails(Emp.EmpUnqID))
                     {
                         return;
 
@@ -198,7 +198,7 @@ namespace Attendance
                     Emp.EmpUnqID = tEmpUnqID;
 
                     //check employee status
-                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    if (!Emp.GetEmpDetails(Emp.EmpUnqID))
                     {
                         return;
 
@@ -361,11 +361,11 @@ namespace Attendance
                 try
                 {
                     clsEmp Emp = new clsEmp();
-                    Emp.CompCode = "01";
+                    
                     Emp.EmpUnqID = tEmpUnqID;
 
                     //check employee status
-                    if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                    if (!Emp.GetEmpDetails( Emp.EmpUnqID))
                     {
                         proerr = "Employee Not Found...";
                         err = proerr;
@@ -445,16 +445,16 @@ namespace Attendance
                         foreach (DataRow drDate in dsDate.Tables[0].Rows)
                         {
                             bool ChkSanInOut = false;
-                            
+
                             //Open EmpAttdRecord
                             sql = "Select tYear,tDate,CompCode,WrkGrp,EmpUnqID,ScheDuleShift,ConsShift,ConsIN,ConsOut,ConsWrkHrs,ConsOverTime," +
                                 "Status,HalfDay,LeaveTyp,LeaveHalf,ActualStatus,Earlycome,EarlyGoing,GracePeriod," +
-                                "INPunch1,OutPunch1,WrkHrs1,INPunch2,OutPunch2,WrkHrs2,INPunch3,OutPunch3," +
-                                "WrkHrs3,INPunch4,OutPunch4,WrkHrs4,TotalWorkhrs,TotalINPunchCount," +
-                                "TotalOutPunchCount,LateCome,Rules,CalcOverTime,HalfDRule,partdate,CostCode,StdHrsOT,StdShftHrs,StdWrkHrs,StdWrkShift,ActualShift " +
-                                " from AttdData where CompCode = '01' and tYear ='" + drDate["CalYear"].ToString() +
-                                "' and EmpUnqID = '" + Emp.EmpUnqID + "' and tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "'" +
-                                " And WrkGrp = '" + Emp.WrkGrp + "'  ";
+                                "INPunch1,OutPunch1,WrkHrs1,INPunch2,OutPunch2,WrkHrs2," +
+                                " TotalWorkhrs,TotalINPunchCount," +
+                                "TotalOutPunchCount,LateCome,Rules,CalcOverTime,HalfDRule,ActualShift " +
+                                " from AttdData where tYear ='" + drDate["CalYear"].ToString() +
+                                "' and EmpUnqID = '" + Emp.EmpUnqID + "' and tDate ='" + Convert.ToDateTime(drDate["Date"]).ToString("yyyy-MM-dd") + "'";
+                               
 
                             //create data adapter
                             dsAttdData = new DataSet();
@@ -740,7 +740,7 @@ namespace Attendance
                                         drAttd["LeaveTyp"] = dr["schLeave"];
                                         drAttd["LeaveHalf"] = dr["SchLeaveHalf"];
                                         
-                                        if(drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL" )
+                                        if(drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH" )
                                         {
                                             drAttd["LeaveHalf"] = 0;
                                         }
@@ -820,7 +820,7 @@ namespace Attendance
                                                 drAttd["EarlyGoing"] = "";
                                                 drAttd["EarlyCome"] = "";
                                                 break;
-                                            case "HL":
+                                            case "PH":
                                                 drAttd["LateCome"] = "";
                                                 drAttd["EarlyGoing"] = "";
                                                 drAttd["EarlyCome"] = "";
@@ -865,7 +865,7 @@ namespace Attendance
                                                 drAttd["EarlyGoing"] = "";
                                                 drAttd["EarlyCome"] = "";
                                                 break;
-                                            case "HL":
+                                            case "PH":
                                                 drAttd["LateCome"] = "";
                                                 drAttd["EarlyGoing"] = "";
                                                 drAttd["EarlyCome"] = "";
@@ -1006,6 +1006,8 @@ namespace Attendance
 
                                     #endregion Final_Status_Marking
 
+                                    /* blocked
+
                                     #region TripodDataProcess
                                         int tRet = 0;
                                         TripodDataProcess(tEmpUnqID, Convert.ToDateTime(drDate["Date"]), Convert.ToDateTime(drDate["Date"]), out tRet);
@@ -1036,6 +1038,9 @@ namespace Attendance
 
                                     }
                                     #endregion GateInOutProcess_CONT
+
+                                    ***////blocked/
+
 
                                 }// AttdDataLoop
 
@@ -1475,7 +1480,7 @@ namespace Attendance
             err = string.Empty;
             try
             {
-
+                Globals.GetDateWiseGlobalVars(Convert.ToDateTime(drAttd["tDate"]));
 
                 // this Function will set EarlyCome,Latecome,EarlyGoing,HalfDay,Shift,OverTime
                 #region Setting_Vars
@@ -1496,7 +1501,8 @@ namespace Attendance
                     tLateExp = true;
                 }
 
-
+                Emp = new clsEmp();
+                Emp.GetEmpDetails(sEmpCode,tDate);
 
                 Boolean tOTFLG = false;
                 tOTFLG = Emp.OTFLG;
@@ -1521,7 +1527,7 @@ namespace Attendance
                 }
 
                 //calc AutoShift on WO,HL
-                if (tShift == "WO" || tShift == "HL")
+                if (tShift == "WO" || tShift == "PH")
                 {
                     tShift = "";
                 }
@@ -2657,11 +2663,11 @@ namespace Attendance
                     //    drAttd["CalcOvertime"] = 0;
                     //}
                 }
-                else if (tOTFLG && (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL" ))
+                else if (tOTFLG && (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH" ))
                 {
                     OverTime = Math.Truncate(Convert.ToDouble(drAttd["ConsWrkHrs"]) - BreakHours);
                     
-                    if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL")
+                    if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH")
                     {
                         if (OverTime >= 2)
                         {
@@ -2686,11 +2692,11 @@ namespace Attendance
                 //NEW DEVELOPMENT, AS PER MAIL DT 09/08/21, VALLABH - HR, AUTO CALCULATION OF OVERTIME 
                 //SHOULD NOT BE POSTED
                 //
-                DateTime stopotdt = new DateTime(2021, 09, 07);
-                if (Emp.WrkGrp == "COMP" && tDate >= stopotdt)
-                {
-                    drAttd["ConsOverTime"] = 0;
-                }
+                //DateTime stopotdt = new DateTime(2021, 09, 07);
+                //if (Emp.WrkGrp == "COMP" && tDate >= stopotdt)
+                //{
+                //    drAttd["ConsOverTime"] = 0;
+                //}
 
 
                 daAttdData.Update(dsAttdData, "AttdData");
@@ -2807,7 +2813,7 @@ namespace Attendance
                 clsEmp Emp = new clsEmp();
                 Emp.EmpUnqID = tEmpUnqID;
                 Emp.CompCode = "01";
-                if(!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+                if(!Emp.GetEmpDetails(Emp.EmpUnqID))
                 {
                     err = "Employee does not exist..";
                     return;
@@ -2826,7 +2832,6 @@ namespace Attendance
 
               string  sql = "Select count(*) from LeaveEntry Where " +
                " compcode = '" + Emp.CompCode + "'" +
-               " and WrkGrp ='" + Emp.WrkGrp + "'" +
                " And tYear ='" + tFromDt.Year + "'" +
                " And EmpUnqID='" + Emp.EmpUnqID + "'" +
                " And (     FromDt between '" + tFromDt.ToString("yyyy-MM-dd") + "' And '" + tToDate.ToString("yyyy-MM-dd") + "' " +
@@ -3037,7 +3042,7 @@ namespace Attendance
             this.AttdProcess(Emp.EmpUnqID, tFromDt, tToDate, out res, out outerr);
 
             //process lunchinout
-            this.LunchInOutProcess(Emp.EmpUnqID, tFromDt, tToDate, out res);
+           // this.LunchInOutProcess(Emp.EmpUnqID, tFromDt, tToDate, out res);
 
         }
 
@@ -3111,7 +3116,7 @@ namespace Attendance
             clsEmp Emp = new clsEmp();
             Emp.EmpUnqID = tEmpUnqID;
             Emp.CompCode = "01";
-            if (!Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
+            if (!Emp.GetEmpDetails(Emp.EmpUnqID))
             {
                 err = "Employee does not exist..";
                 return;
@@ -3358,7 +3363,7 @@ namespace Attendance
 
                 if (Convert.ToDouble(drAttd["ConsWrkHrs"]) > 0 && Convert.ToDouble(drAttd["ConsOverTime"]) > 0)
                 {
-                    if ((drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL"))
+                    if ((drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH"))
                     {
                         if (drAttd["WrkGrp"].ToString() == "CONT" && thour > 0 && thour > stdhrs )
                         {
@@ -3383,7 +3388,7 @@ namespace Attendance
                 }
                 else if (Convert.ToDouble(drAttd["ConsWrkHrs"]) > 0 && Convert.ToDouble(drAttd["ConsOverTime"]) <= 0)
                 {
-                    if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL")
+                    if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH")
                     { 
                         
                         drAttd["StdWrkShift"] = drAttd["LeaveTyp"].ToString();
@@ -3395,7 +3400,7 @@ namespace Attendance
             }
             else if (Convert.ToDouble(drAttd["ConsWrkHrs"]) <= 0 && Convert.ToDouble(drAttd["ConsOverTime"]) <= 0)
             {
-                if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "HL")
+                if (drAttd["LeaveTyp"].ToString() == "WO" || drAttd["LeaveTyp"].ToString() == "PH")
                 {
                     drAttd["StdWrkShift"] = drAttd["LeaveTyp"].ToString();
                 }

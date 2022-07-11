@@ -33,12 +33,6 @@
             this.txtWrkGrpDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtWrkGrpCode = new DevExpress.XtraEditors.TextEdit();
             this.chkPaid = new DevExpress.XtraEditors.CheckEdit();
-            this.grpUserRights = new System.Windows.Forms.GroupBox();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.chkHalf = new DevExpress.XtraEditors.CheckEdit();
             this.chkPublicHL = new DevExpress.XtraEditors.CheckEdit();
@@ -54,6 +48,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtDescription = new DevExpress.XtraEditors.TextEdit();
             this.txtLeaveTyp = new DevExpress.XtraEditors.TextEdit();
+            this.grpUserRights = new System.Windows.Forms.GroupBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.Group2 = new System.Windows.Forms.GroupBox();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -61,7 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkPaid.Properties)).BeginInit();
-            this.grpUserRights.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chkHalf.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkPublicHL.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkShowEntry.Properties)).BeginInit();
@@ -73,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeaveTyp.Properties)).BeginInit();
+            this.grpUserRights.SuspendLayout();
             this.Group2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -144,76 +144,8 @@
             this.chkPaid.Name = "chkPaid";
             this.chkPaid.Properties.Caption = "Is Paid :";
             this.chkPaid.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkPaid.Size = new System.Drawing.Size(110, 19);
+            this.chkPaid.Size = new System.Drawing.Size(110, 20);
             this.chkPaid.TabIndex = 11;
-            // 
-            // grpUserRights
-            // 
-            this.grpUserRights.Controls.Add(this.btnClose);
-            this.grpUserRights.Controls.Add(this.btnCancel);
-            this.grpUserRights.Controls.Add(this.btnDelete);
-            this.grpUserRights.Controls.Add(this.btnUpdate);
-            this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 133);
-            this.grpUserRights.Name = "grpUserRights";
-            this.grpUserRights.Size = new System.Drawing.Size(865, 52);
-            this.grpUserRights.TabIndex = 22;
-            this.grpUserRights.TabStop = false;
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnClose.Location = new System.Drawing.Point(520, 14);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 32);
-            this.btnClose.TabIndex = 5;
-            this.btnClose.Text = "Clos&e";
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnCancel.Location = new System.Drawing.Point(440, 14);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 32);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnDelete.Location = new System.Drawing.Point(359, 14);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 32);
-            this.btnDelete.TabIndex = 3;
-            this.btnDelete.Text = "&Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnUpdate.Location = new System.Drawing.Point(278, 14);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
-            this.btnUpdate.TabIndex = 2;
-            this.btnUpdate.Text = "&Update";
-            this.btnUpdate.UseVisualStyleBackColor = false;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnAdd.Location = new System.Drawing.Point(197, 14);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 32);
-            this.btnAdd.TabIndex = 1;
-            this.btnAdd.Text = "&Add";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // label6
             // 
@@ -232,7 +164,7 @@
             this.chkHalf.Name = "chkHalf";
             this.chkHalf.Properties.Caption = "Allow Half Posting :";
             this.chkHalf.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkHalf.Size = new System.Drawing.Size(133, 19);
+            this.chkHalf.Size = new System.Drawing.Size(133, 20);
             this.chkHalf.TabIndex = 9;
             // 
             // chkPublicHL
@@ -241,7 +173,7 @@
             this.chkPublicHL.Name = "chkPublicHL";
             this.chkPublicHL.Properties.Caption = "Public Holiday :";
             this.chkPublicHL.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkPublicHL.Size = new System.Drawing.Size(103, 19);
+            this.chkPublicHL.Size = new System.Drawing.Size(103, 20);
             this.chkPublicHL.TabIndex = 7;
             // 
             // chkShowEntry
@@ -250,7 +182,7 @@
             this.chkShowEntry.Name = "chkShowEntry";
             this.chkShowEntry.Properties.Caption = "Show In Leave Entry :";
             this.chkShowEntry.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkShowEntry.Size = new System.Drawing.Size(133, 19);
+            this.chkShowEntry.Size = new System.Drawing.Size(133, 20);
             this.chkShowEntry.TabIndex = 8;
             // 
             // chkEncash
@@ -259,7 +191,7 @@
             this.chkEncash.Name = "chkEncash";
             this.chkEncash.Properties.Caption = "Allow Encash :";
             this.chkEncash.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkEncash.Size = new System.Drawing.Size(133, 19);
+            this.chkEncash.Size = new System.Drawing.Size(133, 20);
             this.chkEncash.TabIndex = 10;
             // 
             // chkKeepAdv
@@ -268,7 +200,7 @@
             this.chkKeepAdv.Name = "chkKeepAdv";
             this.chkKeepAdv.Properties.Caption = "Advance Leave :";
             this.chkKeepAdv.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkKeepAdv.Size = new System.Drawing.Size(103, 19);
+            this.chkKeepAdv.Size = new System.Drawing.Size(103, 20);
             this.chkKeepAdv.TabIndex = 6;
             // 
             // chkKeepBal
@@ -277,7 +209,7 @@
             this.chkKeepBal.Name = "chkKeepBal";
             this.chkKeepBal.Properties.Caption = "Keep Balance :";
             this.chkKeepBal.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.chkKeepBal.Size = new System.Drawing.Size(103, 19);
+            this.chkKeepBal.Size = new System.Drawing.Size(103, 20);
             this.chkKeepBal.TabIndex = 5;
             // 
             // label5
@@ -349,14 +281,83 @@
             // 
             this.txtLeaveTyp.Location = new System.Drawing.Point(98, 68);
             this.txtLeaveTyp.Name = "txtLeaveTyp";
-            this.txtLeaveTyp.Properties.Mask.EditMask = "[A-Z]+";
-            this.txtLeaveTyp.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtLeaveTyp.Properties.Mask.ShowPlaceHolders = false;
-            this.txtLeaveTyp.Properties.MaxLength = 2;
-            this.txtLeaveTyp.Size = new System.Drawing.Size(42, 20);
+            this.txtLeaveTyp.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
+            this.txtLeaveTyp.Properties.MaskSettings.Set("allowBlankInput", true);
+            this.txtLeaveTyp.Properties.MaskSettings.Set("mask", "[A-Z]+");
+            this.txtLeaveTyp.Properties.MaskSettings.Set("showPlaceholders", false);
+            this.txtLeaveTyp.Properties.MaxLength = 4;
+            this.txtLeaveTyp.Size = new System.Drawing.Size(45, 20);
             this.txtLeaveTyp.TabIndex = 2;
             this.txtLeaveTyp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLeaveTyp_KeyDown);
             this.txtLeaveTyp.Validated += new System.EventHandler(this.txtLeaveTyp_Validated);
+            // 
+            // grpUserRights
+            // 
+            this.grpUserRights.Controls.Add(this.btnClose);
+            this.grpUserRights.Controls.Add(this.btnCancel);
+            this.grpUserRights.Controls.Add(this.btnDelete);
+            this.grpUserRights.Controls.Add(this.btnUpdate);
+            this.grpUserRights.Controls.Add(this.btnAdd);
+            this.grpUserRights.Location = new System.Drawing.Point(12, 133);
+            this.grpUserRights.Name = "grpUserRights";
+            this.grpUserRights.Size = new System.Drawing.Size(865, 52);
+            this.grpUserRights.TabIndex = 22;
+            this.grpUserRights.TabStop = false;
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnClose.Location = new System.Drawing.Point(520, 14);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 32);
+            this.btnClose.TabIndex = 5;
+            this.btnClose.Text = "Clos&e";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnCancel.Location = new System.Drawing.Point(440, 14);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 32);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "&Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnDelete.Location = new System.Drawing.Point(359, 14);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 32);
+            this.btnDelete.TabIndex = 3;
+            this.btnDelete.Text = "&Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnUpdate.Location = new System.Drawing.Point(278, 14);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
+            this.btnUpdate.TabIndex = 2;
+            this.btnUpdate.Text = "&Update";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
+            this.btnAdd.Location = new System.Drawing.Point(197, 14);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 32);
+            this.btnAdd.TabIndex = 1;
+            this.btnAdd.Text = "&Add";
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // Group2
             // 
@@ -394,7 +395,6 @@
             this.gridView1.OptionsFilter.AllowFilterEditor = false;
             this.gridView1.OptionsFilter.AllowFilterIncrementalSearch = false;
             this.gridView1.OptionsFilter.AllowMRUFilterList = false;
-            this.gridView1.OptionsFilter.FilterEditorUseMenuForOperandsAndOperators = false;
             this.gridView1.OptionsFind.AllowFindPanel = false;
             this.gridView1.OptionsMenu.EnableColumnMenu = false;
             this.gridView1.OptionsMenu.EnableFooterMenu = false;
@@ -427,7 +427,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkPaid.Properties)).EndInit();
-            this.grpUserRights.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chkHalf.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkPublicHL.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkShowEntry.Properties)).EndInit();
@@ -439,6 +438,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtCompCode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLeaveTyp.Properties)).EndInit();
+            this.grpUserRights.ResumeLayout(false);
             this.Group2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtDeptDesc = new DevExpress.XtraEditors.TextEdit();
             this.txtDeptCode = new DevExpress.XtraEditors.TextEdit();
             this.label3 = new System.Windows.Forms.Label();
@@ -48,10 +47,10 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtDeptEmail = new DevExpress.XtraEditors.TextEdit();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.Group2 = new System.Windows.Forms.GroupBox();
+            this.grid = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDeptCode.Properties)).BeginInit();
@@ -62,16 +61,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).BeginInit();
             this.grpUserRights.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDeptEmail.Properties)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.Group2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.txtDeptEmail);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.grpUserRights);
             this.groupBox1.Controls.Add(this.txtDeptDesc);
             this.groupBox1.Controls.Add(this.txtDeptCode);
             this.groupBox1.Controls.Add(this.label3);
@@ -84,35 +82,28 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtWrkGrpDesc);
             this.groupBox1.Controls.Add(this.txtWrkGrpCode);
-            this.groupBox1.Location = new System.Drawing.Point(12, 3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(455, 255);
+            this.groupBox1.Size = new System.Drawing.Size(898, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 123);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 15);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Dept. Name";
-            // 
             // txtDeptDesc
             // 
-            this.txtDeptDesc.Location = new System.Drawing.Point(102, 122);
+            this.txtDeptDesc.Location = new System.Drawing.Point(562, 42);
             this.txtDeptDesc.Name = "txtDeptDesc";
-            this.txtDeptDesc.Properties.Mask.EditMask = "[0-9A-Za-z ]+";
-            this.txtDeptDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtDeptDesc.Properties.Mask.ShowPlaceHolders = false;
+            this.txtDeptDesc.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
+            this.txtDeptDesc.Properties.MaskSettings.Set("allowBlankInput", true);
+            this.txtDeptDesc.Properties.MaskSettings.Set("mask", "[0-9A-Za-z ]+");
+            this.txtDeptDesc.Properties.MaskSettings.Set("showPlaceholders", false);
             this.txtDeptDesc.Properties.MaxLength = 50;
-            this.txtDeptDesc.Size = new System.Drawing.Size(340, 20);
+            this.txtDeptDesc.Size = new System.Drawing.Size(238, 20);
             this.txtDeptDesc.TabIndex = 13;
             // 
             // txtDeptCode
             // 
-            this.txtDeptCode.Location = new System.Drawing.Point(102, 96);
+            this.txtDeptCode.Location = new System.Drawing.Point(460, 42);
             this.txtDeptCode.Name = "txtDeptCode";
             this.txtDeptCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtDeptCode.Properties.Mask.ShowPlaceHolders = false;
@@ -125,7 +116,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 97);
+            this.label3.Location = new System.Drawing.Point(392, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 15);
             this.label3.TabIndex = 11;
@@ -133,16 +124,16 @@
             // 
             // txtUnitDesc
             // 
-            this.txtUnitDesc.Location = new System.Drawing.Point(204, 70);
+            this.txtUnitDesc.Location = new System.Drawing.Point(204, 42);
             this.txtUnitDesc.Name = "txtUnitDesc";
-            this.txtUnitDesc.Properties.Mask.ShowPlaceHolders = false;
+            this.txtUnitDesc.Properties.MaskSettings.Set("showPlaceholders", false);
             this.txtUnitDesc.Properties.ReadOnly = true;
-            this.txtUnitDesc.Size = new System.Drawing.Size(238, 20);
+            this.txtUnitDesc.Size = new System.Drawing.Size(166, 20);
             this.txtUnitDesc.TabIndex = 5;
             // 
             // txtUnitCode
             // 
-            this.txtUnitCode.Location = new System.Drawing.Point(102, 70);
+            this.txtUnitCode.Location = new System.Drawing.Point(102, 42);
             this.txtUnitCode.Name = "txtUnitCode";
             this.txtUnitCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtUnitCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -158,7 +149,7 @@
             this.txtCompName.Location = new System.Drawing.Point(150, 16);
             this.txtCompName.Name = "txtCompName";
             this.txtCompName.Properties.ReadOnly = true;
-            this.txtCompName.Size = new System.Drawing.Size(292, 20);
+            this.txtCompName.Size = new System.Drawing.Size(220, 20);
             this.txtCompName.TabIndex = 1;
             this.txtCompName.TabStop = false;
             // 
@@ -183,7 +174,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 71);
+            this.label2.Location = new System.Drawing.Point(8, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 15);
             this.label2.TabIndex = 5;
@@ -192,15 +183,15 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 45);
+            this.label1.Location = new System.Drawing.Point(377, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 15);
+            this.label1.Size = new System.Drawing.Size(82, 15);
             this.label1.TabIndex = 4;
-            this.label1.Text = "WrkGrpCode";
+            this.label1.Text = "EmpGrpCode";
             // 
             // txtWrkGrpDesc
             // 
-            this.txtWrkGrpDesc.Location = new System.Drawing.Point(204, 44);
+            this.txtWrkGrpDesc.Location = new System.Drawing.Point(562, 16);
             this.txtWrkGrpDesc.Name = "txtWrkGrpDesc";
             this.txtWrkGrpDesc.Properties.Mask.EditMask = "\\w{3,50}";
             this.txtWrkGrpDesc.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -212,7 +203,7 @@
             // 
             // txtWrkGrpCode
             // 
-            this.txtWrkGrpCode.Location = new System.Drawing.Point(102, 44);
+            this.txtWrkGrpCode.Location = new System.Drawing.Point(460, 16);
             this.txtWrkGrpCode.Name = "txtWrkGrpCode";
             this.txtWrkGrpCode.Properties.Mask.EditMask = "\\w{3,10}";
             this.txtWrkGrpCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -225,7 +216,7 @@
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnAdd.Location = new System.Drawing.Point(6, 14);
+            this.btnAdd.Location = new System.Drawing.Point(228, 14);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 32);
             this.btnAdd.TabIndex = 1;
@@ -240,16 +231,16 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(12, 264);
+            this.grpUserRights.Location = new System.Drawing.Point(11, 80);
             this.grpUserRights.Name = "grpUserRights";
-            this.grpUserRights.Size = new System.Drawing.Size(452, 52);
+            this.grpUserRights.Size = new System.Drawing.Size(789, 52);
             this.grpUserRights.TabIndex = 2;
             this.grpUserRights.TabStop = false;
             // 
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnClose.Location = new System.Drawing.Point(329, 14);
+            this.btnClose.Location = new System.Drawing.Point(551, 14);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 32);
             this.btnClose.TabIndex = 5;
@@ -260,7 +251,7 @@
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnCancel.Location = new System.Drawing.Point(249, 14);
+            this.btnCancel.Location = new System.Drawing.Point(471, 14);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 32);
             this.btnCancel.TabIndex = 4;
@@ -271,7 +262,7 @@
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnDelete.Location = new System.Drawing.Point(168, 14);
+            this.btnDelete.Location = new System.Drawing.Point(390, 14);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 32);
             this.btnDelete.TabIndex = 3;
@@ -282,7 +273,7 @@
             // btnUpdate
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.Cornsilk;
-            this.btnUpdate.Location = new System.Drawing.Point(87, 14);
+            this.btnUpdate.Location = new System.Drawing.Point(309, 14);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 32);
             this.btnUpdate.TabIndex = 2;
@@ -290,51 +281,77 @@
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // label6
+            // tableLayoutPanel1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 165);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 15);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Dept. Email ID";
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.Group2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.21103F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.78897F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(904, 433);
+            this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // txtDeptEmail
+            // Group2
             // 
-            this.txtDeptEmail.Location = new System.Drawing.Point(102, 164);
-            this.txtDeptEmail.Name = "txtDeptEmail";
-            this.txtDeptEmail.Properties.Mask.EditMask = "[0-9@._A-Za-z ]+";
-            this.txtDeptEmail.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtDeptEmail.Properties.Mask.ShowPlaceHolders = false;
-            this.txtDeptEmail.Properties.MaxLength = 50;
-            this.txtDeptEmail.Size = new System.Drawing.Size(340, 20);
-            this.txtDeptEmail.TabIndex = 15;
+            this.Group2.Controls.Add(this.grid);
+            this.Group2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Group2.Location = new System.Drawing.Point(3, 159);
+            this.Group2.Name = "Group2";
+            this.Group2.Size = new System.Drawing.Size(898, 271);
+            this.Group2.TabIndex = 4;
+            this.Group2.TabStop = false;
             // 
-            // label7
+            // grid
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(99, 187);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(191, 15);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "* Used in Notification if configured";
+            this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grid.Location = new System.Drawing.Point(3, 17);
+            this.grid.MainView = this.gridView1;
+            this.grid.Name = "grid";
+            this.grid.Size = new System.Drawing.Size(892, 251);
+            this.grid.TabIndex = 0;
+            this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
             // 
-            // label11
+            // gridView1
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(296, 187);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(42, 15);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "(HOD)";
+            this.gridView1.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.gridView1.Appearance.EvenRow.Options.UseBackColor = true;
+            this.gridView1.GridControl = this.grid;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsCustomization.AllowColumnMoving = false;
+            this.gridView1.OptionsCustomization.AllowFilter = false;
+            this.gridView1.OptionsCustomization.AllowGroup = false;
+            this.gridView1.OptionsCustomization.AllowQuickHideColumns = false;
+            this.gridView1.OptionsCustomization.AllowSort = false;
+            this.gridView1.OptionsFilter.AllowColumnMRUFilterList = false;
+            this.gridView1.OptionsFilter.AllowFilterEditor = false;
+            this.gridView1.OptionsFilter.AllowFilterIncrementalSearch = false;
+            this.gridView1.OptionsFilter.AllowMRUFilterList = false;
+            this.gridView1.OptionsFind.AllowFindPanel = false;
+            this.gridView1.OptionsMenu.EnableColumnMenu = false;
+            this.gridView1.OptionsMenu.EnableFooterMenu = false;
+            this.gridView1.OptionsMenu.EnableGroupPanelMenu = false;
+            this.gridView1.OptionsMenu.ShowAddNewSummaryItem = DevExpress.Utils.DefaultBoolean.False;
+            this.gridView1.OptionsMenu.ShowAutoFilterRowItem = false;
+            this.gridView1.OptionsMenu.ShowDateTimeGroupIntervalItems = false;
+            this.gridView1.OptionsMenu.ShowGroupSortSummaryItems = false;
+            this.gridView1.OptionsMenu.ShowSplitItem = false;
+            this.gridView1.OptionsView.ShowDetailButtons = false;
+            this.gridView1.OptionsView.ShowGroupExpandCollapseButtons = false;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // frmMastDept
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 328);
-            this.Controls.Add(this.grpUserRights);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(904, 433);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmMastDept";
@@ -351,7 +368,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpDesc.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtWrkGrpCode.Properties)).EndInit();
             this.grpUserRights.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtDeptEmail.Properties)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.Group2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -375,12 +395,11 @@
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.TextEdit txtUnitDesc;
         private DevExpress.XtraEditors.TextEdit txtUnitCode;
-        private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.TextEdit txtDeptDesc;
         private DevExpress.XtraEditors.TextEdit txtDeptCode;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private DevExpress.XtraEditors.TextEdit txtDeptEmail;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox Group2;
+        private DevExpress.XtraGrid.GridControl grid;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
     }
 }

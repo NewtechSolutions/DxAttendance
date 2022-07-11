@@ -66,7 +66,7 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 246F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(888, 587);
             this.tableLayoutPanel1.TabIndex = 0;
@@ -77,19 +77,19 @@
             this.groupControl2.Appearance.Options.UseFont = true;
             this.groupControl2.Controls.Add(this.gridctrl);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(4, 250);
+            this.groupControl2.Location = new System.Drawing.Point(4, 204);
             this.groupControl2.Margin = new System.Windows.Forms.Padding(4);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(880, 333);
+            this.groupControl2.Size = new System.Drawing.Size(880, 379);
             this.groupControl2.TabIndex = 1;
             // 
             // gridctrl
             // 
             this.gridctrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridctrl.Location = new System.Drawing.Point(2, 21);
+            this.gridctrl.Location = new System.Drawing.Point(2, 23);
             this.gridctrl.MainView = this.gridView1;
             this.gridctrl.Name = "gridctrl";
-            this.gridctrl.Size = new System.Drawing.Size(876, 310);
+            this.gridctrl.Size = new System.Drawing.Size(876, 354);
             this.gridctrl.TabIndex = 0;
             this.gridctrl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -116,7 +116,7 @@
             this.groupControl1.Location = new System.Drawing.Point(4, 4);
             this.groupControl1.Margin = new System.Windows.Forms.Padding(4);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(880, 238);
+            this.groupControl1.Size = new System.Drawing.Size(880, 192);
             this.groupControl1.TabIndex = 0;
             // 
             // labelControl2
@@ -142,7 +142,7 @@
             this.grpUserRights.Controls.Add(this.btnDelete);
             this.grpUserRights.Controls.Add(this.btnUpdate);
             this.grpUserRights.Controls.Add(this.btnAdd);
-            this.grpUserRights.Location = new System.Drawing.Point(112, 142);
+            this.grpUserRights.Location = new System.Drawing.Point(112, 97);
             this.grpUserRights.Name = "grpUserRights";
             this.grpUserRights.Size = new System.Drawing.Size(415, 52);
             this.grpUserRights.TabIndex = 3;

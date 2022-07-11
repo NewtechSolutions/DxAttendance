@@ -254,7 +254,7 @@ namespace Attendance.Forms
             }
 
             DataSet ds = new DataSet();
-            string sql = "select EmpUnqID,EmpName,WrkGrp,UnitCode,MessCode,MessGrpCode,PayrollFlg,ContractFlg,Active,PunchingBlocked From MastEmp where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And Active = 1";
+            string sql = "select EmpUnqID,EmpName,WrkGrp,UnitCode,'001' as MessCode,'001' as MessGrpCode,1 as PayrollFlg,0 as ContractFlg,Active,PunchingBlocked From V_EMPMast where EmpUnqID ='" + txtEmpUnqID.Text.Trim() + "' And Active = 1";
 
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>()
@@ -284,8 +284,8 @@ namespace Attendance.Forms
                     
                     txtWrkGrpCode_Validated(sender, e);
                     txtUnitCode_Validated(sender, e);
-                    txtMessCode_Validated(sender, e);
-                    txtMessGrpCode_Validated(sender, e);
+                   // txtMessCode_Validated(sender, e);
+                   // txtMessGrpCode_Validated(sender, e);
                                    
 
                 } //foreach employee
@@ -687,7 +687,7 @@ namespace Attendance.Forms
             {
                 tUserList.RemoveAll(tmpuser => tmpuser.UserID == tEmpUnqID);
                 tUserList.Add(user);   
-                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
+                grd_Emp.DataSource = tUserList.Select(myClass => new {  myClass.UserID, myClass.UserName, myClass.err }).ToList();
             }
 
             txtEmpUnqID.Text = "";
@@ -762,7 +762,7 @@ namespace Attendance.Forms
                 m.DownloadTemplate(tUserList, out err, out tempusers);
 
                 m.DisConnect(out err);
-                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
+                grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.UserID, myClass.UserName, myClass.err }).ToList();
                 
                 UnLockCtrl();
                 Cursor.Current = Cursors.Default;
@@ -2257,7 +2257,7 @@ namespace Attendance.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             tUserList.Clear();
-            grd_Emp.DataSource = tUserList.Select(myClass => new { myClass.MessGrpCode, myClass.MessCode, myClass.UserID, myClass.UserName, myClass.err }).ToList();
+            grd_Emp.DataSource = tUserList.Select(myClass => new {  myClass.UserID, myClass.UserName, myClass.err }).ToList();
         }
 
         private void btnDelLeftUser_Click(object sender, EventArgs e)

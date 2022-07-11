@@ -29,23 +29,29 @@ namespace Attendance.Forms
             //this.ctrlEmp1.CompCodeValidated += new EventHandler(this.ctrlCompValidateEvent_Handler);
         }
 
+        private void loadGrid(string tEmpUnqID)
+        {
+            DataSet ds = Utils.Helper.GetData("Select * from MastEmpJobProfile Where EmpUnqID='"+tEmpUnqID + "'", Utils.Helper.constr);
+            grid.DataSource = ds;
+            grid.DataMember = ds.Tables[0].TableName;
+        }
+
         private void ctrlEmpValidateEvent_Handler(object sender, EventArgs e)
         {
-                Emp.CompCode = ctrlEmp1.txtCompCode.Text.Trim();
-                Emp.EmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim();
-
-                if (Emp.GetEmpDetails(Emp.CompCode, Emp.EmpUnqID))
-                {
-                   
-                    mode = "OLD";
-                }
-                else
-                {
-                    mode = "NEW";
-                    Emp = new clsEmp();
-                }
-                DisplayData(Emp);
-                SetRights();
+            Emp = new clsEmp();
+            Emp.EmpUnqID = ctrlEmp1.txtEmpUnqID.Text.Trim();
+            if (Emp.GetEmpDetails(Emp.EmpUnqID))
+            {
+                txtValidFrom.EditValue = Emp.ProfileValidFrom;
+                txtValidFrom_Validated(sender, e);
+                loadGrid(Emp.EmpUnqID);
+            }
+            else
+            {
+                MessageBox.Show("Invalid Employee...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ResetCtrl();
+            }
+            
             
         }
 
@@ -146,46 +152,64 @@ namespace Attendance.Forms
         {
             string err = string.Empty;
 
+
+
+
+
             if (string.IsNullOrEmpty(ctrlEmp1.txtCompCode.Text.Trim().ToString()))
             {
                 err = err + "Please Enter CompCode..." + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(ctrlEmp1.cEmp.CompDesc.Trim().ToString()))
-            {
-                err = err + "Invalid CompCode..." + Environment.NewLine;
-            }
-
-            
             if (string.IsNullOrEmpty(ctrlEmp1.txtEmpUnqID.Text.Trim().ToString()))
             {
                 err = err + "Please Enter EmpUnqID..." + Environment.NewLine;
             }
 
-            if (!Globals.GetWrkGrpRights(685, "", ctrlEmp1.cEmp.EmpUnqID))
+           
+            if (string.IsNullOrEmpty(txtUnitDesc.Text.Trim().ToString()))
             {
-                if (!string.IsNullOrEmpty(ctrlEmp1.cEmp.EmpUnqID) && !ctrlEmp1.IsValid)
-                {
-                    err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
-                }
+                err = err + "Unit Code is required...." + Environment.NewLine;
+            }
+            
+
+            if (string.IsNullOrEmpty(txtDeptDesc.Text.Trim().ToString()))
+            {
+                err = err + "Dept Code is required...." + Environment.NewLine;
             }
 
-            if (Emp.UnitCode == "")
+            if (string.IsNullOrEmpty(txtStatDesc.Text.Trim().ToString()))
             {
-                err = err + "Unit Code is required../Please update from EmpBasicData module..." + Environment.NewLine;
+                err = err + "Station Code is required...." + Environment.NewLine;
             }
 
-            if (string.IsNullOrEmpty(txtCostCode.Text.Trim()))
+            if (string.IsNullOrEmpty(txtCatDesc.Text.Trim().ToString()))
+            {
+                err = err + "Catagory Code is required...." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtGradeDesc.Text.Trim().ToString()))
+            {
+                err = err + "Grade Code is required...." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtDesgDesc.Text.Trim().ToString()))
+            {
+                err = err + "Designation Code is required...." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtWeekOff.Text.Trim().ToString()))
+            {
+                err = err + "Week Off is required...." + Environment.NewLine;
+            }
+
+            if (string.IsNullOrEmpty(txtCostDesc.Text.Trim()))
             {
                 err = err + "Please Enter CostCode..." + Environment.NewLine;
                 return err;
             }
 
-            if (string.IsNullOrEmpty(txtCostDesc.Text.Trim()))
-            {
-                err = err + "Invalid CostCode..." + Environment.NewLine;
-                return err;
-            }
+           
 
             string tsql = "Select Active from MastCostCode where CostCode = '" + txtCostCode.Text.Trim().ToString() + "'";
             string ifcostact = Utils.Helper.GetDescription(tsql, Utils.Helper.constr, out err);
@@ -199,17 +223,7 @@ namespace Attendance.Forms
                 return err;
             }
 
-            DateTime dt = DateTime.Now;
-
-            if (txtLeftDt.EditValue != null)
-            {
-                DateTime tdt = txtLeftDt.DateTime;
-
-                if (tdt > dt)
-                {
-                    err = err + "Left Date could not be future date.." + Environment.NewLine;
-                }
-            }
+            
 
 
             return err;
@@ -221,42 +235,34 @@ namespace Attendance.Forms
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
 
-            ctrlEmp1.ResetCtrl();
+            txtValidFrom.EditValue = null;
 
-            txtCatCode.Text = string.Empty;
-            txtCatDesc.Text = string.Empty;
-            txtEmpTypeCode.Text = string.Empty;
-            txtEmpTypeDesc.Text = string.Empty;
+           
+            txtUnitCode.Text = string.Empty;
+            txtUnitDesc.Text = String.Empty;
+
             txtDeptCode.Text = string.Empty;
             txtDeptDesc.Text = string.Empty;
             txtStatCode.Text = string.Empty;
             txtStatDesc.Text = string.Empty;
+            txtCatCode.Text = string.Empty;
+            txtCatDesc.Text = string.Empty;
+
             txtDesgCode.Text = string.Empty;
             txtDesgDesc.Text = string.Empty;
             txtGradeCode.Text = string.Empty;
             txtGradeDesc.Text = string.Empty;
             txtContCode.Text = "";
             txtContDesc.Text = "";
-            txtSecCode.Text = "";
-            txtSecDesc.Text = "";
-
-            txtEmpCode.Text = "";
-            txtOldEmpCode.Text = "";
-            txtSAPID.Text = "";
-            txtWeekOff.Text = "";
-            txtESINo.Text = "";
-
-            chkAutoShift.Checked = false;
             chkOTFlg.Checked = false;
-            chkIsHOD.Checked = false;
-            txtLeftDt.EditValue = null;
-            txtLeftDt.Enabled = true;
             txtCostCode.Text = "";
             txtCostDesc.Text = "";
 
             oldCode = "";
             mode = "NEW";
-            ctrlEmp1.txtEmpUnqID.Focus();
+            //ctrlEmp1.txtEmpUnqID.Focus();
+
+            grid.DataSource = null;
         }
         
         private void SetRights()
@@ -264,22 +270,22 @@ namespace Attendance.Forms
             btnAdd.Enabled = false;
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
-
-            if (ctrlEmp1.txtEmpUnqID.Text.Trim() != "" )
+            
+            if (ctrlEmp1.txtEmpUnqID.Text.Trim() != "" && txtValidFrom.EditValue != null)
             {
                 //btnAdd.Enabled = false;
-                if(string.IsNullOrEmpty(Emp.DeptCode) && GRights.Contains("A"))
+                if(mode == "NEW" && GRights.Contains("A"))
                 {
                     btnAdd.Enabled = true;
                     
                 }
                 
-                if(GRights.Contains("U"))
+                if(mode == "OLD" && GRights.Contains("U"))
                     btnUpdate.Enabled = true;
-                if (GRights.Contains("D"))
+                if (mode == "OLD" && GRights.Contains("D"))
                     btnDelete.Enabled = true;
             }
-
+            
             if (GRights.Contains("XXXV"))
             {
                 btnAdd.Enabled = false;
@@ -298,7 +304,46 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            btnUpdate_Click(sender, e);              
+
+            using (SqlConnection cn = new SqlConnection(Utils.Helper.constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    try
+                    {
+                        cn.Open();
+                        cmd.Connection = cn;
+
+                        string sql = "insert into MastEmpJobProfile " +
+                            " (EmpUnqID,ValidFrom,UnitCode,DeptCode,StatCode,CatCode,DesgCode,GradeCode,WeekOff,OTFLG,CostCode,ContCode,AddDt,AddID ) Values ( "
+                            + " '" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "','" + txtValidFrom.DateTime.Date.ToString("yyyy-MM-dd") + "',"
+                            + " '" + txtUnitCode.Text.Trim().ToString() + "','" + txtDeptCode.Text.Trim().ToString() + "',"
+                            + " '" + txtStatCode.Text.Trim().ToString() + "','" + txtCatCode.Text.Trim().ToString() + "',"
+                            + " '" + txtDesgCode.Text.Trim().ToString() + "','" + txtGradeCode.Text.Trim().ToString() + "',"
+                            + " '" + txtWeekOff.Text.Trim().ToUpper() + "','" + (chkOTFlg.Checked ? 1 : 0).ToString() + "',"
+                            + " '" + txtCostCode.Text.Trim().ToString() + "','" + txtContCode.Text.Trim().ToString() + "',"
+                            + " GetDate(),'" + Utils.User.GUserID + "')";
+                        
+
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = sql;
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Record Saved...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //ResetCtrl();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            GrpMain.Enabled = true;
+
+            Cursor.Current = Cursors.Default;
+
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -310,13 +355,6 @@ namespace Attendance.Forms
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-
-            if (!chkAutoShift.Checked && txtShiftCode.Text.Trim() == "")
-            {
-                err = err + "ShiftCode Required...." + Environment.NewLine;
-            }
-
 
             GrpMain.Enabled = false;
 
@@ -331,119 +369,26 @@ namespace Attendance.Forms
                         cn.Open();
                         cmd.Connection = cn;
 
-                        string sql = "insert into MastEmpHistory " +
-                           " select 'Before Update Master Data, Action By " + Utils.User.GUserID + "', GetDate(), * from MastEmp where CompCode = '" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                           " and EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "'";
+                        string sql = "Update MastEmpJobProfile Set " +
+                           " UnitCode ='" + txtUnitCode.Text.Trim().ToString() + "'," +
+                           " DeptCode='" + txtDeptCode.Text.Trim().ToString() + "'," +
+                           " StatCode='" + txtStatCode.Text.Trim().ToString() + "'," +
+                           " CatCode='" + txtCatCode.Text.Trim().ToString() + "'," +
+                           " DesgCode='" + txtDesgCode.Text.Trim().ToString() + "'," +
+                           " GradeCode='" + txtGradeCode.Text.Trim().ToString() + "'," +
+                           " ContCode='" + txtContCode.Text.Trim().ToString() + "'," +
+                           " CostCode='" + txtCostCode.Text.Trim().ToString() + "'," +
+                           " WeekOff='" + txtWeekOff.Text.Trim().ToString() + "'," +
+                           " OTFLG='" + (chkOTFlg.Checked?1:0).ToString() + "'," +
+                           " UpdDt=GetDate(),UpdID='" + Utils.User.GUserID + "'" +
+                           " Where EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "' and ValidFrom ='" + txtValidFrom.DateTime.Date.ToString("yyyy-MM-dd") + "'";
 
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
 
-
-                        //clsEmp t = new clsEmp();
-                        //t.CompCode = txtCompCode.Text.Trim();
-                        //t.EmpUnqID = txtEmpUnqID.Text.Trim();
-                        //t.GetEmpDetails(t.CompCode, t.EmpUnqID);
-
-                        ////WrkGrp is Changed.. need to process in all tables..
-                        //if (t.WrkGrp != txtWrkGrpCode.Text.Trim())
-                        //{
-
-                        //    try
-                        //    {
-                        //        sql = "Exec ChangeWrkGrp '" + t.EmpUnqID + "','" + txtWrkGrpCode.Text.Trim() + "';";
-                        //        cmd.CommandText = sql;
-                        //        cmd.ExecuteNonQuery();
-                        //        WrkGrpChange = true;
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-
-                        //        WrkGrpChange = false;
-                        //        GrpMain.Enabled = true;
-                        //        Cursor.Current = Cursors.Default;
-                        //        MessageBox.Show("Kindly Clear the Job Profile First,(EmpTypeCode,CatCode,GradeCode,DesgCode,DeptCode,StatCode)" + Environment.NewLine +
-                        //           "and try again..."
-                        //       , "WrkGrp Change Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        //        return;
-                        //    }
-
-
-                        //}
-                        //else
-                        //{
-                        //    WrkGrpChange = false;
-                        //}
-
-                        sql = "Update MastEmp set OTFLG='{0}',Weekoff='{1}', EmpCode='{2}',OldEmpCode='{3}',SAPID='{4}',ShiftType='{5}'," +
-                            " LeftDt = {6}  , EmpTypeCode = {7} , CatCode = {8} , DeptCode = {9} , StatCode = {10} , DesgCode = {11} , " +
-                            " GradCode = {12} , ContCode = {13} , ShiftCode = {14} , Active = '{15}', " +
-                            " UpdDt=GetDate(),UpdID ='{16}',isHOD = '{17}', SecCode = {18} , ESINo= '{19}' Where " +
-                            " CompCode ='{20}' and EmpUnqID = '{21}'";
-
-
-                        sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
-                            txtEmpCode.Text.Trim(), txtOldEmpCode.Text.Trim(), txtSAPID.Text.Trim(), ((chkAutoShift.Checked) ? 1 : 0),
-                            ((txtLeftDt.EditValue == null) ? "null" : "'" + txtLeftDt.DateTime.ToString("yyyy-MM-dd") + "'"),
-                            ((txtEmpTypeCode.Text.Trim() == "") ? "null" : "'" + txtEmpTypeCode.Text.Trim() + "'"),
-                            ((txtCatCode.Text.Trim() == "") ? "null" : "'" + txtCatCode.Text.Trim() + "'"),
-                            ((txtDeptCode.Text.Trim() == "") ? "null" : "'" + txtDeptCode.Text.Trim() + "'"),
-                            ((txtStatCode.Text.Trim() == "") ? "null" : "'" + txtStatCode.Text.Trim() + "'"),
-                            ((txtDesgCode.Text.Trim() == "") ? "null" : "'" + txtDesgCode.Text.Trim() + "'"),
-                            ((txtGradeCode.Text.Trim() == "") ? "null" : "'" + txtGradeCode.Text.Trim() + "'"),
-                            ((txtContCode.Text.Trim() == "") ? "null" : "'" + txtContCode.Text.Trim() + "'"),
-                            ((txtShiftCode.Text.Trim() == "") ? "null" : "'" + txtShiftCode.Text.Trim() + "'"),
-                            ((txtLeftDt.EditValue == null) ? 1 : 0),
-                            Utils.User.GUserID, ((chkIsHOD.Checked) ? 1 : 0),
-                            ((txtSecCode.Text.Trim() == "") ? "null" : "'" + txtSecCode.Text.Trim() + "'"), txtESINo.Text.Trim(),
-                            ctrlEmp1.txtCompCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim()
-                            );
-
-                        cmd.CommandText = sql;
-                        cmd.ExecuteNonQuery();
-
-
-                        //check first if costcode exist or not
-                        string err3 = "0";
-                        string tcostcodecnt = Utils.Helper.GetDescription("Select Count(*) from MastCostCodeEmp Where EmpUnqID='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'", Utils.Helper.constr, out err3);
-                        if(tcostcodecnt == "0" && string.IsNullOrEmpty(err3))
-                        {
-                            
-                            
-                            
-                            
-                            
-                            
-                            sql = "Insert into MastCostCodeEmp (EmpUnqID,ValidFrom,CostCode,AddDt,AddID) Values ('{0}',(Select JoinDt From MastEmp Where EmpUnqID='{1}'),'{2}',GetDate(),'{3}')";
-                            sql = string.Format(sql,
-                            ctrlEmp1.txtEmpUnqID.Text.Trim(),
-                            ctrlEmp1.txtEmpUnqID.Text.Trim(),
-                            txtCostCode.Text.Trim(),
-                            Utils.User.GUserID
-                            );
-
-                            cmd.CommandText = sql;
-                            cmd.ExecuteNonQuery();
-
-                            sql = "Update MastEmp Set CostCode = '" + txtCostCode.Text.Trim().ToString() + "' Where EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "'";
-                            cmd.CommandText = sql;
-                            cmd.ExecuteNonQuery();
-                        }
-                        else
-                        {
-                            MessageBox.Show("CostCenter Change not allowed, Please update from respective module if required.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-
-                        //if (WrkGrpChange)
-                        //{
-                        //    MessageBox.Show("Employee Job Profile is Discarded.." + Environment.NewLine +
-                        //            "Please Fill the Employee Job Profile Again.."
-                        //        , "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //}
-
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ResetCtrl();
+                        //ResetCtrl();
 
                     }
                     catch (Exception ex)
@@ -460,40 +405,7 @@ namespace Attendance.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            txtEmpCode.Text = "";
-            txtOldEmpCode.Text = "";
-            txtSAPID.Text = "";
-
-            txtContCode.Text = "";
-            txtContCode_Validated(sender, e);
-
-            txtDeptCode.Text = "";
-            txtDeptCode_Validated(sender, e);
-
-            txtStatCode.Text = "";
-            txtStatCode_Validated(sender, e);
-
-            txtDesgCode.Text = "";
-            txtDesgCode_Validated(sender, e);
-
-            txtGradeCode.Text = "";
-            txtGradeCode_Validated(sender, e);
-
-            txtCatCode.Text = "";
-            txtCatCode_Validated(sender, e);
-
-            txtEmpTypeCode.Text = "";
-            txtEmpTypeCode_Validated(sender, e);
-
-            chkOTFlg.Checked = false;
-            chkAutoShift.Checked = true;
-            txtShiftCode.Text = "";
-            txtShiftCode_Validated(sender, e);
-
-            txtWeekOff.Text = "SUN";
-
-
-
+           
             string err = DataValidate();
 
             if (!string.IsNullOrEmpty(err))
@@ -516,85 +428,15 @@ namespace Attendance.Forms
                         cn.Open();
                         cmd.Connection = cn;
 
-                        string sql = "insert into MastEmpHistory " +
-                           " select 'Before Delete Master Data, Action By " + Utils.User.GUserID + "', GetDate(), * from MastEmp where CompCode = '" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                           " and EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "'";
-
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = sql;
-                        cmd.ExecuteNonQuery();
-
-
-                        //clsEmp t = new clsEmp();
-                        //t.CompCode = txtCompCode.Text.Trim();
-                        //t.EmpUnqID = txtEmpUnqID.Text.Trim();
-                        //t.GetEmpDetails(t.CompCode, t.EmpUnqID);
-
-                        ////WrkGrp is Changed.. need to process in all tables..
-                        //if (t.WrkGrp != txtWrkGrpCode.Text.Trim())
-                        //{
-
-                        //    try
-                        //    {
-                        //        sql = "Exec ChangeWrkGrp '" + t.EmpUnqID + "','" + txtWrkGrpCode.Text.Trim() + "';";
-                        //        cmd.CommandText = sql;
-                        //        cmd.ExecuteNonQuery();
-                        //        WrkGrpChange = true;
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-
-                        //        WrkGrpChange = false;
-                        //        GrpMain.Enabled = true;
-                        //        Cursor.Current = Cursors.Default;
-                        //        MessageBox.Show("Kindly Clear the Job Profile First,(EmpTypeCode,CatCode,GradeCode,DesgCode,DeptCode,StatCode)" + Environment.NewLine +
-                        //           "and try again..."
-                        //       , "WrkGrp Change Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        //        return;
-                        //    }
-
-
-                        //}
-                        //else
-                        //{
-                        //    WrkGrpChange = false;
-                        //}
-
-                        sql = "Update MastEmp set OTFLG='{0}',Weekoff='{1}', EmpCode='{2}',OldEmpCode='{3}',SAPID='{4}',ShiftType='{5}'," +
-                            " LeftDt = {6}  , EmpTypeCode = {7} , CatCode = {8} , DeptCode = {9} , StatCode = {10} , DesgCode = {11} , " +
-                            " GradCode = {12} , ContCode = {13} , ShiftCode = {14} , Active = '{15}', " +
-                            " UpdDt=GetDate(),UpdID ='{16}' Where " +
-                            " CompCode ='{17}' and EmpUnqID = '{18}'";
-
-
-                        sql = string.Format(sql, ((chkOTFlg.Checked) ? 1 : 0), txtWeekOff.Text.Trim(),
-                            txtEmpCode.Text.Trim(), txtOldEmpCode.Text.Trim(), txtSAPID.Text.Trim(), ((chkAutoShift.Checked) ? 1 : 0),
-                            ((txtLeftDt.EditValue == null) ? "null" : "'" + txtLeftDt.DateTime.ToString("yyyyy-MM-dd") + "'"),
-                            ((txtEmpTypeCode.Text.Trim() == "") ? "null" : "'" + txtEmpTypeCode.Text.Trim() + "'"),
-                            ((txtCatCode.Text.Trim() == "") ? "null" : "'" + txtCatCode.Text.Trim() + "'"),
-                            ((txtDeptCode.Text.Trim() == "") ? "null" : "'" + txtDeptCode.Text.Trim() + "'"),
-                            ((txtStatCode.Text.Trim() == "") ? "null" : "'" + txtStatCode.Text.Trim() + "'"),
-                            ((txtDesgCode.Text.Trim() == "") ? "null" : "'" + txtDesgCode.Text.Trim() + "'"),
-                            ((txtGradeCode.Text.Trim() == "") ? "null" : "'" + txtGradeCode.Text.Trim() + "'"),
-                            ((txtContCode.Text.Trim() == "") ? "null" : "'" + txtContCode.Text.Trim() + "'"),
-                            ((txtShiftCode.Text.Trim() == "") ? "null" : "'" + txtShiftCode.Text.Trim() + "'"),
-                            ((txtLeftDt.EditValue == null) ? 1 : 0),
-                            Utils.User.GUserID,
-                            ctrlEmp1.txtCompCode.Text.Trim(), ctrlEmp1.txtEmpUnqID.Text.Trim()
-
-                            );
+                        string sql = "Update MastEmpJobProfile set OTFLG=0,Weekoff='SUN', " +
+                            "  CatCode = '' , DeptCode = '' , StatCode = '' , DesgCode = '' , " +
+                            " GradeCode = '' , ContCode = '' , CostCode = '' , UnitCode = '', " +
+                            " UpdDt=GetDate(),UpdID ='" + Utils.User.GUserID + "' Where " +
+                            " EmpUnqID = '" + ctrlEmp1.txtEmpUnqID.Text.Trim().ToString() + "' " +
+                            " and ValidFrom ='" + txtValidFrom.DateTime.Date.ToString("yyyy-MM-dd") + "'";
 
                         cmd.CommandText = sql;
                         cmd.ExecuteNonQuery();
-
-
-                        //if (WrkGrpChange)
-                        //{
-                        //    MessageBox.Show("Employee Job Profile is Discarded.." + Environment.NewLine +
-                        //            "Please Fill the Employee Job Profile Again.."
-                        //        , "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //}
 
                         MessageBox.Show("Record Updated...", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ResetCtrl();
@@ -626,22 +468,16 @@ namespace Attendance.Forms
 
         private void DisplayData(clsEmp temp)
         {
-            txtContCode.Text = temp.ContCode;
-            txtEmpCode.Text = temp.EmpCode;
-            txtSAPID.Text = temp.SAPID;
-            txtOldEmpCode.Text = temp.OLDEmpCode;
-            txtShiftCode.Text = temp.ShiftCode;
-            txtWeekOff.Text = temp.WeekOffDay;
-            chkAutoShift.Checked = temp.AutoShift;
-            chkOTFlg.Checked = temp.OTFLG;
-            chkIsHOD.Checked = temp.IsHOD;
-
+            txtValidFrom.EditValue = temp.ProfileValidFrom;
+           
+            
+            txtUnitCode.Text = temp.UnitCode;
+            txtUnitDesc.Text = temp.UnitDesc;
             txtDeptCode.Text = temp.DeptCode;
             txtDeptDesc.Text = temp.DeptDesc;
             txtStatCode.Text = temp.StatCode;
             txtStatDesc.Text = temp.StatDesc;
-            txtEmpTypeCode.Text = temp.EmpTypeCode;
-            txtEmpTypeDesc.Text = temp.EmpTypeDesc;
+           
             txtDesgCode.Text = temp.DesgCode;
             txtDesgDesc.Text = temp.DesgDesc;
             txtGradeCode.Text = temp.GradeCode;
@@ -649,121 +485,103 @@ namespace Attendance.Forms
             txtCatCode.Text = temp.CatCode;
             txtCatDesc.Text = temp.CatDesc;
 
-            txtSecCode.Text = Utils.Helper.GetDescription("Select SecCode from MastEmp Where EmpUnqID = '" + temp.EmpUnqID + "'", Utils.Helper.constr);
-            object s = new object();
-            EventArgs e = new EventArgs();
-            txtSecCode_Validated(s, e);
-            txtESINo.Text = Utils.Helper.GetDescription("Select ESINO from MastEmp Where EmpUnqID = '" + temp.EmpUnqID + "'", Utils.Helper.constr);
-            txtContCode_Validated(s, e);
-
             txtCostCode.Text = temp.CostCode;
-            txtCostCode_Validated(s, e);
+            txtCostDesc.Text = temp.CostDesc;
 
-
-            if(temp.LeftDt.HasValue){
-                txtLeftDt.DateTime = Convert.ToDateTime(temp.LeftDt);
-                txtLeftDt.Enabled = false;
-            }
-            else
-            {
-                txtLeftDt.EditValue = null;
-                txtLeftDt.Enabled = true;
-            }
-
-            if (Globals.GetWrkGrpRights(685,"",temp.EmpUnqID))
-            {
-                txtLeftDt.Enabled = true;
-            }
-            SetRights();
+            txtContCode.Text = temp.ContCode;
+            txtContDesc.Text = temp.ContDesc;
+            txtWeekOff.Text = temp.WeekOffDay;
+            chkOTFlg.Checked = temp.OTFLG;
 
            
+
         }
 
-        private void txtShiftCode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" )
-                return;
+        //private void txtShiftCode_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (ctrlEmp1.txtCompCode.Text.Trim() == "" )
+        //        return;
 
-            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
-            {
-                List<string> obj = new List<string>();
+        //    if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+        //    {
+        //        List<string> obj = new List<string>();
 
-                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
-                string sql = "";
+        //        Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+        //        string sql = "";
 
 
-                sql = "Select ShiftCode,ShiftDesc from MastShift Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' ";
-                if (e.KeyCode == Keys.F1)
-                {
+        //        sql = "Select ShiftCode,ShiftDesc from MastShift Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' ";
+        //        if (e.KeyCode == Keys.F1)
+        //        {
 
-                    obj = (List<string>)hlp.Show(sql, "ShiftCode", "ShiftCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
-                else
-                {
-                    obj = (List<string>)hlp.Show(sql, "ShiftDesc", "ShiftDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
+        //            obj = (List<string>)hlp.Show(sql, "ShiftCode", "ShiftCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+        //           100, 300, 400, 600, 100, 100);
+        //        }
+        //        else
+        //        {
+        //            obj = (List<string>)hlp.Show(sql, "ShiftDesc", "ShiftDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+        //           100, 300, 400, 600, 100, 100);
+        //        }
 
-                if (obj.Count == 0)
-                {
+        //        if (obj.Count == 0)
+        //        {
 
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "0")
-                {
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "")
-                {
-                    return;
-                }
-                else
-                {
+        //            return;
+        //        }
+        //        else if (obj.ElementAt(0).ToString() == "0")
+        //        {
+        //            return;
+        //        }
+        //        else if (obj.ElementAt(0).ToString() == "")
+        //        {
+        //            return;
+        //        }
+        //        else
+        //        {
 
-                    txtShiftCode.Text = obj.ElementAt(0).ToString();
-                    txtShiftDesc.Text = obj.ElementAt(1).ToString();
+        //            txtShiftCode.Text = obj.ElementAt(0).ToString();
+        //            txtShiftDesc.Text = obj.ElementAt(1).ToString();
 
                     
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
-        private void txtShiftCode_Validated(object sender, EventArgs e)
-        {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtCompDesc.Text.Trim() == "" )
-            {
+        //private void txtShiftCode_Validated(object sender, EventArgs e)
+        //{
+        //    if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtCompDesc.Text.Trim() == "" )
+        //    {
                
-                return;
-            }
+        //        return;
+        //    }
 
-            DataSet ds = new DataSet();
-            string sql = "select * From  MastShift where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' and ShiftCode ='" + txtShiftCode.Text.Trim() + "'";
+        //    DataSet ds = new DataSet();
+        //    string sql = "select * From  MastShift where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' and ShiftCode ='" + txtShiftCode.Text.Trim() + "'";
 
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
+        //    ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+        //    bool hasRows = ds.Tables.Cast<DataTable>()
+        //                   .Any(table => table.Rows.Count != 0);
 
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
+        //    if (hasRows)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
                    
-                    txtShiftCode.Text = dr["ShiftCode"].ToString();
-                    txtShiftDesc.Text = dr["ShiftDesc"].ToString();
+        //            txtShiftCode.Text = dr["ShiftCode"].ToString();
+        //            txtShiftDesc.Text = dr["ShiftDesc"].ToString();
                    
-                }
-            }
-            else
-            {
-                txtShiftDesc.Text = "";
-            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        txtShiftDesc.Text = "";
+        //    }
             
-        }
+        //}
 
         private void txtDeptCode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" || ctrlEmp1.txtUnitCode.Text.Trim() == "")
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" || txtUnitCode.Text.Trim() == "")
                 return;
 
             if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
@@ -774,7 +592,7 @@ namespace Attendance.Forms
                 string sql = "";
 
                 sql = "Select DeptCode,DeptDesc From MastDept Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "'";
+                    " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "'";
 
                 if (e.KeyCode == Keys.F1)
                 {
@@ -815,45 +633,36 @@ namespace Attendance.Forms
         private void txtDeptCode_Validated(object sender, EventArgs e)
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" 
-                || ctrlEmp1.txtUnitCode.Text.Trim() == ""
-                
+                || txtUnitCode.Text.Trim() == ""
+                || txtDeptCode.Text.Trim() == ""
                 )
                 return;
 
-            //txtDeptCode.Text = txtDeptCode.Text.Trim().ToString().PadLeft(3, '0');
+            
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastDept where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
-                    " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' ";
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tUnitCode = txtUnitCode.Text.Trim();
+           // string tDeptCode = txtDeptCode.Text.Trim();
+            string tCode = txtDeptCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetDeptDesc(tCompCode, tWrkGrpCode, tUnitCode,  tCode, out desc);
+            txtDeptDesc.Text = desc;
 
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                   
-                    txtDeptCode.Text = dr["DeptCode"].ToString();
-                    txtDeptDesc.Text = dr["DeptDesc"].ToString();
-                   
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtDeptCode.Text = "";
                 txtDeptDesc.Text = "";
             }
+
+
         }
 
         private void txtStatCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                 || ctrlEmp1.txtUnitCode.Text.Trim() == ""
-                 
+                 || txtUnitCode.Text.Trim() == ""
+                 || txtDeptCode.Text.Trim() == ""
                  )
                 return;
 
@@ -865,7 +674,7 @@ namespace Attendance.Forms
                 string sql = "";
 
                 sql = "Select StatCode,StatDesc From MastStat Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                   " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
+                   " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "' " +
                    " and DeptCode='" + txtDeptCode.Text.Trim() + "'";
 
                 if (e.KeyCode == Keys.F1)
@@ -904,41 +713,30 @@ namespace Attendance.Forms
         private void txtStatCode_Validated(object sender, EventArgs e)
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == ""
-                || txtDeptCode.Text.Trim() == ""
                
+                || txtUnitCode.Text.Trim() == ""
+                || txtDeptCode.Text.Trim() == ""
+                || txtStatCode.Text.Trim() == ""
                 )
                 return;
 
-           // txtStatCode.Text = txtStatCode.Text.Trim().ToString().PadLeft(3, '0');
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tUnitCode = txtUnitCode.Text.Trim();
+            string tDeptCode = txtDeptCode.Text.Trim();
+            string tCode = txtStatCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetStatDesc(tCompCode, tWrkGrpCode,tUnitCode ,tDeptCode, tCode, out desc);
+            txtStatDesc.Text = desc;
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastStat where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
-                    " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' " +
-                    " and StatCode ='" + txtStatCode.Text.Trim() + "'";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-            
-                    txtStatCode.Text = dr["StatCode"].ToString();
-                    txtStatDesc.Text = dr["StatDesc"].ToString();
-                    
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtStatCode.Text = "";
                 txtStatDesc.Text = "";
             }
-            
+
+
+
         }
 
         private void txtCatCode_KeyDown(object sender, KeyEventArgs e)
@@ -998,32 +796,19 @@ namespace Attendance.Forms
         {
              if (ctrlEmp1.txtCompCode.Text.Trim() == "" 
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-              
+                || txtCatCode.Text.Trim() == ""
                 )
                 return;
-               
-           
 
-           
-            DataSet ds = new DataSet();
-            string sql = "select * From MastCat where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' "
-                    + " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' "
-                    + " and CatCode ='" + txtCatCode.Text.Trim() + "' ";
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            //string tUnitCode = txtUnitCode.Text.Trim();
+            string tCode = txtCatCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetCatDesc(tCompCode, tWrkGrpCode,  tCode, out desc);
+            txtCatDesc.Text = desc;
 
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-
-                    txtCatCode.Text = dr["CatCode"].ToString();
-                    txtCatDesc.Text = dr["CatDesc"].ToString();
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtCatCode.Text = "";
                 txtCatDesc.Text = "";
@@ -1031,90 +816,90 @@ namespace Attendance.Forms
 
         }
 
-        private void txtEmpTypeCode_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == ""
-               || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-              
-               )
-                return;
+        //private void txtEmpTypeCode_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (ctrlEmp1.txtCompCode.Text.Trim() == ""
+        //       || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
 
-            if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
-            {
-                List<string> obj = new List<string>();
+        //       )
+        //        return;
 
-                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
-                string sql = "";
+        //    if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
+        //    {
+        //        List<string> obj = new List<string>();
+
+        //        Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+        //        string sql = "";
 
 
-                sql = "Select EmpTypeCode,EmpTypeDesc From MastEmpType Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' ";
-                if (e.KeyCode == Keys.F1)
-                {
+        //        sql = "Select EmpTypeCode,EmpTypeDesc From MastEmpType Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' ";
+        //        if (e.KeyCode == Keys.F1)
+        //        {
 
-                    obj = (List<string>)hlp.Show(sql, "EmpTypeCode", "EmpTypeCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                   100, 300, 400, 600, 100, 100);
-                }
-                else
-                {
-                    obj = (List<string>)hlp.Show(sql, "EmpTypeDesc", "EmpTypeDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
-                  100, 300, 400, 600, 100, 100);
-                }
+        //            obj = (List<string>)hlp.Show(sql, "EmpTypeCode", "EmpTypeCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+        //           100, 300, 400, 600, 100, 100);
+        //        }
+        //        else
+        //        {
+        //            obj = (List<string>)hlp.Show(sql, "EmpTypeDesc", "EmpTypeDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+        //          100, 300, 400, 600, 100, 100);
+        //        }
 
-                if (obj.Count == 0)
-                {
+        //        if (obj.Count == 0)
+        //        {
 
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "0")
-                {
-                    return;
-                }
-                else if (obj.ElementAt(0).ToString() == "")
-                {
-                    return;
-                }
-                else
-                {
+        //            return;
+        //        }
+        //        else if (obj.ElementAt(0).ToString() == "0")
+        //        {
+        //            return;
+        //        }
+        //        else if (obj.ElementAt(0).ToString() == "")
+        //        {
+        //            return;
+        //        }
+        //        else
+        //        {
 
-                    txtEmpTypeCode.Text = obj.ElementAt(0).ToString();
-                    txtEmpTypeDesc.Text = obj.ElementAt(1).ToString();
-                   
+        //            txtEmpTypeCode.Text = obj.ElementAt(0).ToString();
+        //            txtEmpTypeDesc.Text = obj.ElementAt(1).ToString();
 
-                }
-            }
-        }
 
-        private void txtEmpTypeCode_Validated(object sender, EventArgs e)
-        {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" )
-                return;
+        //        }
+        //    }
+        //}
 
-            
+        //private void txtEmpTypeCode_Validated(object sender, EventArgs e)
+        //{
+        //    if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" )
+        //        return;
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastEmpType where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and EmpTypeCode ='" + txtEmpTypeCode.Text.Trim() + "'";
 
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
 
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {                   
-                    txtEmpTypeCode.Text = dr["EmpTypeCode"].ToString();
-                    txtEmpTypeDesc.Text = dr["EmpTypeDesc"].ToString();                   
-                }
-            }
-            else
-            {
-                txtEmpTypeCode.Text = "";
-                txtEmpTypeDesc.Text = "";
-            }
-            
+        //    DataSet ds = new DataSet();
+        //    string sql = "select * From MastEmpType where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
+        //            " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and EmpTypeCode ='" + txtEmpTypeCode.Text.Trim() + "'";
 
-        }
+        //    ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+        //    bool hasRows = ds.Tables.Cast<DataTable>()
+        //                   .Any(table => table.Rows.Count != 0);
+
+        //    if (hasRows)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {                   
+        //            txtEmpTypeCode.Text = dr["EmpTypeCode"].ToString();
+        //            txtEmpTypeDesc.Text = dr["EmpTypeDesc"].ToString();                   
+        //        }
+        //    }
+        //    else
+        //    {
+        //        txtEmpTypeCode.Text = "";
+        //        txtEmpTypeDesc.Text = "";
+        //    }
+
+
+        //}
 
         private void txtContCode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1122,7 +907,7 @@ namespace Attendance.Forms
 
             if (ctrlEmp1.txtCompCode.Text.Trim() == "" 
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == ""
+                || txtUnitCode.Text.Trim() == ""
                 )
                 return;
 
@@ -1135,7 +920,7 @@ namespace Attendance.Forms
                 string sql = "";
 
                 sql = "Select ContCode,ContName From MastCont Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                 " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "'";
+                 " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + txtUnitCode.Text.Trim() + "'";
 
                 if (e.KeyCode == Keys.F1)
                 {
@@ -1177,45 +962,32 @@ namespace Attendance.Forms
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == ""
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == ""
+                || txtContCode.Text.Trim() == ""
+                || txtUnitCode.Text.Trim() == ""
                 )
                 return;
 
-            //txtContCode.Text = txtContCode.Text.Trim().ToString().PadLeft(3, '0');
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tUnitCode = txtUnitCode.Text.Trim();
+            string tCode = txtContCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetContDesc(tCompCode, tWrkGrpCode,tUnitCode ,tCode, out desc);
+            txtContDesc.Text = desc;
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastCont where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
-                    " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and ContCode ='" + txtContCode.Text.Trim() + "' ";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    txtContCode.Text = dr["ContCode"].ToString();
-                    txtContDesc.Text = dr["ContName"].ToString();
-                   
-                }
-
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtContCode.Text = "";
                 txtContDesc.Text = "";
             }
-            
+
         }
 
         private void txtGradeCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == ""
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == ""
+                || txtUnitCode.Text.Trim() == ""
                 )
                 return;
 
@@ -1267,37 +1039,22 @@ namespace Attendance.Forms
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == ""
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-               
+                || txtGradeCode.Text.Trim() == ""
                 )
                 return;
 
-           // txtGradeCode.Text = txtGradeCode.Text.Trim().ToString().PadLeft(3, '0');
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tCode = txtGradeCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetGradeDesc(tCompCode, tWrkGrpCode, tCode, out desc);
+            txtGradeDesc.Text = desc;
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastGrade where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and GradeCode ='" + txtGradeCode.Text.Trim() + "'";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    
-                    txtGradeCode.Text = dr["GradeCode"].ToString();
-                    txtGradeDesc.Text = dr["GradeDesc"].ToString();
-                    
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtGradeCode.Text = "";
                 txtGradeDesc.Text = "";
             }
-            
-
         }
 
         private void txtDesgCode_KeyDown(object sender, KeyEventArgs e)
@@ -1357,88 +1114,149 @@ namespace Attendance.Forms
         {
             if (ctrlEmp1.txtCompCode.Text.Trim() == ""
                 || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-               
+                || txtDesgCode.Text.Trim() ==  ""
                 )
                 return;
 
-           // txtDesgCode.Text = txtDesgCode.Text.Trim().ToString().PadLeft(3, '0');
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tCode = txtDesgCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetDesgDesc(tCompCode, tWrkGrpCode, tCode, out desc);
+            txtDesgDesc.Text = desc;
 
-            DataSet ds = new DataSet();
-            string sql = "select * From MastDesg where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and DesgCode ='" + txtDesgCode.Text.Trim() + "'";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
-            if (hasRows)
-            {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    
-                    txtDesgCode.Text = dr["DesgCode"].ToString();
-                    txtDesgDesc.Text = dr["DesgDesc"].ToString();
-                   
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(desc))
             {
                 txtDesgCode.Text = "";
                 txtDesgDesc.Text = "";
             }
 
-           
-
         }
 
-        private void txtSecCode_Validated(object sender, EventArgs e)
+      
+        private void frmMastEmpJobProfile_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || txtDeptCode.Text.Trim() == ""
-                || txtStatCode.Text.Trim() == "" || txtSecCode.Text.Trim() == "")
+            if ((e.KeyData == Keys.Enter))
             {
+                SelectNextControl(ActiveControl, true, true, true, true);
+            }
+        }
 
-                txtSecCode.Text = "";
-                txtSecDesc.Text = "";
+        private void txtValidFrom_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtEmpUnqID.Text.Trim() == ""
+                
+                )
+                return;
+
+            if (e.KeyCode == Keys.F1 )
+            {
+                List<string> obj = new List<string>();
+
+                Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
+                string sql = "";
+
+                sql = "Select ValidFrom,EmpUnqID,UnitCode,DeptCode,StatCode From MastEmpJobProfile Where EmpUnqID ='" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "' ";
+
+                obj = (List<string>)hlp.Show(sql, "ValidFrom", "ValidFrom", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                100, 300, 400, 600, 100, 100);
+               
+
+                if (obj.Count == 0)
+                {
+
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "0")
+                {
+                    return;
+                }
+                else if (obj.ElementAt(0).ToString() == "")
+                {
+                    return;
+                }
+                else
+                {
+                    txtValidFrom.EditValue = obj.ElementAt(0).ToString();
+                                       
+                }
+            }
+        }
+
+        private void txtValidFrom_Validated(object sender, EventArgs e)
+        {
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" 
+                || ctrlEmp1.txtEmpUnqID.Text.Trim() == ""
+                || txtValidFrom.EditValue == null
+                )              
+            {
+                mode = "NEW";
                 return;
             }
-
-            txtSecCode.Text = txtSecCode.Text.Trim().ToString().PadLeft(3, '0');
-
-            DataSet ds = new DataSet();
-            string sql = "select * From MastStatSec where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                    " and WrkGrp='" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' " +
-                    " and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                    " and DeptCode ='" + txtDeptCode.Text.Trim() + "' " +
-                    " and StatCode ='" + txtStatCode.Text.Trim() + "' " +
-                    " and SecCode ='" + txtSecCode.Text.Trim() + "'";
-
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            bool hasRows = ds.Tables.Cast<DataTable>()
-                           .Any(table => table.Rows.Count != 0);
-
+            string sql = "Select * from MastEmpJobProfile Where EmpUnqID='" + ctrlEmp1.txtEmpUnqID.Text.Trim() + "' and " +
+                " ValidFrom ='" + txtValidFrom.DateTime.Date.ToString("yyyy-MM-dd") + "'";
+            string err = string.Empty;
+            DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr, out err);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            mode = "NEW";
             if (hasRows)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    txtSecCode.Text = dr["SecCode"].ToString();
-                    txtSecDesc.Text = dr["SecDesc"].ToString();
+                    txtUnitCode.Text = dr["UnitCode"].ToString();
+                    txtUnitCode_Validated(sender, e);
+
+                    txtDeptCode.Text = dr["DeptCode"].ToString();
+                    txtDeptCode_Validated(sender, e);
+                    txtStatCode.Text = dr["StatCode"].ToString();
+                    txtStatCode_Validated(sender, e);
+                    txtCatCode.Text = dr["CatCode"].ToString();
+                    txtCatCode_Validated(sender, e);
+                    txtDesgCode.Text = dr["DesgCode"].ToString();
+                    txtDesgCode_Validated(sender, e);
+                    txtGradeCode.Text = dr["GradeCode"].ToString();
+                    txtGradeCode_Validated(sender, e);
+
+                    txtContCode.Text = dr["ContCode"].ToString();
+                    txtContCode_Validated(sender, e);
+                    txtCostCode.Text = dr["CostCode"].ToString();
+                    txtCostCode_Validated(sender, e);
+
+                    txtWeekOff.Text = dr["WeekOff"].ToString();
+                    chkOTFlg.Checked = Convert.ToBoolean(dr["OTFLG"]);
+
+                    mode = "OLD";
                 }
             }
-            else
-            {
-                txtSecCode.Text = "";
-                txtSecDesc.Text = "";
-            }
 
+            SetRights();
+            
         }
 
-        private void txtSecCode_KeyDown(object sender, KeyEventArgs e)
+        private void txtUnitCode_Validated(object sender, EventArgs e)
         {
-            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == ""
-                || ctrlEmp1.txtUnitCode.Text.Trim() == "" || txtDeptCode.Text.Trim() == ""
-                || txtStatCode.Text.Trim() == ""
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || 
+                ctrlEmp1.txtWrkGrpCode.Text.Trim() == "" || 
+                txtUnitCode.Text.Trim() == ""
                 )
+                return;
+            string tCompCode = ctrlEmp1.txtCompCode.Text.Trim();
+            string tWrkGrpCode = ctrlEmp1.txtWrkGrpCode.Text.Trim();
+            string tUnitCode = txtUnitCode.Text.Trim();
+            string desc;
+            Utils.MastCodeValidate.GetUnitDesc(tCompCode, tWrkGrpCode, tUnitCode, out desc);
+            txtUnitDesc.Text = desc;
+
+            if (string.IsNullOrEmpty(desc))
+            {
+                txtUnitCode.Text = "";
+                txtUnitDesc.Text = "";
+            }
+        }
+
+        private void txtUnitCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (ctrlEmp1.txtCompCode.Text.Trim() == "" || ctrlEmp1.txtWrkGrpCode.Text.Trim() == "")
                 return;
 
             if (e.KeyCode == Keys.F1 || e.KeyCode == Keys.F2)
@@ -1448,19 +1266,19 @@ namespace Attendance.Forms
                 Help_F1F2.ClsHelp hlp = new Help_F1F2.ClsHelp();
                 string sql = "";
 
-                sql = "Select SecCode,SecDesc From MastStatSec Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
-                   " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "' and UnitCode ='" + ctrlEmp1.txtUnitCode.Text.Trim() + "' " +
-                   " and DeptCode='" + txtDeptCode.Text.Trim() + "' and StatCode ='" + txtStatCode.Text.Trim() + "'";
+                sql = "Select UnitCode,UnitName From MastUnit Where CompCode ='" + ctrlEmp1.txtCompCode.Text.Trim() + "' " +
+                   " and WrkGrp = '" + ctrlEmp1.txtWrkGrpCode.Text.Trim() + "'  ";
+                  
 
                 if (e.KeyCode == Keys.F1)
                 {
 
-                    obj = (List<string>)hlp.Show(sql, "SecCode", "SecCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                    obj = (List<string>)hlp.Show(sql, "UnitCode", "UnitCode", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
                 else
                 {
-                    obj = (List<string>)hlp.Show(sql, "SecDesc", "SecDesc", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
+                    obj = (List<string>)hlp.Show(sql, "UnitName", "UnitName", typeof(string), Utils.Helper.constr, "System.Data.SqlClient",
                    100, 300, 400, 600, 100, 100);
                 }
 
@@ -1479,19 +1297,10 @@ namespace Attendance.Forms
                 }
                 else
                 {
-                    txtSecCode.Text = obj.ElementAt(0).ToString();
-                    txtSecDesc.Text = obj.ElementAt(1).ToString();
+                    txtUnitCode.Text = obj.ElementAt(0).ToString();
+                    txtUnitDesc.Text = obj.ElementAt(1).ToString();
                 }
             }
         }
-
-        private void frmMastEmpJobProfile_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.KeyData == Keys.Enter))
-            {
-                SelectNextControl(ActiveControl, true, true, true, true);
-            }
-        }
-
     }
 }

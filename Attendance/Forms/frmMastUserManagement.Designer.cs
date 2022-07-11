@@ -38,7 +38,6 @@
             this.btnDelEmp = new System.Windows.Forms.Button();
             this.btnAddEmp = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.chkFace = new DevExpress.XtraEditors.CheckEdit();
             this.chkFinger = new DevExpress.XtraEditors.CheckEdit();
             this.chkRFID = new DevExpress.XtraEditors.CheckEdit();
@@ -114,6 +113,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.txtIPAdd2 = new DevExpress.XtraEditors.TextEdit();
             this.grpButtons4 = new System.Windows.Forms.GroupBox();
+            this.btnDownloadSpTemp = new System.Windows.Forms.Button();
             this.btnDownloadPhotos = new System.Windows.Forms.Button();
             this.lblReqNo = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -153,7 +153,6 @@
             this.grpButtons11 = new System.Windows.Forms.GroupBox();
             this.grd_Upload = new DevExpress.XtraGrid.GridControl();
             this.gv_Upload = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnDownloadSpTemp = new System.Windows.Forms.Button();
             this.tblp.SuspendLayout();
             this.grpButtons12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmbListMachine1.Properties)).BeginInit();
@@ -281,7 +280,6 @@
             this.grpButtons13.Controls.Add(this.btnDelEmp);
             this.grpButtons13.Controls.Add(this.btnAddEmp);
             this.grpButtons13.Controls.Add(this.label4);
-            this.grpButtons13.Controls.Add(this.label3);
             this.grpButtons13.Controls.Add(this.chkFace);
             this.grpButtons13.Controls.Add(this.chkFinger);
             this.grpButtons13.Controls.Add(this.chkRFID);
@@ -347,77 +345,72 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 177);
+            this.label4.Location = new System.Drawing.Point(82, 177);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 14);
             this.label4.TabIndex = 94;
             this.label4.Text = "Bio Avbl  :";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2, 152);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 14);
-            this.label3.TabIndex = 93;
-            this.label3.Text = "EmpType  :";
+            this.label4.Visible = false;
             // 
             // chkFace
             // 
             this.chkFace.Enabled = false;
-            this.chkFace.Location = new System.Drawing.Point(130, 175);
+            this.chkFace.Location = new System.Drawing.Point(128, 151);
             this.chkFace.Name = "chkFace";
             this.chkFace.Properties.Caption = "Face";
-            this.chkFace.Size = new System.Drawing.Size(56, 19);
+            this.chkFace.Size = new System.Drawing.Size(56, 20);
             this.chkFace.TabIndex = 14;
             this.chkFace.TabStop = false;
             // 
             // chkFinger
             // 
             this.chkFinger.Enabled = false;
-            this.chkFinger.Location = new System.Drawing.Point(191, 175);
+            this.chkFinger.Location = new System.Drawing.Point(190, 151);
             this.chkFinger.Name = "chkFinger";
             this.chkFinger.Properties.Caption = "Finger";
-            this.chkFinger.Size = new System.Drawing.Size(52, 19);
+            this.chkFinger.Size = new System.Drawing.Size(52, 20);
             this.chkFinger.TabIndex = 15;
             this.chkFinger.TabStop = false;
             // 
             // chkRFID
             // 
             this.chkRFID.Enabled = false;
-            this.chkRFID.Location = new System.Drawing.Point(74, 175);
+            this.chkRFID.Location = new System.Drawing.Point(67, 149);
             this.chkRFID.Name = "chkRFID";
             this.chkRFID.Properties.Caption = "RFID";
-            this.chkRFID.Size = new System.Drawing.Size(55, 19);
+            this.chkRFID.Size = new System.Drawing.Size(55, 20);
             this.chkRFID.TabIndex = 13;
             this.chkRFID.TabStop = false;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(2, 125);
+            this.label19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(7, 126);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(73, 14);
+            this.label19.Size = new System.Drawing.Size(66, 13);
             this.label19.TabIndex = 89;
             this.label19.Text = "MessCode  :";
+            this.label19.Visible = false;
             // 
             // txtMessDesc
             // 
-            this.txtMessDesc.Location = new System.Drawing.Point(140, 123);
+            this.txtMessDesc.Location = new System.Drawing.Point(150, 122);
             this.txtMessDesc.Name = "txtMessDesc";
-            this.txtMessDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtMessDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.txtMessDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtMessDesc.Properties.MaxLength = 100;
             this.txtMessDesc.Properties.ReadOnly = true;
             this.txtMessDesc.Size = new System.Drawing.Size(164, 20);
             this.txtMessDesc.TabIndex = 9;
             this.txtMessDesc.TabStop = false;
+            this.txtMessDesc.Visible = false;
             // 
             // txtMessCode
             // 
-            this.txtMessCode.Location = new System.Drawing.Point(77, 123);
+            this.txtMessCode.Location = new System.Drawing.Point(87, 123);
             this.txtMessCode.Name = "txtMessCode";
-            this.txtMessCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtMessCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.White;
             this.txtMessCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtMessCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtMessCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -425,33 +418,37 @@
             this.txtMessCode.Size = new System.Drawing.Size(57, 20);
             this.txtMessCode.TabIndex = 8;
             this.txtMessCode.TabStop = false;
+            this.txtMessCode.Visible = false;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 99);
+            this.label6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(13, 99);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 14);
+            this.label6.Size = new System.Drawing.Size(58, 13);
             this.label6.TabIndex = 88;
             this.label6.Text = "MessGrp  :";
+            this.label6.Visible = false;
             // 
             // txtMessGrpDesc
             // 
-            this.txtMessGrpDesc.Location = new System.Drawing.Point(140, 96);
+            this.txtMessGrpDesc.Location = new System.Drawing.Point(150, 96);
             this.txtMessGrpDesc.Name = "txtMessGrpDesc";
-            this.txtMessGrpDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtMessGrpDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.txtMessGrpDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtMessGrpDesc.Properties.MaxLength = 100;
             this.txtMessGrpDesc.Properties.ReadOnly = true;
             this.txtMessGrpDesc.Size = new System.Drawing.Size(164, 20);
             this.txtMessGrpDesc.TabIndex = 7;
             this.txtMessGrpDesc.TabStop = false;
+            this.txtMessGrpDesc.Visible = false;
             // 
             // txtMessGrpCode
             // 
-            this.txtMessGrpCode.Location = new System.Drawing.Point(77, 96);
+            this.txtMessGrpCode.Location = new System.Drawing.Point(87, 96);
             this.txtMessGrpCode.Name = "txtMessGrpCode";
-            this.txtMessGrpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtMessGrpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.White;
             this.txtMessGrpCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtMessGrpCode.Properties.Mask.EditMask = "[0-9]+";
             this.txtMessGrpCode.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -459,51 +456,55 @@
             this.txtMessGrpCode.Size = new System.Drawing.Size(57, 20);
             this.txtMessGrpCode.TabIndex = 6;
             this.txtMessGrpCode.TabStop = false;
+            this.txtMessGrpCode.Visible = false;
             // 
             // chkActive
             // 
             this.chkActive.Enabled = false;
-            this.chkActive.Location = new System.Drawing.Point(130, 150);
+            this.chkActive.Location = new System.Drawing.Point(5, 150);
             this.chkActive.Name = "chkActive";
             this.chkActive.Properties.Caption = "Active";
-            this.chkActive.Size = new System.Drawing.Size(56, 19);
+            this.chkActive.Size = new System.Drawing.Size(56, 20);
             this.chkActive.TabIndex = 11;
             this.chkActive.TabStop = false;
             // 
             // chkCont
             // 
             this.chkCont.Enabled = false;
-            this.chkCont.Location = new System.Drawing.Point(191, 150);
+            this.chkCont.Location = new System.Drawing.Point(211, 175);
             this.chkCont.Name = "chkCont";
             this.chkCont.Properties.Caption = "Cont";
-            this.chkCont.Size = new System.Drawing.Size(52, 19);
+            this.chkCont.Size = new System.Drawing.Size(52, 20);
             this.chkCont.TabIndex = 12;
             this.chkCont.TabStop = false;
+            this.chkCont.Visible = false;
             // 
             // chkComp
             // 
             this.chkComp.Enabled = false;
-            this.chkComp.Location = new System.Drawing.Point(74, 150);
+            this.chkComp.Location = new System.Drawing.Point(150, 176);
             this.chkComp.Name = "chkComp";
             this.chkComp.Properties.Caption = "Comp";
-            this.chkComp.Size = new System.Drawing.Size(55, 19);
+            this.chkComp.Size = new System.Drawing.Size(55, 20);
             this.chkComp.TabIndex = 10;
             this.chkComp.TabStop = false;
+            this.chkComp.Visible = false;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(2, 73);
+            this.label10.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(6, 73);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(73, 14);
+            this.label10.Size = new System.Drawing.Size(64, 13);
             this.label10.TabIndex = 67;
             this.label10.Text = "Unit Code  :";
             // 
             // txtUnitDesc
             // 
-            this.txtUnitDesc.Location = new System.Drawing.Point(140, 70);
+            this.txtUnitDesc.Location = new System.Drawing.Point(150, 70);
             this.txtUnitDesc.Name = "txtUnitDesc";
-            this.txtUnitDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtUnitDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.txtUnitDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtUnitDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtUnitDesc.Properties.ReadOnly = true;
@@ -513,9 +514,9 @@
             // 
             // txtUnitCode
             // 
-            this.txtUnitCode.Location = new System.Drawing.Point(77, 70);
+            this.txtUnitCode.Location = new System.Drawing.Point(87, 70);
             this.txtUnitCode.Name = "txtUnitCode";
-            this.txtUnitCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtUnitCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.White;
             this.txtUnitCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtUnitCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtUnitCode.Properties.Mask.EditMask = "[0-9]+";
@@ -527,17 +528,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 47);
+            this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(22, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 14);
+            this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 66;
-            this.label1.Text = "WrkGrp :";
+            this.label1.Text = "EmpGrp :";
             // 
             // txtWrkGrpDesc
             // 
-            this.txtWrkGrpDesc.Location = new System.Drawing.Point(140, 45);
+            this.txtWrkGrpDesc.Location = new System.Drawing.Point(150, 45);
             this.txtWrkGrpDesc.Name = "txtWrkGrpDesc";
-            this.txtWrkGrpDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtWrkGrpDesc.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.txtWrkGrpDesc.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtWrkGrpDesc.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtWrkGrpDesc.Properties.ReadOnly = true;
@@ -547,9 +549,9 @@
             // 
             // txtEmpName
             // 
-            this.txtEmpName.Location = new System.Drawing.Point(140, 21);
+            this.txtEmpName.Location = new System.Drawing.Point(150, 21);
             this.txtEmpName.Name = "txtEmpName";
-            this.txtEmpName.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtEmpName.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.txtEmpName.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtEmpName.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtEmpName.Properties.ReadOnly = true;
@@ -560,16 +562,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 23);
+            this.label2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(11, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 14);
+            this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 65;
             this.label2.Text = "EmpUnqID :";
             // 
             // txtEmpUnqID
             // 
             this.txtEmpUnqID.EditValue = "";
-            this.txtEmpUnqID.Location = new System.Drawing.Point(77, 20);
+            this.txtEmpUnqID.Location = new System.Drawing.Point(87, 20);
             this.txtEmpUnqID.Name = "txtEmpUnqID";
             this.txtEmpUnqID.Properties.Mask.EditMask = "[0-9]+";
             this.txtEmpUnqID.Properties.MaxLength = 10;
@@ -579,9 +582,9 @@
             // 
             // txtWrkGrpCode
             // 
-            this.txtWrkGrpCode.Location = new System.Drawing.Point(77, 46);
+            this.txtWrkGrpCode.Location = new System.Drawing.Point(87, 46);
             this.txtWrkGrpCode.Name = "txtWrkGrpCode";
-            this.txtWrkGrpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtWrkGrpCode.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.White;
             this.txtWrkGrpCode.Properties.AppearanceReadOnly.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtWrkGrpCode.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtWrkGrpCode.Properties.ReadOnly = true;
@@ -680,7 +683,7 @@
             // 
             this.tbp_Main.Controls.Add(this.tblp_Main);
             this.tbp_Main.Name = "tbp_Main";
-            this.tbp_Main.Size = new System.Drawing.Size(804, 467);
+            this.tbp_Main.Size = new System.Drawing.Size(808, 470);
             this.tbp_Main.Text = "Main";
             // 
             // tblp_Main
@@ -697,7 +700,7 @@
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblp_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tblp_Main.Size = new System.Drawing.Size(804, 467);
+            this.tblp_Main.Size = new System.Drawing.Size(808, 470);
             this.tblp_Main.TabIndex = 0;
             // 
             // grpButtons1
@@ -714,7 +717,7 @@
             this.grpButtons1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons1.Location = new System.Drawing.Point(3, 3);
             this.grpButtons1.Name = "grpButtons1";
-            this.grpButtons1.Size = new System.Drawing.Size(798, 74);
+            this.grpButtons1.Size = new System.Drawing.Size(802, 74);
             this.grpButtons1.TabIndex = 0;
             this.grpButtons1.TabStop = false;
             // 
@@ -749,11 +752,8 @@
             this.optMachineType.Properties.Appearance.Options.UseBackColor = true;
             this.optMachineType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.optMachineType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(1, "Attendance"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(2, "Canteen"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(3, "Lunch In/Out"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(4, "Gate In/Out")});
-            this.optMachineType.Size = new System.Drawing.Size(792, 23);
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(1, "Attendance")});
+            this.optMachineType.Size = new System.Drawing.Size(796, 23);
             this.optMachineType.TabIndex = 11;
             this.optMachineType.SelectedIndexChanged += new System.EventHandler(this.optMachineType_SelectedIndexChanged);
             this.optMachineType.EditValueChanged += new System.EventHandler(this.optMachineType_EditValueChanged);
@@ -824,9 +824,9 @@
             this.grpButtons2.Controls.Add(this.btnUnlockMaster);
             this.grpButtons2.Controls.Add(this.btnDownTemp);
             this.grpButtons2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons2.Location = new System.Drawing.Point(3, 421);
+            this.grpButtons2.Location = new System.Drawing.Point(3, 424);
             this.grpButtons2.Name = "grpButtons2";
-            this.grpButtons2.Size = new System.Drawing.Size(798, 43);
+            this.grpButtons2.Size = new System.Drawing.Size(802, 43);
             this.grpButtons2.TabIndex = 1;
             this.grpButtons2.TabStop = false;
             // 
@@ -892,7 +892,7 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(3, 83);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(798, 332);
+            this.groupBox7.Size = new System.Drawing.Size(802, 335);
             this.groupBox7.TabIndex = 2;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Avbl Machine";
@@ -900,12 +900,12 @@
             // grpGrid
             // 
             this.grpGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpGrid.Location = new System.Drawing.Point(3, 18);
+            this.grpGrid.Location = new System.Drawing.Point(3, 17);
             this.grpGrid.MainView = this.gv_avbl;
             this.grpGrid.Name = "grpGrid";
             this.grpGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-            this.grpGrid.Size = new System.Drawing.Size(792, 311);
+            this.grpGrid.Size = new System.Drawing.Size(796, 315);
             this.grpGrid.TabIndex = 4;
             this.grpGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_avbl});
@@ -1177,15 +1177,13 @@
             this.Mess.OptionsColumn.AllowMove = false;
             this.Mess.OptionsColumn.FixedWidth = true;
             this.Mess.OptionsColumn.ReadOnly = true;
-            this.Mess.Visible = true;
-            this.Mess.VisibleIndex = 7;
             this.Mess.Width = 42;
             // 
             // tbp_Other
             // 
             this.tbp_Other.Controls.Add(this.tblp_Other);
             this.tbp_Other.Name = "tbp_Other";
-            this.tbp_Other.Size = new System.Drawing.Size(804, 467);
+            this.tbp_Other.Size = new System.Drawing.Size(808, 470);
             this.tbp_Other.Text = "Other";
             // 
             // tblp_Other
@@ -1202,7 +1200,7 @@
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tblp_Other.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tblp_Other.Size = new System.Drawing.Size(804, 467);
+            this.tblp_Other.Size = new System.Drawing.Size(808, 470);
             this.tblp_Other.TabIndex = 2;
             // 
             // grpButtons3
@@ -1218,7 +1216,7 @@
             this.grpButtons3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons3.Location = new System.Drawing.Point(3, 3);
             this.grpButtons3.Name = "grpButtons3";
-            this.grpButtons3.Size = new System.Drawing.Size(798, 149);
+            this.grpButtons3.Size = new System.Drawing.Size(802, 150);
             this.grpButtons3.TabIndex = 0;
             this.grpButtons3.TabStop = false;
             this.grpButtons3.Text = "Add New/Change RFID Card Number in Data";
@@ -1228,7 +1226,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(31, 126);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(326, 14);
+            this.label11.Size = new System.Drawing.Size(288, 13);
             this.label11.TabIndex = 71;
             this.label11.Text = "* Please Register Employee to machine after RFID Change";
             // 
@@ -1237,7 +1235,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(31, 104);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(200, 14);
+            this.label9.Size = new System.Drawing.Size(172, 13);
             this.label9.TabIndex = 70;
             this.label9.Text = "* Enter EmpUnqID in Left Side Box";
             // 
@@ -1256,7 +1254,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(31, 75);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(116, 14);
+            this.label8.Size = new System.Drawing.Size(104, 13);
             this.label8.TabIndex = 68;
             this.label8.Text = "New RFID Card No :";
             // 
@@ -1276,7 +1274,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(38, 47);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(109, 14);
+            this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 66;
             this.label7.Text = "Old RFID Card No :";
             // 
@@ -1301,9 +1299,9 @@
             this.grpButtons5.Controls.Add(this.label15);
             this.grpButtons5.Controls.Add(this.txtIPAdd2);
             this.grpButtons5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons5.Location = new System.Drawing.Point(3, 313);
+            this.grpButtons5.Location = new System.Drawing.Point(3, 315);
             this.grpButtons5.Name = "grpButtons5";
-            this.grpButtons5.Size = new System.Drawing.Size(798, 151);
+            this.grpButtons5.Size = new System.Drawing.Size(802, 152);
             this.grpButtons5.TabIndex = 1;
             this.grpButtons5.TabStop = false;
             this.grpButtons5.Text = "Delete Left Employee From Machine";
@@ -1324,7 +1322,7 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(7, 109);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(314, 14);
+            this.label16.Size = new System.Drawing.Size(272, 13);
             this.label16.TabIndex = 75;
             this.label16.Text = "This Function will delete all left employee from machine.";
             // 
@@ -1343,7 +1341,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(77, 37);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(73, 14);
+            this.label15.Size = new System.Drawing.Size(66, 13);
             this.label15.TabIndex = 73;
             this.label15.Text = "IP Address :";
             // 
@@ -1370,12 +1368,23 @@
             this.grpButtons4.Controls.Add(this.txtIPAdd1);
             this.grpButtons4.Controls.Add(this.label12);
             this.grpButtons4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons4.Location = new System.Drawing.Point(3, 158);
+            this.grpButtons4.Location = new System.Drawing.Point(3, 159);
             this.grpButtons4.Name = "grpButtons4";
-            this.grpButtons4.Size = new System.Drawing.Size(798, 149);
+            this.grpButtons4.Size = new System.Drawing.Size(802, 150);
             this.grpButtons4.TabIndex = 2;
             this.grpButtons4.TabStop = false;
             this.grpButtons4.Text = "Download All Users From Single Machine To Excel File";
+            // 
+            // btnDownloadSpTemp
+            // 
+            this.btnDownloadSpTemp.Location = new System.Drawing.Point(445, 21);
+            this.btnDownloadSpTemp.Name = "btnDownloadSpTemp";
+            this.btnDownloadSpTemp.Size = new System.Drawing.Size(112, 53);
+            this.btnDownloadSpTemp.TabIndex = 75;
+            this.btnDownloadSpTemp.Text = "Download Special Templates";
+            this.btnDownloadSpTemp.UseVisualStyleBackColor = true;
+            this.btnDownloadSpTemp.Visible = false;
+            this.btnDownloadSpTemp.Click += new System.EventHandler(this.btnDownloadSpTemp_Click);
             // 
             // btnDownloadPhotos
             // 
@@ -1393,7 +1402,7 @@
             this.lblReqNo.AutoSize = true;
             this.lblReqNo.Location = new System.Drawing.Point(153, 50);
             this.lblReqNo.Name = "lblReqNo";
-            this.lblReqNo.Size = new System.Drawing.Size(0, 14);
+            this.lblReqNo.Size = new System.Drawing.Size(0, 13);
             this.lblReqNo.TabIndex = 73;
             // 
             // label14
@@ -1401,7 +1410,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(88, 51);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 14);
+            this.label14.Size = new System.Drawing.Size(53, 13);
             this.label14.TabIndex = 72;
             this.label14.Text = "Req. No :";
             // 
@@ -1420,7 +1429,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(74, 26);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(73, 14);
+            this.label13.Size = new System.Drawing.Size(66, 13);
             this.label13.TabIndex = 70;
             this.label13.Text = "IP Address :";
             // 
@@ -1440,7 +1449,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(7, 95);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(438, 14);
+            this.label12.Size = new System.Drawing.Size(381, 13);
             this.label12.TabIndex = 0;
             this.label12.Text = "Use -> Monthly Report \\ Machine Wise Employee Report with your request No";
             // 
@@ -1448,7 +1457,7 @@
             // 
             this.tbp_Misc.Controls.Add(this.tblp_Misc);
             this.tbp_Misc.Name = "tbp_Misc";
-            this.tbp_Misc.Size = new System.Drawing.Size(804, 467);
+            this.tbp_Misc.Size = new System.Drawing.Size(808, 470);
             this.tbp_Misc.Text = "Misc";
             // 
             // tblp_Misc
@@ -1468,16 +1477,16 @@
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblp_Misc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tblp_Misc.Size = new System.Drawing.Size(804, 467);
+            this.tblp_Misc.Size = new System.Drawing.Size(808, 470);
             this.tblp_Misc.TabIndex = 2;
             // 
             // grpButtons9
             // 
             this.grpButtons9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.grpButtons9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons9.Location = new System.Drawing.Point(3, 351);
+            this.grpButtons9.Location = new System.Drawing.Point(3, 354);
             this.grpButtons9.Name = "grpButtons9";
-            this.grpButtons9.Size = new System.Drawing.Size(798, 113);
+            this.grpButtons9.Size = new System.Drawing.Size(802, 113);
             this.grpButtons9.TabIndex = 3;
             this.grpButtons9.TabStop = false;
             // 
@@ -1492,7 +1501,7 @@
             this.grpButtons6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons6.Location = new System.Drawing.Point(3, 3);
             this.grpButtons6.Name = "grpButtons6";
-            this.grpButtons6.Size = new System.Drawing.Size(798, 110);
+            this.grpButtons6.Size = new System.Drawing.Size(802, 111);
             this.grpButtons6.TabIndex = 0;
             this.grpButtons6.TabStop = false;
             this.grpButtons6.Text = "Copy Users From One Machine to Other";
@@ -1512,7 +1521,7 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(30, 77);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(138, 14);
+            this.label18.Size = new System.Drawing.Size(123, 13);
             this.label18.TabIndex = 74;
             this.label18.Text = "Destination IP Address :";
             // 
@@ -1532,7 +1541,7 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(30, 51);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(115, 14);
+            this.label17.Size = new System.Drawing.Size(102, 13);
             this.label17.TabIndex = 72;
             this.label17.Text = "Source IP Address :";
             // 
@@ -1551,9 +1560,9 @@
             // 
             this.grpButtons8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.grpButtons8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons8.Location = new System.Drawing.Point(3, 235);
+            this.grpButtons8.Location = new System.Drawing.Point(3, 237);
             this.grpButtons8.Name = "grpButtons8";
-            this.grpButtons8.Size = new System.Drawing.Size(798, 110);
+            this.grpButtons8.Size = new System.Drawing.Size(802, 111);
             this.grpButtons8.TabIndex = 1;
             this.grpButtons8.TabStop = false;
             // 
@@ -1566,9 +1575,9 @@
             this.grpButtons7.Controls.Add(this.label20);
             this.grpButtons7.Controls.Add(this.txtIPAddSrc2);
             this.grpButtons7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpButtons7.Location = new System.Drawing.Point(3, 119);
+            this.grpButtons7.Location = new System.Drawing.Point(3, 120);
             this.grpButtons7.Name = "grpButtons7";
-            this.grpButtons7.Size = new System.Drawing.Size(798, 110);
+            this.grpButtons7.Size = new System.Drawing.Size(802, 111);
             this.grpButtons7.TabIndex = 2;
             this.grpButtons7.TabStop = false;
             this.grpButtons7.Text = "Download Machine Access Log";
@@ -1578,7 +1587,7 @@
             this.lblAccessLogReq.AutoSize = true;
             this.lblAccessLogReq.Location = new System.Drawing.Point(86, 65);
             this.lblAccessLogReq.Name = "lblAccessLogReq";
-            this.lblAccessLogReq.Size = new System.Drawing.Size(59, 14);
+            this.lblAccessLogReq.Size = new System.Drawing.Size(53, 13);
             this.lblAccessLogReq.TabIndex = 80;
             this.lblAccessLogReq.Text = "Req. No :";
             // 
@@ -1587,7 +1596,7 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(30, 89);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(438, 14);
+            this.label21.Size = new System.Drawing.Size(382, 13);
             this.label21.TabIndex = 79;
             this.label21.Text = "Use -> Monthly Report \\ Machine Wise Accesslog Report with your request No";
             // 
@@ -1606,7 +1615,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(30, 38);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(115, 14);
+            this.label20.Size = new System.Drawing.Size(102, 13);
             this.label20.TabIndex = 77;
             this.label20.Text = "Source IP Address :";
             // 
@@ -1625,7 +1634,7 @@
             // 
             this.tbp_Upload.Controls.Add(this.tblp_Upload);
             this.tbp_Upload.Name = "tbp_Upload";
-            this.tbp_Upload.Size = new System.Drawing.Size(804, 467);
+            this.tbp_Upload.Size = new System.Drawing.Size(808, 470);
             this.tbp_Upload.Text = "Upload";
             // 
             // tblp_Upload
@@ -1640,7 +1649,7 @@
             this.tblp_Upload.RowCount = 2;
             this.tblp_Upload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tblp_Upload.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblp_Upload.Size = new System.Drawing.Size(804, 467);
+            this.tblp_Upload.Size = new System.Drawing.Size(808, 470);
             this.tblp_Upload.TabIndex = 1;
             // 
             // grpButtons10
@@ -1660,7 +1669,7 @@
             this.grpButtons10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons10.Location = new System.Drawing.Point(3, 3);
             this.grpButtons10.Name = "grpButtons10";
-            this.grpButtons10.Size = new System.Drawing.Size(798, 84);
+            this.grpButtons10.Size = new System.Drawing.Size(802, 84);
             this.grpButtons10.TabIndex = 3;
             this.grpButtons10.Text = "Import File";
             // 
@@ -1699,7 +1708,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(35, 56);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(97, 14);
+            this.label5.Size = new System.Drawing.Size(102, 16);
             this.label5.TabIndex = 94;
             this.label5.Text = "Select Machine :";
             // 
@@ -1756,7 +1765,7 @@
             // 
             this.txtBrowse.Location = new System.Drawing.Point(9, 24);
             this.txtBrowse.Name = "txtBrowse";
-            this.txtBrowse.Size = new System.Drawing.Size(302, 22);
+            this.txtBrowse.Size = new System.Drawing.Size(302, 23);
             this.txtBrowse.TabIndex = 0;
             // 
             // grpButtons11
@@ -1766,17 +1775,17 @@
             this.grpButtons11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpButtons11.Location = new System.Drawing.Point(3, 93);
             this.grpButtons11.Name = "grpButtons11";
-            this.grpButtons11.Size = new System.Drawing.Size(798, 371);
+            this.grpButtons11.Size = new System.Drawing.Size(802, 374);
             this.grpButtons11.TabIndex = 2;
             this.grpButtons11.TabStop = false;
             // 
             // grd_Upload
             // 
             this.grd_Upload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grd_Upload.Location = new System.Drawing.Point(3, 18);
+            this.grd_Upload.Location = new System.Drawing.Point(3, 17);
             this.grd_Upload.MainView = this.gv_Upload;
             this.grd_Upload.Name = "grd_Upload";
-            this.grd_Upload.Size = new System.Drawing.Size(792, 350);
+            this.grd_Upload.Size = new System.Drawing.Size(796, 354);
             this.grd_Upload.TabIndex = 3;
             this.grd_Upload.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_Upload});
@@ -1813,24 +1822,14 @@
             this.gv_Upload.OptionsView.ShowGroupExpandCollapseButtons = false;
             this.gv_Upload.OptionsView.ShowGroupPanel = false;
             // 
-            // btnDownloadSpTemp
-            // 
-            this.btnDownloadSpTemp.Location = new System.Drawing.Point(445, 21);
-            this.btnDownloadSpTemp.Name = "btnDownloadSpTemp";
-            this.btnDownloadSpTemp.Size = new System.Drawing.Size(112, 53);
-            this.btnDownloadSpTemp.TabIndex = 75;
-            this.btnDownloadSpTemp.Text = "Download Special Templates";
-            this.btnDownloadSpTemp.UseVisualStyleBackColor = true;
-            this.btnDownloadSpTemp.Click += new System.EventHandler(this.btnDownloadSpTemp_Click);
-            // 
             // frmMastUserManagement
             // 
-            this.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1142, 522);
             this.Controls.Add(this.tblp);
+            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
             this.Name = "frmMastUserManagement";
             this.Text = "User Management";
@@ -1935,7 +1934,6 @@
         private DevExpress.XtraEditors.TextEdit txtMessGrpDesc;
         private DevExpress.XtraEditors.TextEdit txtMessGrpCode;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private DevExpress.XtraEditors.CheckEdit chkFace;
         private DevExpress.XtraEditors.CheckEdit chkFinger;
         private DevExpress.XtraEditors.CheckEdit chkRFID;

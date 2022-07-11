@@ -89,24 +89,21 @@ namespace Attendance.Classes
         public static int G_HFSEC_LateCome;
         public static int G_GlobalGradeExclude;
 
-        public static bool GetGlobalVars()
+
+        public static bool GetDateWiseGlobalVars(DateTime tdate)
         {
-            bool tset = false;
-
-            DataSet ds = new DataSet();
-
-            string sql = "Select Top 1 * from MastBCFlg ";
-            ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
+            string sql = "Select Top 1 * from MastBCFlg where ValidFrom <='" + tdate.ToString("yyyy-MM-dd") + "' Order by ValidFrom Desc";
+            DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
             bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
             if (hasRows)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
-                {                
+                {
                     G_SanDayLimit = Convert.ToInt32(dr["SanDayLimit"].ToString());
                     G_LateComeSec = Convert.ToInt32(dr["LateComeSec"].ToString());
                     G_EarlyComeSec = Convert.ToInt32(dr["EarlyComeSec"].ToString());
                     G_EarlyGoingSec = Convert.ToInt32(dr["EarlyGoingSec"].ToString());
-                    
+
                     G_GracePeriodSec = Convert.ToInt32(dr["GracePeriodSec"].ToString());
                     G_HFFLG_Grace = Convert.ToBoolean(dr["GraceHalfDayFlg"]);
 
@@ -115,12 +112,25 @@ namespace Attendance.Classes
                     G_HFSEC_EarlyGoing = Convert.ToInt32(dr["EarlyGoingHalfDaySec"].ToString());
                     G_HFSEC_LateCome = Convert.ToInt32(dr["LateHalfDaySec"].ToString());
                     G_GlobalGradeExclude = Convert.ToInt32(dr["GlobalGradeExclude"].ToString());
+
+                    return true;
                 }
             }
 
-            sql = "Select top 1 * From MastNetwork ";
+            return false;
+        }
+
+        public static bool GetGlobalVars()
+        {
+            bool tset = false;
+
+            DataSet ds = new DataSet();
+
+           
+
+            string sql = "Select top 1 * From MastNetwork ";
             ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
-            hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+            bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
 
             if (hasRows)
             {
@@ -356,14 +366,14 @@ namespace Attendance.Classes
                     ShiftData t = new ShiftData();
                     t.ShiftCode = dr["ShiftCode"].ToString();
                     t.ShiftDesc = dr["ShiftDesc"].ToString();
-
+                    t.ShiftSeq = Convert.ToInt32(dr["ShiftSeq"]);
                     t.ShiftStart = (TimeSpan)dr["ShiftStart"];
                     t.ShiftEnd = (TimeSpan)dr["ShiftEnd"];                 
                     t.ShiftInFrom = (TimeSpan)dr["ShiftInFrom"];                   
                     t.ShiftInTo = (TimeSpan)dr["ShiftInTo"];                   
                     t.ShiftOutFrom = (TimeSpan)dr["ShiftOutFrom"];                   
                     t.ShiftOutTo = (TimeSpan)dr["ShiftOutTo"];
-
+                    t.NightFLG = Convert.ToBoolean(dr["NightFlg"]);
                     t.BreakHrs = Convert.ToDouble(dr["BreakHrs"]);
                     t.ShiftHrs = Convert.ToDouble(dr["ShiftHrs"]);
 
@@ -688,7 +698,7 @@ namespace Attendance.Classes
 
                 try
                 {
-                    string sql = "Select EmpUnqID,EmpName,WrkGrp,MessCode,MessGrpCode,PunchingBlocked from MastEmp Where EmpUnqId ='" + tEmpUnqID + "'";
+                    string sql = "Select EmpUnqID,EmpName,WrkGrp,'001' as MessCode,'001' as MessGrpCode,PunchingBlocked from V_EmpMast Where EmpUnqId ='" + tEmpUnqID + "'";
                     DataSet ds = Utils.Helper.GetData(sql, Utils.Helper.constr);
                     bool hasRows = ds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
 

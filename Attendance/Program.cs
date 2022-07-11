@@ -18,16 +18,16 @@ namespace Attendance
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            DevExpress.Skins.SkinManager.EnableFormSkins();
-            DevExpress.UserSkins.BonusSkins.Register();
-            UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
+            //DevExpress.Skins.SkinManager.EnableFormSkins();
+            //DevExpress.UserSkins.BonusSkins.Register();
+            //UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
 
             //Application.Run(new frmMain());
             Application.Run(new frmLogin());
 
             if (OpenMDIFormOnClose)
             {
-               Application.Run(new frmMain());
+               Application.Run(new  Attendance.Forms.frmMain());
             }
 
         }

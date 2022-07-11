@@ -36,7 +36,7 @@ namespace Attendance
                 return;
             }
 
-            bool t = cEmp.GetEmpDetails(txtCompCode.Text.Trim().ToString(),txtEmpUnqID.Text.Trim().ToString());
+            bool t = cEmp.GetEmpDetails(txtEmpUnqID.Text.Trim().ToString());
 
             if (t)
             {
@@ -112,40 +112,26 @@ namespace Attendance
             txtDesgDesc.Text = string.Empty;
             txtCatCode.Text = string.Empty;
             txtCatDesc.Text = string.Empty;
-            txtEmpType.Text = string.Empty;
-            txtEmpTypeDesc.Text = string.Empty;
             
-            txtShiftCode.Text = string.Empty;
-            txtShiftDesc.Text = string.Empty;
             txtContCode.Text = string.Empty;
             txtContCode1.Text = string.Empty;
 
             txtContDesc.Text = string.Empty;
-            txtMessCode.Text = string.Empty;
-            txtMessDesc.Text = string.Empty;
-            txtMessGrpCode.Text = string.Empty;
-            txtMessGrpDesc.Text = string.Empty;
+            
             txtCostCode.Text = string.Empty;
             txtCostDesc.Text = string.Empty;
             
-            txtEmpCode.Text = string.Empty;
-            txtOldEmpCode.Text = string.Empty;
-            txtSAPID.Text = string.Empty;
-            txtAdharNo.Text = string.Empty;
+            
 
             chkActive.Checked = false;
-            chkComp.Checked = false;
-            chkCont.Checked = false;
-
-            chkAutoShift.Checked = false;            
+                
             chkOTFlg.Checked = false;
-            chkMale.Checked = false;
+            
             
             txtBirthDT.EditValue = null;
             txtJoinDt.EditValue = null;
             txtLeftDt.EditValue = null;
-            txtValidFrom.EditValue = null;
-            txtValidTo.EditValue = null;
+            
 
             xtraTabControl1.SelectedTabPage = xtraTabPage1;
             this.ActiveControl = txtEmpUnqID;
@@ -171,40 +157,40 @@ namespace Attendance
             txtDesgDesc.Text = cEmp.DesgDesc;
             txtCatCode.Text = cEmp.CatCode;
             txtCatDesc.Text = cEmp.CatDesc;
-            txtEmpType.Text = cEmp.EmpTypeCode;
-            txtEmpTypeDesc.Text = cEmp.EmpTypeDesc;
+            //txtEmpType.Text = cEmp.EmpTypeCode;
+            //txtEmpTypeDesc.Text = cEmp.EmpTypeDesc;
 
-            txtShiftCode.Text = cEmp.ShiftCode;
-            txtShiftDesc.Text = cEmp.ShiftDesc;
+            //txtShiftCode.Text = cEmp.ShiftCode;
+            //txtShiftDesc.Text = cEmp.ShiftDesc;
             txtContCode.Text = cEmp.ContCode;
             txtContCode1.Text = cEmp.ContCode;
 
             txtContDesc.Text = cEmp.ContDesc;
-            txtMessCode.Text = cEmp.MessCode;
-            txtMessDesc.Text = cEmp.MessDesc;
-            txtMessGrpCode.Text = cEmp.MessGrpCode;
-            txtMessGrpDesc.Text = cEmp.MessGrpDesc;
+            //txtMessCode.Text = cEmp.MessCode;
+            //txtMessDesc.Text = cEmp.MessDesc;
+            //txtMessGrpCode.Text = cEmp.MessGrpCode;
+            //txtMessGrpDesc.Text = cEmp.MessGrpDesc;
             txtCostCode.Text = cEmp.CostCode;
             txtCostDesc.Text = cEmp.CostDesc;
 
-            txtEmpCode.Text = cEmp.EmpCode;
-            txtOldEmpCode.Text = cEmp.OLDEmpCode;
-            txtSAPID.Text = cEmp.SAPID;
-            txtAdharNo.Text = cEmp.AdharNo;
+            //txtEmpCode.Text = cEmp.EmpCode;
+            //txtOldEmpCode.Text = cEmp.OLDEmpCode;
+            //txtSAPID.Text = cEmp.SAPID;
+            //txtAdharNo.Text = cEmp.AdharNo;
 
             chkActive.Checked = cEmp.Active;
-            chkComp.Checked = cEmp.PayrollFlg;
-            chkCont.Checked = cEmp.ContFlg;
+            //chkComp.Checked = cEmp.PayrollFlg;
+            //chkCont.Checked = cEmp.ContFlg;
 
-            chkAutoShift.Checked = cEmp.AutoShift;
+            //chkAutoShift.Checked = cEmp.AutoShift;
             chkOTFlg.Checked = cEmp.OTFLG;
-            chkMale.Checked = cEmp.Gender;
+            //chkMale.Checked = cEmp.Gender;
             IsValid = cEmp.Active;
             
             txtJoinDt.EditValue = cEmp.JoinDt;
             txtLeftDt.EditValue = cEmp.LeftDt;
-            txtValidFrom.EditValue = cEmp.ValidFrom;
-            txtValidTo.EditValue = cEmp.ValidTo;
+            //txtValidFrom.EditValue = cEmp.ValidFrom;
+            //txtValidTo.EditValue = cEmp.ValidTo;
             txtBirthDT.EditValue = cEmp.BirthDt;
 
         }

@@ -1105,7 +1105,7 @@ namespace Attendance.Classes
                         DateTime GPOutTime = Convert.ToDateTime(dr["GateOutDateTime"]);
 
                         clsEmp Empdt = new clsEmp();
-                        if(Empdt.GetEmpDetails("01",EmpUnqID))
+                        if(Empdt.GetEmpDetails(EmpUnqID))
                         {
                             if (Empdt.UnitCode == "003")
                             {

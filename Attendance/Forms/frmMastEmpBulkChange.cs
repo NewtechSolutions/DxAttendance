@@ -81,12 +81,82 @@ namespace Attendance.Forms
         {
             string err = string.Empty;
             clsEmp t = new clsEmp();
-            t.CompCode = "01";
+            
             t.EmpUnqID = tdr["EmpUnqID"].ToString();
-            if (!t.GetEmpDetails(t.CompCode,t.EmpUnqID))
+            if (!t.GetEmpDetails(t.EmpUnqID))
             {
                 err = err + "Invalid/InActive EmpUnqID..." + Environment.NewLine;
+                return err;
             }
+            
+            if(tdr["ValidFrom"] == DBNull.Value)
+            {
+                err = "Valid From Date is required.." + Environment.NewLine;
+                return err;
+            }
+
+            //validfrom
+            string expectedFormat = "yyyy-MM-dd";
+            DateTime theDate;
+            bool result = DateTime.TryParseExact(
+                tdr["ValidFrom"].ToString(),
+                expectedFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out theDate);
+
+            if (!result)
+            {
+                err = "Valid From Date...format error (use yyyy-MM-dd format)" + Environment.NewLine;
+                return err;
+            }
+
+            if(theDate < t.JoinDt)
+            {
+                err = "Valid From Date...could not be less then join date" + Environment.NewLine;
+                
+            }
+
+            string tUnitCode = tdr["UnitCode"].ToString();
+            string tDeptCode = tdr["DeptCode"].ToString();
+            string tStatCode = tdr["StatCode"].ToString();
+            string tDesgCode = tdr["DesgCode"].ToString();
+            string tGradeCode = tdr["GradeCode"].ToString();
+            string tCatCode = tdr["CatCode"].ToString();
+
+            string tContCode = tdr["ContCode"].ToString();
+            string tCostCode = tdr["CostCode"].ToString();
+            string tWeekOff = tdr["WeekOff"].ToString();
+
+            string desc = "";
+            if (!Utils.MastCodeValidate.GetUnitDesc(t.CompCode, t.WrkGrp, tUnitCode, out desc) && tUnitCode != "")
+                err += "Invalid UnitCode.." + Environment.NewLine;
+            if (!Utils.MastCodeValidate.GetDeptDesc(t.CompCode, t.WrkGrp, tUnitCode,tDeptCode, out desc) && tDeptCode != "")
+                err += "Invalid DeptCode.." + Environment.NewLine;
+            if (!Utils.MastCodeValidate.GetStatDesc(t.CompCode, t.WrkGrp, tUnitCode, tDeptCode,tStatCode ,out desc) && tStatCode != "")
+                err += "Invalid StatCode.." + Environment.NewLine;
+            if (!Utils.MastCodeValidate.GetCatDesc(t.CompCode, t.WrkGrp, tCatCode,  out desc) && tCatCode != "")
+                err += "Invalid CatCode.." + Environment.NewLine;
+            if (!Utils.MastCodeValidate.GetDesgDesc(t.CompCode, t.WrkGrp, tDesgCode, out desc) && tDesgCode != "")
+                err += "Invalid StatCode.." + Environment.NewLine;
+            if (!Utils.MastCodeValidate.GetGradeDesc(t.CompCode, t.WrkGrp, tGradeCode, out desc) && tGradeCode != "")
+                err += "Invalid StatCode.." + Environment.NewLine;
+
+            if (!Utils.MastCodeValidate.GetContDesc(t.CompCode, t.WrkGrp, tContCode,tUnitCode ,out desc) && tContCode != "")
+                err += "Invalid ContCode.." + Environment.NewLine;
+
+            if (!Utils.MastCodeValidate.GetCostCode(tCostCode, out desc) && tCostCode != "")
+                err += "Invalid CostCode.." + Environment.NewLine;
+
+            if(tWeekOff != "")
+            {
+                string tdays = "SUN,MON,TUE,WED,THU,FRI,SAT";
+                if (!tdays.Contains(tWeekOff.ToUpper()))
+                {
+                    err += "Invalid Weekoff.use any from (SUN,MON,TUE,WED,THU,FRI,SAT)." + Environment.NewLine;
+                }
+            }
+
             return err;
         }
 
@@ -139,54 +209,112 @@ namespace Attendance.Forms
                             continue;
                         }
 
-                        #region Chk_AllVals
-                        //check all values if all empty skip
-                        //if (dr["CatCode"].ToString() == "" && dr["DesgCode"].ToString() == ""
-                        //    && dr["GradeCode"].ToString() == "" && dr["Basic"].ToString() == ""
-                        //    && dr["SPLALL"].ToString() == "" && dr["BAALL"].ToString() == ""
-                        //    && dr["LeftDt"].ToString() == "")
-                        //{
-                        //    dr["Remarks"] = dr["Remarks"].ToString() + " Nothing to update...";
-                        //    continue;
-                        //}
+                        
+                        DateTime ValidFrom = Convert.ToDateTime(dr["ValidFrom"]);
+                        string tsql = "Select top 1 * from MastEmpJobProfile where ValidFrom <='" + ValidFrom.ToString("yyyy-MM-dd") + "' and EmpUnqID ='" + tEmpUnqID + "' order by ValidFrom Desc";
+                        DataSet rds = Utils.Helper.GetData(tsql, Utils.Helper.constr, out string terr);
+                        if (!string.IsNullOrEmpty(terr))
+                        {
+                            dr["Remarks"] = terr;
+                            return;
+                        }
+
+                        #region PrevData
+                        DataRow prvrow;
+                        string pUnitCode = "", pDeptCode = "", pStatCode = "", pCatCode = "", pDesgCode = "", pGradeCode = "", pContCode = "", pCostCode = "", pWeekOff = "";
+                        bool pOtFLG = false;
+                        DateTime pValidFrom;
+                        bool hasRows = rds.Tables.Cast<DataTable>().Any(table => table.Rows.Count != 0);
+                        if (!hasRows)
+                        {
+                            pValidFrom = new DateTime(2000, 1, 1);
+                            ValidFrom = Convert.ToDateTime(Utils.Helper.GetDescription("Select JoinDt from MastEmp Where EmpUnqID='" + tEmpUnqID + "'", Utils.Helper.constr));
+                        }
+                        else
+                        {
+                            prvrow = rds.Tables[0].Rows[0];
+                            pValidFrom = Convert.ToDateTime(prvrow["ValidFrom"]);
+                            pUnitCode = prvrow["UnitCode"].ToString();
+                            pDeptCode = prvrow["DeptCode"].ToString();
+                            pStatCode = prvrow["StatCode"].ToString();
+                            pCatCode = prvrow["CatCode"].ToString();
+                            pDesgCode = prvrow["DesgCode"].ToString();
+                            pGradeCode = prvrow["GradeCode"].ToString();
+                            pContCode = prvrow["ContCode"].ToString();
+                            pCostCode = prvrow["CostCode"].ToString();
+                            pWeekOff = prvrow["WeekOff"].ToString();
+                            pOtFLG = Convert.ToBoolean(prvrow["OTFLG"]);
+                        }
+
                         #endregion
+
+                        string tUnitCode = dr["UnitCode"].ToString();
+                        string tDeptCode = dr["DeptCode"].ToString();
+                        string tStatCode = dr["StatCode"].ToString();                       
                         string tCatCode = dr["CatCode"].ToString();
                         string tDesgCode = dr["DesgCode"].ToString();
                         string tGradeCode = dr["GradeCode"].ToString();
-                        double tSplAll = 0;
-                        double tBAAll = 0;
-                        DateTime tLeftDt = DateTime.MinValue;
-                        double tBasic = 0;
+                        string tContCode = dr["ContCode"].ToString();
+                        string tCostCode = dr["CostCode"].ToString();
+                        string tWeekOff = dr["WeekOff"].ToString();
+                        string tOtFLG = dr["OTFLG"].ToString() ;
 
-
-
-
-                        try
+                        #region prvSet_if_blank
+                        if (string.IsNullOrEmpty(tUnitCode))
                         {
-                            double.TryParse(dr["Basic"].ToString(), out tBasic);
+                            tUnitCode = pUnitCode;
                         }
-                        catch (Exception ex) { }
 
-                        try
+                        if (string.IsNullOrEmpty(tDeptCode))
                         {
-                            double.TryParse(dr["SPLALL"].ToString(), out tSplAll);
+                            tDeptCode = pDeptCode;
                         }
-                        catch (Exception ex) { }
 
-                        try
+                        if (string.IsNullOrEmpty(tStatCode))
                         {
-                            double.TryParse(dr["BAALL"].ToString(), out tBAAll);
+                            tStatCode = pStatCode;
                         }
-                        catch (Exception ex) { }
 
-                        if (!string.IsNullOrEmpty(dr["LeftDt"].ToString()))
+                        if (string.IsNullOrEmpty(tGradeCode))
                         {
-                            if (!DateTime.TryParseExact(dr["LeftDt"].ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out tLeftDt))
-                            {
-                                dr["Remarks"] = "Date Conversion failed(yyyy-MM-dd)...";
-                                continue;
-                            }
+                            tGradeCode = pGradeCode;
                         }
+
+                        if (string.IsNullOrEmpty(tDesgCode))
+                        {
+                            tDesgCode = pDesgCode;
+                        }
+
+                        if (string.IsNullOrEmpty(tCatCode))
+                        {
+                            tCatCode = pCatCode;
+                        }
+
+                        if (string.IsNullOrEmpty(tContCode))
+                        {
+                            tContCode = pContCode;
+                        }
+
+                        if (string.IsNullOrEmpty(tCostCode))
+                        {
+                            tCostCode = pCostCode;
+                        }
+
+                        if (string.IsNullOrEmpty(tWeekOff))
+                        {
+                            tWeekOff = pWeekOff;
+                        }
+
+                        if (string.IsNullOrEmpty(tWeekOff))
+                        {
+                            tWeekOff = "SUN";
+                        }
+                        if (string.IsNullOrEmpty(tOtFLG))
+                        {
+                            tOtFLG = (pOtFLG?"Y":"N");
+                        }
+
+                        #endregion
 
 
                         #region Final_Update
@@ -198,143 +326,24 @@ namespace Attendance.Forms
 
                                 cmd.Connection = con;
                                 cmd.CommandType = CommandType.Text;
-
-                                string sql = "Update MastEmp SET ";
-
-                                if (!String.IsNullOrEmpty(tCatCode.Trim()))
+                                string sql = String.Empty;
+                                if (pValidFrom == ValidFrom)
                                 {
-                                    sql += " CatCode = '" + tCatCode.Trim() + "', ";
+                                    sql = "Update MastEmpJobProfile set " +
+                                        " UnitCode='" + tUnitCode + "', DeptCode = '" + tDeptCode + "',StatCode='" + tStatCode + "'," +
+                                        " Desgcode='" + tDesgCode + "', GradeCode='" + tGradeCode + "', CatCode='" + tCatCode + "'," +
+                                        " CostCode='" + tCostCode + "',ContCode ='" + tContCode + "',WeekOff='" + tWeekOff + "'," +
+                                        " UpdDt =GetDate() , UpdID ='" + Utils.User.GUserID + "'" +
+                                        " Where EmpUnqID ='" + tEmpUnqID + "' and ValidFrom ='" + ValidFrom.ToString("yyyy-MM-dd") + "'";
                                 }
-
-                                if (!string.IsNullOrEmpty(tDesgCode.Trim()))
+                                else
                                 {
-                                    sql += " DesgCode = '" + tDesgCode.Trim() + "', ";
-                                }
-
-                                if (!string.IsNullOrEmpty(tGradeCode.Trim()))
-                                {
-                                    sql += " GradCode = '" + tDesgCode.Trim() + "', ";
-                                }
-
-
-                                if (tBasic > 0)
-                                {
-                                    sql += "  Basic = '" + tBasic.ToString() + "',";
+                                    sql = "insert into MastEmpJobProfile (EmpUnqID,ValidFrom,UnitCode,DeptCode,StatCode,DesgCode,GradeCode,CatCode,CostCode,ContCode,WeekOff,OTFLG,AddDt,AddID)" +
+                                    " Values ('" + tEmpUnqID + "','" + ValidFrom.ToString("yyyy-MM-dd") + "','" + tUnitCode + "','" + tDeptCode + "'," +
+                                    "'" + tStatCode + "','" + tDesgCode + "','" + tGradeCode + "','" + tCatCode + "'," +
+                                    "'" + tCostCode + "','" + tContCode + "','" + tWeekOff + "','" + (tOtFLG == "Y" ? 1 : 0).ToString() + "',Getdate(),'" + Utils.User.GUserID + "')";
 
                                 }
-
-                                if(tSplAll > 0)
-                                {
-                                    sql += " SPLALL = '" + tSplAll.ToString() + "',";
-                                }
-                               
-                                if(tBAAll > 0){
-                                    sql += " BAALL = '" + tBAAll.ToString() + "', ";
-                                }
-
-                                
-
-                                if (tLeftDt.Date != DateTime.MinValue.Date)
-                                {
-                                    sql += " LeftDt ='" + tLeftDt.ToString("yyyy-MM-dd") + "', Active = 0 ,";
-                                }
-
-                                #region Bank_Contact_BloodGrp
-
-                                if (!string.IsNullOrEmpty(dr["MobileNo"].ToString()))
-                                     sql += " ContactNo ='" + dr["MobileNo"].ToString() + "'," ;
-                                
-                                if(!string.IsNullOrEmpty(dr["BANKNAME"].ToString()))
-                                    sql += " BANKNAME ='" + dr["BANKNAME"].ToString() + "'," ;
-
-                                if (!string.IsNullOrEmpty(dr["ACCOUNTNO"].ToString()))
-                                    sql += " BankAcNo='" + dr["ACCOUNTNO"].ToString() + "',";
-
-                                if(!string.IsNullOrEmpty(dr["IFSCCODE"].ToString()))
-                                    sql+=  " BankIFSCCode='" + dr["IFSCCODE"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PANCARD"].ToString()))
-                                    sql += " IDPRF1='PANCARD',IDPRF1NO='" + dr["PANCARD"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["UANNO"].ToString()))
-                                    sql += " IDPRF2='UAN',IDPRF2NO='" + dr["UANNO"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["BloodGroup"].ToString()))
-                                    sql += " BLDGrp='" + dr["BloodGroup"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["EmailID"].ToString()))
-                                    sql += " EmailID='" + dr["EmailID"].ToString() + "',";
-
-                                #endregion
-
-                                #region PERMENENT_ADDRESS
-
-
-                                if (!string.IsNullOrEmpty(dr["PermenantArea"].ToString()))
-                                    sql += " PerAdd1='" + dr["PermenantArea"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantSociety"].ToString()))
-                                    sql += " PerAdd2='" + dr["PermenantSociety"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantVillage"].ToString()))
-                                    sql += " PerAdd3='" + dr["PermenantVillage"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantTaluka"].ToString()))
-                                    sql += " PerAdd4='" + dr["PermenantTaluka"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantDistrict"].ToString()))
-                                    sql += " PerDistrict='" + dr["PermenantDistrict"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantCity"].ToString()))
-                                    sql += " PerCITY='" + dr["PermenantCity"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantState"].ToString()))
-                                    sql += " PerState='" + dr["PermenantState"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PermenantPinCode"].ToString()))
-                                    sql += " PerPIN='" + dr["PermenantPinCode"].ToString() + "',";
-                                #endregion
-
-                                #region Present_Address
-
-                                if (!string.IsNullOrEmpty(dr["PresantArea"].ToString()))
-                                    sql += " PreAdd1='" + dr["PresantArea"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantSociety"].ToString()))
-                                    sql += " PreAdd2='" + dr["PresantSociety"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantVillage"].ToString()))
-                                    sql += " PreAdd3='" + dr["PresantVillage"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantTaluka"].ToString()))
-                                    sql += " PreAdd4='" + dr["PresantTaluka"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantDistrict"].ToString()))
-                                    sql += " PreDistrict='" + dr["PresantDistrict"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantCity"].ToString()))
-                                    sql += " PreCITY='" + dr["PresantCity"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantState"].ToString()))
-                                    sql += " PreState='" + dr["PresantState"].ToString() + "',";
-
-                                if (!string.IsNullOrEmpty(dr["PresantPinCode"].ToString()))
-                                    sql += " PrePIN='" + dr["PresantPinCode"].ToString() + "',";
-
-                                #endregion
-
-
-                                sql += "  UpdDt=GetDate(), UpdID = '" + Utils.User.GUserID + "' Where CompCode = '01' and EmpUnqID = '" + tEmpUnqID + "'";
-
-
-
-                                string sql2 = "insert into MastEmpHistory " +
-                               " select 'Before Update Master Data, Action By " + Utils.User.GUserID + "', GetDate(), * from MastEmp where " +
-                               " EmpUnqID ='" + tEmpUnqID + "'";
-
-                                cmd.CommandText = sql2;
-                                cmd.CommandTimeout = 0;
-                                cmd.ExecuteNonQuery();
 
                                 cmd.CommandText = sql;
                                 cmd.CommandTimeout = 0;
@@ -415,10 +424,7 @@ namespace Attendance.Forms
 
             try
             {
-                string myexceldataquery = "select EmpUnqID,CatCode,GradeCode,DesgCode,Basic,SPLALL,BAALL,LeftDt, " +
-                    "BANKNAME,IFSCCODE,ACCOUNTNO,PANCARD,UANNO,MobileNo,EmailID,BloodGroup, " +
-                    "PermenantArea,PermenantSociety,PermenantVillage,PermenantTaluka,PermenantDistrict,PermenantCity,PermenantState,PermenantPinCode," +
-                    "PresantArea,PresantSociety,PresantVillage,PresantTaluka,PresantDistrict,PresantCity,PresantState,PresantPinCode ," +
+                string myexceldataquery = "select EmpUnqID,ValidFrom,CatCode,GradeCode,DesgCode,UnitCode,DeptCode,StatCode,ContCode,CostCode,WeekOff,OTFLG, " +
                     " '' as Remarks from " + sheetname;
 
                 OleDbDataAdapter oledbda = new OleDbDataAdapter(myexceldataquery, oledbconn);

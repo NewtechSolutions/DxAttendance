@@ -106,9 +106,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 45);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 15);
+            this.label1.Size = new System.Drawing.Size(53, 15);
             this.label1.TabIndex = 4;
-            this.label1.Text = "WrkGrpCode";
+            this.label1.Text = "EmpGrp";
             // 
             // txtDescription
             // 

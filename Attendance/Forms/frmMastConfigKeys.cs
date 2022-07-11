@@ -93,6 +93,7 @@ namespace Attendance.Forms
             }
 
             LoadGrid();
+            ResetCtrl();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
